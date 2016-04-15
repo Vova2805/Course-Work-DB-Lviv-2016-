@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
@@ -9,6 +10,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
     {
         public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
         public WAREHOUSE CurrentWarehouse;
+        
+
+
 
         public SpecialistModel(SWEET_FACTORYEntities FactoryEntities)
         {

@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Windows.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
@@ -12,7 +13,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels.Additional
         public double _productPrice;
         public List<OrderProductTransaction.QuantityInOrder> _QuantityInOrders;
         public List<ORDER_PRODUCT> _packages;
+        private DateTime _FromTime;
+        private DateTime _ToTime;
+        private Dictionary<string, int> _options;
+        private KeyValuePair<string, int> _selectedOption;
 
+#region Properties
         public bool isChecked
         {
             get { return _isChecked; }
@@ -62,5 +68,48 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels.Additional
                 OnPropertyChanged("packages");
             }
         }
-     }
+     
+
+    public DateTime FromTime
+    {
+        get { return _FromTime; }
+        set
+        {
+            _FromTime = value;
+            OnPropertyChanged("FromTime");
+        }
+    }
+
+    public DateTime ToTime
+    {
+        get { return _ToTime; }
+        set
+        {
+            _ToTime = value;
+            OnPropertyChanged("ToTime");
+        }
+    }
+
+    public Dictionary<string, int> options
+    {
+        get { return _options; }
+        set
+        {
+            _options = value;
+            OnPropertyChanged("ToTime");
+        }
+    }
+
+    public KeyValuePair<string, int> selectedOption
+    {
+        get { return _selectedOption; }
+        set
+        {
+            _selectedOption = value;
+            OnPropertyChanged("ToTime");
+        }
+    }
+        #endregion
+
+    }
 }

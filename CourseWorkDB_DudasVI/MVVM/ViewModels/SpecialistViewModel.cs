@@ -1,14 +1,18 @@
-﻿using System.Collections.ObjectModel;
-using CourseWorkDB_DudasVI;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using CourseWorkDB_DudasVI.MVVM.ViewModels.Additional;
+using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
-namespace ourseWorkDB_DudasVI.MVVM.ViewModels
+namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class SpecialistViewModel:ViewModelBase
     {
         private ObservableCollection<OrderProductTransactionVm> _productPackagesList;
         private WAREHOUSE _CurrentWarehouse;
 
+
+#region Properties
         public WAREHOUSE CurrentWarehouse
         {
             get { return _CurrentWarehouse; }
@@ -28,5 +32,7 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("productPackagesList");
             }
         }
+
+        #endregion
     }
 }

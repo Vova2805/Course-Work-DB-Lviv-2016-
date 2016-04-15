@@ -13,6 +13,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         public List<QuantityInOrder> QuantityInOrders;
         public List<ORDER_PRODUCT> packages;
 
+        #region OrderFilter
+        public DateTime FromTime;
+        public DateTime ToTime;
+        public Dictionary<string, int> options = new Dictionary<string, int>();
+        private KeyValuePair<string, int> selectedOption;
+        #endregion
+
         public class QuantityInOrder
         {
             public DateTime From { get; set; }
@@ -20,22 +27,19 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             public int Quantity { get; set; }
 
 
-            public QuantityInOrder(DateTime from, DateTime to, int quantity)
+            public QuantityInOrder(DateTime from, DateTime to, OrderProductTransaction parent)
             {
                 From = from;
                 To = to;
-                Quantity = quantity;
+
+                var ps = API.getPackagesInRange(from, to, parent.packages);
+                int sum = 0;
+                foreach (var pack in ps)
+                {
+                    sum += pack.QUANTITY_IN_ORDER;
+                }
+                Quantity = sum;
             }
-        }
-
-        public void addPeriod(DateTime from, DateTime to)
-        {
-            
-        }
-
-        public void deletePeriod(int index)
-        {
-            
         }
 
         public OrderProductTransaction(List<ORDER_PRODUCT> packages, STAFF User)
@@ -45,15 +49,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             this.packagesTotal =  new ORDER_PRODUCT();
             this.packagesTotal.PRODUCT_INFO = packages.First().PRODUCT_INFO;
             this.packagesTotal.PRODUCT_INFO_ID = packages.First().PRODUCT_INFO_ID;
-
-            int QUANTITY_IN_ORDER = 0;
-            DateTime last = API.getLastPlanDate(User);
-            var p = API.getPackagesInRange(last, API.geTodayDate(), packages);
-            foreach (var pack in p)
-            {
-                QUANTITY_IN_ORDER += pack.QUANTITY_IN_ORDER;
-            }
-            QuantityInOrders.Add(new QuantityInOrder(last, API.geTodayDate(), QUANTITY_IN_ORDER));
+            FromTime = API.getLastPlanDate(User);
+            ToTime = API.geTodayDate();
+            //first range will be from the last production schedule
+            //create time up to now
+            QuantityInOrders.Add(new QuantityInOrder(FromTime, ToTime, this));
+            options.Add(FromTime.ToLongDateString()+" - "+ ToTime.ToLongDateString(), 0);
+            selectedOption = options.First();
             productPrice = (double) API.getlastPrice(this.packagesTotal.PRODUCT_INFO.PRODUCT_PRICE);
         }
     }

@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using AutoMapper;
 using CourseWorkDB_DudasVI.MVVM.Models;
-using ourseWorkDB_DudasVI.MVVM.ViewModels;
+using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views
 {
@@ -17,10 +17,10 @@ namespace CourseWorkDB_DudasVI.Views
         private List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
         public HomeWindowSpecialist()
         {
-            InitializeComponent();
             SpecialistModel specialistModel = new SpecialistModel(_sweetFactoryEntities);
             _specialistViewModel = Mapper.Map<SpecialistModel, SpecialistViewModel>(specialistModel);
             this.DataContext = _specialistViewModel;
+            InitializeComponent();
             addColumns();
         }
 
@@ -49,29 +49,20 @@ namespace CourseWorkDB_DudasVI.Views
                 i++;
             }
         }
-
-
-
-        private static bool isopenFlyout = false;
+        
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
-            isopenFlyout = !isopenFlyout;
-            AdminFlyout.IsOpen = isopenFlyout;
+            AdminFlyout.IsOpen = !AdminFlyout.IsOpen;
         }
 
-        private void UserFilter(object sender, RoutedEventArgs e)
+        private void EditOrdersOpen(object sender, RoutedEventArgs e)
         {
-            UserFilterFlyout.IsOpen = true;
+            SpecialistEditOrders.IsOpen = !SpecialistEditOrders.IsOpen;
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UserFilterFlyout.IsOpen = false;
-        }
 
-        private void CustomerFilter(object sender, RoutedEventArgs e)
-        {
-            CustomerFilterFlyout.IsOpen = true;
         }
     }
 }

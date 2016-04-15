@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CourseWorkDB_DudasVI"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:menu="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls.Menu"
+        xmlns:ViewModels="clr-namespace:CourseWorkDB_DudasVI.MVVM.ViewModels"
         mc:Ignorable="d"
         Title="Sweet retail system"
         BorderThickness="0" 
@@ -14,6 +13,11 @@
         Icon="../Resources/images/warehouse.png" 
         WindowTransitionsEnabled="False"
         WindowStartupLocation="CenterScreen" WindowState="Maximized" d:DesignWidth="1593.825" d:DesignHeight="584.5">
+    <Controls:MetroWindow.Resources>
+        <DataTemplate DataType="{x:Type ViewModels:SpecialistViewModel}">
+            <UserControls:EditOrder/>
+        </DataTemplate>
+    </Controls:MetroWindow.Resources>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button ToolTip="Налаштування профілю" Click="SettingsClick">
@@ -23,8 +27,7 @@
                    Text="Дудас Володимир" />
                     <Rectangle Width="15" Height="15">
                         <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-                                            Visual="{StaticResource appbar_settings}" />
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
                         </Rectangle.Fill>
                     </Rectangle>
                 </StackPanel>
@@ -48,26 +51,8 @@
     <Controls:MetroWindow.Flyouts>
 
         <Controls:FlyoutsControl>
-            <!--<Controls:FlyoutsControl.ItemContainerStyle>
-                <Style BasedOn="{StaticResource {x:Type Controls:Flyout}}" 
-                       TargetType="{x:Type Controls:Flyout}">
-                    <Setter Property="Header" Value="{Binding Header}" />
-                    -->
-            <!--<Setter Property="IsOpen" Value="True" />-->
-            <!--<Setter Property="Position" Value="{Binding Position,Converter={StaticResource positionConv}}" />
-                    <Setter Property="Theme" Value="{Binding Theme,Converter={StaticResource themeConv}}" />-->
-            <!--
-                </Style>
-            </Controls:FlyoutsControl.ItemContainerStyle>-->
-
             <Controls:Flyout Header="Налаштування профілю" Position="Right" Name="AdminFlyout" Theme="Accent">
                 <UserControls:SettingView />
-            </Controls:Flyout>
-            <Controls:Flyout Header="Фільтр працівників" Position="Right" Name="UserFilterFlyout" Theme="Accent">
-                <UserControls:UserFilter />
-            </Controls:Flyout>
-            <Controls:Flyout Header="Фільтр замовників і замовлень" Position="Right" Name="CustomerFilterFlyout" Theme="Accent">
-                <UserControls:CustomerFilter />
             </Controls:Flyout>
             <Controls:Flyout Header="Фільтр руху коштів" Position="Right" Name="CostFilterFlyout" Theme="Accent">
                 <UserControls:CostFilter />
@@ -75,9 +60,8 @@
             <Controls:Flyout Header="Фільтр руху товарів" Position="Right" Name="GoodsFilterFlyout" Theme="Accent">
                 <UserControls:CostFilter />
             </Controls:Flyout>
-
-            <Controls:Flyout Position="Bottom" Name="MenuFlyout" Theme="Accent">
-                <menu:TestMenu />
+            <Controls:Flyout Header="Редагувати" Position="Left" Name="SpecialistEditOrders" Theme="Accent">
+                <UserControls:EditOrder />
             </Controls:Flyout>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
@@ -100,6 +84,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Background="{DynamicResource GrayBrush2}">
                             <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch"/>
@@ -113,28 +98,41 @@
                                 <DataGridTextColumn Width="Auto" Header="Ціна" IsReadOnly="True" Binding="{Binding Path=productPrice,StringFormat=\{0:N\}}"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                    </Grid>
-
-                    <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <UserControls:ChartsSet Grid.Column="2"/>
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="Gray">
-                        <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch" LastChildFill="False">
-
-                            <Button Width="50" Click="CustomerFilter"
+                        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="Gray">
+                            <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch" LastChildFill="False">
+                                <Button Width="50" Click="EditOrdersOpen"
                                 Height="50"
                                 VerticalAlignment="Top"
                                 ToolTip="Фільтр"
                                 Style="{DynamicResource MetroCircleButtonStyle}" >
-                                <Rectangle Width="20"
+                                    <Rectangle Width="20"
                                     Height="20">
-                                    <Rectangle.Fill>
-                                        <VisualBrush Stretch="Fill"
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_edit}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                                <Button Width="50"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                ToolTip="Фільтр"
+                                Style="{DynamicResource MetroCircleButtonStyle}" >
+                                    <Rectangle Width="20"
+                                    Height="20">
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Fill"
                                             Visual="{StaticResource appbar_filter}" />
-                                    </Rectangle.Fill>
-                                </Rectangle>
-                            </Button>
-                        </DockPanel>
-                    </Border>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+
+                    <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                    <UserControls:ChartsSet Grid.Column="2"/>
+                   
                 </Grid>
             </Border>
         </TabItem>
@@ -176,7 +174,7 @@
                     <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" Background="Gray">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch" LastChildFill="False">
 
-                            <Button Width="50" Click="CustomerFilter"
+                            <Button Width="50"
                                 Height="50"
                                 VerticalAlignment="Top"
                                 ToolTip="Фільтр"

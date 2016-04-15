@@ -45,7 +45,7 @@ namespace CourseWorkDB_DudasVI.General
             }
             else return geTodayDate();
         }
-
+        //return ac date
         public static DateTime geTodayDate()
         {
             var res = DateTime.Today;

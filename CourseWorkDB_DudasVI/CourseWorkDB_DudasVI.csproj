@@ -273,6 +273,9 @@
     <Compile Include="Views\UserControls\Filters\ProductFilter.xaml.cs">
       <DependentUpon>ProductFilter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Filters\Specialist\EditOrder.xaml.cs">
+      <DependentUpon>EditOrder.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\ListItem\OrderListItem.xaml.cs">
       <DependentUpon>OrderListItem.xaml</DependentUpon>
     </Compile>
@@ -431,6 +434,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\UserControls\Filters\Specialist\EditOrder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\ListItem\OrderListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -522,6 +529,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\UserControls\Charts\StackedBar\" />
+    <Folder Include="Views\UserControls\Filters\Director\" />
+    <Folder Include="Views\UserControls\Filters\Saler\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\images\Left.png" />

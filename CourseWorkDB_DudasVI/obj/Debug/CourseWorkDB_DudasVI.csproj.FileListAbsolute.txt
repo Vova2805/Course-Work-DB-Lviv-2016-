@@ -124,7 +124,6 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\bin\Debug\LiveCharts.pdb
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\bin\Debug\MahApps.Metro.pdb
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\bin\Debug\MahApps.Metro.xml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csprojResolveAssemblyReference.cache
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Resources\Icons.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\ProductViewForSale.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\ProductView.baml
@@ -214,3 +213,6 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.g.resources
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.Properties.Resources.resources
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csproj.GenerateResource.Cache
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Specialist\EditOrder.g.cs
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Specialist\EditOrder.baml
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csprojResolveAssemblyReference.cache
