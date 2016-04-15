@@ -1,0 +1,575 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CFF77345-0CDD-4014-9CE5-D19CE7134BCF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CourseWorkDB_DudasVI</RootNamespace>
+    <AssemblyName>CourseWorkDB_DudasVI</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Apex">
+      <HintPath>C:\Users\Dudas\Desktop\DLL\Apex.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LiveCharts">
+      <HintPath>C:\Users\Dudas\Desktop\Live-Charts-master\Live-Charts-master\LiveChartsCore\bin\Debug\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.3.0.112, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.3.0-ALPHA112\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.3.0-ALPHA112\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="ADDRESS.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CATEGORY.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CLIENT.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\ResultsVisibilityConverter.cs" />
+    <Compile Include="Converters\StaffImageConverter.cs" />
+    <Compile Include="DELIVERY.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DELIVERY_ADDRESS.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DEPARTMENT.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="General\API.cs" />
+    <Compile Include="General\Session.cs" />
+    <Compile Include="INGREDIENTS.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Mapping\Mapping.cs" />
+    <Compile Include="MVVM\Models\Additional\OrderProductTransaction.cs" />
+    <Compile Include="MVVM\Models\DirectorModel.cs" />
+    <Compile Include="MVVM\Models\SpecialistModel.cs" />
+    <Compile Include="MVVM\ViewModels\Additional\OrderProductTransactionVm.cs" />
+    <Compile Include="MVVM\ViewModels\DirectorViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\SpecialistViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ViewModelBase.cs" />
+    <Compile Include="ORDER_PRODUCT.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PACKAGE_DESCRIPTION.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="POST.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PRODUCTION_SCHEDULE.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PRODUCT_INFO.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PRODUCT_PRICE.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PROVIDER.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RAWSTUFF.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RAWSTUFF_CATEGORY.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RAWSTUFF_DELIVERY.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RAWSTUFF_INFO.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RAWSTUFF_ORDER.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RAWSTUFF_STATE.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RELEASED_PRODUCT.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="REQURIED_RAWSTUFF.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SALARY.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SALE_ORDER.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SCHEDULE_PRODUCT_INFO.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STAFF.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Support\ExamplesMapper.cs" />
+    <Compile Include="SWEET_FACTORY_EDM.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SWEET_FACTORY_EDM.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SWEET_FACTORY_EDM.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SWEET_FACTORY_EDM.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SWEET_FACTORY_EDM.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HomeWindowSpecialist.xaml.cs">
+      <DependentUpon>HomeWindowSpecialist.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HomeWindowSale.xaml.cs">
+      <DependentUpon>HomeWindowSale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HomeWindowAdmin.xaml.cs">
+      <DependentUpon>HomeWindowAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Basic\AddressView.xaml.cs">
+      <DependentUpon>AddressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Basic\AddressEditableView.xaml.cs">
+      <DependentUpon>AddressEditableView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Basic\CustomerEditableView.xaml.cs">
+      <DependentUpon>CustomerEditableView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Basic\ProductViewForSale.xaml.cs">
+      <DependentUpon>ProductViewForSale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Basic\ProductView.xaml.cs">
+      <DependentUpon>ProductView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\ChartsSet.xaml.cs">
+      <DependentUpon>ChartsSet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Bar\Basic.xaml.cs">
+      <DependentUpon>Basic.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Bar\MultiAxesBarChart.xaml.cs">
+      <DependentUpon>MultiAxesBarChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Bar\MvvmBar.xaml.cs">
+      <DependentUpon>MvvmBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Bar\PointPropertyChangedBar.xaml.cs">
+      <DependentUpon>PointPropertyChangedBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Bar\RotatedBar.xaml.cs">
+      <DependentUpon>RotatedBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Bar\StoreViewModel.cs" />
+    <Compile Include="Views\UserControls\Charts\Line\AnimationLine.xaml.cs">
+      <DependentUpon>AnimationLine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Line\BasicLine.xaml.cs">
+      <DependentUpon>BasicLine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Line\CustomLine.xaml.cs">
+      <DependentUpon>CustomLine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Line\UiLine.xaml.cs">
+      <DependentUpon>UiLine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Pie\BasicPie.xaml.cs">
+      <DependentUpon>BasicPie.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Pie\MvvmPie.xaml.cs">
+      <DependentUpon>MvvmPie.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Basic\CustomerView.xaml.cs">
+      <DependentUpon>CustomerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\CustomElements\CustomTextBox.xaml.cs">
+      <DependentUpon>CustomTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\GoodsFilter.xaml.cs">
+      <DependentUpon>GoodsFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\CostFilter.xaml.cs">
+      <DependentUpon>CostFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\ProductFilter.xaml.cs">
+      <DependentUpon>ProductFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ListItem\OrderListItem.xaml.cs">
+      <DependentUpon>OrderListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ListItem\ProductExtendedListItem.xaml.cs">
+      <DependentUpon>ProductExtendedListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ListItem\ProductListItem.xaml.cs">
+      <DependentUpon>ProductListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ListItem\ProductOrderListItem.xaml.cs">
+      <DependentUpon>ProductOrderListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ListItem\ProductScheduleListItem.xaml.cs">
+      <DependentUpon>ProductScheduleListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ListItem\ScheduleListItem.xaml.cs">
+      <DependentUpon>ScheduleListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Basic\SettingView.xaml.cs">
+      <DependentUpon>SettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\CustomerFilter.xaml.cs">
+      <DependentUpon>CustomerFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\UserFilter.xaml.cs">
+      <DependentUpon>UserFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ListItem\UserListElement.xaml.cs">
+      <DependentUpon>UserListElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Basic\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Menu\TestMenu.xaml.cs">
+      <DependentUpon>TestMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Basic\TotalView.xaml.cs">
+      <DependentUpon>TotalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WAREHOUSE.cs">
+      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
+    </Compile>
+    <Page Include="Views\Authorization.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Authorization.xaml.cs">
+      <DependentUpon>Authorization.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HomeWindowSpecialist.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HomeWindowSale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HomeWindowAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Basic\AddressView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Basic\AddressEditableView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Basic\CustomerEditableView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Basic\ProductViewForSale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Basic\ProductView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Charts\ChartsSet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Charts\Bar\Basic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Charts\Bar\MultiAxesBarChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Charts\Bar\MvvmBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Charts\Bar\PointPropertyChangedBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Charts\Bar\RotatedBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Charts\Line\AnimationLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Charts\Line\BasicLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Charts\Line\CustomLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Charts\Line\UiLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Charts\Pie\BasicPie.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Charts\Pie\MvvmPie.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Basic\CustomerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\CustomElements\CustomTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Filters\GoodsFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Filters\CostFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Filters\ProductFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\ListItem\OrderListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ListItem\ProductExtendedListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ListItem\ProductListItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\ListItem\ProductOrderListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ListItem\ProductScheduleListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ListItem\ScheduleListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Basic\SettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Filters\CustomerFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Filters\UserFilter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ListItem\UserListElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Basic\UserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Menu\TestMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Basic\TotalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <EntityDeploy Include="SWEET_FACTORY_EDM.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SWEET_FACTORY_EDM.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="SWEET_FACTORY_EDM.edmx.diagram">
+      <DependentUpon>SWEET_FACTORY_EDM.edmx</DependentUpon>
+    </None>
+    <Resource Include="Resources\Entypo.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\UserControls\Charts\StackedBar\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\Left.png" />
+    <Resource Include="Resources\images\Right.png" />
+    <Resource Include="Resources\images\snow.png" />
+    <Resource Include="Resources\images\sun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\sweet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\icon_main.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\security.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\warehouse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\director.png" />
+    <Resource Include="Resources\images\saler.png" />
+    <Resource Include="Resources\images\specialist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SWEET_FACTORY_EDM.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SWEET_FACTORY_EDM.edmx</DependentUpon>
+      <LastGenOutput>SWEET_FACTORY_EDM.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="SWEET_FACTORY_EDM.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SWEET_FACTORY_EDM.edmx</DependentUpon>
+      <LastGenOutput>SWEET_FACTORY_EDM.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,160 @@
+﻿<UserControl x:Class="CourseWorkDB_DudasVI.Views.UserControls.UserView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"
+             mc:Ignorable="d"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Visible">
+        <ScrollViewer.Resources>
+            <converters:ResultsVisibilityConverter x:Key="VisibilityConverter"/>
+        </ScrollViewer.Resources>
+        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Controls:NumericUpDown}">
+                    <Style.Triggers>
+                        <Trigger Property="IsReadOnly"
+                                 Value="True">
+                            <Setter Property="HideUpDownButtons"
+                                    Value="True" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
+            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Column="0" Grid.Row="0">
+                    <!--<Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Margin="2,4,2,3" HorizontalAlignment="Left" VerticalAlignment="Top" Source="pack://application:,,,/Resources/images/test.jpg" Width="100"/>
+                    <Button Grid.Row="1" HorizontalAlignment="Center" Command="{Binding ChangeImageCommand}" VerticalAlignment="Top" Margin="5" Content="Змінити"/>-->
+                </Grid>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Stretch"  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
+                    <!--#region First expander-->
+                    <Expander Header="Особисті дані" IsExpanded="True">
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0*"/>
+                                <RowDefinition Height="31*"/>
+                                <RowDefinition Height="31*"/>
+                                <RowDefinition Height="36*"/>
+                                <RowDefinition Height="36*"/>
+                                <RowDefinition Height="31*"/>
+                                <RowDefinition Height="31*"/>
+                                <RowDefinition Height="33"/>
+                                <RowDefinition Height="31*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Ім'я"/>
+                            <TextBox x:Name="txtName" Grid.Row="1" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{x:Null}" 
+                 Text="{Binding Path=STAFF_NAME}"/>
+                            <ContentPresenter Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="150" 
+                          Content="{Binding ElementName=txtName,Path=(Validation.Errors).CurrentItem}" />
+
+                            <!--Username of the user-->
+                            <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="Прізвище"/>
+                            <TextBox x:Name="txtUsername"  Grid.Row="2" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{x:Null}" 
+                 Text="{Binding Path=STAFF_SURNAME}"/>
+                            <ContentPresenter Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Width="150" 
+                          Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />
+                            <!--Username of the user-->
+                            <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Логін"/>
+                            <TextBox x:Name="asdas"  Grid.Row="5" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{x:Null}" 
+                 Text="{Binding Path=LOGIN}"/>
+                            <ContentPresenter Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="150" 
+                          Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />
+                            <!--Username of the user-->
+                            <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Пароль"/>
+                            <TextBox x:Name="ds"  Grid.Row="6" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{x:Null}" 
+                 Text="{Binding Path=PASSWORD}"/>
+                            <ContentPresenter Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Width="150" 
+                          Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />
+                            <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Посада" VerticalAlignment="Center"/>
+                            <ListBox x:Name="dsdas"  BorderBrush="LightGray"  BorderThickness="1" Grid.Row="7" Grid.Column="1" Margin="5" Validation.ErrorTemplate="{x:Null}" VerticalAlignment="Stretch" Height="23"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="E-mail" VerticalAlignment="Center"/>
+                            <TextBox x:Name="sd" Text="{Binding Path=EMAIL}"  BorderThickness="1" Grid.Row="4" Grid.Column="1" Margin="5" Validation.ErrorTemplate="{x:Null}" VerticalAlignment="Stretch"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="Дата народження" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            <DatePicker x:Name="birthDate"  Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="5" 
+                                        SelectedDate="{Binding
+                                        Path=BIRTH_DATE,
+                                        Mode=TwoWay}" Validation.ErrorTemplate="{x:Null}"/>
+                            <!--SelectedDate="{Binding TransactionDate,ValidatesOnDataErrors=True}"-->
+
+                            <TextBlock Grid.Row="8" Grid.Column="0" Margin="5" Text="Зарплата" VerticalAlignment="Center"/>
+                            <Grid Grid.Row="8" Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="15"/>
+                                </Grid.ColumnDefinitions>
+                                <Controls:NumericUpDown Minimum = "0" Width="auto" Grid.Column="0" Interval = "100" Value="0" BorderThickness="1" Margin="5,0,0,5" Validation.ErrorTemplate="{x:Null}"/>
+                                <TextBlock Grid.Column="1" Text="грн" VerticalAlignment="Center"/>
+                                <Controls:NumericUpDown Minimum = "0" Width="auto" Grid.Column="2" Interval = "1" Value="{Binding Path=FULL_SALARY}" BorderThickness="1" Margin="5,0,0,5" Validation.ErrorTemplate="{x:Null}"/>
+                                <TextBlock Grid.Column="3" Text="%" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Grid>
+                    </Expander>
+                    <!--#endregion-->
+                    <!--#region Second expander-->
+                    <Expander Header="Адреса" IsExpanded="True">
+                        <local:AddressEditableView DataContext="{Binding Path=ADDRESS1}"/>
+                    </Expander>
+                    <!--#endregion-->
+                    <!--#region Third expander-->
+                    <Expander Header="Результати роботи (замовлення)" IsExpanded="False"
+                              Visibility="{Binding Path=POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='2'}">
+                        <ScrollViewer>
+                            <ListBox VerticalAlignment="Stretch" Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding SALE_ORDER}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:OrderListItem/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ScrollViewer>
+                    </Expander>
+                    <!--#endregion-->
+                    <!--#region Forth expander-->
+                    <Expander Header="Результати роботи (плани виробництва)" IsExpanded="False"  Visibility="{Binding Path=POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='3'}">
+                        <ScrollViewer>
+                            <ListBox  VerticalAlignment="Stretch" Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding PRODUCTION_SCHEDULE}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:ScheduleListItem />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ScrollViewer>
+                    </Expander>
+                    <!--#endregion-->
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+    
+</UserControl>

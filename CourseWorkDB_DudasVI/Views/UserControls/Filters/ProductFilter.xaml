@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="CourseWorkDB_DudasVI.Views.UserControls.ProductFilter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"
+             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" >
+    <Border BorderThickness="0">
+        <Grid Background="Transparent" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Margin" Value="10,5,5,5"/>
+                        <Setter Property="Foreground" Value="{StaticResource WhiteColorBrush}"/>
+                        <Setter Property="FontSize" Value="14"/>
+                    </Style>
+                    <!--<cnv:ToggleSwitchStateToStringConverter x:Key="toggleStateToStringConv"/>-->
+
+                    <DataTemplate DataType="{x:Type ValidationError}">
+                        <TextBlock FontSize="{StaticResource ContentFontSize}"
+                                   FontFamily="{StaticResource ContentFontFamily}"
+                                   Foreground="{StaticResource ControlsValidationBrush}"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   TextAlignment="Right"
+                                   Margin="0,0,0,2"
+                                   Text="{Binding Path=ErrorContent}"/>
+                    </DataTemplate>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Text=" Vsadsf Застосувати фільтр дати"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Off" VerticalAlignment="Center"/>
+            <controls:ToggleSwitch IsChecked="{Binding IsDateRangeIncluded,Mode=TwoWay}" Grid.Row="1" Grid.Column="3" Margin="5" Content=""/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Від"/>
+            <DatePicker Grid.Row="2" Grid.Column="1" Margin="2" 
+                        IsEnabled="{Binding IsDateRangeIncluded}" SelectedDate="{Binding FromDate}"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="До"/>
+            <DatePicker x:Name="toDatePicker" Grid.Row="2" Grid.Column="3" Margin="2" Validation.ErrorTemplate="{x:Null}"
+                        IsEnabled="{Binding IsDateRangeIncluded}" SelectedDate="{Binding ToDate,ValidatesOnDataErrors=True}"/>
+
+            <!--<ContentPresenter Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Content="Фільтрувати працівників"/>-->
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,15,5,5" Text="Фільтрувати працівників"/>
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Працівник"/>
+            <ComboBox x:Name="cmbUsers" IsEditable="True" Grid.Row="5" Grid.Column="1" Margin="2" Validation.ErrorTemplate="{x:Null}" IsEnabled="{Binding IsUserAdmin}"
+                      SelectedValue="{Binding Username,ValidatesOnDataErrors=True}" ItemsSource="{Binding AllUsers}"/>
+            <ContentPresenter Grid.Row="6" Grid.Column="1" Content="{Binding ElementName=cmbUsers,Path=(Validation.Errors).CurrentItem}"/>
+
+            <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,15,5,5" Text="Значення вартості"/>
+            <TextBlock Grid.Row="8" Grid.Column="0" Text="Від"/>
+            <Controls:NumericUpDown  x:Name="forAmountTextbox" Grid.Row="8" Grid.Column="1" Validation.ErrorTemplate="{x:Null}" Minimum = "0" Width="auto" Interval = "100" Value="0" BorderThickness="1"/>
+            <TextBlock Grid.Row="8" Grid.Column="2" Text="До"/>
+            <Controls:NumericUpDown  x:Name="toAmountTextBox" Grid.Row="8" Grid.Column="3" Validation.ErrorTemplate="{x:Null}" Minimum = "0" Width="auto" Interval = "100" Value="0" BorderThickness="1"/>
+            <ContentPresenter Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding ElementName=forAmountTextbox,Path=(Validation.Errors).CurrentItem}" />
+            <ContentPresenter Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" Content="{Binding ElementName=toAmountTextBox,Path=(Validation.Errors).CurrentItem}" />
+
+            <Button Grid.Row="10" Grid.Column="3" Margin="10,15,0,10" Content="Фільтрувати" 
+                    Command="{Binding ApplyFilterCommand}" HorizontalAlignment="Right"/>
+
+        </Grid>
+    </Border>
+</UserControl>

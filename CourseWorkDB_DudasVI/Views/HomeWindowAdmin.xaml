@@ -1,0 +1,532 @@
+﻿<Controls:MetroWindow xmlns:UserControls="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"  x:Class="CourseWorkDB_DudasVI.Views.HomeWindowAdmin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CourseWorkDB_DudasVI"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:apex="clr-namespace:Apex.Controls;assembly=Apex"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:liveCharts="clr-namespace:LiveCharts;assembly=LiveCharts"
+        xmlns:menu="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls.Menu"
+        mc:Ignorable="d"
+        Title="Sweet retail system"
+        BorderThickness="0" 
+        GlowBrush="Black"
+        Icon="../Resources/images/icon_main.png"   
+        ResizeMode="CanResize"
+        
+        WindowTransitionsEnabled="False"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Controls:MetroWindow.Resources>
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button ToolTip="Налаштування профілю" Click="SettingsClick">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5 0 5 0"
+                   VerticalAlignment="Center"
+                   Text="Дудас Володимир" />
+                    <Rectangle Width="15" Height="15">
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_settings}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Довідка">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5 0 5 0"
+                   VerticalAlignment="Center"
+                   Text="Довідка" />
+                    <Rectangle Width="15" Height="15">
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_information_circle}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
+    <Controls:MetroWindow.Flyouts>
+      
+        <Controls:FlyoutsControl>
+            <!--<Controls:FlyoutsControl.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type Controls:Flyout}}" 
+                       TargetType="{x:Type Controls:Flyout}">
+                    <Setter Property="Header" Value="{Binding Header}" />
+                    --><!--<Setter Property="IsOpen" Value="True" />-->
+                    <!--<Setter Property="Position" Value="{Binding Position,Converter={StaticResource positionConv}}" />
+                    <Setter Property="Theme" Value="{Binding Theme,Converter={StaticResource themeConv}}" />--><!--
+                </Style>
+            </Controls:FlyoutsControl.ItemContainerStyle>-->
+            
+            <Controls:Flyout Header="Налаштування профілю" Position="Right" Name="AdminFlyout" Theme="Accent">
+               <UserControls:SettingView />
+            </Controls:Flyout>
+            <Controls:Flyout Header="Фільтр працівників" Position="Right" Name="UserFilterFlyout" Theme="Accent">
+                <UserControls:UserFilter />
+            </Controls:Flyout>
+            <Controls:Flyout Header="Фільтр замовників і замовлень" Position="Right" Name="CustomerFilterFlyout" Theme="Accent">
+                <UserControls:CustomerFilter />
+            </Controls:Flyout>
+            <Controls:Flyout Header="Фільтр руху коштів" Position="Right" Name="CostFilterFlyout" Theme="Accent">
+                <UserControls:CostFilter />
+            </Controls:Flyout>
+            <Controls:Flyout Header="Фільтр руху товарів" Position="Right" Name="GoodsFilterFlyout" Theme="Accent">
+                <UserControls:CostFilter />
+            </Controls:Flyout>
+
+            <Controls:Flyout Position="Bottom" Name="MenuFlyout" Theme="Accent">
+                <menu:TestMenu />
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+    
+    <TabControl SelectionChanged="TabControl_SelectionChanged">
+        <!--#region Працівники-->
+        <TabItem Header="Працівники">
+            <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Список працівників" HorizontalAlignment="Center" Margin="5"/>
+                        <UserControls:CustomTextBox Grid.Row="1" Margin="5" ToolTip="Фільтр працівників"  />
+                        <ListBox Grid.Row="2"  VerticalAlignment="Stretch" Background="{DynamicResource AccentColorBrush4}" 
+                         ItemsSource="{Binding  EmployeeList}" SelectedItem="{Binding SelectedEmployee,Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <UserControls:UserListElement/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                    
+                    <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                    <UserControls:UserView Grid.Column="2" Grid.Row="0" x:Name="UserView" DataContext="{Binding Path=SelectedEmployee}"/>
+                    <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                    <UserControls:ChartsSet Grid.Column="4" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                    <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" Background="Gray">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Width="50"
+                                Click="MenuCall"
+                                Grid.Column="0"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                ToolTip="Меню"
+                                Style="{DynamicResource MetroCircleButtonStyle}" >
+                            <Rectangle Width="20"
+                                    Height="20">
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_os_windows_8}" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Button>
+                        <DockPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch" LastChildFill="False">
+                            <Button Width="50"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                ToolTip="Додати працівника"
+                                Style="{DynamicResource MetroCircleButtonStyle}" >
+                                <Rectangle Width="20"
+                                    Height="20">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_user_add}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Button>
+                            <Button Width="50"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                ToolTip="Видалити працівника"
+                                Style="{DynamicResource MetroCircleButtonStyle}" >
+                                <Rectangle Width="20"
+                                    Height="20">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_user_delete}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Button>
+                            <Button Width="50"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                ToolTip="Зберегти зміни"
+                                Style="{DynamicResource MetroCircleButtonStyle}" >
+                                <Rectangle Width="20"
+                                    Height="20">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_save}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Button>
+                            <Button Width="50" Click="UserFilter"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                ToolTip="Фільтр"
+                                Style="{DynamicResource MetroCircleButtonStyle}" >
+                                <Rectangle Width="20"
+                                    Height="20">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_filter}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Button>
+                        </DockPanel>
+                    </Grid>
+
+                </Grid>
+            </Border>
+        </TabItem>
+        <!--#endregion-->
+        <!--#region Замовники і замовлення-->
+        <TabItem Header="Замовники та замовлення">
+            <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" SelectedItem="{Binding SelectedUser,Mode=TwoWay}" Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding Users}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <UserControls:UserListElement />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                    <UserControls:CustomerView Grid.Column="2" Grid.Row="0"/>
+                    <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                    <UserControls:ChartsSet Grid.Column="4"/>
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" Background="Gray">
+                        <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch" LastChildFill="False">
+
+                            <Button Width="50" Click="CustomerFilter"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                ToolTip="Фільтр"
+                                Style="{DynamicResource MetroCircleButtonStyle}" >
+                                <Rectangle Width="20"
+                                    Height="20">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_filter}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Button>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </TabItem>
+        <!--#endregion Товари-->
+        <!--#region Товари-->
+        <TabItem Header="Товари" >
+            <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" SelectedItem="{Binding SelectedUser,Mode=TwoWay}" Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding Users}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <UserControls:ProductListItem />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                    <ScrollViewer  Grid.Column="2" Grid.Row="0" VerticalScrollBarVisibility="Auto" >
+                        <StackPanel  Orientation="Vertical">
+                            <UserControls:ProductView/>
+                        </StackPanel>
+                    </ScrollViewer>
+                    
+                    
+                    <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                    <UserControls:ChartsSet Grid.Column="4"/>
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" Background="Gray">
+                        <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch" LastChildFill="False">
+
+                            <Button Width="50" Click="CustomerFilter"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                ToolTip="Фільтр"
+                                Style="{DynamicResource MetroCircleButtonStyle}" >
+                                <Rectangle Width="20"
+                                    Height="20">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_filter}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Button>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </TabItem>
+        <!--#endregion-->
+        <!--#region Рух коштів-->
+        <TabItem Header="Рух коштів" >
+            <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
+                <!--<Border.Resources>
+                    -->
+                <!--<Converters:StringTrimmerConverter MaxLengthAllowed="40" x:Key="trimConverter"/>-->
+                <!--Converters-->
+                <!--
+                    <BooleanToVisibilityConverter x:Key="boolToVis"/>
+                    <Converters:NullToBoolConverter x:Key="nullToBool"/>
+                    <Converters:TransactionHeaderConverter x:Key="headerTextConv"/>
+                    <local:BindingProxy x:Key="proxy" Data="{Binding}" />
+                </Border.Resources>-->
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Row="0" Grid.Column="0" Margin="5,5,0,0" HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch" SelectedItem="{Binding SelectedTransaction}"
+                      FontSize="14" ItemsSource="{Binding Transactions}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="Auto"  Header="DATE" IsReadOnly="True" Binding="{Binding TransactionDate,StringFormat=\{0:dd-MMM-yyyy \}}"/>
+                            <DataGridTextColumn Width="Auto"  Header="AMOUNT" IsReadOnly="True" Binding="{Binding Amount}"/>
+                            <DataGridTextColumn Width="Auto"  Header="PURPOSE" IsReadOnly="True" Binding="{Binding PurposeType}"/>
+                            <DataGridTemplateColumn Width="Auto"  Header="FLOW" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <Path x:Name="figurePath" DockPanel.Dock="Left" Stretch="Uniform" Width="15" Height="15" Margin="5" RenderTransformOrigin="0.5,0.5">
+                                                <Path.RenderTransform>
+                                                    <TransformGroup>
+                                                        <TransformGroup.Children>
+                                                            <RotateTransform Angle="3" />
+                                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                        </TransformGroup.Children>
+                                                    </TransformGroup>
+                                                </Path.RenderTransform>
+                                            </Path>
+                                            <ContentPresenter Margin="0,5,5,5" Content="{Binding FlowType}"/>
+                                        </DockPanel>
+                                        <!--<DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Expenditure}">
+                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource ExpenditureFigure}"/>
+                                                <Setter Property="Fill" TargetName="figurePath" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Income}">
+                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource IncomeFigure}"/>
+                                                <Setter Property="Fill" TargetName="figurePath" Value="Green"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>-->
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Width="*" Header="DESCRIPTION" IsReadOnly="True"/>
+                            <DataGridTextColumn Width="Auto" Header="LAST MODYFIED" IsReadOnly="True" Binding="{Binding LastModifiedBy}" 
+                       />
+                            <DataGridTextColumn Width="Auto" Header="CREATED BY" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Background="{DynamicResource GrayBrush2}">
+                        <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch"/>
+                    </Border>
+
+                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="Gray">
+                        <DockPanel HorizontalAlignment="Right">
+                            <Button Width="50"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                ToolTip="Фільтр"
+                                Style="{DynamicResource MetroCircleButtonStyle}"
+                                    Click="CostFilterOpen">
+                                <Rectangle Width="20"
+                                    Height="20">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_filter}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Button>
+                        </DockPanel>
+                    </Border>
+                    <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                    <DockPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
+                        <ScrollViewer DockPanel.Dock="Top"  ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <UserControls:ChartsSet />
+                        </ScrollViewer>
+                    </DockPanel>
+
+                </Grid>
+            </Border>
+        </TabItem>
+        <!--#endregion-->
+        <!--#region Рух товарів-->
+        <TabItem Header="Рух товарів" >
+            <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
+                <!--<Border.Resources>
+                    -->
+                <!--<Converters:StringTrimmerConverter MaxLengthAllowed="40" x:Key="trimConverter"/>-->
+                <!--Converters-->
+                <!--
+                    <BooleanToVisibilityConverter x:Key="boolToVis"/>
+                    <Converters:NullToBoolConverter x:Key="nullToBool"/>
+                    <Converters:TransactionHeaderConverter x:Key="headerTextConv"/>
+                    <local:BindingProxy x:Key="proxy" Data="{Binding}" />
+                </Border.Resources>-->
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectedItem="{Binding SelectedTransaction}" FontSize="14" ItemsSource="{Binding Transactions}" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Width="Auto"  Header="DATE" IsReadOnly="True" Binding="{Binding TransactionDate,StringFormat=\{0:dd-MMM-yyyy \}}"/>
+                                <DataGridTextColumn Width="Auto"  Header="AMOUNT" IsReadOnly="True" Binding="{Binding Amount}"/>
+                                <DataGridTextColumn Width="Auto"  Header="PURPOSE" IsReadOnly="True" Binding="{Binding PurposeType}"/>
+                                <DataGridTemplateColumn Width="Auto"  Header="FLOW" IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <DockPanel>
+                                                <Path x:Name="figurePath" DockPanel.Dock="Left" Stretch="Uniform" Width="15" Height="15" Margin="5" RenderTransformOrigin="0.5,0.5">
+                                                    <Path.RenderTransform>
+                                                        <TransformGroup>
+                                                            <TransformGroup.Children>
+                                                                <RotateTransform Angle="3" />
+                                                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                            </TransformGroup.Children>
+                                                        </TransformGroup>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                                <ContentPresenter Margin="0,5,5,5" Content="{Binding FlowType}"/>
+                                            </DockPanel>
+                                            <!--<DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Expenditure}">
+                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource ExpenditureFigure}"/>
+                                                <Setter Property="Fill" TargetName="figurePath" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Income}">
+                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource IncomeFigure}"/>
+                                                <Setter Property="Fill" TargetName="figurePath" Value="Green"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>-->
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Width="*" Header="DESCRIPTION" IsReadOnly="True"/>
+                                <DataGridTextColumn Width="Auto" Header="LAST MODYFIED" IsReadOnly="True" Binding="{Binding LastModifiedBy}"/>
+                                <DataGridTextColumn Width="Auto" Header="CREATED BY" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <GridSplitter Visibility="Collapsed" Grid.Row="0" Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+                        <ScrollViewer Visibility="Collapsed" Grid.Row="0" Grid.Column="2">
+                            <ListBox VerticalAlignment="Stretch" SelectedItem="{Binding SelectedUser,Mode=TwoWay}" Background="{DynamicResource AccentColorBrush4}" 
+                                     ItemsSource="{Binding Users}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <UserControls:ProductOrderListItem/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ScrollViewer>
+                    </Grid>
+                    
+                    <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Background="{DynamicResource GrayBrush2}">
+                        <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch"/>
+                    </Border>
+
+                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="Gray">
+                        <DockPanel HorizontalAlignment="Right">
+                            <Button Width="50"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                ToolTip="Фільтр"
+                                Style="{DynamicResource MetroCircleButtonStyle}"
+                                    Click="GoodsFilterOpen">
+                                <Rectangle Width="20"
+                                    Height="20">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Fill"
+                                            Visual="{StaticResource appbar_filter}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Button>
+                        </DockPanel>
+                    </Border>
+                    <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                    <DockPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
+                        <ScrollViewer DockPanel.Dock="Top"  ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <UserControls:ChartsSet />
+                        </ScrollViewer>
+                    </DockPanel>
+
+                </Grid>
+            </Border>
+        </TabItem>
+        <!--#endregion-->
+    </TabControl>
+</Controls:MetroWindow>

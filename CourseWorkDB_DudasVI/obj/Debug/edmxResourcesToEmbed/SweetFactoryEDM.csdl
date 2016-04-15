@@ -1,0 +1,922 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ADDRESS">
+    <Key>
+      <PropertyRef Name="ADDRESS_ID" />
+    </Key>
+    <Property Name="ADDRESS_ID" Type="Int32" Nullable="false" />
+    <Property Name="CITY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="STREET" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="COUNTRY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="REGION" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BUILDING_NUMBER" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="STAFF" Relationship="Self.R_101" FromRole="ADDRESS" ToRole="STAFF" />
+    <NavigationProperty Name="CLIENT" Relationship="Self.R_102" FromRole="ADDRESS" ToRole="CLIENT" />
+    <NavigationProperty Name="DELIVERY_ADDRESS" Relationship="Self.R_93" FromRole="ADDRESS" ToRole="DELIVERY_ADDRESS" />
+    <NavigationProperty Name="RELEASED_PRODUCT" Relationship="Self.R_95" FromRole="ADDRESS" ToRole="RELEASED_PRODUCT" />
+    <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_98" FromRole="ADDRESS" ToRole="WAREHOUSE" />
+  </EntityType>
+  <EntityType Name="CATEGORY">
+    <Key>
+      <PropertyRef Name="CATEGORY_ID" />
+    </Key>
+    <Property Name="CATEGORY_ID" Type="Int32" Nullable="false" />
+    <Property Name="CATEGORY_TITLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_40" FromRole="CATEGORY" ToRole="PRODUCT_INFO" />
+  </EntityType>
+  <EntityType Name="CLIENT">
+    <Key>
+      <PropertyRef Name="CLIENT_ID" />
+    </Key>
+    <Property Name="CLIENT_ID" Type="Int32" Nullable="false" />
+    <Property Name="CLIENT_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CLIENT_SURNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CLIENT_MIDDLE_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="COMPANY_TITLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="MOBILE_PHONE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="COMPANY_PHONE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ADDRESS" Type="Int32" />
+    <NavigationProperty Name="ADDRESS1" Relationship="Self.R_102" FromRole="CLIENT" ToRole="ADDRESS" />
+    <NavigationProperty Name="SALE_ORDER" Relationship="Self.R_41" FromRole="CLIENT" ToRole="SALE_ORDER" />
+  </EntityType>
+  <EntityType Name="DELIVERY">
+    <Key>
+      <PropertyRef Name="DELIVERY_ID" />
+    </Key>
+    <Property Name="SALE_ORDER_ID" Type="Int32" Nullable="false" />
+    <Property Name="DELIVERY_ID" Type="Int32" Nullable="false" />
+    <Property Name="DELIVERY_DATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DELIVERY_TOTAL" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="DEL_ADDRESS_ID" Type="Int32" Nullable="false" />
+    <Property Name="COST_PER_KM" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <NavigationProperty Name="RAWSTUFF_ORDER" Relationship="Self.R_13" FromRole="DELIVERY" ToRole="RAWSTUFF_ORDER" />
+    <NavigationProperty Name="SALE_ORDER" Relationship="Self.R_45" FromRole="DELIVERY" ToRole="SALE_ORDER" />
+    <NavigationProperty Name="DELIVERY_ADDRESS" Relationship="Self.R_92" FromRole="DELIVERY" ToRole="DELIVERY_ADDRESS" />
+  </EntityType>
+  <EntityType Name="DELIVERY_ADDRESS">
+    <Key>
+      <PropertyRef Name="DEL_ADDRESS_ID" />
+    </Key>
+    <Property Name="DEL_ADDRESS_ID" Type="Int32" Nullable="false" />
+    <Property Name="DELIVERY_ADDRESS_FROM" Type="Int32" Nullable="false" />
+    <Property Name="DELIVERY_ADDRESS_TO" Type="Int32" Nullable="false" />
+    <Property Name="DISTANCE" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <NavigationProperty Name="ADDRESS" Relationship="Self.R_93" FromRole="DELIVERY_ADDRESS" ToRole="ADDRESS" />
+    <NavigationProperty Name="DELIVERY" Relationship="Self.R_92" FromRole="DELIVERY_ADDRESS" ToRole="DELIVERY" />
+  </EntityType>
+  <EntityType Name="DEPARTMENT">
+    <Key>
+      <PropertyRef Name="DEPARTMENT_ID" />
+    </Key>
+    <Property Name="DEPARTMENT_ID" Type="Int32" Nullable="false" />
+    <Property Name="DEPARTMENT_TITLE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="POST" Relationship="Self.R_79" FromRole="DEPARTMENT" ToRole="POST" />
+  </EntityType>
+  <EntityType Name="INGREDIENTS">
+    <Key>
+      <PropertyRef Name="INGREDIENTS_ID" />
+    </Key>
+    <Property Name="INGREDIENTS_ID" Type="Int32" Nullable="false" />
+    <Property Name="RAWSTUFF_ID" Type="Int32" Nullable="false" />
+    <Property Name="PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="RAWSTUFF" Relationship="Self.R_90" FromRole="INGREDIENTS" ToRole="RAWSTUFF" />
+    <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_91" FromRole="INGREDIENTS" ToRole="PRODUCT_INFO" />
+  </EntityType>
+  <EntityType Name="ORDER_PRODUCT">
+    <Key>
+      <PropertyRef Name="ORDER_PRODUCT_INFO_ID" />
+    </Key>
+    <Property Name="ORDER_PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
+    <Property Name="SALE_ORDER_ID" Type="Int32" Nullable="false" />
+    <Property Name="PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
+    <Property Name="QUANTITY_IN_ORDER" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="SALE_ORDER" Relationship="Self.R_103" FromRole="ORDER_PRODUCT" ToRole="SALE_ORDER" />
+    <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_105" FromRole="ORDER_PRODUCT" ToRole="PRODUCT_INFO" />
+  </EntityType>
+  <EntityType Name="PACKAGE_DESCRIPTION">
+    <Key>
+      <PropertyRef Name="PACK_DESCR_ID" />
+    </Key>
+    <Property Name="PACK_DESCR_ID" Type="Int32" Nullable="false" />
+    <Property Name="WIDTH" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="HEIGTH" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="LENGTH" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_89" FromRole="PACKAGE_DESCRIPTION" ToRole="PRODUCT_INFO" />
+  </EntityType>
+  <EntityType Name="POST">
+    <Key>
+      <PropertyRef Name="POST_ID" />
+    </Key>
+    <Property Name="POST_ID" Type="Int32" Nullable="false" />
+    <Property Name="POST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DEPARTMENT_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DEPARTMENT" Relationship="Self.R_79" FromRole="POST" ToRole="DEPARTMENT" />
+    <NavigationProperty Name="SALARY" Relationship="Self.R_78" FromRole="POST" ToRole="SALARY" />
+    <NavigationProperty Name="STAFF" Relationship="Self.R_83" FromRole="POST" ToRole="STAFF" />
+  </EntityType>
+  <EntityType Name="PRODUCT_INFO">
+    <Key>
+      <PropertyRef Name="PRODUCT_INFO_ID" />
+    </Key>
+    <Property Name="CATEGORY_ID" Type="Int32" Nullable="false" />
+    <Property Name="PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
+    <Property Name="PRODUCT_TITLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PRODUCT_DESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="QUANTITY_IN_PACKAGE" Type="Int32" Nullable="false" />
+    <Property Name="PACK_DESCR_ID" Type="Int32" Nullable="false" />
+    <Property Name="PRODUCTION_PRICE" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <NavigationProperty Name="CATEGORY" Relationship="Self.R_40" FromRole="PRODUCT_INFO" ToRole="CATEGORY" />
+    <NavigationProperty Name="INGREDIENTS" Relationship="Self.R_91" FromRole="PRODUCT_INFO" ToRole="INGREDIENTS" />
+    <NavigationProperty Name="ORDER_PRODUCT" Relationship="Self.R_105" FromRole="PRODUCT_INFO" ToRole="ORDER_PRODUCT" />
+    <NavigationProperty Name="PACKAGE_DESCRIPTION" Relationship="Self.R_89" FromRole="PRODUCT_INFO" ToRole="PACKAGE_DESCRIPTION" />
+    <NavigationProperty Name="SCHEDULE_PRODUCT_INFO" Relationship="Self.R_116" FromRole="PRODUCT_INFO" ToRole="SCHEDULE_PRODUCT_INFO" />
+    <NavigationProperty Name="RELEASED_PRODUCT" Relationship="Self.R_120" FromRole="PRODUCT_INFO" ToRole="RELEASED_PRODUCT" />
+    <NavigationProperty Name="PRODUCT_PRICE" Relationship="Self.R_125" FromRole="PRODUCT_INFO" ToRole="PRODUCT_PRICE" />
+  </EntityType>
+  <EntityType Name="PRODUCT_PRICE">
+    <Key>
+      <PropertyRef Name="PRICE_ID" />
+    </Key>
+    <Property Name="PRICE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PERSENTAGE_VALUE" Type="Decimal" Precision="10" Scale="5" Nullable="false" />
+    <Property Name="CHANGED_DATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
+    <Property Name="STAFF_ID" Type="Int32" Nullable="false" />
+    <Property Name="PRICE_VALUE" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_125" FromRole="PRODUCT_PRICE" ToRole="PRODUCT_INFO" />
+    <NavigationProperty Name="STAFF" Relationship="Self.R_126" FromRole="PRODUCT_PRICE" ToRole="STAFF" />
+  </EntityType>
+  <EntityType Name="PRODUCTION_SCHEDULE">
+    <Key>
+      <PropertyRef Name="SCHEDULE_ID" />
+    </Key>
+    <Property Name="SCHEDULE_ID" Type="Int32" Nullable="false" />
+    <Property Name="REQUIRED_DATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="STAFF_ID" Type="Int32" Nullable="false" />
+    <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="SCHEDULE_STATE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SCHEDULE_TOTAL" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <NavigationProperty Name="SCHEDULE_PRODUCT_INFO" Relationship="Self.R_115" FromRole="PRODUCTION_SCHEDULE" ToRole="SCHEDULE_PRODUCT_INFO" />
+    <NavigationProperty Name="STAFF" Relationship="Self.R_47" FromRole="PRODUCTION_SCHEDULE" ToRole="STAFF" />
+  </EntityType>
+  <EntityType Name="PROVIDER">
+    <Key>
+      <PropertyRef Name="PROVIDER_ID" />
+    </Key>
+    <Property Name="PROVIDER_ID" Type="Int32" Nullable="false" />
+    <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ADRESS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PHONE_NUMBER" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="RAWSTUFF_ORDER" Relationship="Self.R_7" FromRole="PROVIDER" ToRole="RAWSTUFF_ORDER" />
+  </EntityType>
+  <EntityType Name="RAWSTUFF">
+    <Key>
+      <PropertyRef Name="RAWSTUFF_ID" />
+    </Key>
+    <Property Name="WAREHOUSE_ID" Type="Int32" Nullable="false" />
+    <Property Name="RAWSTUFF_ID" Type="Int32" Nullable="false" />
+    <Property Name="AMOUNT" Type="Int32" Nullable="false" />
+    <Property Name="RAWSTUFF_INFO_ID" Type="Int32" Nullable="false" />
+    <Property Name="RAWSTUFF_STATE_ID" Type="Int32" Nullable="false" />
+    <Property Name="EXPIRE_DATE" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="INGREDIENTS" Relationship="Self.R_90" FromRole="RAWSTUFF" ToRole="INGREDIENTS" />
+    <NavigationProperty Name="RAWSTUFF_DELIVERY" Relationship="Self.R_15" FromRole="RAWSTUFF" ToRole="RAWSTUFF_DELIVERY" />
+    <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_2" FromRole="RAWSTUFF" ToRole="WAREHOUSE" />
+    <NavigationProperty Name="RAWSTUFF_INFO" Relationship="Self.R_5" FromRole="RAWSTUFF" ToRole="RAWSTUFF_INFO" />
+    <NavigationProperty Name="RAWSTUFF_STATE" Relationship="Self.R_6" FromRole="RAWSTUFF" ToRole="RAWSTUFF_STATE" />
+  </EntityType>
+  <EntityType Name="RAWSTUFF_CATEGORY">
+    <Key>
+      <PropertyRef Name="RAWSTUFF_CATEGORY_ID" />
+    </Key>
+    <Property Name="RAWSTUFF_CATEGORY_ID" Type="Int32" Nullable="false" />
+    <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="RAWSTUFF_INFO" Relationship="Self.R_18" FromRole="RAWSTUFF_CATEGORY" ToRole="RAWSTUFF_INFO" />
+  </EntityType>
+  <EntityType Name="RAWSTUFF_DELIVERY">
+    <Key>
+      <PropertyRef Name="RAWSTUFF_DELIVERY_ID" />
+    </Key>
+    <Property Name="RAWSTUFF_DELIVERY_ID" Type="Int32" Nullable="false" />
+    <Property Name="RAWSTUFF_ID" Type="Int32" Nullable="false" />
+    <Property Name="DELIVERY_DATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="AMOUNT" Type="Int32" Nullable="false" />
+    <Property Name="PRICE" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <NavigationProperty Name="RAWSTUFF" Relationship="Self.R_15" FromRole="RAWSTUFF_DELIVERY" ToRole="RAWSTUFF" />
+  </EntityType>
+  <EntityType Name="RAWSTUFF_INFO">
+    <Key>
+      <PropertyRef Name="RAWSTUFF_INFO_ID" />
+    </Key>
+    <Property Name="RAWSTUFF_INFO_ID" Type="Int32" Nullable="false" />
+    <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="INGREDIENTS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EXPIRE_DAYS" Type="Int32" Nullable="false" />
+    <Property Name="RAWSTUFF_ORDER_ID" Type="Int32" Nullable="false" />
+    <Property Name="RAWSTUFF_CATEGORY_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="RAWSTUFF" Relationship="Self.R_5" FromRole="RAWSTUFF_INFO" ToRole="RAWSTUFF" />
+    <NavigationProperty Name="RAWSTUFF_CATEGORY" Relationship="Self.R_18" FromRole="RAWSTUFF_INFO" ToRole="RAWSTUFF_CATEGORY" />
+    <NavigationProperty Name="REQURIED_RAWSTUFF" Relationship="Self.R_19" FromRole="RAWSTUFF_INFO" ToRole="REQURIED_RAWSTUFF" />
+  </EntityType>
+  <EntityType Name="RAWSTUFF_ORDER">
+    <Key>
+      <PropertyRef Name="RAWSTUFF_ORDER_ID" />
+    </Key>
+    <Property Name="RAWSTUFF_ORDER_ID" Type="Int32" Nullable="false" />
+    <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="PROVIDER_ID" Type="Int32" Nullable="false" />
+    <Property Name="DELIVERY_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DELIVERY" Relationship="Self.R_13" FromRole="RAWSTUFF_ORDER" ToRole="DELIVERY" />
+    <NavigationProperty Name="PROVIDER" Relationship="Self.R_7" FromRole="RAWSTUFF_ORDER" ToRole="PROVIDER" />
+  </EntityType>
+  <EntityType Name="RAWSTUFF_STATE">
+    <Key>
+      <PropertyRef Name="RAWSTUFF_STATE_ID" />
+    </Key>
+    <Property Name="RAWSTUFF_STATE_ID" Type="Int32" Nullable="false" />
+    <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DESCRIPTION" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="RAWSTUFF" Relationship="Self.R_6" FromRole="RAWSTUFF_STATE" ToRole="RAWSTUFF" />
+  </EntityType>
+  <EntityType Name="RELEASED_PRODUCT">
+    <Key>
+      <PropertyRef Name="RELEASED_PRODUCT_INFO_ID" />
+    </Key>
+    <Property Name="RELEASED_PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
+    <Property Name="PRODUCTION_DATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="EXPIRED_DATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
+    <Property Name="WAREHOUSE_ID" Type="Int32" Nullable="false" />
+    <Property Name="QUANTITY" Type="Int32" Nullable="false" />
+    <Property Name="MANUFACTURER_ADDRESS" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ADDRESS" Relationship="Self.R_95" FromRole="RELEASED_PRODUCT" ToRole="ADDRESS" />
+    <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_120" FromRole="RELEASED_PRODUCT" ToRole="PRODUCT_INFO" />
+    <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_87" FromRole="RELEASED_PRODUCT" ToRole="WAREHOUSE" />
+  </EntityType>
+  <EntityType Name="REQURIED_RAWSTUFF">
+    <Key>
+      <PropertyRef Name="REQUIRED_RAWSTUFF_ID" />
+    </Key>
+    <Property Name="RAWSTUFF_INFO_ID" Type="Int32" />
+    <Property Name="REQUIRED_RAWSTUFF_ID" Type="Int32" Nullable="false" />
+    <Property Name="QUANTITY" Type="Int32" />
+    <NavigationProperty Name="RAWSTUFF_INFO" Relationship="Self.R_19" FromRole="REQURIED_RAWSTUFF" ToRole="RAWSTUFF_INFO" />
+  </EntityType>
+  <EntityType Name="SALARY">
+    <Key>
+      <PropertyRef Name="SALARY_ID" />
+    </Key>
+    <Property Name="SALARY_ID" Type="Int32" Nullable="false" />
+    <Property Name="SALARY_VALUE" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="CHANGED_DATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="POST_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="POST" Relationship="Self.R_78" FromRole="SALARY" ToRole="POST" />
+  </EntityType>
+  <EntityType Name="SALE_ORDER">
+    <Key>
+      <PropertyRef Name="SALE_ORDER_ID" />
+    </Key>
+    <Property Name="SALE_ORDER_ID" Type="Int32" Nullable="false" />
+    <Property Name="CLIENT_ID" Type="Int32" Nullable="false" />
+    <Property Name="ORDER_DATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="REQUIRED_DATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ORDER_STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DELIVERY_STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DISCOUNT" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="TOTAL" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="PAID" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="STAFF_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="CLIENT" Relationship="Self.R_41" FromRole="SALE_ORDER" ToRole="CLIENT" />
+    <NavigationProperty Name="DELIVERY" Relationship="Self.R_45" FromRole="SALE_ORDER" ToRole="DELIVERY" />
+    <NavigationProperty Name="ORDER_PRODUCT" Relationship="Self.R_103" FromRole="SALE_ORDER" ToRole="ORDER_PRODUCT" />
+    <NavigationProperty Name="STAFF" Relationship="Self.R_43" FromRole="SALE_ORDER" ToRole="STAFF" />
+  </EntityType>
+  <EntityType Name="SCHEDULE_PRODUCT_INFO">
+    <Key>
+      <PropertyRef Name="SCHEDULE_PRODUCT_INFO_ID" />
+    </Key>
+    <Property Name="SCHEDULE_PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
+    <Property Name="SCHEDULE_ID" Type="Int32" Nullable="false" />
+    <Property Name="PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
+    <Property Name="QUANTITY_IN_SCHEDULE" Type="Int32" Nullable="false" />
+    <Property Name="RELEASED_QUANTITY" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_116" FromRole="SCHEDULE_PRODUCT_INFO" ToRole="PRODUCT_INFO" />
+    <NavigationProperty Name="PRODUCTION_SCHEDULE" Relationship="Self.R_115" FromRole="SCHEDULE_PRODUCT_INFO" ToRole="PRODUCTION_SCHEDULE" />
+  </EntityType>
+  <EntityType Name="STAFF">
+    <Key>
+      <PropertyRef Name="STAFF_ID" />
+    </Key>
+    <Property Name="STAFF_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="STAFF_ID" Type="Int32" Nullable="false" />
+    <Property Name="BIRTH_DATE" Type="DateTime" Precision="0" />
+    <Property Name="POST_ID" Type="Int32" Nullable="false" />
+    <Property Name="STAFF_SURNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="MOBILE_PHONE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ADDRESS" Type="Int32" />
+    <Property Name="LOGIN" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PASSWORD" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FULL_SALARY" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <NavigationProperty Name="ADDRESS1" Relationship="Self.R_101" FromRole="STAFF" ToRole="ADDRESS" />
+    <NavigationProperty Name="POST" Relationship="Self.R_83" FromRole="STAFF" ToRole="POST" />
+    <NavigationProperty Name="PRODUCT_PRICE" Relationship="Self.R_126" FromRole="STAFF" ToRole="PRODUCT_PRICE" />
+    <NavigationProperty Name="PRODUCTION_SCHEDULE" Relationship="Self.R_47" FromRole="STAFF" ToRole="PRODUCTION_SCHEDULE" />
+    <NavigationProperty Name="SALE_ORDER" Relationship="Self.R_43" FromRole="STAFF" ToRole="SALE_ORDER" />
+  </EntityType>
+  <EntityType Name="WAREHOUSE">
+    <Key>
+      <PropertyRef Name="WAREHOUSE_ID" />
+    </Key>
+    <Property Name="WAREHOUSE_ID" Type="Int32" Nullable="false" />
+    <Property Name="CAPACITY" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="FREE_SPACE" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="PHONE_NUMBER" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="ADDRESS" Type="Int32" />
+    <Property Name="FAX" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ADDRESS1" Relationship="Self.R_98" FromRole="WAREHOUSE" ToRole="ADDRESS" />
+    <NavigationProperty Name="RAWSTUFF" Relationship="Self.R_2" FromRole="WAREHOUSE" ToRole="RAWSTUFF" />
+    <NavigationProperty Name="RELEASED_PRODUCT" Relationship="Self.R_87" FromRole="WAREHOUSE" ToRole="RELEASED_PRODUCT" />
+  </EntityType>
+  <EntityType Name="CLIENTS_VIEW">
+    <Key>
+      <PropertyRef Name="Імя" />
+      <PropertyRef Name="Прізвище" />
+      <PropertyRef Name="Вулиця" />
+      <PropertyRef Name="Країна" />
+      <PropertyRef Name="Регіон" />
+      <PropertyRef Name="Номер_будинку" />
+    </Key>
+    <Property Name="Імя" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Прізвище" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="По_батькові" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Компанія" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Мобільний" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Телефон_компанії" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Місто" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Вулиця" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Країна" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Регіон" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Номер_будинку" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="R_101">
+    <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="0..1" />
+    <End Role="STAFF" Type="Self.STAFF" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ADDRESS">
+        <PropertyRef Name="ADDRESS_ID" />
+      </Principal>
+      <Dependent Role="STAFF">
+        <PropertyRef Name="ADDRESS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_102">
+    <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="0..1" />
+    <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ADDRESS">
+        <PropertyRef Name="ADDRESS_ID" />
+      </Principal>
+      <Dependent Role="CLIENT">
+        <PropertyRef Name="ADDRESS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_93">
+    <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="1" />
+    <End Role="DELIVERY_ADDRESS" Type="Self.DELIVERY_ADDRESS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ADDRESS">
+        <PropertyRef Name="ADDRESS_ID" />
+      </Principal>
+      <Dependent Role="DELIVERY_ADDRESS">
+        <PropertyRef Name="DELIVERY_ADDRESS_TO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_95">
+    <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="1" />
+    <End Role="RELEASED_PRODUCT" Type="Self.RELEASED_PRODUCT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ADDRESS">
+        <PropertyRef Name="ADDRESS_ID" />
+      </Principal>
+      <Dependent Role="RELEASED_PRODUCT">
+        <PropertyRef Name="MANUFACTURER_ADDRESS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_98">
+    <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="0..1" />
+    <End Role="WAREHOUSE" Type="Self.WAREHOUSE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ADDRESS">
+        <PropertyRef Name="ADDRESS_ID" />
+      </Principal>
+      <Dependent Role="WAREHOUSE">
+        <PropertyRef Name="ADDRESS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_40">
+    <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="1" />
+    <End Role="PRODUCT_INFO" Type="Self.PRODUCT_INFO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORY">
+        <PropertyRef Name="CATEGORY_ID" />
+      </Principal>
+      <Dependent Role="PRODUCT_INFO">
+        <PropertyRef Name="CATEGORY_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_41">
+    <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="1" />
+    <End Role="SALE_ORDER" Type="Self.SALE_ORDER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLIENT">
+        <PropertyRef Name="CLIENT_ID" />
+      </Principal>
+      <Dependent Role="SALE_ORDER">
+        <PropertyRef Name="CLIENT_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_13">
+    <End Role="DELIVERY" Type="Self.DELIVERY" Multiplicity="1" />
+    <End Role="RAWSTUFF_ORDER" Type="Self.RAWSTUFF_ORDER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DELIVERY">
+        <PropertyRef Name="DELIVERY_ID" />
+      </Principal>
+      <Dependent Role="RAWSTUFF_ORDER">
+        <PropertyRef Name="DELIVERY_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_45">
+    <End Role="SALE_ORDER" Type="Self.SALE_ORDER" Multiplicity="1" />
+    <End Role="DELIVERY" Type="Self.DELIVERY" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SALE_ORDER">
+        <PropertyRef Name="SALE_ORDER_ID" />
+      </Principal>
+      <Dependent Role="DELIVERY">
+        <PropertyRef Name="SALE_ORDER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_92">
+    <End Role="DELIVERY_ADDRESS" Type="Self.DELIVERY_ADDRESS" Multiplicity="1" />
+    <End Role="DELIVERY" Type="Self.DELIVERY" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DELIVERY_ADDRESS">
+        <PropertyRef Name="DEL_ADDRESS_ID" />
+      </Principal>
+      <Dependent Role="DELIVERY">
+        <PropertyRef Name="DEL_ADDRESS_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_79">
+    <End Role="DEPARTMENT" Type="Self.DEPARTMENT" Multiplicity="1" />
+    <End Role="POST" Type="Self.POST" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DEPARTMENT">
+        <PropertyRef Name="DEPARTMENT_ID" />
+      </Principal>
+      <Dependent Role="POST">
+        <PropertyRef Name="DEPARTMENT_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_90">
+    <End Role="RAWSTUFF" Type="Self.RAWSTUFF" Multiplicity="1" />
+    <End Role="INGREDIENTS" Type="Self.INGREDIENTS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RAWSTUFF">
+        <PropertyRef Name="RAWSTUFF_ID" />
+      </Principal>
+      <Dependent Role="INGREDIENTS">
+        <PropertyRef Name="RAWSTUFF_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_91">
+    <End Role="PRODUCT_INFO" Type="Self.PRODUCT_INFO" Multiplicity="1" />
+    <End Role="INGREDIENTS" Type="Self.INGREDIENTS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT_INFO">
+        <PropertyRef Name="PRODUCT_INFO_ID" />
+      </Principal>
+      <Dependent Role="INGREDIENTS">
+        <PropertyRef Name="PRODUCT_INFO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_103">
+    <End Role="SALE_ORDER" Type="Self.SALE_ORDER" Multiplicity="1" />
+    <End Role="ORDER_PRODUCT" Type="Self.ORDER_PRODUCT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SALE_ORDER">
+        <PropertyRef Name="SALE_ORDER_ID" />
+      </Principal>
+      <Dependent Role="ORDER_PRODUCT">
+        <PropertyRef Name="SALE_ORDER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_105">
+    <End Role="PRODUCT_INFO" Type="Self.PRODUCT_INFO" Multiplicity="1" />
+    <End Role="ORDER_PRODUCT" Type="Self.ORDER_PRODUCT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT_INFO">
+        <PropertyRef Name="PRODUCT_INFO_ID" />
+      </Principal>
+      <Dependent Role="ORDER_PRODUCT">
+        <PropertyRef Name="PRODUCT_INFO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_89">
+    <End Role="PACKAGE_DESCRIPTION" Type="Self.PACKAGE_DESCRIPTION" Multiplicity="1" />
+    <End Role="PRODUCT_INFO" Type="Self.PRODUCT_INFO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PACKAGE_DESCRIPTION">
+        <PropertyRef Name="PACK_DESCR_ID" />
+      </Principal>
+      <Dependent Role="PRODUCT_INFO">
+        <PropertyRef Name="PACK_DESCR_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_78">
+    <End Role="POST" Type="Self.POST" Multiplicity="1" />
+    <End Role="SALARY" Type="Self.SALARY" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="POST">
+        <PropertyRef Name="POST_ID" />
+      </Principal>
+      <Dependent Role="SALARY">
+        <PropertyRef Name="POST_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_83">
+    <End Role="POST" Type="Self.POST" Multiplicity="1" />
+    <End Role="STAFF" Type="Self.STAFF" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="POST">
+        <PropertyRef Name="POST_ID" />
+      </Principal>
+      <Dependent Role="STAFF">
+        <PropertyRef Name="POST_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_116">
+    <End Role="PRODUCT_INFO" Type="Self.PRODUCT_INFO" Multiplicity="1" />
+    <End Role="SCHEDULE_PRODUCT_INFO" Type="Self.SCHEDULE_PRODUCT_INFO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT_INFO">
+        <PropertyRef Name="PRODUCT_INFO_ID" />
+      </Principal>
+      <Dependent Role="SCHEDULE_PRODUCT_INFO">
+        <PropertyRef Name="PRODUCT_INFO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_120">
+    <End Role="PRODUCT_INFO" Type="Self.PRODUCT_INFO" Multiplicity="1" />
+    <End Role="RELEASED_PRODUCT" Type="Self.RELEASED_PRODUCT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT_INFO">
+        <PropertyRef Name="PRODUCT_INFO_ID" />
+      </Principal>
+      <Dependent Role="RELEASED_PRODUCT">
+        <PropertyRef Name="PRODUCT_INFO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_125">
+    <End Role="PRODUCT_INFO" Type="Self.PRODUCT_INFO" Multiplicity="1" />
+    <End Role="PRODUCT_PRICE" Type="Self.PRODUCT_PRICE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT_INFO">
+        <PropertyRef Name="PRODUCT_INFO_ID" />
+      </Principal>
+      <Dependent Role="PRODUCT_PRICE">
+        <PropertyRef Name="PRODUCT_INFO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_126">
+    <End Role="STAFF" Type="Self.STAFF" Multiplicity="1" />
+    <End Role="PRODUCT_PRICE" Type="Self.PRODUCT_PRICE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STAFF">
+        <PropertyRef Name="STAFF_ID" />
+      </Principal>
+      <Dependent Role="PRODUCT_PRICE">
+        <PropertyRef Name="STAFF_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_115">
+    <End Role="PRODUCTION_SCHEDULE" Type="Self.PRODUCTION_SCHEDULE" Multiplicity="1" />
+    <End Role="SCHEDULE_PRODUCT_INFO" Type="Self.SCHEDULE_PRODUCT_INFO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTION_SCHEDULE">
+        <PropertyRef Name="SCHEDULE_ID" />
+      </Principal>
+      <Dependent Role="SCHEDULE_PRODUCT_INFO">
+        <PropertyRef Name="SCHEDULE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_47">
+    <End Role="STAFF" Type="Self.STAFF" Multiplicity="1" />
+    <End Role="PRODUCTION_SCHEDULE" Type="Self.PRODUCTION_SCHEDULE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STAFF">
+        <PropertyRef Name="STAFF_ID" />
+      </Principal>
+      <Dependent Role="PRODUCTION_SCHEDULE">
+        <PropertyRef Name="STAFF_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_7">
+    <End Role="PROVIDER" Type="Self.PROVIDER" Multiplicity="1" />
+    <End Role="RAWSTUFF_ORDER" Type="Self.RAWSTUFF_ORDER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PROVIDER">
+        <PropertyRef Name="PROVIDER_ID" />
+      </Principal>
+      <Dependent Role="RAWSTUFF_ORDER">
+        <PropertyRef Name="PROVIDER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_15">
+    <End Role="RAWSTUFF" Type="Self.RAWSTUFF" Multiplicity="1" />
+    <End Role="RAWSTUFF_DELIVERY" Type="Self.RAWSTUFF_DELIVERY" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RAWSTUFF">
+        <PropertyRef Name="RAWSTUFF_ID" />
+      </Principal>
+      <Dependent Role="RAWSTUFF_DELIVERY">
+        <PropertyRef Name="RAWSTUFF_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_2">
+    <End Role="WAREHOUSE" Type="Self.WAREHOUSE" Multiplicity="1" />
+    <End Role="RAWSTUFF" Type="Self.RAWSTUFF" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WAREHOUSE">
+        <PropertyRef Name="WAREHOUSE_ID" />
+      </Principal>
+      <Dependent Role="RAWSTUFF">
+        <PropertyRef Name="WAREHOUSE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_5">
+    <End Role="RAWSTUFF_INFO" Type="Self.RAWSTUFF_INFO" Multiplicity="1" />
+    <End Role="RAWSTUFF" Type="Self.RAWSTUFF" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RAWSTUFF_INFO">
+        <PropertyRef Name="RAWSTUFF_INFO_ID" />
+      </Principal>
+      <Dependent Role="RAWSTUFF">
+        <PropertyRef Name="RAWSTUFF_INFO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_6">
+    <End Role="RAWSTUFF_STATE" Type="Self.RAWSTUFF_STATE" Multiplicity="1" />
+    <End Role="RAWSTUFF" Type="Self.RAWSTUFF" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RAWSTUFF_STATE">
+        <PropertyRef Name="RAWSTUFF_STATE_ID" />
+      </Principal>
+      <Dependent Role="RAWSTUFF">
+        <PropertyRef Name="RAWSTUFF_STATE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_18">
+    <End Role="RAWSTUFF_CATEGORY" Type="Self.RAWSTUFF_CATEGORY" Multiplicity="1" />
+    <End Role="RAWSTUFF_INFO" Type="Self.RAWSTUFF_INFO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RAWSTUFF_CATEGORY">
+        <PropertyRef Name="RAWSTUFF_CATEGORY_ID" />
+      </Principal>
+      <Dependent Role="RAWSTUFF_INFO">
+        <PropertyRef Name="RAWSTUFF_CATEGORY_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_19">
+    <End Role="RAWSTUFF_INFO" Type="Self.RAWSTUFF_INFO" Multiplicity="0..1" />
+    <End Role="REQURIED_RAWSTUFF" Type="Self.REQURIED_RAWSTUFF" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RAWSTUFF_INFO">
+        <PropertyRef Name="RAWSTUFF_INFO_ID" />
+      </Principal>
+      <Dependent Role="REQURIED_RAWSTUFF">
+        <PropertyRef Name="RAWSTUFF_INFO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_87">
+    <End Role="WAREHOUSE" Type="Self.WAREHOUSE" Multiplicity="1" />
+    <End Role="RELEASED_PRODUCT" Type="Self.RELEASED_PRODUCT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WAREHOUSE">
+        <PropertyRef Name="WAREHOUSE_ID" />
+      </Principal>
+      <Dependent Role="RELEASED_PRODUCT">
+        <PropertyRef Name="WAREHOUSE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_43">
+    <End Role="STAFF" Type="Self.STAFF" Multiplicity="1" />
+    <End Role="SALE_ORDER" Type="Self.SALE_ORDER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STAFF">
+        <PropertyRef Name="STAFF_ID" />
+      </Principal>
+      <Dependent Role="SALE_ORDER">
+        <PropertyRef Name="STAFF_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SWEET_FACTORYEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ADDRESS" EntityType="Self.ADDRESS" />
+    <EntitySet Name="CATEGORY" EntityType="Self.CATEGORY" />
+    <EntitySet Name="CLIENT" EntityType="Self.CLIENT" />
+    <EntitySet Name="DELIVERY" EntityType="Self.DELIVERY" />
+    <EntitySet Name="DELIVERY_ADDRESS" EntityType="Self.DELIVERY_ADDRESS" />
+    <EntitySet Name="DEPARTMENT" EntityType="Self.DEPARTMENT" />
+    <EntitySet Name="INGREDIENTS" EntityType="Self.INGREDIENTS" />
+    <EntitySet Name="ORDER_PRODUCT" EntityType="Self.ORDER_PRODUCT" />
+    <EntitySet Name="PACKAGE_DESCRIPTION" EntityType="Self.PACKAGE_DESCRIPTION" />
+    <EntitySet Name="POST" EntityType="Self.POST" />
+    <EntitySet Name="PRODUCT_INFO" EntityType="Self.PRODUCT_INFO" />
+    <EntitySet Name="PRODUCT_PRICE" EntityType="Self.PRODUCT_PRICE" />
+    <EntitySet Name="PRODUCTION_SCHEDULE" EntityType="Self.PRODUCTION_SCHEDULE" />
+    <EntitySet Name="PROVIDER" EntityType="Self.PROVIDER" />
+    <EntitySet Name="RAWSTUFF" EntityType="Self.RAWSTUFF" />
+    <EntitySet Name="RAWSTUFF_CATEGORY" EntityType="Self.RAWSTUFF_CATEGORY" />
+    <EntitySet Name="RAWSTUFF_DELIVERY" EntityType="Self.RAWSTUFF_DELIVERY" />
+    <EntitySet Name="RAWSTUFF_INFO" EntityType="Self.RAWSTUFF_INFO" />
+    <EntitySet Name="RAWSTUFF_ORDER" EntityType="Self.RAWSTUFF_ORDER" />
+    <EntitySet Name="RAWSTUFF_STATE" EntityType="Self.RAWSTUFF_STATE" />
+    <EntitySet Name="RELEASED_PRODUCT" EntityType="Self.RELEASED_PRODUCT" />
+    <EntitySet Name="REQURIED_RAWSTUFF" EntityType="Self.REQURIED_RAWSTUFF" />
+    <EntitySet Name="SALARY" EntityType="Self.SALARY" />
+    <EntitySet Name="SALE_ORDER" EntityType="Self.SALE_ORDER" />
+    <EntitySet Name="SCHEDULE_PRODUCT_INFO" EntityType="Self.SCHEDULE_PRODUCT_INFO" />
+    <EntitySet Name="STAFF" EntityType="Self.STAFF" />
+    <EntitySet Name="WAREHOUSE" EntityType="Self.WAREHOUSE" />
+    <EntitySet Name="CLIENTS_VIEW" EntityType="Self.CLIENTS_VIEW" />
+    <AssociationSet Name="R_101" Association="Self.R_101">
+      <End Role="ADDRESS" EntitySet="ADDRESS" />
+      <End Role="STAFF" EntitySet="STAFF" />
+    </AssociationSet>
+    <AssociationSet Name="R_102" Association="Self.R_102">
+      <End Role="ADDRESS" EntitySet="ADDRESS" />
+      <End Role="CLIENT" EntitySet="CLIENT" />
+    </AssociationSet>
+    <AssociationSet Name="R_93" Association="Self.R_93">
+      <End Role="ADDRESS" EntitySet="ADDRESS" />
+      <End Role="DELIVERY_ADDRESS" EntitySet="DELIVERY_ADDRESS" />
+    </AssociationSet>
+    <AssociationSet Name="R_95" Association="Self.R_95">
+      <End Role="ADDRESS" EntitySet="ADDRESS" />
+      <End Role="RELEASED_PRODUCT" EntitySet="RELEASED_PRODUCT" />
+    </AssociationSet>
+    <AssociationSet Name="R_98" Association="Self.R_98">
+      <End Role="ADDRESS" EntitySet="ADDRESS" />
+      <End Role="WAREHOUSE" EntitySet="WAREHOUSE" />
+    </AssociationSet>
+    <AssociationSet Name="R_40" Association="Self.R_40">
+      <End Role="CATEGORY" EntitySet="CATEGORY" />
+      <End Role="PRODUCT_INFO" EntitySet="PRODUCT_INFO" />
+    </AssociationSet>
+    <AssociationSet Name="R_41" Association="Self.R_41">
+      <End Role="CLIENT" EntitySet="CLIENT" />
+      <End Role="SALE_ORDER" EntitySet="SALE_ORDER" />
+    </AssociationSet>
+    <AssociationSet Name="R_13" Association="Self.R_13">
+      <End Role="DELIVERY" EntitySet="DELIVERY" />
+      <End Role="RAWSTUFF_ORDER" EntitySet="RAWSTUFF_ORDER" />
+    </AssociationSet>
+    <AssociationSet Name="R_45" Association="Self.R_45">
+      <End Role="SALE_ORDER" EntitySet="SALE_ORDER" />
+      <End Role="DELIVERY" EntitySet="DELIVERY" />
+    </AssociationSet>
+    <AssociationSet Name="R_92" Association="Self.R_92">
+      <End Role="DELIVERY_ADDRESS" EntitySet="DELIVERY_ADDRESS" />
+      <End Role="DELIVERY" EntitySet="DELIVERY" />
+    </AssociationSet>
+    <AssociationSet Name="R_79" Association="Self.R_79">
+      <End Role="DEPARTMENT" EntitySet="DEPARTMENT" />
+      <End Role="POST" EntitySet="POST" />
+    </AssociationSet>
+    <AssociationSet Name="R_90" Association="Self.R_90">
+      <End Role="RAWSTUFF" EntitySet="RAWSTUFF" />
+      <End Role="INGREDIENTS" EntitySet="INGREDIENTS" />
+    </AssociationSet>
+    <AssociationSet Name="R_91" Association="Self.R_91">
+      <End Role="PRODUCT_INFO" EntitySet="PRODUCT_INFO" />
+      <End Role="INGREDIENTS" EntitySet="INGREDIENTS" />
+    </AssociationSet>
+    <AssociationSet Name="R_103" Association="Self.R_103">
+      <End Role="SALE_ORDER" EntitySet="SALE_ORDER" />
+      <End Role="ORDER_PRODUCT" EntitySet="ORDER_PRODUCT" />
+    </AssociationSet>
+    <AssociationSet Name="R_105" Association="Self.R_105">
+      <End Role="PRODUCT_INFO" EntitySet="PRODUCT_INFO" />
+      <End Role="ORDER_PRODUCT" EntitySet="ORDER_PRODUCT" />
+    </AssociationSet>
+    <AssociationSet Name="R_89" Association="Self.R_89">
+      <End Role="PACKAGE_DESCRIPTION" EntitySet="PACKAGE_DESCRIPTION" />
+      <End Role="PRODUCT_INFO" EntitySet="PRODUCT_INFO" />
+    </AssociationSet>
+    <AssociationSet Name="R_78" Association="Self.R_78">
+      <End Role="POST" EntitySet="POST" />
+      <End Role="SALARY" EntitySet="SALARY" />
+    </AssociationSet>
+    <AssociationSet Name="R_83" Association="Self.R_83">
+      <End Role="POST" EntitySet="POST" />
+      <End Role="STAFF" EntitySet="STAFF" />
+    </AssociationSet>
+    <AssociationSet Name="R_116" Association="Self.R_116">
+      <End Role="PRODUCT_INFO" EntitySet="PRODUCT_INFO" />
+      <End Role="SCHEDULE_PRODUCT_INFO" EntitySet="SCHEDULE_PRODUCT_INFO" />
+    </AssociationSet>
+    <AssociationSet Name="R_120" Association="Self.R_120">
+      <End Role="PRODUCT_INFO" EntitySet="PRODUCT_INFO" />
+      <End Role="RELEASED_PRODUCT" EntitySet="RELEASED_PRODUCT" />
+    </AssociationSet>
+    <AssociationSet Name="R_125" Association="Self.R_125">
+      <End Role="PRODUCT_INFO" EntitySet="PRODUCT_INFO" />
+      <End Role="PRODUCT_PRICE" EntitySet="PRODUCT_PRICE" />
+    </AssociationSet>
+    <AssociationSet Name="R_126" Association="Self.R_126">
+      <End Role="STAFF" EntitySet="STAFF" />
+      <End Role="PRODUCT_PRICE" EntitySet="PRODUCT_PRICE" />
+    </AssociationSet>
+    <AssociationSet Name="R_115" Association="Self.R_115">
+      <End Role="PRODUCTION_SCHEDULE" EntitySet="PRODUCTION_SCHEDULE" />
+      <End Role="SCHEDULE_PRODUCT_INFO" EntitySet="SCHEDULE_PRODUCT_INFO" />
+    </AssociationSet>
+    <AssociationSet Name="R_47" Association="Self.R_47">
+      <End Role="STAFF" EntitySet="STAFF" />
+      <End Role="PRODUCTION_SCHEDULE" EntitySet="PRODUCTION_SCHEDULE" />
+    </AssociationSet>
+    <AssociationSet Name="R_7" Association="Self.R_7">
+      <End Role="PROVIDER" EntitySet="PROVIDER" />
+      <End Role="RAWSTUFF_ORDER" EntitySet="RAWSTUFF_ORDER" />
+    </AssociationSet>
+    <AssociationSet Name="R_15" Association="Self.R_15">
+      <End Role="RAWSTUFF" EntitySet="RAWSTUFF" />
+      <End Role="RAWSTUFF_DELIVERY" EntitySet="RAWSTUFF_DELIVERY" />
+    </AssociationSet>
+    <AssociationSet Name="R_2" Association="Self.R_2">
+      <End Role="WAREHOUSE" EntitySet="WAREHOUSE" />
+      <End Role="RAWSTUFF" EntitySet="RAWSTUFF" />
+    </AssociationSet>
+    <AssociationSet Name="R_5" Association="Self.R_5">
+      <End Role="RAWSTUFF_INFO" EntitySet="RAWSTUFF_INFO" />
+      <End Role="RAWSTUFF" EntitySet="RAWSTUFF" />
+    </AssociationSet>
+    <AssociationSet Name="R_6" Association="Self.R_6">
+      <End Role="RAWSTUFF_STATE" EntitySet="RAWSTUFF_STATE" />
+      <End Role="RAWSTUFF" EntitySet="RAWSTUFF" />
+    </AssociationSet>
+    <AssociationSet Name="R_18" Association="Self.R_18">
+      <End Role="RAWSTUFF_CATEGORY" EntitySet="RAWSTUFF_CATEGORY" />
+      <End Role="RAWSTUFF_INFO" EntitySet="RAWSTUFF_INFO" />
+    </AssociationSet>
+    <AssociationSet Name="R_19" Association="Self.R_19">
+      <End Role="RAWSTUFF_INFO" EntitySet="RAWSTUFF_INFO" />
+      <End Role="REQURIED_RAWSTUFF" EntitySet="REQURIED_RAWSTUFF" />
+    </AssociationSet>
+    <AssociationSet Name="R_87" Association="Self.R_87">
+      <End Role="WAREHOUSE" EntitySet="WAREHOUSE" />
+      <End Role="RELEASED_PRODUCT" EntitySet="RELEASED_PRODUCT" />
+    </AssociationSet>
+    <AssociationSet Name="R_43" Association="Self.R_43">
+      <End Role="STAFF" EntitySet="STAFF" />
+      <End Role="SALE_ORDER" EntitySet="SALE_ORDER" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
