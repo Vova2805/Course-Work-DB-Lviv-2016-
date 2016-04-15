@@ -14,14 +14,6 @@
         Icon="../Resources/images/warehouse.png" 
         WindowTransitionsEnabled="False"
         WindowStartupLocation="CenterScreen" WindowState="Maximized" d:DesignWidth="1593.825" d:DesignHeight="584.5">
-    <Controls:MetroWindow.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Controls:MetroWindow.Resources>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button ToolTip="Налаштування профілю" Click="SettingsClick">
