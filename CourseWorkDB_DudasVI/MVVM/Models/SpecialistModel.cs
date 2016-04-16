@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
+using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
 {
@@ -14,6 +15,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public string selectedCategory;
         public decimal priceFrom;
         public decimal priceTo;
+        public SeriesCollection Series;
         #region OrderFilter
 
         public DateTime FromTime;
@@ -22,6 +24,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public List<string> OptionsList;
         public string selectedOption;
         public bool filterByPrice = false;
+        public List<string> Labels;
+        public string xTitle;
+        public string yTitle;
 
         #endregion
 
@@ -38,15 +43,34 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 FactoryEntities.ORDER_PRODUCT.ToList()
                     .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
                     .ToDictionary(group => group.Key, group => group.ToList());
+            int i = 0;
             foreach (var group in groupedPackages)
             {
-                productPackagesList.Add(new OrderProductTransaction(group.Value, Session.User));
+                productPackagesList.Add(new OrderProductTransaction(i++,group.Key, group.Value, Session.User));
             }
             FromTime = API.getLastPlanDate(Session.User);
             ToTime = API.getTodayDate();
             options.Add(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString(), new RegionInfo(0, FromTime, ToTime));
             OptionsList = options.Keys.ToList();
             selectedOption = OptionsList.First();
+            Series = new SeriesCollection();
+
+            //var charlesSeries = new LineSeries
+            //{
+            //    Title = "Vova",
+            //    Values = new ChartValues<double> { 10, 5, 7, 5, 7, 8 }
+            //};
+            //var jamesSeries = new LineSeries
+            //{
+            //    Title = "Dudas",
+            //    Values = new ChartValues<double> { 5, 6, 9, 10, 11, 9 }
+            //};
+
+            //Series.Add(charlesSeries);
+            //Series.Add(jamesSeries);
+            Labels = new List<string>();
+            xTitle = "X Axes";
+            yTitle= "Y Axes";
         }
 
         public class RegionInfo

@@ -6,9 +6,6 @@ using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
 {
-    /// <summary>
-    ///     Логика взаимодействия для AnimationLine.xaml
-    /// </summary>
     public partial class AnimationLine
     {
         public AnimationLine()
@@ -19,17 +16,16 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
             {
                 new LineSeries
                 {
-                    Title = "My Series",
+                    Title = "",
                     Values = new ChartValues<ViewModel>
                     {
                         new ViewModel {YValue = 0},
-                        new ViewModel {YValue = 1},
-                        new ViewModel {YValue = 0},
-                        new ViewModel {YValue = 1},
-                        new ViewModel {YValue = 0}
+                        new ViewModel {YValue = 5},
+                        new ViewModel {YValue = 7},
+                        new ViewModel {YValue = 10},
+                        new ViewModel {YValue = 9}
                     },
-                    StrokeDashArray = new DoubleCollection {2}
-                    //DataLabels = true
+                    StrokeDashArray = new DoubleCollection {1}
                 }
             }.Setup(new SeriesConfiguration<ViewModel>().Y(vm => vm.YValue));
 
@@ -37,20 +33,8 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
         }
 
         public SeriesCollection Series { get; set; }
-
-        private void MoveOnClick(object sender, RoutedEventArgs e)
-        {
-            var r = new Random();
-            foreach (var series in Series)
-            {
-                foreach (var val in series.Values.Cast<ViewModel>())
-                {
-                    val.YValue = r.Next(0, 11);
-                }
-            }
-        }
-
-        private void AddSeriesOnClick(object sender, RoutedEventArgs e)
+        
+        public void AddSeriesOnClick(object sender, RoutedEventArgs e)
         {
             var vals = new ChartValues<ViewModel>();
             var r = new Random();
@@ -63,71 +47,19 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
             Series.Add(new LineSeries
             {
                 Values = vals
-                //DataLabels = true
             });
         }
 
-        private void AddPointOnClick(object sender, RoutedEventArgs e)
-        {
-            var r = new Random();
-            foreach (var series in Series)
-            {
-                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
-                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
-                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
-                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
-                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
-                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
-            }
-        }
-
-        private void RemoveSeriesOnClick(object sender, RoutedEventArgs e)
+        public void RemoveSeriesOnClick(object sender, RoutedEventArgs e)
         {
             if (Series.Count == 1) return;
             Series.RemoveAt(0);
-        }
-
-        private void InsertOnClick(object sender, RoutedEventArgs e)
-        {
-            var r = new Random();
-            foreach (var series in Series)
-            {
-                if (series.Values.Count > 3)
-                    series.Values.Insert(2, new ViewModel
-                    {
-                        YValue = r.Next(0, 11)
-                    });
-            }
-        }
-
-        private void RemoveOnClick(object sender, RoutedEventArgs e)
-        {
-            foreach (var series in Series)
-            {
-                if (series.Values.Count == 1) continue;
-                series.Values.RemoveAt(0);
-            }
-        }
-
-        private void RemoveMiddleOnClick(object sender, RoutedEventArgs e)
-        {
-            foreach (var series in Series)
-            {
-                if (series.Values.Count > 3) series.Values.RemoveAt(2);
-            }
-        }
-
-        private void AnimationImprovementLine_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            //This is only to display animation everytime you change the view
-            Chart.Update();
         }
     }
 
     public class ViewModel : IObservableChartPoint
     {
         private double _yValue;
-
         public double YValue
         {
             get { return _yValue; }

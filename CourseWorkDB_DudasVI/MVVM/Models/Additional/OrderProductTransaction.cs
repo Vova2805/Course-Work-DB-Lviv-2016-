@@ -13,9 +13,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private ORDER_PRODUCT _packagesTotal;
         public double _productPrice;
         public List<QuantityInOrder> _QuantityInOrders;
+        public string _productTitle;
+        public int _Number;
 
-        public OrderProductTransaction(List<ORDER_PRODUCT> packages, STAFF User)
+        public OrderProductTransaction(int number,string title,List<ORDER_PRODUCT> packages, STAFF User)
         {
+            this.Number = number ;
+            this.ProductTitle = " №"+Number + ". "+title;
             QuantityInOrders = new List<QuantityInOrder>();
             this.packages = packages;
             packagesTotal = new ORDER_PRODUCT();
@@ -90,6 +94,26 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _isChecked = value;
                 OnPropertyChanged("isChecked");
+            }
+        }
+
+        public int Number
+        {
+            get { return _Number; }
+            set
+            {
+                _Number = value;
+                OnPropertyChanged("Number");
+            }
+        }
+
+        public string ProductTitle
+        {
+            get { return _productTitle; }
+            set
+            {
+                _productTitle = value;
+                OnPropertyChanged("ProductTitle");
             }
         }
 

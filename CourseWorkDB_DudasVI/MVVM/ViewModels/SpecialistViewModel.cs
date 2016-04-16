@@ -8,6 +8,7 @@ using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.Views;
+using LiveCharts;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
@@ -29,6 +30,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<OrderProductTransaction> _productPackagesList;
         public string _selectedOption;
         private DateTime _ToTime;
+        private SeriesCollection _Series;
+        private ObservableCollection<string> _Labels;
+        private string _xTitle;
+        private string _yTitle;
 
         public void Update()
         {
@@ -42,6 +47,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             OptionsList = options.Keys.ToList();
             if (OptionsList.Count > 0)
                 selectedOption = OptionsList.First();
+            UpdateSeries();
         }
 
         public void UpdateQuantity()
@@ -54,9 +60,77 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     product.QuantityInOrders.Add(new OrderProductTransaction.QuantityInOrder(option.Value.from, option.Value.to, product));
                 }
             }
+            UpdateSeries();
+        }
+
+        private void UpdateSeries()
+        {
+            Series.Clear();
+            Labels.Clear();
+            int i = 0;
+            foreach (var quantity in productPackagesList.First().QuantityInOrders)
+            {
+                List<double> serieQuantity = new List<double>();
+                foreach (var product in productPackagesList)
+                {
+                    serieQuantity.Add(product.QuantityInOrders.ElementAt(i).Quantity);
+                    Labels.Add(product.Number.ToString());
+                }
+                var chartValues = new ChartValues<double>();
+                chartValues.AddRange(serieQuantity);
+                var newSerie = new LineSeries
+                {
+                    Title = quantity.From.ToShortDateString()+"\n"+quantity.To.ToShortDateString(),
+                    Values = chartValues
+                };
+                Series.Add(newSerie);
+                i++;
+            }
+            XTitle = "Номер продукції";
+            YTitle = "Кількість замовлено";
         }
 
         #region Properties
+
+        public ObservableCollection<string> Labels
+        {
+            get { return _Labels; }
+            set
+            {
+                _Labels = value;
+                OnPropertyChanged("Labels");
+            }
+        }
+
+        public string XTitle
+        {
+            get { return _xTitle; }
+            set
+            {
+                _xTitle = value;
+                OnPropertyChanged("XTitle");
+            }
+        }
+
+        public string YTitle
+        {
+            get { return _yTitle; }
+            set
+            {
+                _yTitle = value;
+                OnPropertyChanged("YTitle");
+            }
+        }
+
+        public SeriesCollection Series
+        {
+            get { return _Series; }
+            set
+            {
+                _Series = value;
+                OnPropertyChanged("Series");
+            }
+        }
 
         public ObservableCollection<string> CategoriesList
         {
@@ -124,6 +198,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _productPackagesList = value;
+                UpdateSeries();
                 OnPropertyChanged("productPackagesList");
             }
         }

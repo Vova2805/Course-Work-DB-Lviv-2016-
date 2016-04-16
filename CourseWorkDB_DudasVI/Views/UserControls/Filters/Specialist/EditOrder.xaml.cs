@@ -17,12 +17,6 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             InitializeComponent();
             FromDatePicker.DisplayDateEnd = DateTime.Now;
             ToDatePicker.DisplayDateEnd = DateTime.Now;
-            AddHeaderCheckBox();
-        }
-
-        private void AddHeaderCheckBox()
-        {
-            throw new NotImplementedException();
         }
 
         private void ToTimeChanged(object sender, SelectionChangedEventArgs e)
@@ -59,9 +53,10 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                      FactoryEntities.ORDER_PRODUCT.ToList()
                     .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
                     .ToDictionary(group => group.Key, group => group.ToList());
+                    int i = 0;
                     foreach (var group in groupedPackages)
                     {
-                        model.productPackagesList.Add(new OrderProductTransaction(group.Value, Session.User));
+                        model.productPackagesList.Add(new OrderProductTransaction(i++,group.Key,group.Value, Session.User));
                     }
                     model.UpdateQuantity();
                 }
@@ -71,11 +66,12 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                     FactoryEntities.ORDER_PRODUCT.ToList()
                     .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
                     .ToDictionary(group => group.Key, group => group.ToList());
+                    int i = 0;
                     foreach (var group in groupedPackages)
                     {
                         if(group.Value.First().PRODUCT_INFO.CATEGORY.CATEGORY_TITLE.Equals(model.selectedCategory))
                         {
-                            model.productPackagesList.Add(new OrderProductTransaction(group.Value, Session.User));
+                            model.productPackagesList.Add(new OrderProductTransaction(i++,group.Key,group.Value, Session.User));
                         }
                     }
                     model.UpdateQuantity();
@@ -93,12 +89,13 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                     FactoryEntities.ORDER_PRODUCT.ToList()
                     .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
                     .ToDictionary(group => group.Key, group => group.ToList());
+                int i = 0;
                 foreach (var group in groupedPackages)
                 {
                    decimal price = API.getlastPrice(group.Value.First().PRODUCT_INFO.PRODUCT_PRICE);
                     if (price>=model.priceFrom && price<=model.priceTo)
                     {
-                        model.productPackagesList.Add(new OrderProductTransaction(group.Value, Session.User));
+                        model.productPackagesList.Add(new OrderProductTransaction(i++,group.Key,group.Value, Session.User));
                     }
                 }
                 model.UpdateQuantity();

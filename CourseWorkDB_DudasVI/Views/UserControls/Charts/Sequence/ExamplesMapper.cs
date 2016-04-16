@@ -13,8 +13,6 @@ namespace CourseWorkDB_DudasVI.Support
         public static List<UserControl> BarExamples { get; set; }
         public static List<UserControl> StackedBarExamples { get; set; }
         public static List<UserControl> PieExamples { get; set; }
-        public static List<UserControl> ScatterExamples { get; set; }
-        public static List<UserControl> MoreExamples { get; set; }
 
         public static void Initialize(ChartsSet window)
         {
