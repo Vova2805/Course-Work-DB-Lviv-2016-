@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.ViewModels.Additional
 {
-    public class OrderProductTransactionVm:ViewModelBase
+    public class OrderProductTransactionVm : ViewModelBase
     {
         private bool _isChecked;
+        public List<ORDER_PRODUCT> _packages;
         private ORDER_PRODUCT _packagesTotal;
         public double _productPrice;
         public List<OrderProductTransaction.QuantityInOrder> _QuantityInOrders;
-        public List<ORDER_PRODUCT> _packages;
-        private DateTime _FromTime;
-        private DateTime _ToTime;
-        private Dictionary<string, int> _options;
-        private KeyValuePair<string, int> _selectedOption;
 
-#region Properties
+        #region Properties
+
         public bool isChecked
         {
             get { return _isChecked; }
@@ -68,48 +63,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels.Additional
                 OnPropertyChanged("packages");
             }
         }
-     
 
-    public DateTime FromTime
-    {
-        get { return _FromTime; }
-        set
-        {
-            _FromTime = value;
-            OnPropertyChanged("FromTime");
-        }
-    }
-
-    public DateTime ToTime
-    {
-        get { return _ToTime; }
-        set
-        {
-            _ToTime = value;
-            OnPropertyChanged("ToTime");
-        }
-    }
-
-    public Dictionary<string, int> options
-    {
-        get { return _options; }
-        set
-        {
-            _options = value;
-            OnPropertyChanged("ToTime");
-        }
-    }
-
-    public KeyValuePair<string, int> selectedOption
-    {
-        get { return _selectedOption; }
-        set
-        {
-            _selectedOption = value;
-            OnPropertyChanged("ToTime");
-        }
-    }
         #endregion
-
     }
 }

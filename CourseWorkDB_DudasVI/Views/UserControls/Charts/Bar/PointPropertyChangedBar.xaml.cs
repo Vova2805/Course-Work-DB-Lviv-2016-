@@ -1,23 +1,11 @@
-﻿using LiveCharts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar
 {
     /// <summary>
-    /// Логика взаимодействия для PointPropertyChangedBar.xaml
+    ///     Логика взаимодействия для PointPropertyChangedBar.xaml
     /// </summary>
     public partial class PointPropertyChangedBar
     {
@@ -28,8 +16,8 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar
             //create a config for StoreViewModel
             var config = new SeriesConfiguration<StoreViewModel>()
                 .Y(y => y.Income); //use Income property as Y
-                                   //do not configure X
-                                   //this will pull a zero based index as X
+            //do not configure X
+            //this will pull a zero based index as X
 
             //create a SeriesCollection with this config
             StoresCollection = new SeriesCollection(config);

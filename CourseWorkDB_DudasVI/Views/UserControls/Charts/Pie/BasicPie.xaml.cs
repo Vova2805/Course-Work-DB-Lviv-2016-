@@ -1,23 +1,11 @@
-﻿using LiveCharts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie
 {
     /// <summary>
-    /// Логика взаимодействия для BasicPie.xaml
+    ///     Логика взаимодействия для BasicPie.xaml
     /// </summary>
     public partial class BasicPie
     {
@@ -32,17 +20,17 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie
             var charlesSeries = new PieSeries
             {
                 Title = "Charles",
-                Values = new ChartValues<double> { 6 }
+                Values = new ChartValues<double> {6}
             };
             var jamesSeries = new PieSeries
             {
                 Title = "James",
-                Values = new ChartValues<double> { 3 }
+                Values = new ChartValues<double> {3}
             };
             var mariaSeries = new PieSeries
             {
                 Title = "Maria",
-                Values = new ChartValues<double> { 5 }
+                Values = new ChartValues<double> {5}
             };
 
             //add our series to our SeriesCollection
@@ -78,7 +66,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie
 
             foreach (var series in Series)
             {
-                series.Values.Add((double)r.Next(0, 15));
+                series.Values.Add((double) r.Next(0, 15));
             }
         }
 
@@ -96,7 +84,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie
             var r = new Random();
             var count = Series.Count > 0 ? Series[0].Values.Count : 5;
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 someRandomValues.Add(r.Next(0, 15));
             }

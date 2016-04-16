@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using CourseWorkDB_DudasVI;
 
 namespace ourseWorkDB_DudasVI.MVVM.ViewModels
 {
-    public class DirectorViewModel:ViewModelBase
+    public class DirectorViewModel : ViewModelBase
     {
         private ObservableCollection<STAFF> _EmployeeList;
         private STAFF _SelectedEmployee;

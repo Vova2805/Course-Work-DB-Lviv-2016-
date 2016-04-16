@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self"
+              xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ADDRESS">
           <Key>
             <PropertyRef Name="ADDRESS_ID" />
@@ -735,7 +739,8 @@
           <EntitySet Name="REQURIED_RAWSTUFF" EntityType="Self.REQURIED_RAWSTUFF" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SALARY" EntityType="Self.SALARY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SALE_ORDER" EntityType="Self.SALE_ORDER" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SCHEDULE_PRODUCT_INFO" EntityType="Self.SCHEDULE_PRODUCT_INFO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SCHEDULE_PRODUCT_INFO" EntityType="Self.SCHEDULE_PRODUCT_INFO" Schema="dbo"
+                     store:Type="Tables" />
           <EntitySet Name="STAFF" EntityType="Self.STAFF" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WAREHOUSE" EntityType="Self.WAREHOUSE" Schema="dbo" store:Type="Tables" />
@@ -884,7 +889,10 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false"
+              xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="ADDRESS">
           <Key>
             <PropertyRef Name="ADDRESS_ID" />
@@ -897,8 +905,10 @@
           <Property Name="BUILDING_NUMBER" Type="Int32" Nullable="false" />
           <NavigationProperty Name="STAFF" Relationship="Self.R_101" FromRole="ADDRESS" ToRole="STAFF" />
           <NavigationProperty Name="CLIENT" Relationship="Self.R_102" FromRole="ADDRESS" ToRole="CLIENT" />
-          <NavigationProperty Name="DELIVERY_ADDRESS" Relationship="Self.R_93" FromRole="ADDRESS" ToRole="DELIVERY_ADDRESS" />
-          <NavigationProperty Name="RELEASED_PRODUCT" Relationship="Self.R_95" FromRole="ADDRESS" ToRole="RELEASED_PRODUCT" />
+          <NavigationProperty Name="DELIVERY_ADDRESS" Relationship="Self.R_93" FromRole="ADDRESS"
+                              ToRole="DELIVERY_ADDRESS" />
+          <NavigationProperty Name="RELEASED_PRODUCT" Relationship="Self.R_95" FromRole="ADDRESS"
+                              ToRole="RELEASED_PRODUCT" />
           <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_98" FromRole="ADDRESS" ToRole="WAREHOUSE" />
         </EntityType>
         <EntityType Name="CATEGORY">
@@ -906,7 +916,8 @@
             <PropertyRef Name="CATEGORY_ID" />
           </Key>
           <Property Name="CATEGORY_ID" Type="Int32" Nullable="false" />
-          <Property Name="CATEGORY_TITLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CATEGORY_TITLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true"
+                    Nullable="false" />
           <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_40" FromRole="CATEGORY" ToRole="PRODUCT_INFO" />
         </EntityType>
         <EntityType Name="CLIENT">
@@ -914,8 +925,10 @@
             <PropertyRef Name="CLIENT_ID" />
           </Key>
           <Property Name="CLIENT_ID" Type="Int32" Nullable="false" />
-          <Property Name="CLIENT_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CLIENT_SURNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CLIENT_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false"
+                    Nullable="false" />
+          <Property Name="CLIENT_SURNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <Property Name="CLIENT_MIDDLE_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="COMPANY_TITLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="MOBILE_PHONE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -935,9 +948,11 @@
           <Property Name="DELIVERY_TOTAL" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="DEL_ADDRESS_ID" Type="Int32" Nullable="false" />
           <Property Name="COST_PER_KM" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="RAWSTUFF_ORDER" Relationship="Self.R_13" FromRole="DELIVERY" ToRole="RAWSTUFF_ORDER" />
+          <NavigationProperty Name="RAWSTUFF_ORDER" Relationship="Self.R_13" FromRole="DELIVERY"
+                              ToRole="RAWSTUFF_ORDER" />
           <NavigationProperty Name="SALE_ORDER" Relationship="Self.R_45" FromRole="DELIVERY" ToRole="SALE_ORDER" />
-          <NavigationProperty Name="DELIVERY_ADDRESS" Relationship="Self.R_92" FromRole="DELIVERY" ToRole="DELIVERY_ADDRESS" />
+          <NavigationProperty Name="DELIVERY_ADDRESS" Relationship="Self.R_92" FromRole="DELIVERY"
+                              ToRole="DELIVERY_ADDRESS" />
         </EntityType>
         <EntityType Name="DELIVERY_ADDRESS">
           <Key>
@@ -955,7 +970,8 @@
             <PropertyRef Name="DEPARTMENT_ID" />
           </Key>
           <Property Name="DEPARTMENT_ID" Type="Int32" Nullable="false" />
-          <Property Name="DEPARTMENT_TITLE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DEPARTMENT_TITLE" Type="String" MaxLength="20" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <NavigationProperty Name="POST" Relationship="Self.R_79" FromRole="DEPARTMENT" ToRole="POST" />
         </EntityType>
         <EntityType Name="INGREDIENTS">
@@ -977,7 +993,8 @@
           <Property Name="PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
           <Property Name="QUANTITY_IN_ORDER" Type="Int32" Nullable="false" />
           <NavigationProperty Name="SALE_ORDER" Relationship="Self.R_103" FromRole="ORDER_PRODUCT" ToRole="SALE_ORDER" />
-          <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_105" FromRole="ORDER_PRODUCT" ToRole="PRODUCT_INFO" />
+          <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_105" FromRole="ORDER_PRODUCT"
+                              ToRole="PRODUCT_INFO" />
         </EntityType>
         <EntityType Name="PACKAGE_DESCRIPTION">
           <Key>
@@ -987,7 +1004,8 @@
           <Property Name="WIDTH" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="HEIGTH" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="LENGTH" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_89" FromRole="PACKAGE_DESCRIPTION" ToRole="PRODUCT_INFO" />
+          <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_89" FromRole="PACKAGE_DESCRIPTION"
+                              ToRole="PRODUCT_INFO" />
         </EntityType>
         <EntityType Name="POST">
           <Key>
@@ -1006,18 +1024,24 @@
           </Key>
           <Property Name="CATEGORY_ID" Type="Int32" Nullable="false" />
           <Property Name="PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
-          <Property Name="PRODUCT_TITLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRODUCT_TITLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <Property Name="PRODUCT_DESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="QUANTITY_IN_PACKAGE" Type="Int32" Nullable="false" />
           <Property Name="PACK_DESCR_ID" Type="Int32" Nullable="false" />
           <Property Name="PRODUCTION_PRICE" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="CATEGORY" Relationship="Self.R_40" FromRole="PRODUCT_INFO" ToRole="CATEGORY" />
           <NavigationProperty Name="INGREDIENTS" Relationship="Self.R_91" FromRole="PRODUCT_INFO" ToRole="INGREDIENTS" />
-          <NavigationProperty Name="ORDER_PRODUCT" Relationship="Self.R_105" FromRole="PRODUCT_INFO" ToRole="ORDER_PRODUCT" />
-          <NavigationProperty Name="PACKAGE_DESCRIPTION" Relationship="Self.R_89" FromRole="PRODUCT_INFO" ToRole="PACKAGE_DESCRIPTION" />
-          <NavigationProperty Name="SCHEDULE_PRODUCT_INFO" Relationship="Self.R_116" FromRole="PRODUCT_INFO" ToRole="SCHEDULE_PRODUCT_INFO" />
-          <NavigationProperty Name="RELEASED_PRODUCT" Relationship="Self.R_120" FromRole="PRODUCT_INFO" ToRole="RELEASED_PRODUCT" />
-          <NavigationProperty Name="PRODUCT_PRICE" Relationship="Self.R_125" FromRole="PRODUCT_INFO" ToRole="PRODUCT_PRICE" />
+          <NavigationProperty Name="ORDER_PRODUCT" Relationship="Self.R_105" FromRole="PRODUCT_INFO"
+                              ToRole="ORDER_PRODUCT" />
+          <NavigationProperty Name="PACKAGE_DESCRIPTION" Relationship="Self.R_89" FromRole="PRODUCT_INFO"
+                              ToRole="PACKAGE_DESCRIPTION" />
+          <NavigationProperty Name="SCHEDULE_PRODUCT_INFO" Relationship="Self.R_116" FromRole="PRODUCT_INFO"
+                              ToRole="SCHEDULE_PRODUCT_INFO" />
+          <NavigationProperty Name="RELEASED_PRODUCT" Relationship="Self.R_120" FromRole="PRODUCT_INFO"
+                              ToRole="RELEASED_PRODUCT" />
+          <NavigationProperty Name="PRODUCT_PRICE" Relationship="Self.R_125" FromRole="PRODUCT_INFO"
+                              ToRole="PRODUCT_PRICE" />
         </EntityType>
         <EntityType Name="PRODUCT_PRICE">
           <Key>
@@ -1029,7 +1053,8 @@
           <Property Name="PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
           <Property Name="STAFF_ID" Type="Int32" Nullable="false" />
           <Property Name="PRICE_VALUE" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_125" FromRole="PRODUCT_PRICE" ToRole="PRODUCT_INFO" />
+          <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_125" FromRole="PRODUCT_PRICE"
+                              ToRole="PRODUCT_INFO" />
           <NavigationProperty Name="STAFF" Relationship="Self.R_126" FromRole="PRODUCT_PRICE" ToRole="STAFF" />
         </EntityType>
         <EntityType Name="PRODUCTION_SCHEDULE">
@@ -1040,11 +1065,14 @@
           <Property Name="REQUIRED_DATE" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="STAFF_ID" Type="Int32" Nullable="false" />
           <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="SCHEDULE_STATE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SCHEDULE_STATE" Type="String" MaxLength="20" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <Property Name="SCHEDULE_TOTAL" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="WAREHOUSE_ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="SCHEDULE_PRODUCT_INFO" Relationship="Self.R_115" FromRole="PRODUCTION_SCHEDULE" ToRole="SCHEDULE_PRODUCT_INFO" />
-          <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_129" FromRole="PRODUCTION_SCHEDULE" ToRole="WAREHOUSE" />
+          <NavigationProperty Name="SCHEDULE_PRODUCT_INFO" Relationship="Self.R_115" FromRole="PRODUCTION_SCHEDULE"
+                              ToRole="SCHEDULE_PRODUCT_INFO" />
+          <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_129" FromRole="PRODUCTION_SCHEDULE"
+                              ToRole="WAREHOUSE" />
           <NavigationProperty Name="STAFF" Relationship="Self.R_47" FromRole="PRODUCTION_SCHEDULE" ToRole="STAFF" />
         </EntityType>
         <EntityType Name="PROVIDER">
@@ -1054,7 +1082,8 @@
           <Property Name="PROVIDER_ID" Type="Int32" Nullable="false" />
           <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ADRESS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PHONE_NUMBER" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PHONE_NUMBER" Type="String" MaxLength="13" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <NavigationProperty Name="RAWSTUFF_ORDER" Relationship="Self.R_7" FromRole="PROVIDER" ToRole="RAWSTUFF_ORDER" />
         </EntityType>
         <EntityType Name="RAWSTUFF">
@@ -1068,7 +1097,8 @@
           <Property Name="RAWSTUFF_STATE_ID" Type="Int32" Nullable="false" />
           <Property Name="EXPIRE_DATE" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="INGREDIENTS" Relationship="Self.R_90" FromRole="RAWSTUFF" ToRole="INGREDIENTS" />
-          <NavigationProperty Name="RAWSTUFF_DELIVERY" Relationship="Self.R_15" FromRole="RAWSTUFF" ToRole="RAWSTUFF_DELIVERY" />
+          <NavigationProperty Name="RAWSTUFF_DELIVERY" Relationship="Self.R_15" FromRole="RAWSTUFF"
+                              ToRole="RAWSTUFF_DELIVERY" />
           <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_2" FromRole="RAWSTUFF" ToRole="WAREHOUSE" />
           <NavigationProperty Name="RAWSTUFF_INFO" Relationship="Self.R_5" FromRole="RAWSTUFF" ToRole="RAWSTUFF_INFO" />
           <NavigationProperty Name="RAWSTUFF_STATE" Relationship="Self.R_6" FromRole="RAWSTUFF" ToRole="RAWSTUFF_STATE" />
@@ -1079,7 +1109,8 @@
           </Key>
           <Property Name="RAWSTUFF_CATEGORY_ID" Type="Int32" Nullable="false" />
           <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="RAWSTUFF_INFO" Relationship="Self.R_18" FromRole="RAWSTUFF_CATEGORY" ToRole="RAWSTUFF_INFO" />
+          <NavigationProperty Name="RAWSTUFF_INFO" Relationship="Self.R_18" FromRole="RAWSTUFF_CATEGORY"
+                              ToRole="RAWSTUFF_INFO" />
         </EntityType>
         <EntityType Name="RAWSTUFF_DELIVERY">
           <Key>
@@ -1098,13 +1129,16 @@
           </Key>
           <Property Name="RAWSTUFF_INFO_ID" Type="Int32" Nullable="false" />
           <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="INGREDIENTS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="INGREDIENTS" Type="String" MaxLength="50" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <Property Name="EXPIRE_DAYS" Type="Int32" Nullable="false" />
           <Property Name="RAWSTUFF_ORDER_ID" Type="Int32" Nullable="false" />
           <Property Name="RAWSTUFF_CATEGORY_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="RAWSTUFF" Relationship="Self.R_5" FromRole="RAWSTUFF_INFO" ToRole="RAWSTUFF" />
-          <NavigationProperty Name="RAWSTUFF_CATEGORY" Relationship="Self.R_18" FromRole="RAWSTUFF_INFO" ToRole="RAWSTUFF_CATEGORY" />
-          <NavigationProperty Name="REQURIED_RAWSTUFF" Relationship="Self.R_19" FromRole="RAWSTUFF_INFO" ToRole="REQURIED_RAWSTUFF" />
+          <NavigationProperty Name="RAWSTUFF_CATEGORY" Relationship="Self.R_18" FromRole="RAWSTUFF_INFO"
+                              ToRole="RAWSTUFF_CATEGORY" />
+          <NavigationProperty Name="REQURIED_RAWSTUFF" Relationship="Self.R_19" FromRole="RAWSTUFF_INFO"
+                              ToRole="REQURIED_RAWSTUFF" />
         </EntityType>
         <EntityType Name="RAWSTUFF_ORDER">
           <Key>
@@ -1123,7 +1157,8 @@
           </Key>
           <Property Name="RAWSTUFF_STATE_ID" Type="Int32" Nullable="false" />
           <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DESCRIPTION" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="20" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <NavigationProperty Name="RAWSTUFF" Relationship="Self.R_6" FromRole="RAWSTUFF_STATE" ToRole="RAWSTUFF" />
         </EntityType>
         <EntityType Name="RELEASED_PRODUCT">
@@ -1138,7 +1173,8 @@
           <Property Name="QUANTITY" Type="Int32" Nullable="false" />
           <Property Name="MANUFACTURER_ADDRESS" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ADDRESS" Relationship="Self.R_95" FromRole="RELEASED_PRODUCT" ToRole="ADDRESS" />
-          <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_120" FromRole="RELEASED_PRODUCT" ToRole="PRODUCT_INFO" />
+          <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_120" FromRole="RELEASED_PRODUCT"
+                              ToRole="PRODUCT_INFO" />
           <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_87" FromRole="RELEASED_PRODUCT" ToRole="WAREHOUSE" />
         </EntityType>
         <EntityType Name="REQURIED_RAWSTUFF">
@@ -1148,7 +1184,8 @@
           <Property Name="RAWSTUFF_INFO_ID" Type="Int32" />
           <Property Name="REQUIRED_RAWSTUFF_ID" Type="Int32" Nullable="false" />
           <Property Name="QUANTITY" Type="Int32" />
-          <NavigationProperty Name="RAWSTUFF_INFO" Relationship="Self.R_19" FromRole="REQURIED_RAWSTUFF" ToRole="RAWSTUFF_INFO" />
+          <NavigationProperty Name="RAWSTUFF_INFO" Relationship="Self.R_19" FromRole="REQURIED_RAWSTUFF"
+                              ToRole="RAWSTUFF_INFO" />
         </EntityType>
         <EntityType Name="SALARY">
           <Key>
@@ -1168,15 +1205,18 @@
           <Property Name="CLIENT_ID" Type="Int32" Nullable="false" />
           <Property Name="ORDER_DATE" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="REQUIRED_DATE" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ORDER_STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DELIVERY_STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ORDER_STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false"
+                    Nullable="false" />
+          <Property Name="DELIVERY_STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <Property Name="DISCOUNT" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="TOTAL" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="PAID" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="STAFF_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CLIENT" Relationship="Self.R_41" FromRole="SALE_ORDER" ToRole="CLIENT" />
           <NavigationProperty Name="DELIVERY" Relationship="Self.R_45" FromRole="SALE_ORDER" ToRole="DELIVERY" />
-          <NavigationProperty Name="ORDER_PRODUCT" Relationship="Self.R_103" FromRole="SALE_ORDER" ToRole="ORDER_PRODUCT" />
+          <NavigationProperty Name="ORDER_PRODUCT" Relationship="Self.R_103" FromRole="SALE_ORDER"
+                              ToRole="ORDER_PRODUCT" />
           <NavigationProperty Name="STAFF" Relationship="Self.R_43" FromRole="SALE_ORDER" ToRole="STAFF" />
         </EntityType>
         <EntityType Name="SCHEDULE_PRODUCT_INFO">
@@ -1188,8 +1228,10 @@
           <Property Name="PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
           <Property Name="QUANTITY_IN_SCHEDULE" Type="Int32" Nullable="false" />
           <Property Name="RELEASED_QUANTITY" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_116" FromRole="SCHEDULE_PRODUCT_INFO" ToRole="PRODUCT_INFO" />
-          <NavigationProperty Name="PRODUCTION_SCHEDULE" Relationship="Self.R_115" FromRole="SCHEDULE_PRODUCT_INFO" ToRole="PRODUCTION_SCHEDULE" />
+          <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_116" FromRole="SCHEDULE_PRODUCT_INFO"
+                              ToRole="PRODUCT_INFO" />
+          <NavigationProperty Name="PRODUCTION_SCHEDULE" Relationship="Self.R_115" FromRole="SCHEDULE_PRODUCT_INFO"
+                              ToRole="PRODUCTION_SCHEDULE" />
         </EntityType>
         <EntityType Name="STAFF">
           <Key>
@@ -1209,7 +1251,8 @@
           <NavigationProperty Name="ADDRESS1" Relationship="Self.R_101" FromRole="STAFF" ToRole="ADDRESS" />
           <NavigationProperty Name="POST" Relationship="Self.R_83" FromRole="STAFF" ToRole="POST" />
           <NavigationProperty Name="PRODUCT_PRICE" Relationship="Self.R_126" FromRole="STAFF" ToRole="PRODUCT_PRICE" />
-          <NavigationProperty Name="PRODUCTION_SCHEDULE" Relationship="Self.R_47" FromRole="STAFF" ToRole="PRODUCTION_SCHEDULE" />
+          <NavigationProperty Name="PRODUCTION_SCHEDULE" Relationship="Self.R_47" FromRole="STAFF"
+                              ToRole="PRODUCTION_SCHEDULE" />
           <NavigationProperty Name="SALE_ORDER" Relationship="Self.R_43" FromRole="STAFF" ToRole="SALE_ORDER" />
           <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_128" FromRole="STAFF" ToRole="WAREHOUSE" />
         </EntityType>
@@ -1235,9 +1278,11 @@
           <Property Name="FAX" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="STAFF_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ADDRESS1" Relationship="Self.R_98" FromRole="WAREHOUSE" ToRole="ADDRESS" />
-          <NavigationProperty Name="PRODUCTION_SCHEDULE" Relationship="Self.R_129" FromRole="WAREHOUSE" ToRole="PRODUCTION_SCHEDULE" />
+          <NavigationProperty Name="PRODUCTION_SCHEDULE" Relationship="Self.R_129" FromRole="WAREHOUSE"
+                              ToRole="PRODUCTION_SCHEDULE" />
           <NavigationProperty Name="RAWSTUFF" Relationship="Self.R_2" FromRole="WAREHOUSE" ToRole="RAWSTUFF" />
-          <NavigationProperty Name="RELEASED_PRODUCT" Relationship="Self.R_87" FromRole="WAREHOUSE" ToRole="RELEASED_PRODUCT" />
+          <NavigationProperty Name="RELEASED_PRODUCT" Relationship="Self.R_87" FromRole="WAREHOUSE"
+                              ToRole="RELEASED_PRODUCT" />
           <NavigationProperty Name="STAFF" Relationship="Self.R_128" FromRole="WAREHOUSE" ToRole="STAFF" />
         </EntityType>
         <Association Name="R_101">
@@ -1835,7 +1880,8 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="SWEET_FACTORYEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer"
+                                CdmEntityContainer="SWEET_FACTORYEntities">
           <EntitySetMapping Name="ADDRESS">
             <EntityTypeMapping TypeName="Model.ADDRESS">
               <MappingFragment StoreEntitySet="ADDRESS">

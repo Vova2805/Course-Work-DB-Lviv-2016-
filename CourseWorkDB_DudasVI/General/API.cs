@@ -8,12 +8,15 @@ namespace CourseWorkDB_DudasVI.General
     {
         public static decimal getlastPrice(ICollection<PRODUCT_PRICE> prices)
         {
-            return prices.OrderBy(pr=>pr.CHANGED_DATE).Last().PRICE_VALUE;
+            return prices.OrderBy(pr => pr.CHANGED_DATE).Last().PRICE_VALUE;
         }
 
-        public static List<PRODUCT_PRICE> getPrice(ICollection<PRODUCT_PRICE> prices,DateTime startPeriod, DateTime endPeriod)
-        {//TODO Поставити межі на дати
-            return prices.ToList().FindAll(pr => pr.CHANGED_DATE <= endPeriod && pr.CHANGED_DATE >= startPeriod).ToList();
+        public static List<PRODUCT_PRICE> getPrice(ICollection<PRODUCT_PRICE> prices, DateTime startPeriod,
+            DateTime endPeriod)
+        {
+//TODO Поставити межі на дати
+            return
+                prices.ToList().FindAll(pr => pr.CHANGED_DATE <= endPeriod && pr.CHANGED_DATE >= startPeriod).ToList();
         }
 
         public static decimal getlastSalary(ICollection<SALARY> salaries)
@@ -23,7 +26,8 @@ namespace CourseWorkDB_DudasVI.General
 
         public static List<SALARY> getPrice(ICollection<SALARY> salaries, DateTime startPeriod, DateTime endPeriod)
         {
-            return salaries.ToList().FindAll(pr => pr.CHANGED_DATE <= endPeriod && pr.CHANGED_DATE >= startPeriod).ToList();
+            return
+                salaries.ToList().FindAll(pr => pr.CHANGED_DATE <= endPeriod && pr.CHANGED_DATE >= startPeriod).ToList();
         }
 
         public static DateTime getLastPlanDate(WAREHOUSE warehouse)
@@ -33,7 +37,7 @@ namespace CourseWorkDB_DudasVI.General
             {
                 return result.OrderBy(p => p.CREATED_DATE).ToList().Last().CREATED_DATE;
             }
-            else return geTodayDate();
+            return getTodayDate();
         }
 
         public static DateTime getLastPlanDate(STAFF staff)
@@ -43,10 +47,11 @@ namespace CourseWorkDB_DudasVI.General
             {
                 return result.OrderBy(p => p.CREATED_DATE).ToList().Last().CREATED_DATE;
             }
-            else return geTodayDate();
+            return getTodayDate();
         }
+
         //return ac date
-        public static DateTime geTodayDate()
+        public static DateTime getTodayDate()
         {
             var res = DateTime.Today;
             return res;
@@ -54,7 +59,7 @@ namespace CourseWorkDB_DudasVI.General
 
         public static List<ORDER_PRODUCT> getPackagesInRange(DateTime from, DateTime to, List<ORDER_PRODUCT> packages)
         {
-           var res =  packages.FindAll(p => p.SALE_ORDER.ORDER_DATE >= from && p.SALE_ORDER.ORDER_DATE <= to).ToList();
+            var res = packages.FindAll(p => p.SALE_ORDER.ORDER_DATE >= from && p.SALE_ORDER.ORDER_DATE <= to).ToList();
             return res;
         }
     }

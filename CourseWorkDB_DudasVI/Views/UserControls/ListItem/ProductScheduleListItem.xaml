@@ -1,37 +1,48 @@
 ﻿<UserControl x:Class="CourseWorkDB_DudasVI.Views.UserControls.ProductScheduleListItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
     <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="1,1,1,1">
         <Grid Height="auto" Margin="5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="0" Grid.Column="0" ToolTip="Назва продукту" Text="{Binding Path=PRODUCT_INFO.PRODUCT_TITLE}" Margin="5" />
-            <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Foreground="Green" Grid.Column="0" Text="Ціна продукту" Margin="5" />
+            <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="0" Grid.Column="0" ToolTip="Назва продукту"
+                       Text="{Binding Path=PRODUCT_INFO.PRODUCT_TITLE}" Margin="5" />
+            <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Foreground="Green" Grid.Column="0"
+                       Text="Ціна продукту" Margin="5" />
 
-            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="0" Grid.Column="1" Text="Кількість подано" Margin="5" />
-            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="1" Text="Кількість шт" Margin="5" />
+            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="0" Grid.Column="1"
+                       Text="Кількість подано" Margin="5" />
+            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="1"
+                       Text="Кількість шт" Margin="5" />
 
-            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="0" Grid.Column="2" Text="Загалом подано" Margin="5" />
-            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" Foreground="Green" VerticalAlignment="Center" Text="{Binding Path=SCHEDULE_TOTAL}" Margin="5" />
+            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="0" Grid.Column="2"
+                       Text="Загалом подано" Margin="5" />
+            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="2"
+                       Grid.RowSpan="2" Foreground="Green" VerticalAlignment="Center"
+                       Text="{Binding Path=SCHEDULE_TOTAL}" Margin="5" />
 
-            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="0" Grid.Column="3" Text="Кількість реалізовано" Margin="5" />
-            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="3" Text="Кількість шт" Margin="5" />
+            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="0" Grid.Column="3"
+                       Text="Кількість реалізовано" Margin="5" />
+            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="3"
+                       Text="Кількість шт" Margin="5" />
 
-            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="0" Grid.Column="4" Text="Загалом реалізовано" Margin="5" />
-            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" Foreground="Green" VerticalAlignment="Center"  Text="TOTAL" Margin="5" />
+            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="0" Grid.Column="4"
+                       Text="Загалом реалізовано" Margin="5" />
+            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="4"
+                       Grid.RowSpan="2" Foreground="Green" VerticalAlignment="Center" Text="TOTAL" Margin="5" />
         </Grid>
     </Border>
 </UserControl>

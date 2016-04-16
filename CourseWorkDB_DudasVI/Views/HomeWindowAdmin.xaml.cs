@@ -1,28 +1,28 @@
-﻿using MahApps.Metro.Controls;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using AutoMapper;
 using CourseWorkDB_DudasVI.MVVM.Models;
+using MahApps.Metro.Controls;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views
 {
     /// <summary>
-    /// Логика взаимодействия для HomeWindow.xaml
+    ///     Логика взаимодействия для HomeWindow.xaml
     /// </summary>
     public partial class HomeWindowAdmin : MetroWindow
     {
-        private SWEET_FACTORYEntities sweetFactory  = new SWEET_FACTORYEntities();
+        private static bool isopenFlyout;
+        private readonly SWEET_FACTORYEntities sweetFactory = new SWEET_FACTORYEntities();
+
         public HomeWindowAdmin()
         {
             InitializeComponent();
-            DirectorModel directorModel = new DirectorModel(sweetFactory);
-            DirectorViewModel directorViewModel = Mapper.Map<DirectorModel,DirectorViewModel>(directorModel);
-            this.DataContext = directorViewModel;
+            var directorModel = new DirectorModel(sweetFactory);
+            var directorViewModel = Mapper.Map<DirectorModel, DirectorViewModel>(directorModel);
+            DataContext = directorViewModel;
         }
 
-        private static bool isopenFlyout = false;
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
             isopenFlyout = !isopenFlyout;
@@ -52,11 +52,6 @@ namespace CourseWorkDB_DudasVI.Views
         private void GoodsFilterOpen(object sender, RoutedEventArgs e)
         {
             GoodsFilterFlyout.IsOpen = true;
-        }
-
-        private void MenuCall(object sender, RoutedEventArgs e)
-        {
-            MenuFlyout.IsOpen = true;
         }
     }
 }

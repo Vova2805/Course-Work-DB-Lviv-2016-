@@ -1,38 +1,39 @@
 ﻿<UserControl x:Class="CourseWorkDB_DudasVI.Views.UserControls.EditOrder"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
     <Border BorderThickness="0">
         <Grid Background="Transparent" Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Grid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                        <ResourceDictionary
+                            Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                     <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Margin" Value="10,5,5,5"/>
-                        <Setter Property="Foreground" Value="{StaticResource WhiteColorBrush}"/>
-                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="Margin" Value="10,5,5,5" />
+                        <Setter Property="Foreground" Value="{StaticResource WhiteColorBrush}" />
+                        <Setter Property="FontSize" Value="14" />
                     </Style>
 
                     <DataTemplate DataType="{x:Type ValidationError}">
@@ -43,27 +44,30 @@
                                    VerticalAlignment="Top"
                                    TextAlignment="Right"
                                    Margin="0,0,0,2"
-                                   Text="{Binding Path=ErrorContent}"/>
+                                   Text="{Binding Path=ErrorContent}" />
                     </DataTemplate>
                 </ResourceDictionary>
             </Grid.Resources>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Grid.ColumnSpan="4" Text="Редагування таблиці замовлень"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" FontWeight="Bold" Text="Додати період" VerticalAlignment="Center"/>
-           
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Від"/>
-            <DatePicker Grid.Row="2" Grid.Column="1" Margin="2" SelectedDate="{Binding FromTime}"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Grid.ColumnSpan="4"
+                       Text="Редагування таблиці замовлень" />
+            <TextBlock Grid.Row="1" Grid.Column="0" FontWeight="Bold" Text="Додати період" VerticalAlignment="Center" />
 
-            <TextBlock Grid.Row="2" Grid.Column="2" Text="До"/>
-            <DatePicker Grid.Row="2" Grid.Column="3" Margin="5" SelectedDate="{Binding ToTime}"/>
-            <Button Grid.Row="3" Grid.Column="3" Margin="5" Content="Додати" Width="100" 
-                    Command="{Binding ApplyFilterCommand}" HorizontalAlignment="Right"/>
-            <TextBlock Grid.Row="4" Grid.Column="0" FontWeight="Bold" Grid.ColumnSpan="4" Margin="10,15,5,5" Text="Видалити період"/>
-            <TextBlock Grid.Row="5" Grid.Column="0" Text="Оберіть із списку"/>
-            <ComboBox Grid.Row="5" Grid.Column="1" Margin="5" Grid.ColumnSpan="3" Validation.ErrorTemplate="{x:Null}" IsEnabled="{Binding IsUserAdmin}"
-                      SelectedValue="{Binding selectedOption}" ItemsSource="{Binding Path=options.Keys}"/>
-            <Button Grid.Row="7" Grid.Column="3" Margin="5" Content="Фільтрувати" 
-                    Command="{Binding ApplyFilterCommand}" HorizontalAlignment="Right" Width="100"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Від" />
+            <DatePicker Grid.Row="2" Grid.Column="1" Margin="2" SelectedDate="{Binding FromTime}" />
+
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="До" />
+            <DatePicker Grid.Row="2" Grid.Column="3" Margin="5" SelectedDate="{Binding ToTime}" />
+            <Button Grid.Row="3" Grid.Column="3" Margin="5" Content="Додати" Width="100"
+                    Command="{Binding ChangeCommand}" HorizontalAlignment="Right" />
+            <TextBlock Grid.Row="4" Grid.Column="0" FontWeight="Bold" Grid.ColumnSpan="4" Margin="10,15,5,5"
+                       Text="Видалити період" />
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Оберіть із списку" />
+            <ComboBox Grid.Row="5" Grid.Column="1" Margin="5" Grid.ColumnSpan="3" Validation.ErrorTemplate="{x:Null}"
+                      IsEnabled="{Binding IsUserAdmin}"
+                      SelectedValue="{Binding selectedOption}" ItemsSource="{Binding Path=options.Keys}" />
+            <Button Grid.Row="7" Grid.Column="3" Margin="5" Content="Фільтрувати"
+                    Command="{Binding ChangeCommand}" HorizontalAlignment="Right" Width="100" />
 
         </Grid>
     </Border>

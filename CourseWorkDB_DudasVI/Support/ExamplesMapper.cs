@@ -1,18 +1,21 @@
-﻿using CourseWorkDB_DudasVI.Views.UserControls;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
+using CourseWorkDB_DudasVI.Views.UserControls;
 using CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar;
 using CourseWorkDB_DudasVI.Views.UserControls.Charts.Line;
 using CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace CourseWorkDB_DudasVI.Support
 {
     public static class ExamplesMapper
     {
+        public static List<UserControl> LineAndAreaAexamples { get; set; }
+        public static List<UserControl> BarExamples { get; set; }
+        public static List<UserControl> StackedBarExamples { get; set; }
+        public static List<UserControl> PieExamples { get; set; }
+        public static List<UserControl> ScatterExamples { get; set; }
+        public static List<UserControl> MoreExamples { get; set; }
+
         public static void Initialize(ChartsSet window)
         {
             LineAndAreaAexamples = new List<UserControl>
@@ -36,17 +39,13 @@ namespace CourseWorkDB_DudasVI.Support
                 new MvvmPie()
             };
 
-            window.LineControl.Content = LineAndAreaAexamples != null && LineAndAreaAexamples.Count > 0 ? LineAndAreaAexamples[0] : null;
+            window.LineControl.Content = LineAndAreaAexamples != null && LineAndAreaAexamples.Count > 0
+                ? LineAndAreaAexamples[0]
+                : null;
             window.BarControl.Content = BarExamples != null && BarExamples.Count > 0 ? BarExamples[0] : null;
-           // window.StackedBarControl.Content = StackedBarExamples != null && StackedBarExamples.Count > 0 ? StackedBarExamples[0] : null;
+            // window.StackedBarControl.Content = StackedBarExamples != null && StackedBarExamples.Count > 0 ? StackedBarExamples[0] : null;
             window.PieControl.Content = PieExamples != null && PieExamples.Count > 0 ? PieExamples[0] : null;
         }
-        public static List<UserControl> LineAndAreaAexamples { get; set; }
-        public static List<UserControl> BarExamples { get; set; }
-        public static List<UserControl> StackedBarExamples { get; set; }
-        public static List<UserControl> PieExamples { get; set; }
-        public static List<UserControl> ScatterExamples { get; set; }
-        public static List<UserControl> MoreExamples { get; set; }
 
         public static void Next(this ContentControl control, List<UserControl> list)
         {

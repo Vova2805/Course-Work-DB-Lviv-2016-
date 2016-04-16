@@ -3,7 +3,7 @@
 namespace CourseWorkDB_DudasVI.Views.UserControls
 {
     /// <summary>
-    /// Логика взаимодействия для TotalView.xaml
+    ///     Логика взаимодействия для TotalView.xaml
     /// </summary>
     public partial class TotalView : UserControl
     {

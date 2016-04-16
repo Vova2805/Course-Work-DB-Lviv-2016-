@@ -1,74 +1,80 @@
 ﻿<UserControl x:Class="CourseWorkDB_DudasVI.Views.UserControls.ChartsSet"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"
              xmlns:charts="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
     <UserControl.Resources>
         <Style TargetType="Button">
-                <Setter Property="Background" Value="Transparent"></Setter>
-                <Setter Property="BorderThickness" Value="2"></Setter>
-                <Setter Property="BorderBrush" Value="Gray"></Setter>
-                <Setter Property="Padding" Value="10 5"></Setter>
-            </Style>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Setter Property="Padding" Value="10 5" />
+        </Style>
         <Style x:Key="Title" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#3F51B4"></Setter>
-            <Setter Property="FontSize" Value="20"></Setter>
-            <Setter Property="FontWeight" Value="SemiBold"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-            <Setter Property="Margin" Value="15"></Setter>
+            <Setter Property="Foreground" Value="#3F51B4" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="15" />
         </Style>
     </UserControl.Resources>
     <TabControl>
-        <TabItem   Header="Лінійна">
+        <TabItem Header="Лінійна">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Style="{StaticResource Title}">Лінійна діаграма</TextBlock>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png"  MouseDown="LinePrevious"/>
-                        <ContentControl Name="LineControl" Grid.Column="1" Height="500" Width="Auto"></ContentControl>
-                        <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png" MouseDown="LineNext"/>
+                        <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png"
+                               MouseDown="LinePrevious" />
+                        <ContentControl Name="LineControl" Grid.Column="1" Height="500" Width="Auto" />
+                        <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png"
+                               MouseDown="LineNext" />
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
         </TabItem>
-        <TabItem   Header="Стовпчаста">
+        <TabItem Header="Стовпчаста">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Style="{StaticResource Title}">Стовпчаста діагрaма</TextBlock>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png"  MouseDown="BarPrevious"/>
-                        <ContentControl Name="BarControl" Grid.Column="1" Height="500" Width="Auto"></ContentControl>
-                        <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png" MouseDown="BarNext"/>
+                        <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png"
+                               MouseDown="BarPrevious" />
+                        <ContentControl Name="BarControl" Grid.Column="1" Height="500" Width="Auto" />
+                        <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png"
+                               MouseDown="BarNext" />
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
         </TabItem>
-        <TabItem   Header="Кругова">
+        <TabItem Header="Кругова">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Style="{StaticResource Title}">Кругова діаграма</TextBlock>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png"  MouseDown="PiePrevious"/>
-                        <ContentControl Name="PieControl" Grid.Column="1" Height="500" Width="Auto"></ContentControl>
-                        <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png" MouseDown="PieNext"/>
+                        <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png"
+                               MouseDown="PiePrevious" />
+                        <ContentControl Name="PieControl" Grid.Column="1" Height="500" Width="Auto" />
+                        <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png"
+                               MouseDown="PieNext" />
                     </Grid>
                 </StackPanel>
             </ScrollViewer>

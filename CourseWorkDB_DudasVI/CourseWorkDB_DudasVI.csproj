@@ -109,6 +109,7 @@
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="General\API.cs" />
+    <Compile Include="General\Command.cs" />
     <Compile Include="General\Session.cs" />
     <Compile Include="INGREDIENTS.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
@@ -309,9 +310,6 @@
     <Compile Include="Views\UserControls\Basic\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Menu\TestMenu.xaml.cs">
-      <DependentUpon>TestMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Basic\TotalView.xaml.cs">
       <DependentUpon>TotalView.xaml</DependentUpon>
     </Compile>
@@ -479,10 +477,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Basic\UserView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Menu\TestMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

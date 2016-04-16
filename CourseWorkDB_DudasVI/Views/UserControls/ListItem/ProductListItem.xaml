@@ -1,30 +1,32 @@
 ﻿<UserControl x:Class="CourseWorkDB_DudasVI.Views.UserControls.ProductListItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
     <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="1,1,1,1">
         <Grid Height="auto" Margin="5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Height="50" Width="50" 
-               Source="pack://application:,,,/Resources/images/sweet.png" VerticalAlignment="Center"/>
-            <TextBlock FontWeight="Bold" Grid.Row="0" Grid.Column="2" Text="Назва"  />
-            <TextBlock FontWeight="Bold" Grid.Row="2" Foreground="Green" HorizontalAlignment="Center" Grid.Column="4" Text="Відсоток %"  />
-            <TextBlock FontWeight="Bold" Grid.Row="0" Grid.Column="4" Text="Категорія"  />
-            <TextBlock FontWeight="Bold" Grid.Row="2" Foreground="Green" HorizontalAlignment="Center" Grid.Column="2" Text="Ціна"  />
+            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Height="50" Width="50"
+                   Source="pack://application:,,,/Resources/images/sweet.png" VerticalAlignment="Center" />
+            <TextBlock FontWeight="Bold" Grid.Row="0" Grid.Column="2" Text="Назва" />
+            <TextBlock FontWeight="Bold" Grid.Row="2" Foreground="Green" HorizontalAlignment="Center" Grid.Column="4"
+                       Text="Відсоток %" />
+            <TextBlock FontWeight="Bold" Grid.Row="0" Grid.Column="4" Text="Категорія" />
+            <TextBlock FontWeight="Bold" Grid.Row="2" Foreground="Green" HorizontalAlignment="Center" Grid.Column="2"
+                       Text="Ціна" />
         </Grid>
     </Border>
 </UserControl>

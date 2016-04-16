@@ -1,23 +1,12 @@
-﻿using LiveCharts;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar
 {
     /// <summary>
-    /// Логика взаимодействия для MvvmBar.xaml
+    ///     Логика взаимодействия для MvvmBar.xaml
     /// </summary>
     public partial class MvvmBar
     {
@@ -46,6 +35,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar
         {
             Sales.AddOneMonth();
         }
+
         private void RemoveMonthOnClick(object sender, RoutedEventArgs e)
         {
             Sales.RemoveLastMonth();
@@ -82,17 +72,20 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar
 
     public class SalesViewModel
     {
+        private readonly string[] _months =
+        {
+            "Jan 65", "Feb 65", "Mar 65", "Apr 65", "May 65", "Jun 65", "Jul 65", "Ago 65", "Sep 65", "Oct 65", "Nov 65",
+            "Dec 65",
+            "Jan 66", "Feb 66", "Mar 66", "Apr 66", "May 66", "Jun 66", "Jul 66", "Ago 66", "Sep 66", "Oct 66", "Nov 66",
+            "Dec 66",
+            "Jan 67", "Feb 67", "Mar 67", "Apr 67", "May 67", "Jun 67", "Jul 67", "Ago 67", "Sep 67", "Oct 67", "Nov 67",
+            "Dec 67"
+        };
+
         private readonly string[] _names =
         {
             "Charles", "Susan", "Edit", "Roger", "Peter", "James", "Ana", "Alice", "Maria",
             "Jesus", "Jose", "Miriam", "Aristoteles", "Socrates", "Isaac", "Thomas", "Nicholas"
-        };
-
-        private readonly string[] _months =
-        {
-            "Jan 65", "Feb 65", "Mar 65", "Apr 65", "May 65", "Jun 65", "Jul 65", "Ago 65", "Sep 65", "Oct 65", "Nov 65", "Dec 65",
-            "Jan 66", "Feb 66", "Mar 66", "Apr 66", "May 66", "Jun 66", "Jul 66", "Ago 66", "Sep 66", "Oct 66", "Nov 66", "Dec 66",
-            "Jan 67", "Feb 67", "Mar 67", "Apr 67", "May 67", "Jun 67", "Jul 67", "Ago 67", "Sep 67", "Oct 67", "Nov 67", "Dec 67"
         };
 
         public SalesViewModel()
@@ -144,9 +137,10 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar
                         new AverageSalesData {AverageItemsSold = 24},
                         new AverageSalesData {AverageItemsSold = 22}
                     }
-                }.Setup(new SeriesConfiguration<AverageSalesData>().Y(data => data.AverageItemsSold)) // this is the line that overrides SeriesCollection Setup
-
-            }.Setup(new SeriesConfiguration<SalesData>().Y(data => data.ItemsSold)); // Setup a default configuration for all series in this collection.
+                }.Setup(new SeriesConfiguration<AverageSalesData>().Y(data => data.AverageItemsSold))
+                // this is the line that overrides SeriesCollection Setup
+            }.Setup(new SeriesConfiguration<SalesData>().Y(data => data.ItemsSold));
+            // Setup a default configuration for all series in this collection.
         }
 
         public SeriesCollection SalesmenSeries { get; set; }
@@ -158,12 +152,13 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar
 
             var values = new ChartValues<SalesData>();
             var numberOfVals = SalesmenSeries.Count == 0 ? 5 : SalesmenSeries[0].Values.Count;
-            for (var i = 0; i < numberOfVals; i++) values.Add(new SalesData
-            {
-                ItemsSold = r.Next(5, 30),
-                Rentability = r.NextDouble() * .2,
-                ItemsAverageSellPrice = 5000
-            });
+            for (var i = 0; i < numberOfVals; i++)
+                values.Add(new SalesData
+                {
+                    ItemsSold = r.Next(5, 30),
+                    Rentability = r.NextDouble()*.2,
+                    ItemsAverageSellPrice = 5000
+                });
 
             SalesmenSeries.Add(new BarSeries
             {
@@ -189,14 +184,14 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar
                 salesman.Values.Add(new SalesData
                 {
                     ItemsSold = r.Next(5, 30),
-                    Rentability = r.NextDouble() * .2,
+                    Rentability = r.NextDouble()*.2,
                     ItemsAverageSellPrice = 5000
                 });
             }
             var averageSeries = SalesmenSeries.FirstOrDefault(x => x.Title == "Average Series");
             if (averageSeries != null)
             {
-                averageSeries.Values.Add(new AverageSalesData { AverageItemsSold = r.Next(20, 25) });
+                averageSeries.Values.Add(new AverageSalesData {AverageItemsSold = r.Next(20, 25)});
             }
         }
 
@@ -209,14 +204,14 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar
                     salesman.Values.Insert(2, new SalesData
                     {
                         ItemsSold = r.Next(5, 30),
-                        Rentability = r.NextDouble() * .2,
-                        ItemsAverageSellPrice = 5000m + ((decimal)r.NextDouble() * 1000)
+                        Rentability = r.NextDouble()*.2,
+                        ItemsAverageSellPrice = 5000m + (decimal) r.NextDouble()*1000
                     });
             }
             var averageSeries = SalesmenSeries.FirstOrDefault(x => x.Title == "Average Series");
             if (averageSeries != null)
             {
-                averageSeries.Values.Insert(2, new AverageSalesData { AverageItemsSold = r.Next(20, 25) });
+                averageSeries.Values.Insert(2, new AverageSalesData {AverageItemsSold = r.Next(20, 25)});
             }
         }
 

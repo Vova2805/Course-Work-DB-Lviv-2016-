@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using System.Windows.Media.Animation;
+using System.Windows;
+using System.Windows.Threading;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.Views;
 using MahApps.Metro.Controls;
@@ -9,50 +10,52 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace CourseWorkDB_DudasVI
 {
-   
     public partial class MainWindow : MetroWindow
     {
-        
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        public void ChangeOpacityLoginDetails(object sender, System.Windows.RoutedEventArgs e)
+        public void ChangeOpacityLoginDetails(object sender, RoutedEventArgs e)
         {
             LoginDetails.Opacity = 0;
         }
-        public void ChangeOpacityProgressRing(object sender, System.Windows.RoutedEventArgs e)
+
+        public void ChangeOpacityProgressRing(object sender, RoutedEventArgs e)
         {
-             ProgressRing.Opacity = 100;
+            ProgressRing.Opacity = 100;
         }
-        public void ChangeOpacityLoginDetailsB(object sender, System.Windows.RoutedEventArgs e)
+
+        public void ChangeOpacityLoginDetailsB(object sender, RoutedEventArgs e)
         {
             LoginDetails.Opacity = 100;
         }
-        public void ChangeOpacityProgressRingB(object sender, System.Windows.RoutedEventArgs e)
+
+        public void ChangeOpacityProgressRingB(object sender, RoutedEventArgs e)
         {
             ProgressRing.Opacity = 0;
         }
 
-        private async void SubmitClick(object sender, System.Windows.RoutedEventArgs e)
+        private async void SubmitClick(object sender, RoutedEventArgs e)
         {
-            
-            Thread thread =  new Thread(new ThreadStart( () =>
+            var thread = new Thread(() =>
             {
-                LoginDetails.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
-            new EventHandler<System.Windows.RoutedEventArgs>(ChangeOpacityLoginDetails), sender, new object[] { e});
-                ProgressRing.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
-            new EventHandler<System.Windows.RoutedEventArgs>(ChangeOpacityProgressRing), sender, new object[] { e});
-            }));
+                LoginDetails.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    new EventHandler<RoutedEventArgs>(ChangeOpacityLoginDetails), sender, e);
+                ProgressRing.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    new EventHandler<RoutedEventArgs>(ChangeOpacityProgressRing), sender, e);
+            });
             //thread.Start();
 
-            SWEET_FACTORYEntities sweetFactory = new SWEET_FACTORYEntities();
+            var sweetFactory = new SWEET_FACTORYEntities();
             LoginBlock.Text = "specialist_test";
             PassBlock.Password = "test";
 
             var resultUser =
-             sweetFactory.STAFF.ToList().SingleOrDefault(user => user.LOGIN.Equals(LoginBlock.Text) && user.PASSWORD.Equals(PassBlock.Password));
+                sweetFactory.STAFF.ToList()
+                    .SingleOrDefault(
+                        user => user.LOGIN.Equals(LoginBlock.Text) && user.PASSWORD.Equals(PassBlock.Password));
 
             if (resultUser != null)
             {
@@ -96,31 +99,33 @@ namespace CourseWorkDB_DudasVI
                 //        break;
                 //}
                 Session.User = resultUser;
-                HomeWindowSpecialist homeWindowSpecialist = new HomeWindowSpecialist();
+                var homeWindowSpecialist = new HomeWindowSpecialist();
                 homeWindowSpecialist.Show();
+                //HomeWindowAdmin homeWindow = new HomeWindowAdmin();
+                //homeWindow.Show();
 
-                
                 //thread.Interrupt();
                 //Back(sender, e);
-                this.Close();
+                Close();
             }
             else
             {
-               await this.ShowMessageAsync("Помилка", "Не правильний пароль чи логін. Перевірте введені дані і спробуйте знову");
-                Back(sender,e);
+                await
+                    this.ShowMessageAsync("Помилка",
+                        "Не правильний пароль чи логін. Перевірте введені дані і спробуйте знову");
+                Back(sender, e);
             }
-           
         }
 
-        private void Back(Object sender, System.Windows.RoutedEventArgs e)
+        private void Back(object sender, RoutedEventArgs e)
         {
-            Thread thread1 = new Thread(new ThreadStart(() =>
+            var thread1 = new Thread(() =>
             {
-                LoginDetails.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
-            new EventHandler<System.Windows.RoutedEventArgs>(ChangeOpacityLoginDetailsB), sender, new object[] { e });
-                ProgressRing.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
-            new EventHandler<System.Windows.RoutedEventArgs>(ChangeOpacityProgressRingB), sender, new object[] { e });
-            }));
+                LoginDetails.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    new EventHandler<RoutedEventArgs>(ChangeOpacityLoginDetailsB), sender, e);
+                ProgressRing.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    new EventHandler<RoutedEventArgs>(ChangeOpacityProgressRingB), sender, e);
+            });
             thread1.Start();
         }
     }

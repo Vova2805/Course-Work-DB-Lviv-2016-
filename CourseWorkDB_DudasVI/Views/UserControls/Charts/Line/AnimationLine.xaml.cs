@@ -1,23 +1,13 @@
-﻿using LiveCharts;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
 {
     /// <summary>
-    /// Логика взаимодействия для AnimationLine.xaml
+    ///     Логика взаимодействия для AnimationLine.xaml
     /// </summary>
     public partial class AnimationLine
     {
@@ -38,7 +28,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
                         new ViewModel {YValue = 1},
                         new ViewModel {YValue = 0}
                     },
-                    StrokeDashArray = new DoubleCollection { 2 }
+                    StrokeDashArray = new DoubleCollection {2}
                     //DataLabels = true
                 }
             }.Setup(new SeriesConfiguration<ViewModel>().Y(vm => vm.YValue));
@@ -65,14 +55,14 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
             var vals = new ChartValues<ViewModel>();
             var r = new Random();
 
-            for (int i = 0; i < Series[0].Values.Count; i++)
+            for (var i = 0; i < Series[0].Values.Count; i++)
             {
-                vals.Add(new ViewModel { YValue = r.Next(0, 11) });
+                vals.Add(new ViewModel {YValue = r.Next(0, 11)});
             }
 
             Series.Add(new LineSeries
             {
-                Values = vals,
+                Values = vals
                 //DataLabels = true
             });
         }
@@ -82,12 +72,12 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
             var r = new Random();
             foreach (var series in Series)
             {
-                series.Values.Add(new ViewModel { YValue = r.Next(0, 11) });
-                series.Values.Add(new ViewModel { YValue = r.Next(0, 11) });
-                series.Values.Add(new ViewModel { YValue = r.Next(0, 11) });
-                series.Values.Add(new ViewModel { YValue = r.Next(0, 11) });
-                series.Values.Add(new ViewModel { YValue = r.Next(0, 11) });
-                series.Values.Add(new ViewModel { YValue = r.Next(0, 11) });
+                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
+                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
+                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
+                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
+                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
+                series.Values.Add(new ViewModel {YValue = r.Next(0, 11)});
             }
         }
 

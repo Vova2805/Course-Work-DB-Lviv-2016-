@@ -166,7 +166,6 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\UserFilter.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\UserListElement.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\UserView.g.cs
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\Menu\TestMenu.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\TotalView.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\App.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI_Content.g.cs
@@ -209,10 +208,8 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\UserFilter.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\UserListElement.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\UserView.baml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\Menu\TestMenu.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.g.resources
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.Properties.Resources.resources
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csproj.GenerateResource.Cache
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Specialist\EditOrder.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Specialist\EditOrder.baml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csprojResolveAssemblyReference.cache

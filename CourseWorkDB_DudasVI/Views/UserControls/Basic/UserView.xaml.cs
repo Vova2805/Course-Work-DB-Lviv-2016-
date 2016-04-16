@@ -5,7 +5,7 @@ using System.Windows.Controls;
 namespace CourseWorkDB_DudasVI.Views.UserControls
 {
     /// <summary>
-    /// Логика взаимодействия для UserView.xaml
+    ///     Логика взаимодействия для UserView.xaml
     /// </summary>
     public partial class UserView : UserControl
     {

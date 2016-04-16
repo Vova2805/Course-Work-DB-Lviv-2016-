@@ -1,23 +1,11 @@
-﻿using LiveCharts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
 {
     /// <summary>
-    /// Логика взаимодействия для BasicLine.xaml
+    ///     Логика взаимодействия для BasicLine.xaml
     /// </summary>
     public partial class BasicLine
     {
@@ -32,12 +20,12 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
             var charlesSeries = new LineSeries
             {
                 Title = "Charles",
-                Values = new ChartValues<double> { 10, 5, 7, 5, 7, 8 }
+                Values = new ChartValues<double> {10, 5, 7, 5, 7, 8}
             };
             var jamesSeries = new LineSeries
             {
                 Title = "James",
-                Values = new ChartValues<double> { 5, 6, 9, 10, 11, 9 }
+                Values = new ChartValues<double> {5, 6, 9, 10, 11, 9}
             };
 
             //add our series to our SeriesCollection
@@ -72,7 +60,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
 
             foreach (var series in Series)
             {
-                series.Values.Add((double)r.Next(0, 15));
+                series.Values.Add((double) r.Next(0, 15));
             }
         }
 
@@ -90,7 +78,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
             var r = new Random();
             var count = Series.Count > 0 ? Series[0].Values.Count : 5;
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 someRandomValues.Add(r.Next(0, 15));
             }

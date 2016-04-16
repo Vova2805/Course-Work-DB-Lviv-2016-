@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
@@ -13,7 +11,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         //public IEnumerable<SALE_ORDER> OrderList;
         public DirectorModel(SWEET_FACTORYEntities sweetFactory)
         {
-            EmployeeList = (sweetFactory.STAFF.ToList()).FindAll(s=>s.POST.DEPARTMENT.DEPARTMENT_ID == 3);
+            EmployeeList = sweetFactory.STAFF.ToList().FindAll(s => s.POST.DEPARTMENT.DEPARTMENT_ID == 3);
             SelectedEmployee = EmployeeList.First();
         }
     }
