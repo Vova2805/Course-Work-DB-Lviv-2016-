@@ -16,7 +16,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
         public string selectedCategory;
         public SeriesCollection Series;
-        public bool Initialization = true;
 
 
         public SpecialistModel(SWEET_FACTORYEntities FactoryEntities)

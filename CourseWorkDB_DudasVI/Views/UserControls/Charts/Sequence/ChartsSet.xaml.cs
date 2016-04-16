@@ -16,13 +16,13 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             InitializeComponent();
         }
 
+        public double[] TestPrimaryValues { get; set; }
+        public ObservableCollection<string> TestProperty { get; set; }
+
         public void init()
         {
             ExamplesMapper.Initialize(this, DataContext as ViewModelBase);
         }
-
-        public double[] TestPrimaryValues { get; set; }
-        public ObservableCollection<string> TestProperty { get; set; }
 
         #region NavigationButtons
 
@@ -45,7 +45,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         {
             BarControl.Next(ExamplesMapper.BarExamples);
         }
-        
+
         private void PiePrevious(object sender, MouseButtonEventArgs e)
         {
             PieControl.Previous(ExamplesMapper.PieExamples);

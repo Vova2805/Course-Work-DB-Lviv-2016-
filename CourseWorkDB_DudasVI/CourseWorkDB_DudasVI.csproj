@@ -55,7 +55,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="LiveCharts">
-      <HintPath>C:\Users\Dudas\Desktop\Live-Charts-master\Live-Charts-master\LiveChartsCore\bin\Debug\LiveCharts.dll</HintPath>
+      <HintPath>C:\Users\Dudas\Desktop\DLL\LiveCharts.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.3.0.112, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.3.0-ALPHA112\lib\net45\MahApps.Metro.dll</HintPath>
@@ -241,17 +241,8 @@
       <DependentUpon>RotatedBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Charts\Bar\StoreViewModel.cs" />
-    <Compile Include="Views\UserControls\Charts\Line\AnimationLine.xaml.cs">
-      <DependentUpon>AnimationLine.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Charts\Line\BasicLine.xaml.cs">
       <DependentUpon>BasicLine.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Charts\Line\CustomLine.xaml.cs">
-      <DependentUpon>CustomLine.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Charts\Line\UiLine.xaml.cs">
-      <DependentUpon>UiLine.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Charts\Pie\BasicPie.xaml.cs">
       <DependentUpon>BasicPie.xaml</DependentUpon>
@@ -385,19 +376,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\Charts\Line\AnimationLine.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\UserControls\Charts\Line\BasicLine.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Charts\Line\CustomLine.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Charts\Line\UiLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

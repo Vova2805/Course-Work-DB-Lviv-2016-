@@ -6,9 +6,6 @@ using System.Windows.Data;
 using AutoMapper;
 using CourseWorkDB_DudasVI.MVVM.Models;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
-using CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar;
-using CourseWorkDB_DudasVI.Views.UserControls.Charts.Line;
-using CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie;
 using MahApps.Metro.Controls;
 
 namespace CourseWorkDB_DudasVI.Views
@@ -24,7 +21,7 @@ namespace CourseWorkDB_DudasVI.Views
             var specialistModel = new SpecialistModel(_sweetFactoryEntities);
             _specialistViewModel = Mapper.Map<SpecialistModel, SpecialistViewModel>(specialistModel);
             DataContext = _specialistViewModel;
-            
+
             InitializeComponent();
             ChartsSetView.DataContext = _specialistViewModel;
             ChartsSetView.init();
@@ -56,24 +53,6 @@ namespace CourseWorkDB_DudasVI.Views
                 i++;
             }
         }
-
-        #region Func
-
-        private void SettingsClick(object sender, RoutedEventArgs e)
-        {
-            AdminFlyout.IsOpen = !AdminFlyout.IsOpen;
-        }
-
-        private void EditOrdersOpen(object sender, RoutedEventArgs e)
-        {
-            SpecialistEditOrders.IsOpen = !SpecialistEditOrders.IsOpen;
-        }
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
-        #endregion
 
         private void RefreshDiagram(object sender, RoutedEventArgs e)
         {
@@ -107,5 +86,23 @@ namespace CourseWorkDB_DudasVI.Views
                 }
             }
         }
+
+        #region Func
+
+        private void SettingsClick(object sender, RoutedEventArgs e)
+        {
+            AdminFlyout.IsOpen = !AdminFlyout.IsOpen;
+        }
+
+        private void EditOrdersOpen(object sender, RoutedEventArgs e)
+        {
+            SpecialistEditOrders.IsOpen = !SpecialistEditOrders.IsOpen;
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
+        #endregion
     }
 }

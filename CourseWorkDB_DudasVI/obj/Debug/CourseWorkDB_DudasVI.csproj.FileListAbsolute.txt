@@ -121,7 +121,6 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\bin\Debug\AutoMapper.xml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\bin\Debug\EntityFramework.xml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\bin\Debug\EntityFramework.SqlServer.xml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\bin\Debug\LiveCharts.pdb
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\bin\Debug\MahApps.Metro.pdb
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\bin\Debug\MahApps.Metro.xml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Resources\Icons.baml
@@ -143,12 +142,8 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Bar\MvvmBar.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Bar\PointPropertyChangedBar.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Bar\RotatedBar.g.cs
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Line\AnimationLine.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Line\BasicLine.g.cs
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Line\CustomLine.g.cs
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Line\UiLine.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Pie\BasicPie.g.cs
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Pie\MvvmPie.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\CustomerView.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\CustomElements\CustomTextBox.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\GoodsFilter.g.cs
@@ -184,12 +179,8 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Bar\MvvmBar.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Bar\PointPropertyChangedBar.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Bar\RotatedBar.baml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Line\AnimationLine.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Line\BasicLine.baml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Line\CustomLine.baml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Line\UiLine.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Pie\BasicPie.baml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Pie\MvvmPie.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\CustomerView.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\CustomElements\CustomTextBox.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\GoodsFilter.baml

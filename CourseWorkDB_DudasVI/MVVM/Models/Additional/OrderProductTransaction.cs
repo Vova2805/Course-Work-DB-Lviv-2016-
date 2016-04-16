@@ -19,7 +19,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         public OrderProductTransaction(int number, string title, List<ORDER_PRODUCT> packages, STAFF User)
         {
             Number = number + 1;
-            ProductTitle =" №"+ Number+". "+title;
+            ProductTitle = " №" + Number + ". " + title;
             QuantityInOrders = new List<QuantityInOrder>();
             this.packages = packages;
             packagesTotal = new ORDER_PRODUCT();

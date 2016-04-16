@@ -15,13 +15,11 @@ namespace CourseWorkDB_DudasVI.Support
         public static List<UserControl> StackedBarExamples { get; set; }
         public static List<UserControl> PieExamples { get; set; }
 
-        public static void Initialize(ChartsSet window,ViewModelBase dataContext)
+        public static void Initialize(ChartsSet window, ViewModelBase dataContext)
         {
             LineAndAreaAexamples = new List<UserControl>
             {
-                new BasicLine(dataContext),
-                new CustomLine(),
-                new UiLine()
+                new BasicLine(dataContext)
             };
             BarExamples = new List<UserControl>
             {

@@ -34,7 +34,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private string _xTitle;
         private string _yTitle;
         private bool filterByPrice;
-        private bool _Initialization;
 
         public void Update()
         {
@@ -79,7 +78,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     if (product.isChecked)
                     {
                         serieQuantity.Add(product.QuantityInOrders.ElementAt(i).Quantity);
-                        Labels.Add("№ "+product.Number);
+                        Labels.Add("№ " + product.Number);
                     }
                 }
                 var chartValues = new ChartValues<double>();
@@ -87,7 +86,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 var newSerie = new LineSeries
                 {
                     Title = quantity.From.ToShortDateString() + "\n" + quantity.To.ToShortDateString(),
-                    Values = chartValues
+                    Values = chartValues,
+                    PointRadius = 3,
+                    StrokeThickness = 5
                 };
                 Series.Add(newSerie);
                 i++;
@@ -136,12 +137,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 _Series = value;
                 OnPropertyChanged("Series");
             }
-        }
-
-        public bool Initialization
-        {
-            get { return _Initialization; }
-            set { _Initialization = value; }
         }
 
         public ObservableCollection<string> CategoriesList
