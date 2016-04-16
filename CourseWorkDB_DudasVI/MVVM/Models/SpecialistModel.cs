@@ -26,7 +26,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             ToTime = API.getTodayDate();
             options.Add(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString(), 0);
             OptionsList = options.Keys.ToList();
-            selectedOption = options.ToList().ToString();
+            selectedOption = OptionsList.First();
         }
 
         #region OrderFilter

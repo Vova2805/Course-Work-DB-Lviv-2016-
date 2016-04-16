@@ -2,16 +2,72 @@
 using System.Collections.Generic;
 using System.Linq;
 using CourseWorkDB_DudasVI.General;
+using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
-    public class OrderProductTransaction
+    public class OrderProductTransaction:ViewModelBase
     {
-        public bool isChecked = true;
-        public List<ORDER_PRODUCT> packages;
-        public ORDER_PRODUCT packagesTotal;
-        public double productPrice;
-        public List<QuantityInOrder> QuantityInOrders;
+
+        private bool _isChecked;
+        public List<ORDER_PRODUCT> _packages;
+        private ORDER_PRODUCT _packagesTotal;
+        public double _productPrice;
+        public List<OrderProductTransaction.QuantityInOrder> _QuantityInOrders;
+
+        #region Properties
+
+        public bool isChecked
+        {
+            get { return _isChecked; }
+            set
+            {
+                _isChecked = value;
+                OnPropertyChanged("isChecked");
+            }
+        }
+
+        public ORDER_PRODUCT packagesTotal
+        {
+            get { return _packagesTotal; }
+            set
+            {
+                _packagesTotal = value;
+                OnPropertyChanged("packagesTotal");
+            }
+        }
+
+        public double productPrice
+        {
+            get { return _productPrice; }
+            set
+            {
+                _productPrice = value;
+                OnPropertyChanged("productPrice");
+            }
+        }
+
+        public List<OrderProductTransaction.QuantityInOrder> QuantityInOrders
+        {
+            get { return _QuantityInOrders; }
+            set
+            {
+                _QuantityInOrders = value;
+                OnPropertyChanged("QuantityInOrders");
+            }
+        }
+
+        public List<ORDER_PRODUCT> packages
+        {
+            get { return _packages; }
+            set
+            {
+                _packages = value;
+                OnPropertyChanged("packages");
+            }
+        }
+
+        #endregion
 
         public OrderProductTransaction(List<ORDER_PRODUCT> packages, STAFF User)
         {
@@ -29,7 +85,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         }
 
 
-        public class QuantityInOrder
+        public class QuantityInOrder:ViewModelBase
         {
             public QuantityInOrder(DateTime from, DateTime to, OrderProductTransaction parent)
             {
@@ -45,9 +101,36 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 Quantity = sum;
             }
 
-            public DateTime From { get; set; }
-            public DateTime To { get; set; }
-            public int Quantity { get; set; }
+            private DateTime _From;
+            private DateTime _To;
+            private int _Quantity;
+
+            public DateTime From
+            {
+                get { return _From; }
+                set
+                {
+                    _From = value;
+                    OnPropertyChanged("From");
+                }
+            }
+
+            public DateTime To {
+                get { return _To; }
+                set
+                {
+                    _To = value;
+                    OnPropertyChanged("To");
+                }
+            }
+            public int Quantity {
+                get { return _Quantity; }
+                set
+                {
+                    _Quantity = value;
+                    OnPropertyChanged("Quantity");
+                }
+            }
         }
     }
 }

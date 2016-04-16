@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using CourseWorkDB_DudasVI.MVVM.Models;
-using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
-using CourseWorkDB_DudasVI.MVVM.ViewModels.Additional;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Mapping
@@ -19,9 +17,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Mapping
             #endregion
 
             #region Specialist
-
-            Mapper.CreateMap<OrderProductTransaction, OrderProductTransactionVm>();
-            Mapper.CreateMap<OrderProductTransactionVm, OrderProductTransaction>();
+            
             Mapper.CreateMap<SpecialistModel, SpecialistViewModel>();
             Mapper.CreateMap<SpecialistViewModel, SpecialistModel>();
 

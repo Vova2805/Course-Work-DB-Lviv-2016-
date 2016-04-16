@@ -25,7 +25,7 @@ namespace CourseWorkDB_DudasVI.Views
             addColumns();
         }
 
-        private void addColumns()
+        public void addColumns()
         {
             foreach (var col in columns)
             {

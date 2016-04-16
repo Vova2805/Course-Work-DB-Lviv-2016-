@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
-using CourseWorkDB_DudasVI.MVVM.ViewModels.Additional;
+using CourseWorkDB_DudasVI.MVVM.Models.Additional;
+using CourseWorkDB_DudasVI.Views;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
@@ -16,16 +18,25 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private WAREHOUSE _CurrentWarehouse;
         private DateTime _FromTime;
         private Dictionary<string, int> _options;
-        private ObservableCollection<OrderProductTransactionVm> _productPackagesList;
+        private ObservableCollection<OrderProductTransaction> _productPackagesList;
         private DateTime _ToTime;
         public List<string> _OptionsList;
         public string _selectedOption;
 
-
-        public SpecialistViewModel() : base()
+        private void Update()
         {
-            ChangeCommand = new Command(DoChange);
+            options = new Dictionary<string, int>();
+            OptionsList = new List<string>();
+            int i = 0;
+            foreach (var quantity in productPackagesList.First().QuantityInOrders)
+            {
+                options.Add(quantity.From.ToLongDateString() + " - " + quantity.To.ToLongDateString(), i++);
+            }
+            OptionsList = options.Keys.ToList();
+            if(OptionsList.Count>0)
+            selectedOption = OptionsList.First();
         }
+
         #region Properties
 
         public WAREHOUSE CurrentWarehouse
@@ -38,12 +49,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public ObservableCollection<OrderProductTransactionVm> productPackagesList
+        public ObservableCollection<OrderProductTransaction> productPackagesList
         {
             get { return _productPackagesList; }
             set
             {
                 _productPackagesList = value;
+                Update();
                 OnPropertyChanged("productPackagesList");
             }
         }
@@ -102,15 +114,54 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #region Commands
 
-        public Command ChangeCommand { get; set; }
+        public ICommand ChangeCommand
+        {
+            get { return new RelayCommand<string>(DoChange); }
+        }
 
 
-        private void DoChange()
+        public void DoChange(string parameter)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
-            if(window!=null)
-            window.ShowMessageAsync("Помилка",
-                "Не правильний пароль чи логін. Перевірте введені дані і спробуйте знову");
+
+            switch (parameter)
+            {
+                case "Add":
+                    {
+                        foreach (var pr in productPackagesList)
+                        {
+                            pr.QuantityInOrders.Add(new OrderProductTransaction.QuantityInOrder(FromTime, ToTime, pr));
+                        }
+                        if (window != null)
+                        {
+                            var specialistWindow = (window as HomeWindowSpecialist);
+                            if (specialistWindow != null)
+                            {
+                                specialistWindow.addColumns();
+                                Update();
+                            }
+                        }
+                    }
+                    break;
+                case "Remove":
+                    {
+                        int index = options[selectedOption];
+                        foreach (var pr in productPackagesList)
+                        {
+                            pr.QuantityInOrders.RemoveAt(index);
+                        }
+                        if (window != null)
+                        {
+                            var specialistWindow = (window as HomeWindowSpecialist);
+                            if (specialistWindow != null)
+                            {
+                                specialistWindow.addColumns();
+                                Update();
+                            }   
+                        }
+                    }
+                    break;
+            }
         }
 
         #endregion

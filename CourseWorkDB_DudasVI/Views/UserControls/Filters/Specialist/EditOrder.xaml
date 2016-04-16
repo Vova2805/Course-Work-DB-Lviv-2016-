@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:rules="clr-namespace:CourseWorkDB_DudasVI.Views.Rules"
              mc:Ignorable="d">
     <Border BorderThickness="0">
         <Grid Background="Transparent" Margin="10">
@@ -53,22 +55,74 @@
                        Text="Редагування таблиці замовлень" />
             <TextBlock Grid.Row="1" Grid.Column="0" FontWeight="Bold" Text="Додати період" VerticalAlignment="Center" />
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Від" />
-            <DatePicker Grid.Row="2" Grid.Column="1" Margin="2" SelectedDate="{Binding FromTime}" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Від" TextAlignment="Right" />
+            <DatePicker Name="FromDatePicker" Grid.Row="2" Grid.Column="1" Margin="5" SelectedDateChanged="FromTimeChanged">
+                <DatePicker.SelectedDate>
+                    <Binding Path="FromTime" 
+                     Mode="TwoWay"
+                     TargetNullValue="{x:Static sys:DateTime.Now}">
+                        <Binding.ValidationRules>
+                            <rules:FromDateRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+           </DatePicker.SelectedDate>
+            </DatePicker>
 
             <TextBlock Grid.Row="2" Grid.Column="2" Text="До" />
-            <DatePicker Grid.Row="2" Grid.Column="3" Margin="5" SelectedDate="{Binding ToTime}" />
-            <Button Grid.Row="3" Grid.Column="3" Margin="5" Content="Додати" Width="100"
-                    Command="{Binding ChangeCommand}" HorizontalAlignment="Right" />
+            <DatePicker Name="ToDatePicker"  Grid.Row="2" Grid.Column="3" Margin="5" SelectedDateChanged="ToTimeChanged">
+                <DatePicker.SelectedDate>
+                    <Binding Path="ToTime" 
+                     Mode="TwoWay"
+                     TargetNullValue="{x:Static sys:DateTime.Now}">
+                        <Binding.ValidationRules>
+                            <rules:ToDateRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
+            <Button Grid.Row="3" Grid.Column="3" Margin="5" Content="Додати"
+                    Command="{Binding ChangeCommand}" HorizontalAlignment="Right" CommandParameter="Add">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Width" Value="100" />
+                        <Setter Property="Height" Value="30" />
+                        <Setter Property="IsEnabled" Value="false" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=ToDatePicker, Path=(Validation.HasError)}" Value="false" />
+                                    <Condition Binding="{Binding ElementName=FromDatePicker, Path=(Validation.HasError)}" Value="false" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="true" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <TextBlock Grid.Row="4" Grid.Column="0" FontWeight="Bold" Grid.ColumnSpan="4" Margin="10,15,5,5"
                        Text="Видалити період" />
             <TextBlock Grid.Row="5" Grid.Column="0" Text="Оберіть із списку" />
-            <ComboBox Grid.Row="5" Grid.Column="1" Margin="5" Grid.ColumnSpan="3" Validation.ErrorTemplate="{x:Null}"
-                      IsEnabled="{Binding IsUserAdmin}"
-                      SelectedValue="{Binding selectedOption}" ItemsSource="{Binding Path=options.Keys}" />
-            <Button Grid.Row="7" Grid.Column="3" Margin="5" Content="Фільтрувати"
-                    Command="{Binding ChangeCommand}" HorizontalAlignment="Right" Width="100" />
-
+            <ComboBox Grid.Row="5" Grid.Column="1" Margin="5" Grid.ColumnSpan="3"
+                      SelectedValue="{Binding selectedOption,Mode=TwoWay}" ItemsSource="{Binding Path=OptionsList,Mode=TwoWay}" />
+            <Button Grid.Row="7" Grid.Column="3" Margin="5" Content="Видалити"
+                    Command="{Binding ChangeCommand}" HorizontalAlignment="Right" Width="100" CommandParameter="Remove" >
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Width" Value="100" />
+                        <Setter Property="Height" Value="30" />
+                        <Setter Property="IsEnabled" Value="false" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=ToDatePicker, Path=(Validation.HasError)}" Value="false" />
+                                    <Condition Binding="{Binding ElementName=FromDatePicker, Path=(Validation.HasError)}" Value="false" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="true" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </Grid>
     </Border>
 </UserControl>
