@@ -5,16 +5,11 @@ namespace CourseWorkDB_DudasVI.General
 {
     public class RelayCommand<T> : ICommand
     {
-        private readonly Action<T> _execute;
         private readonly Predicate<T> _canExecute;
+        private readonly Action<T> _execute;
 
         /// <summary>
-        /// Создано при вызове RaiseCanExecuteChanged.
-        /// </summary>
-        public event EventHandler CanExecuteChanged;
-
-        /// <summary>
-        /// Создает новую команду, которая всегда может выполняться.
+        ///     Создает новую команду, которая всегда может выполняться.
         /// </summary>
         /// <param name="execute">Логика выполнения.</param>
         public RelayCommand(Action<T> execute)
@@ -23,7 +18,7 @@ namespace CourseWorkDB_DudasVI.General
         }
 
         /// <summary>
-        /// Создает новую команду.
+        ///     Создает новую команду.
         /// </summary>
         /// <param name="execute">Логика выполнения.</param>
         /// <param name="canExecute">Логика состояния выполнения.</param>
@@ -36,32 +31,37 @@ namespace CourseWorkDB_DudasVI.General
         }
 
         /// <summary>
-        /// Определяет, можно ли выполнить эту команду <see cref="RelayCommand"/> в текущем состоянии.
+        ///     Создано при вызове RaiseCanExecuteChanged.
+        /// </summary>
+        public event EventHandler CanExecuteChanged;
+
+        /// <summary>
+        ///     Определяет, можно ли выполнить эту команду <see cref="RelayCommand" /> в текущем состоянии.
         /// </summary>
         /// <param name="parameter">
-        /// Данные, используемые командой. Если команда не требует передачи данных, этот объект можно установить равным NULL.
+        ///     Данные, используемые командой. Если команда не требует передачи данных, этот объект можно установить равным NULL.
         /// </param>
         /// <returns>true, если команда может быть выполнена; в противном случае - false.</returns>
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null ? true : _canExecute((T)parameter);
+            return _canExecute == null ? true : _canExecute((T) parameter);
         }
 
         /// <summary>
-        /// Выполняет <see cref="RelayCommand"/> текущей цели команды.
+        ///     Выполняет <see cref="RelayCommand" /> текущей цели команды.
         /// </summary>
         /// <param name="parameter">
-        /// Данные, используемые командой. Если команда не требует передачи данных, этот объект можно установить равным NULL.
+        ///     Данные, используемые командой. Если команда не требует передачи данных, этот объект можно установить равным NULL.
         /// </param>
         public void Execute(object parameter)
         {
-            _execute((T)parameter);
+            _execute((T) parameter);
         }
 
         /// <summary>
-        /// Метод, используемый для создания события <see cref="CanExecuteChanged"/>
-        /// чтобы показать, что возвращаемое значение <see cref="CanExecute"/>
-        /// метод изменился.
+        ///     Метод, используемый для создания события <see cref="CanExecuteChanged" />
+        ///     чтобы показать, что возвращаемое значение <see cref="CanExecute" />
+        ///     метод изменился.
         /// </summary>
         public void RaiseCanExecuteChanged()
         {

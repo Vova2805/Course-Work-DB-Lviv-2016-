@@ -6,14 +6,80 @@ using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
-    public class OrderProductTransaction:ViewModelBase
+    public class OrderProductTransaction : ViewModelBase
     {
-
-        private bool _isChecked;
+        private bool _isChecked = true;
         public List<ORDER_PRODUCT> _packages;
         private ORDER_PRODUCT _packagesTotal;
         public double _productPrice;
-        public List<OrderProductTransaction.QuantityInOrder> _QuantityInOrders;
+        public List<QuantityInOrder> _QuantityInOrders;
+
+        public OrderProductTransaction(List<ORDER_PRODUCT> packages, STAFF User)
+        {
+            QuantityInOrders = new List<QuantityInOrder>();
+            this.packages = packages;
+            packagesTotal = new ORDER_PRODUCT();
+            packagesTotal.PRODUCT_INFO = packages.First().PRODUCT_INFO;
+            packagesTotal.PRODUCT_INFO_ID = packages.First().PRODUCT_INFO_ID;
+            var FromTime = API.getLastPlanDate(User);
+            var ToTime = API.getTodayDate();
+            //first range will be from the last production schedule
+            //create time up to now
+            QuantityInOrders.Add(new QuantityInOrder(FromTime, ToTime, this));
+            productPrice = (double) API.getlastPrice(packagesTotal.PRODUCT_INFO.PRODUCT_PRICE);
+        }
+
+
+        public class QuantityInOrder : ViewModelBase
+        {
+            private DateTime _From;
+            private int _Quantity;
+            private DateTime _To;
+
+            public QuantityInOrder(DateTime from, DateTime to, OrderProductTransaction parent)
+            {
+                From = from;
+                To = to;
+
+                var ps = API.getPackagesInRange(from, to, parent.packages);
+                var sum = 0;
+                foreach (var pack in ps)
+                {
+                    sum += pack.QUANTITY_IN_ORDER;
+                }
+                Quantity = sum;
+            }
+
+            public DateTime From
+            {
+                get { return _From; }
+                set
+                {
+                    _From = value;
+                    OnPropertyChanged("From");
+                }
+            }
+
+            public DateTime To
+            {
+                get { return _To; }
+                set
+                {
+                    _To = value;
+                    OnPropertyChanged("To");
+                }
+            }
+
+            public int Quantity
+            {
+                get { return _Quantity; }
+                set
+                {
+                    _Quantity = value;
+                    OnPropertyChanged("Quantity");
+                }
+            }
+        }
 
         #region Properties
 
@@ -47,7 +113,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public List<OrderProductTransaction.QuantityInOrder> QuantityInOrders
+        public List<QuantityInOrder> QuantityInOrders
         {
             get { return _QuantityInOrders; }
             set
@@ -68,69 +134,5 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         }
 
         #endregion
-
-        public OrderProductTransaction(List<ORDER_PRODUCT> packages, STAFF User)
-        {
-            QuantityInOrders = new List<QuantityInOrder>();
-            this.packages = packages;
-            packagesTotal = new ORDER_PRODUCT();
-            packagesTotal.PRODUCT_INFO = packages.First().PRODUCT_INFO;
-            packagesTotal.PRODUCT_INFO_ID = packages.First().PRODUCT_INFO_ID;
-            var FromTime = API.getLastPlanDate(User);
-            var ToTime = API.getTodayDate();
-            //first range will be from the last production schedule
-            //create time up to now
-            QuantityInOrders.Add(new QuantityInOrder(FromTime, ToTime, this));
-            productPrice = (double) API.getlastPrice(packagesTotal.PRODUCT_INFO.PRODUCT_PRICE);
-        }
-
-
-        public class QuantityInOrder:ViewModelBase
-        {
-            public QuantityInOrder(DateTime from, DateTime to, OrderProductTransaction parent)
-            {
-                From = from;
-                To = to;
-
-                var ps = API.getPackagesInRange(from, to, parent.packages);
-                var sum = 0;
-                foreach (var pack in ps)
-                {
-                    sum += pack.QUANTITY_IN_ORDER;
-                }
-                Quantity = sum;
-            }
-
-            private DateTime _From;
-            private DateTime _To;
-            private int _Quantity;
-
-            public DateTime From
-            {
-                get { return _From; }
-                set
-                {
-                    _From = value;
-                    OnPropertyChanged("From");
-                }
-            }
-
-            public DateTime To {
-                get { return _To; }
-                set
-                {
-                    _To = value;
-                    OnPropertyChanged("To");
-                }
-            }
-            public int Quantity {
-                get { return _Quantity; }
-                set
-                {
-                    _Quantity = value;
-                    OnPropertyChanged("Quantity");
-                }
-            }
-        }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
+using CourseWorkDB_DudasVI.MVVM.Models;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.Views;
 using MahApps.Metro.Controls;
@@ -15,29 +16,97 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class SpecialistViewModel : ViewModelBase
     {
+        private ObservableCollection<string> _CategoriesList;
+        private string _selectedCategory;
+        private decimal _priceFrom;
+        private decimal _priceTo;
+        private bool filterByPrice;
+
         private WAREHOUSE _CurrentWarehouse;
         private DateTime _FromTime;
-        private Dictionary<string, int> _options;
-        private ObservableCollection<OrderProductTransaction> _productPackagesList;
-        private DateTime _ToTime;
+        private Dictionary<string, SpecialistModel.RegionInfo> _options;
         public List<string> _OptionsList;
+        private ObservableCollection<OrderProductTransaction> _productPackagesList;
         public string _selectedOption;
+        private DateTime _ToTime;
 
-        private void Update()
+        public void Update()
         {
-            options = new Dictionary<string, int>();
+            options = new Dictionary<string, SpecialistModel.RegionInfo>();
             OptionsList = new List<string>();
-            int i = 0;
+            var i = 0;
             foreach (var quantity in productPackagesList.First().QuantityInOrders)
             {
-                options.Add(quantity.From.ToLongDateString() + " - " + quantity.To.ToLongDateString(), i++);
+                options.Add(quantity.From.ToLongDateString() + " - " + quantity.To.ToLongDateString(), new SpecialistModel.RegionInfo(i++, quantity.From, quantity.To));
             }
             OptionsList = options.Keys.ToList();
-            if(OptionsList.Count>0)
-            selectedOption = OptionsList.First();
+            if (OptionsList.Count > 0)
+                selectedOption = OptionsList.First();
+        }
+
+        public void UpdateQuantity()
+        {
+            foreach (var product in productPackagesList)
+            {
+                product.QuantityInOrders.Clear();
+                foreach (var option in options)
+                {
+                    product.QuantityInOrders.Add(new OrderProductTransaction.QuantityInOrder(option.Value.from, option.Value.to, product));
+                }
+            }
         }
 
         #region Properties
+
+        public ObservableCollection<string> CategoriesList
+        {
+            get { return _CategoriesList; }
+            set
+            {
+                _CategoriesList = value;
+                OnPropertyChanged("CategoriesList");
+            }
+        }
+
+        public bool FilterByPrice
+        {
+            get { return filterByPrice; }
+            set
+            {
+                filterByPrice = value;
+                OnPropertyChanged("FilterByPrice");
+            }
+        }
+
+        public string selectedCategory
+        {
+            get { return _selectedCategory; }
+            set
+            {
+                _selectedCategory = value;
+                OnPropertyChanged("selectedCategory");
+            }
+        }
+
+        public decimal priceFrom
+        {
+            get { return _priceFrom; }
+            set
+            {
+                _priceFrom = value;
+                OnPropertyChanged("priceFrom");
+            }
+        }
+
+        public decimal priceTo
+        {
+            get { return _priceTo; }
+            set
+            {
+                _priceTo = value;
+                OnPropertyChanged("priceTo");
+            }
+        }
 
         public WAREHOUSE CurrentWarehouse
         {
@@ -55,7 +124,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _productPackagesList = value;
-                Update();
                 OnPropertyChanged("productPackagesList");
             }
         }
@@ -80,7 +148,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public Dictionary<string, int> options
+        public Dictionary<string, SpecialistModel.RegionInfo> options
         {
             get { return _options; }
             set
@@ -110,6 +178,17 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
+        private string _userNameSurname;
+        public string userNameSurname
+        {
+            get { return Session.User.STAFF_NAME+" "+Session.User.STAFF_SURNAME; }
+            set
+            {
+                _userNameSurname = value;
+                OnPropertyChanged("userNameSurname");
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -127,6 +206,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             switch (parameter)
             {
                 case "Add":
+                {
+                    if (options.ContainsKey(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString()))
+                    {
+                        if (window != null)
+                        {
+                            window.ShowMessageAsync("Не можливо додати", "Ви уже обрали даний термін. Спробуйте інший");
+                        }
+                    }
+                    else
                     {
                         foreach (var pr in productPackagesList)
                         {
@@ -134,7 +222,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         }
                         if (window != null)
                         {
-                            var specialistWindow = (window as HomeWindowSpecialist);
+                            var specialistWindow = window as HomeWindowSpecialist;
                             if (specialistWindow != null)
                             {
                                 specialistWindow.addColumns();
@@ -142,24 +230,28 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             }
                         }
                     }
+                }
                     break;
                 case "Remove":
+                {
+                    if (selectedOption != null)
                     {
-                        int index = options[selectedOption];
+                        var res = options[selectedOption];
                         foreach (var pr in productPackagesList)
                         {
-                            pr.QuantityInOrders.RemoveAt(index);
+                            pr.QuantityInOrders.RemoveAt(res.index);
                         }
                         if (window != null)
                         {
-                            var specialistWindow = (window as HomeWindowSpecialist);
+                            var specialistWindow = window as HomeWindowSpecialist;
                             if (specialistWindow != null)
                             {
                                 specialistWindow.addColumns();
                                 Update();
-                            }   
+                            }
                         }
                     }
+                }
                     break;
             }
         }

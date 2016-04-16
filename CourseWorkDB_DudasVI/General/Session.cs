@@ -1,6 +1,6 @@
 ﻿namespace CourseWorkDB_DudasVI.General
 {
-    public static class Session
+    public class Session
     {
         public static STAFF User { get; set; }
     }

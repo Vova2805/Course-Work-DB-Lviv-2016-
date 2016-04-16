@@ -17,7 +17,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Mapping
             #endregion
 
             #region Specialist
-            
+
             Mapper.CreateMap<SpecialistModel, SpecialistViewModel>();
             Mapper.CreateMap<SpecialistViewModel, SpecialistModel>();
 

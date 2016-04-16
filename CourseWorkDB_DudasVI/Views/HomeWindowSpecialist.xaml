@@ -26,7 +26,7 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5 0 5 0"
                                VerticalAlignment="Center"
-                               Text="Дудас Володимир" />
+                               Text="{Binding userNameSurname}" />
                     <Rectangle Width="15" Height="15">
                         <Rectangle.Fill>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
@@ -62,7 +62,7 @@
             <Controls:Flyout Header="Фільтр руху товарів" Position="Right" Name="GoodsFilterFlyout" Theme="Accent">
                 <UserControls:CostFilter />
             </Controls:Flyout>
-            <Controls:Flyout Header="Редагувати" Position="Left" Name="SpecialistEditOrders" Theme="Accent">
+            <Controls:Flyout Header="Редагувати і фільтрувати" Position="Right" Name="SpecialistEditOrders" Theme="Accent">
                 <UserControls:EditOrder />
             </Controls:Flyout>
         </Controls:FlyoutsControl>
@@ -119,19 +119,6 @@
                                         <Rectangle.Fill>
                                             <VisualBrush Stretch="Fill"
                                                          Visual="{StaticResource appbar_edit}" />
-                                        </Rectangle.Fill>
-                                    </Rectangle>
-                                </Button>
-                                <Button Width="50"
-                                        Height="50"
-                                        VerticalAlignment="Top"
-                                        ToolTip="Фільтр"
-                                        Style="{DynamicResource MetroCircleButtonStyle}">
-                                    <Rectangle Width="20"
-                                               Height="20">
-                                        <Rectangle.Fill>
-                                            <VisualBrush Stretch="Fill"
-                                                         Visual="{StaticResource appbar_filter}" />
                                         </Rectangle.Fill>
                                     </Rectangle>
                                 </Button>

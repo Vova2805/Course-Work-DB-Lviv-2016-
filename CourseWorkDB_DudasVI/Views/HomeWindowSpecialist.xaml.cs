@@ -51,6 +51,7 @@ namespace CourseWorkDB_DudasVI.Views
             }
         }
 
+        #region Func
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
             AdminFlyout.IsOpen = !AdminFlyout.IsOpen;
@@ -64,5 +65,6 @@ namespace CourseWorkDB_DudasVI.Views
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
         }
+        #endregion
     }
 }

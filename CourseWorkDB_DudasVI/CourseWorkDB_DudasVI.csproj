@@ -206,7 +206,7 @@
     <Compile Include="Views\HomeWindowAdmin.xaml.cs">
       <DependentUpon>HomeWindowAdmin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Rules\DateRule.cs" />
+    <Compile Include="Views\Rules\GeneralRules.cs" />
     <Compile Include="Views\UserControls\Basic\AddressView.xaml.cs">
       <DependentUpon>AddressView.xaml</DependentUpon>
     </Compile>

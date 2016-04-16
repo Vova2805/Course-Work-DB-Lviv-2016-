@@ -53,7 +53,7 @@ namespace CourseWorkDB_DudasVI.General
         //return ac date
         public static DateTime getTodayDate()
         {
-            var res = DateTime.Today;
+            var res = DateTime.Now;
             return res;
         }
 
