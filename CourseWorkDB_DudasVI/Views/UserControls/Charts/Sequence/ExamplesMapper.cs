@@ -4,6 +4,7 @@ using CourseWorkDB_DudasVI.Views.UserControls;
 using CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar;
 using CourseWorkDB_DudasVI.Views.UserControls.Charts.Line;
 using CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie;
+using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Support
 {
@@ -14,12 +15,11 @@ namespace CourseWorkDB_DudasVI.Support
         public static List<UserControl> StackedBarExamples { get; set; }
         public static List<UserControl> PieExamples { get; set; }
 
-        public static void Initialize(ChartsSet window)
+        public static void Initialize(ChartsSet window,ViewModelBase dataContext)
         {
             LineAndAreaAexamples = new List<UserControl>
             {
-                new AnimationLine(),
-                new BasicLine(),
+                new BasicLine(dataContext),
                 new CustomLine(),
                 new UiLine()
             };
@@ -33,8 +33,7 @@ namespace CourseWorkDB_DudasVI.Support
             };
             PieExamples = new List<UserControl>
             {
-                new BasicPie(),
-                new MvvmPie()
+                new BasicPie()
             };
 
             window.LineControl.Content = LineAndAreaAexamples != null && LineAndAreaAexamples.Count > 0

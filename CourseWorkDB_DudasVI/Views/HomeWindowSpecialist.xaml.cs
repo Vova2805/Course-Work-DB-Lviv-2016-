@@ -6,7 +6,6 @@ using System.Windows.Data;
 using AutoMapper;
 using CourseWorkDB_DudasVI.MVVM.Models;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
-using CourseWorkDB_DudasVI.Views.UserControls;
 using CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar;
 using CourseWorkDB_DudasVI.Views.UserControls.Charts.Line;
 using CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie;
@@ -25,9 +24,11 @@ namespace CourseWorkDB_DudasVI.Views
             var specialistModel = new SpecialistModel(_sweetFactoryEntities);
             _specialistViewModel = Mapper.Map<SpecialistModel, SpecialistViewModel>(specialistModel);
             DataContext = _specialistViewModel;
+            
             InitializeComponent();
+            ChartsSetView.DataContext = _specialistViewModel;
+            ChartsSetView.init();
             addColumns();
-            InitializeChart();
         }
 
         public void addColumns()
@@ -57,6 +58,7 @@ namespace CourseWorkDB_DudasVI.Views
         }
 
         #region Func
+
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
             AdminFlyout.IsOpen = !AdminFlyout.IsOpen;
@@ -70,56 +72,40 @@ namespace CourseWorkDB_DudasVI.Views
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
         }
+
         #endregion
-        #region Charts
-        public static List<UserControl> LineCharts { get; set; }
-        public static List<UserControl> BarCharts { get; set; }
-        public static List<UserControl> PieCharts { get; set; }
 
-        public void InitializeChart()
+        private void RefreshDiagram(object sender, RoutedEventArgs e)
         {
-            LineCharts = new List<UserControl>
+            var model = DataContext as SpecialistViewModel;
+            if (model != null)
             {
-                new BasicLine(),
-                new CustomLine()
-            };
-            BarCharts = new List<UserControl>
-            {
-                new MultiAxesBarChart(),
-                new RotatedBar(),
-                new MvvmBar(),
-                new PointPropertyChangedBar(),
-                new BasicBar()
-            };
-            PieCharts = new List<UserControl>
-            {
-                new BasicPie()
-            };
-
-            this.LineControl.Content = LineCharts != null && LineCharts.Count > 0 ? LineCharts[0]: null;
-            this.BarControl.Content = BarCharts != null && BarCharts.Count > 0 ? BarCharts[0] : null;
-            this.PieControl.Content = PieCharts != null && PieCharts.Count > 0 ? PieCharts[0] : null;
+                model.UpdateSeries();
+            }
         }
 
-        public static void Next(ContentControl control, List<UserControl> list)
+        private void OnCheckAll(object sender, RoutedEventArgs e)
         {
-            var c = control.Content as UserControl;
-            if (c == null) return;
-            var i = list.IndexOf(c);
-            i++;
-            if (i > list.Count - 1) i = 0;
-            control.Content = list[i];
+            var model = DataContext as SpecialistViewModel;
+            if (model != null)
+            {
+                foreach (var product in model.productPackagesList)
+                {
+                    product.isChecked = true;
+                }
+            }
         }
 
-        public static void Previous(ContentControl control, List<UserControl> list)
+        private void OnUncheckAll(object sender, RoutedEventArgs e)
         {
-            var c = control.Content as UserControl;
-            if (c == null) return;
-            var i = list.IndexOf(c);
-            i--;
-            if (i < 0) i = list.Count - 1;
-            control.Content = list[i];
+            var model = DataContext as SpecialistViewModel;
+            if (model != null)
+            {
+                foreach (var product in model.productPackagesList)
+                {
+                    product.isChecked = false;
+                }
+            }
         }
-        #endregion
     }
 }

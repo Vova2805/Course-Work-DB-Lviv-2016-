@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using LiveCharts;
@@ -33,7 +32,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
         }
 
         public SeriesCollection Series { get; set; }
-        
+
         public void AddSeriesOnClick(object sender, RoutedEventArgs e)
         {
             var vals = new ChartValues<ViewModel>();
@@ -60,6 +59,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
     public class ViewModel : IObservableChartPoint
     {
         private double _yValue;
+
         public double YValue
         {
             get { return _yValue; }

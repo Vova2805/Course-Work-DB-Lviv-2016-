@@ -21,13 +21,13 @@
 
                         <DataTemplate DataType="{x:Type ValidationError}">
                             <TextBlock FontSize="{StaticResource ContentFontSize}"
-        						FontFamily="{StaticResource ContentFontFamily}"
-        						Foreground="{StaticResource ControlsValidationBrush}"
-        						HorizontalAlignment="Right"
-        						VerticalAlignment="Top"
-        						TextAlignment="Right"
-        						Margin="0,0,0,2"
-        						Text="{Binding ErrorContent}" />
+                                       FontFamily="{StaticResource ContentFontFamily}"
+                                       Foreground="{StaticResource ControlsValidationBrush}"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       TextAlignment="Right"
+                                       Margin="0,0,0,2"
+                                       Text="{Binding ErrorContent}" />
                         </DataTemplate>
                     </ResourceDictionary>
                 </Grid.Resources>
@@ -50,29 +50,31 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" FontSize="20" Grid.ColumnSpan="4"
-        			Text="Фільтрувати записи" />
+                           Text="Фільтрувати записи" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="За категорією" VerticalAlignment="Center" />
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="За вартістю продукту" VerticalAlignment="Center" />
-                <Controls:ToggleSwitch Grid.Row="2" Grid.Column="1" IsChecked="{Binding FilterByPrice,Mode=TwoWay}" Margin="5" Foreground="BlanchedAlmond"/>
+                <Controls:ToggleSwitch Grid.Row="2" Grid.Column="1" IsChecked="{Binding FilterByPrice,Mode=TwoWay}"
+                                       Margin="5" Foreground="BlanchedAlmond" />
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Від" TextAlignment="Right" />
-                <Controls:NumericUpDown Grid.Row="3" Name="fromPrice" IsEnabled="{Binding FilterByPrice}" Grid.Column="1" Margin="5" Minimum="0" Value="{Binding priceFrom,Mode=TwoWay}">
-                </Controls:NumericUpDown>
+                <Controls:NumericUpDown Grid.Row="3" Name="fromPrice" IsEnabled="{Binding FilterByPrice}"
+                                        Grid.Column="1" Margin="5" Minimum="0" Value="{Binding priceFrom,Mode=TwoWay}" />
 
                 <TextBlock Grid.Row="3" Grid.Column="2" Text="До" />
-                <Controls:NumericUpDown Grid.Row="3" Name="toPrice"  Grid.Column="3" Margin="5" Minimum="0" Value="{Binding priceTo}" IsEnabled="{Binding FilterByPrice,Mode=TwoWay}">
-                </Controls:NumericUpDown>
+                <Controls:NumericUpDown Grid.Row="3" Name="toPrice" Grid.Column="3" Margin="5" Minimum="0"
+                                        Value="{Binding priceTo}" IsEnabled="{Binding FilterByPrice,Mode=TwoWay}" />
                 <ComboBox HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1"
                           Grid.ColumnSpan="3" Margin="5" SelectionChanged="CategorySelectionChanged"
                           ItemsSource="{Binding CategoriesList, Mode=TwoWay}">
                     <ComboBox.SelectedItem>
                         <Binding Mode="TwoWay" Path="selectedCategory">
                             <Binding.ValidationRules>
-                                <rules:SelectedItemRule/>
+                                <rules:SelectedItemRule />
                             </Binding.ValidationRules>
                         </Binding>
                     </ComboBox.SelectedItem>
                 </ComboBox>
-                <Button Grid.Row="7" Grid.Column="3" Margin="5" Content="Фільтрувати" HorizontalAlignment="Right" Width="100" Click="FilterByPrice" IsEnabled="{Binding FilterByPrice}">
+                <Button Grid.Row="7" Grid.Column="3" Margin="5" Content="Фільтрувати" HorizontalAlignment="Right"
+                        Width="100" Click="FilterByPrice" IsEnabled="{Binding FilterByPrice}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Width" Value="100" />
@@ -82,9 +84,9 @@
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding (Validation.HasError), ElementName=fromPrice}"
-        									Value="false" />
+                                                   Value="false" />
                                         <Condition Binding="{Binding (Validation.HasError), ElementName=toPrice}"
-        									Value="false" />
+                                                   Value="false" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="true" />
                                 </MultiDataTrigger>
@@ -98,7 +100,7 @@
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
                             <ResourceDictionary
-                            Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                                Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
                         </ResourceDictionary.MergedDictionaries>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Margin" Value="10,5,5,5" />
@@ -108,13 +110,13 @@
 
                         <DataTemplate DataType="{x:Type ValidationError}">
                             <TextBlock FontSize="{StaticResource ContentFontSize}"
-                                   FontFamily="{StaticResource ContentFontFamily}"
-                                   Foreground="{StaticResource ControlsValidationBrush}"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Top"
-                                   TextAlignment="Right"
-                                   Margin="0,0,0,2"
-                                   Text="{Binding ErrorContent}" />
+                                       FontFamily="{StaticResource ContentFontFamily}"
+                                       Foreground="{StaticResource ControlsValidationBrush}"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       TextAlignment="Right"
+                                       Margin="0,0,0,2"
+                                       Text="{Binding ErrorContent}" />
                         </DataTemplate>
                     </ResourceDictionary>
                 </Grid.Resources>
@@ -137,16 +139,16 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
-                       Text="Редагування таблиці замовлень"  FontSize="20" />
+                           Text="Редагування таблиці замовлень" FontSize="20" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Додати період" VerticalAlignment="Center" />
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Від" TextAlignment="Right" />
                 <DatePicker x:Name="FromDatePicker" Grid.Row="2" Grid.Column="1" Margin="5"
-                        SelectedDateChanged="FromTimeChanged">
+                            SelectedDateChanged="FromTimeChanged">
                     <DatePicker.SelectedDate>
                         <Binding Path="FromTime"
-                             Mode="TwoWay"
-                             TargetNullValue="{x:Static sys:DateTime.Now}">
+                                 Mode="TwoWay"
+                                 TargetNullValue="{x:Static sys:DateTime.Now}">
                             <Binding.ValidationRules>
                                 <rules:FromDateRule />
                             </Binding.ValidationRules>
@@ -156,11 +158,11 @@
 
                 <TextBlock Grid.Row="2" Grid.Column="2" Text="До" />
                 <DatePicker x:Name="ToDatePicker" Grid.Row="2" Grid.Column="3" Margin="5"
-                        SelectedDateChanged="ToTimeChanged">
+                            SelectedDateChanged="ToTimeChanged">
                     <DatePicker.SelectedDate>
                         <Binding Path="ToTime"
-                             Mode="TwoWay"
-                             TargetNullValue="{x:Static sys:DateTime.Now}">
+                                 Mode="TwoWay"
+                                 TargetNullValue="{x:Static sys:DateTime.Now}">
                             <Binding.ValidationRules>
                                 <rules:ToDateRule />
                             </Binding.ValidationRules>
@@ -168,7 +170,7 @@
                     </DatePicker.SelectedDate>
                 </DatePicker>
                 <Button Grid.Row="3" Grid.Column="3" Margin="5" Content="Додати"
-                    Command="{Binding ChangeCommand}" HorizontalAlignment="Right" CommandParameter="Add">
+                        Command="{Binding ChangeCommand}" HorizontalAlignment="Right" CommandParameter="Add">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Width" Value="100" />
@@ -178,10 +180,10 @@
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding (Validation.HasError), ElementName=ToDatePicker}"
-                                               Value="false" />
+                                                   Value="false" />
                                         <Condition
-                                        Binding="{Binding (Validation.HasError), ElementName=FromDatePicker}"
-                                        Value="false" />
+                                            Binding="{Binding (Validation.HasError), ElementName=FromDatePicker}"
+                                            Value="false" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="true" />
                                 </MultiDataTrigger>
@@ -190,13 +192,13 @@
                     </Button.Style>
                 </Button>
                 <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,15,5,5"
-            		Text="Видалити період" />
+                           Text="Видалити період" />
                 <TextBlock Grid.Row="5" Grid.Column="0" Text="Оберіть із списку" />
                 <ComboBox x:Name="ComboBox" Grid.Row="5" Grid.Column="1" Margin="5" Grid.ColumnSpan="3"
-                      ItemsSource="{Binding OptionsList, Mode=TwoWay}">
+                          ItemsSource="{Binding OptionsList, Mode=TwoWay}">
                     <ComboBox.SelectedItem>
                         <Binding Path="selectedOption"
-                             Mode="TwoWay">
+                                 Mode="TwoWay">
                             <Binding.ValidationRules>
                                 <rules:SelectedItemRule />
                             </Binding.ValidationRules>
@@ -204,7 +206,8 @@
                     </ComboBox.SelectedItem>
                 </ComboBox>
                 <Button Grid.Row="7" Grid.Column="3" Margin="5" Content="Видалити"
-                    Command="{Binding ChangeCommand}" HorizontalAlignment="Right" Width="100" CommandParameter="Remove">
+                        Command="{Binding ChangeCommand}" HorizontalAlignment="Right" Width="100"
+                        CommandParameter="Remove">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Width" Value="100" />
@@ -214,7 +217,7 @@
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding (Validation.HasError), ElementName=ComboBox}"
-                                               Value="false" />
+                                                   Value="false" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="true" />
                                 </MultiDataTrigger>

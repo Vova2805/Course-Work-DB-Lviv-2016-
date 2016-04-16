@@ -19,7 +19,7 @@
             <lvc:LineChart.AxisX>
                 <lvc:Axis Title="{Binding Path=XTitle}"
                           Separator="{x:Static lvc:DefaultAxes.CleanSeparator}"
-                          Labels="{Binding Path=labels}"
+                          Labels="{Binding Path=Labels}"
                           Position="RightTop" />
             </lvc:LineChart.AxisX>
         </lvc:LineChart>

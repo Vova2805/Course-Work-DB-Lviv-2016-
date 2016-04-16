@@ -256,9 +256,6 @@
     <Compile Include="Views\UserControls\Charts\Pie\BasicPie.xaml.cs">
       <DependentUpon>BasicPie.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Charts\Pie\MvvmPie.xaml.cs">
-      <DependentUpon>MvvmPie.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Basic\CustomerView.xaml.cs">
       <DependentUpon>CustomerView.xaml</DependentUpon>
     </Compile>
@@ -405,10 +402,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Charts\Pie\BasicPie.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Charts\Pie\MvvmPie.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

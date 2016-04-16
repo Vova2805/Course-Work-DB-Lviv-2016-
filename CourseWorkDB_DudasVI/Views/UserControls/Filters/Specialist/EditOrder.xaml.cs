@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
@@ -11,7 +12,8 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
     {
         public static DateTime from = DateTime.Now;
         public static DateTime to = DateTime.Now;
-        private SWEET_FACTORYEntities FactoryEntities = new SWEET_FACTORYEntities();
+        private readonly SWEET_FACTORYEntities FactoryEntities = new SWEET_FACTORYEntities();
+
         public EditOrder()
         {
             InitializeComponent();
@@ -43,35 +45,37 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         private void CategorySelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SpecialistViewModel model = this.DataContext as SpecialistViewModel;
+            var model = DataContext as SpecialistViewModel;
             if (model != null)
             {
                 model.productPackagesList.Clear();
                 if (model.selectedCategory.Equals("Всі категорії"))
                 {
                     var groupedPackages =
-                     FactoryEntities.ORDER_PRODUCT.ToList()
-                    .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
-                    .ToDictionary(group => group.Key, group => group.ToList());
-                    int i = 0;
+                        FactoryEntities.ORDER_PRODUCT.ToList()
+                            .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
+                            .ToDictionary(group => group.Key, group => group.ToList());
+                    var i = 0;
                     foreach (var group in groupedPackages)
                     {
-                        model.productPackagesList.Add(new OrderProductTransaction(i++,group.Key,group.Value, Session.User));
+                        model.productPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value,
+                            Session.User));
                     }
                     model.UpdateQuantity();
                 }
                 else
                 {
                     var groupedPackages =
-                    FactoryEntities.ORDER_PRODUCT.ToList()
-                    .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
-                    .ToDictionary(group => group.Key, group => group.ToList());
-                    int i = 0;
+                        FactoryEntities.ORDER_PRODUCT.ToList()
+                            .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
+                            .ToDictionary(group => group.Key, group => group.ToList());
+                    var i = 0;
                     foreach (var group in groupedPackages)
                     {
-                        if(group.Value.First().PRODUCT_INFO.CATEGORY.CATEGORY_TITLE.Equals(model.selectedCategory))
+                        if (group.Value.First().PRODUCT_INFO.CATEGORY.CATEGORY_TITLE.Equals(model.selectedCategory))
                         {
-                            model.productPackagesList.Add(new OrderProductTransaction(i++,group.Key,group.Value, Session.User));
+                            model.productPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value,
+                                Session.User));
                         }
                     }
                     model.UpdateQuantity();
@@ -79,23 +83,24 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             }
         }
 
-        private void FilterByPrice(object sender, System.Windows.RoutedEventArgs e)
+        private void FilterByPrice(object sender, RoutedEventArgs e)
         {
-            SpecialistViewModel model = this.DataContext as SpecialistViewModel;
+            var model = DataContext as SpecialistViewModel;
             if (model != null)
             {
                 model.productPackagesList.Clear();
                 var groupedPackages =
                     FactoryEntities.ORDER_PRODUCT.ToList()
-                    .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
-                    .ToDictionary(group => group.Key, group => group.ToList());
-                int i = 0;
+                        .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
+                        .ToDictionary(group => group.Key, group => group.ToList());
+                var i = 0;
                 foreach (var group in groupedPackages)
                 {
-                   decimal price = API.getlastPrice(group.Value.First().PRODUCT_INFO.PRODUCT_PRICE);
-                    if (price>=model.priceFrom && price<=model.priceTo)
+                    var price = API.getlastPrice(group.Value.First().PRODUCT_INFO.PRODUCT_PRICE);
+                    if (price >= model.priceFrom && price <= model.priceTo)
                     {
-                        model.productPackagesList.Add(new OrderProductTransaction(i++,group.Key,group.Value, Session.User));
+                        model.productPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value,
+                            Session.User));
                     }
                 }
                 model.UpdateQuantity();

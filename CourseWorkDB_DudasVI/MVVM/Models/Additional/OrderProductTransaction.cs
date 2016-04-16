@@ -9,17 +9,17 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
     public class OrderProductTransaction : ViewModelBase
     {
         private bool _isChecked = true;
+        public int _Number;
         public List<ORDER_PRODUCT> _packages;
         private ORDER_PRODUCT _packagesTotal;
         public double _productPrice;
-        public List<QuantityInOrder> _QuantityInOrders;
         public string _productTitle;
-        public int _Number;
+        public List<QuantityInOrder> _QuantityInOrders;
 
-        public OrderProductTransaction(int number,string title,List<ORDER_PRODUCT> packages, STAFF User)
+        public OrderProductTransaction(int number, string title, List<ORDER_PRODUCT> packages, STAFF User)
         {
-            this.Number = number ;
-            this.ProductTitle = " №"+Number + ". "+title;
+            Number = number + 1;
+            ProductTitle =" №"+ Number+". "+title;
             QuantityInOrders = new List<QuantityInOrder>();
             this.packages = packages;
             packagesTotal = new ORDER_PRODUCT();

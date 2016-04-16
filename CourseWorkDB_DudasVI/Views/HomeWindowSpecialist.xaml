@@ -61,7 +61,8 @@
             <Controls:Flyout Header="Фільтр руху товарів" Position="Right" Name="GoodsFilterFlyout" Theme="Accent">
                 <UserControls:CostFilter />
             </Controls:Flyout>
-            <Controls:Flyout Header="Редагувати і фільтрувати" Position="Right" Name="SpecialistEditOrders" Theme="Accent">
+            <Controls:Flyout Header="Редагувати і фільтрувати" Position="Right" Name="SpecialistEditOrders"
+                             Theme="Accent">
                 <UserControls:EditOrder />
             </Controls:Flyout>
         </Controls:FlyoutsControl>
@@ -94,7 +95,8 @@
                                   ItemsSource="{Binding Path=productPackagesList}" AutoGenerateColumns="False"
                                   CanUserResizeColumns="True">
                             <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Width="20" Binding="{Binding Path=isChecked, Mode=TwoWay}" />
+                                <DataGridCheckBoxColumn Width="20" Binding="{Binding Path=isChecked, Mode=TwoWay}" Header="Відображати" >
+                                </DataGridCheckBoxColumn>
                                 <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
                                                     Binding="{Binding Path=ProductTitle}" />
                                 <!--Binding="{Binding TransactionDate,StringFormat=\{0:dd-MMM-yyyy \}}"-->
@@ -120,14 +122,52 @@
                                         </Rectangle.Fill>
                                     </Rectangle>
                                 </Button>
+                                <Button Width="50" Click="OnCheckAll"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Позначити всі"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20"
+                                               Height="20">
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_check}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                                <Button Width="50" Click="OnUncheckAll"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Зняти відмітки"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20"
+                                               Height="20">
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick_unchecked}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                                <Button Width="50" Click="RefreshDiagram"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Оновити графік"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20"
+                                               Height="20">
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Fill"
+                                                         Visual="{StaticResource appbar_refresh}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
                             </DockPanel>
                         </Border>
                     </Grid>
 
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <!--<UserControls:ChartsSet Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch"></UserControls:ChartsSet>-->
-                    <TabControl Grid.Column="2" >
-                       <TabControl.Resources>
+                    <UserControls:ChartsSet Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch" x:Name="ChartsSetView">
+                    </UserControls:ChartsSet>
+                    <!--<TabControl Grid.Column="2">
+                        <TabControl.Resources>
                             <Style x:Key="Title" TargetType="TextBlock">
                                 <Setter Property="Foreground" Value="#3F51B4" />
                                 <Setter Property="FontSize" Value="20" />
@@ -137,21 +177,24 @@
                             </Style>
                         </TabControl.Resources>
                         <TabItem Header="Лінійна" Name="Panel">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" >
-                                <StackPanel >
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch">
+                                <StackPanel>
                                     <TextBlock Style="{StaticResource Title}">Лінійна діаграма</TextBlock>
                                     <Grid VerticalAlignment="Stretch">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png" />
-                                        <ContentControl Name="LineControl" Grid.Column="1" Height="500" Width="Auto" VerticalAlignment="Top" />
-                                        <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png"/>
+                                        <Image Grid.Column="0"
+                                               Source="pack://application:,,,/Resources/images/Left.png" />
+                                        <ContentControl Name="LineControl" Grid.Column="1" Height="500" Width="Auto"
+                                                        VerticalAlignment="Top" />
+                                        <Image Grid.Column="2"
+                                               Source="pack://application:,,,/Resources/images/Right.png" />
                                     </Grid>
                                 </StackPanel>
                             </ScrollViewer>
@@ -166,9 +209,11 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png"/>
+                                        <Image Grid.Column="0"
+                                               Source="pack://application:,,,/Resources/images/Left.png" />
                                         <ContentControl Name="BarControl" Grid.Column="1" Height="500" Width="Auto" />
-                                        <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png"/>
+                                        <Image Grid.Column="2"
+                                               Source="pack://application:,,,/Resources/images/Right.png" />
                                     </Grid>
                                 </StackPanel>
                             </ScrollViewer>
@@ -183,14 +228,16 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png"/>
-                                        <ContentControl Name="PieControl" Grid.Column="1" Height="500" Width="Auto"/>
-                                        <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png"/>
+                                        <Image Grid.Column="0"
+                                               Source="pack://application:,,,/Resources/images/Left.png" />
+                                        <ContentControl Name="PieControl" Grid.Column="1" Height="500" Width="Auto" />
+                                        <Image Grid.Column="2"
+                                               Source="pack://application:,,,/Resources/images/Right.png" />
                                     </Grid>
                                 </StackPanel>
                             </ScrollViewer>
                         </TabItem>
-                    </TabControl>
+                    </TabControl>-->
                 </Grid>
             </Border>
         </TabItem>

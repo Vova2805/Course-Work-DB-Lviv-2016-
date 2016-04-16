@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using CourseWorkDB_DudasVI.Support;
+using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls
 {
@@ -13,12 +14,11 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         public ChartsSet()
         {
             InitializeComponent();
-            ExamplesMapper.Initialize(this);
+        }
 
-            TestPrimaryValues = new[] {3d, 2, 4, 6};
-            TestProperty = new ObservableCollection<string> {"bye!"};
-
-            DataContext = this;
+        public void init()
+        {
+            ExamplesMapper.Initialize(this, DataContext as ViewModelBase);
         }
 
         public double[] TestPrimaryValues { get; set; }
@@ -45,15 +45,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         {
             BarControl.Next(ExamplesMapper.BarExamples);
         }
-
-        //private void StackedBarPrevious(object sender, MouseButtonEventArgs e)
-        //{
-        //    StackedBarControl.Previous(ExamplesMapper.StackedBarExamples);
-        //}
-        //private void StackedBarNext(object sender, MouseButtonEventArgs e)
-        //{
-        //    StackedBarControl.Next(ExamplesMapper.StackedBarExamples);
-        //}
+        
         private void PiePrevious(object sender, MouseButtonEventArgs e)
         {
             PieControl.Previous(ExamplesMapper.PieExamples);

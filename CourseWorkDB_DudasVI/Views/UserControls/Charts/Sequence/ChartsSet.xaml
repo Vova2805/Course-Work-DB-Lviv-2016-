@@ -26,7 +26,7 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Style="{StaticResource Title}">Лінійна діаграма</TextBlock>
-                    <Grid VerticalAlignment="Stretch">
+                    <Grid VerticalAlignment="Stretch" Name="Grid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -34,14 +34,14 @@
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png"
                                MouseDown="LinePrevious" />
-                        <ContentControl Name="LineControl" Grid.Column="1" Height="400" Width="Auto" />
+                        <ContentControl Name="LineControl" Grid.Column="1" Height="500" MinHeight="200" Width="Auto" MinWidth="300" />
                         <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png"
                                MouseDown="LineNext" />
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
         </TabItem>
-        <TabItem Header="Стовпчаста"  VerticalAlignment="Stretch">
+        <TabItem Header="Стовпчаста" VerticalAlignment="Stretch">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Style="{StaticResource Title}">Стовпчаста діагрaма</TextBlock>
@@ -53,14 +53,15 @@
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png"
                                MouseDown="BarPrevious" />
-                        <ContentControl Name="BarControl" Grid.Column="1" VerticalAlignment="Stretch" Height="400"  Width="Auto" />
+                        <ContentControl Name="BarControl" Grid.Column="1" VerticalAlignment="Stretch" Height="500" MinHeight="200"
+                                        Width="Auto" MinWidth="300" />
                         <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png"
                                MouseDown="BarNext" />
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
         </TabItem>
-        <TabItem Header="Кругова"  VerticalAlignment="Stretch">
+        <TabItem Header="Кругова" VerticalAlignment="Stretch">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Style="{StaticResource Title}">Кругова діаграма</TextBlock>
@@ -72,7 +73,8 @@
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0" Source="pack://application:,,,/Resources/images/Left.png"
                                MouseDown="PiePrevious" />
-                        <ContentControl Name="PieControl" Grid.Column="1" VerticalAlignment="Stretch" Height="400"  Width="Auto" />
+                        <ContentControl Name="PieControl" Grid.Column="1" VerticalAlignment="Stretch" Height="500" MinHeight="200"
+                                        Width="Auto" MinWidth="300" />
                         <Image Grid.Column="2" Source="pack://application:,,,/Resources/images/Right.png"
                                MouseDown="PieNext" />
                     </Grid>

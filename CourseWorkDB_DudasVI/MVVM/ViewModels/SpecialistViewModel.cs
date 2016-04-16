@@ -18,22 +18,23 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
     public class SpecialistViewModel : ViewModelBase
     {
         private ObservableCollection<string> _CategoriesList;
-        private string _selectedCategory;
-        private decimal _priceFrom;
-        private decimal _priceTo;
-        private bool filterByPrice;
 
         private WAREHOUSE _CurrentWarehouse;
         private DateTime _FromTime;
+        private ObservableCollection<string> _Labels;
         private Dictionary<string, SpecialistModel.RegionInfo> _options;
         public List<string> _OptionsList;
+        private decimal _priceFrom;
+        private decimal _priceTo;
         private ObservableCollection<OrderProductTransaction> _productPackagesList;
+        private string _selectedCategory;
         public string _selectedOption;
-        private DateTime _ToTime;
         private SeriesCollection _Series;
-        private ObservableCollection<string> _Labels;
+        private DateTime _ToTime;
         private string _xTitle;
         private string _yTitle;
+        private bool filterByPrice;
+        private bool _Initialization;
 
         public void Update()
         {
@@ -42,7 +43,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             var i = 0;
             foreach (var quantity in productPackagesList.First().QuantityInOrders)
             {
-                options.Add(quantity.From.ToLongDateString() + " - " + quantity.To.ToLongDateString(), new SpecialistModel.RegionInfo(i++, quantity.From, quantity.To));
+                options.Add(quantity.From.ToLongDateString() + " - " + quantity.To.ToLongDateString(),
+                    new SpecialistModel.RegionInfo(i++, quantity.From, quantity.To));
             }
             OptionsList = options.Keys.ToList();
             if (OptionsList.Count > 0)
@@ -57,30 +59,34 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 product.QuantityInOrders.Clear();
                 foreach (var option in options)
                 {
-                    product.QuantityInOrders.Add(new OrderProductTransaction.QuantityInOrder(option.Value.from, option.Value.to, product));
+                    product.QuantityInOrders.Add(new OrderProductTransaction.QuantityInOrder(option.Value.from,
+                        option.Value.to, product));
                 }
             }
             UpdateSeries();
         }
 
-        private void UpdateSeries()
+        public void UpdateSeries()
         {
             Series.Clear();
             Labels.Clear();
-            int i = 0;
+            var i = 0;
             foreach (var quantity in productPackagesList.First().QuantityInOrders)
             {
-                List<double> serieQuantity = new List<double>();
+                var serieQuantity = new List<double>();
                 foreach (var product in productPackagesList)
                 {
-                    serieQuantity.Add(product.QuantityInOrders.ElementAt(i).Quantity);
-                    Labels.Add(product.Number.ToString());
+                    if (product.isChecked)
+                    {
+                        serieQuantity.Add(product.QuantityInOrders.ElementAt(i).Quantity);
+                        Labels.Add("№ "+product.Number);
+                    }
                 }
                 var chartValues = new ChartValues<double>();
                 chartValues.AddRange(serieQuantity);
                 var newSerie = new LineSeries
                 {
-                    Title = quantity.From.ToShortDateString()+"\n"+quantity.To.ToShortDateString(),
+                    Title = quantity.From.ToShortDateString() + "\n" + quantity.To.ToShortDateString(),
                     Values = chartValues
                 };
                 Series.Add(newSerie);
@@ -130,6 +136,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 _Series = value;
                 OnPropertyChanged("Series");
             }
+        }
+
+        public bool Initialization
+        {
+            get { return _Initialization; }
+            set { _Initialization = value; }
         }
 
         public ObservableCollection<string> CategoriesList
@@ -254,9 +266,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         }
 
         private string _userNameSurname;
+
         public string userNameSurname
         {
-            get { return Session.User.STAFF_NAME+" "+Session.User.STAFF_SURNAME; }
+            get { return Session.User.STAFF_NAME + " " + Session.User.STAFF_SURNAME; }
             set
             {
                 _userNameSurname = value;

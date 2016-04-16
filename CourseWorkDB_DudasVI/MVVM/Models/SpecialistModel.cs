@@ -9,13 +9,56 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 {
     public class SpecialistModel
     {
-        public WAREHOUSE CurrentWarehouse;
-        public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
         public List<string> CategoriesList;
-        public string selectedCategory;
+        public WAREHOUSE CurrentWarehouse;
         public decimal priceFrom;
         public decimal priceTo;
+        public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
+        public string selectedCategory;
         public SeriesCollection Series;
+        public bool Initialization = true;
+
+
+        public SpecialistModel(SWEET_FACTORYEntities FactoryEntities)
+        {
+            CategoriesList = FactoryEntities.CATEGORY.ToList().Select(c => c.CATEGORY_TITLE).ToList();
+            CategoriesList.Insert(0, "Всі категорії");
+            priceFrom = FactoryEntities.PRODUCT_PRICE.ToList().Min(p => p.PRICE_VALUE);
+            priceTo = FactoryEntities.PRODUCT_PRICE.ToList().Max(p => p.PRICE_VALUE);
+            selectedCategory = CategoriesList.First();
+            var groupedPackages =
+                FactoryEntities.ORDER_PRODUCT.ToList()
+                    .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
+                    .ToDictionary(group => group.Key, group => group.ToList());
+            var i = 0;
+            foreach (var group in groupedPackages)
+            {
+                productPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value, Session.User));
+            }
+            FromTime = API.getLastPlanDate(Session.User);
+            ToTime = API.getTodayDate();
+            options.Add(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString(),
+                new RegionInfo(0, FromTime, ToTime));
+            OptionsList = options.Keys.ToList();
+            selectedOption = OptionsList.First();
+            Series = new SeriesCollection();
+            Labels = new List<string>();
+        }
+
+        public class RegionInfo
+        {
+            public RegionInfo(int index, DateTime from, DateTime to)
+            {
+                this.index = index;
+                this.from = from;
+                this.to = to;
+            }
+
+            public int index { get; set; }
+            public DateTime from { get; set; }
+            public DateTime to { get; set; }
+        }
+
         #region OrderFilter
 
         public DateTime FromTime;
@@ -29,62 +72,5 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public string yTitle;
 
         #endregion
-
-
-
-        public SpecialistModel(SWEET_FACTORYEntities FactoryEntities)
-        {
-            CategoriesList = FactoryEntities.CATEGORY.ToList().Select(c=>c.CATEGORY_TITLE).ToList();
-            CategoriesList.Insert(0,"Всі категорії");
-            priceFrom = FactoryEntities.PRODUCT_PRICE.ToList().Min(p => p.PRICE_VALUE);
-            priceTo = FactoryEntities.PRODUCT_PRICE.ToList().Max(p => p.PRICE_VALUE);
-            selectedCategory = CategoriesList.First();
-            var groupedPackages =
-                FactoryEntities.ORDER_PRODUCT.ToList()
-                    .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
-                    .ToDictionary(group => group.Key, group => group.ToList());
-            int i = 0;
-            foreach (var group in groupedPackages)
-            {
-                productPackagesList.Add(new OrderProductTransaction(i++,group.Key, group.Value, Session.User));
-            }
-            FromTime = API.getLastPlanDate(Session.User);
-            ToTime = API.getTodayDate();
-            options.Add(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString(), new RegionInfo(0, FromTime, ToTime));
-            OptionsList = options.Keys.ToList();
-            selectedOption = OptionsList.First();
-            Series = new SeriesCollection();
-
-            //var charlesSeries = new LineSeries
-            //{
-            //    Title = "Vova",
-            //    Values = new ChartValues<double> { 10, 5, 7, 5, 7, 8 }
-            //};
-            //var jamesSeries = new LineSeries
-            //{
-            //    Title = "Dudas",
-            //    Values = new ChartValues<double> { 5, 6, 9, 10, 11, 9 }
-            //};
-
-            //Series.Add(charlesSeries);
-            //Series.Add(jamesSeries);
-            Labels = new List<string>();
-            xTitle = "X Axes";
-            yTitle= "Y Axes";
-        }
-
-        public class RegionInfo
-        {
-            public int index { get; set; }
-            public DateTime from { get; set; }
-            public DateTime to { get; set; }
-
-            public RegionInfo(int index, DateTime from, DateTime to)
-            {
-                this.index = index;
-                this.from = from;
-                this.to = to;
-            }
-        }
     }
 }
