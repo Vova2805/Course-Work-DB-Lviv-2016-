@@ -30,6 +30,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private string _selectedCategory;
         public string _selectedOption;
         private SeriesCollection _Series;
+        private SeriesCollection _pieSeries;
         private DateTime _ToTime;
         private string _xTitle;
         private string _yTitle;
@@ -68,6 +69,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         public void UpdateSeries()
         {
             Series.Clear();
+            PieSeries.Clear();
             Labels.Clear();
             var i = 0;
             foreach (var quantity in productPackagesList.First().QuantityInOrders)
@@ -78,6 +80,14 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     if (product.isChecked)
                     {
                         serieQuantity.Add(product.QuantityInOrders.ElementAt(i).Quantity);
+                        var chartValues1 = new ChartValues<double>();
+                        chartValues1.AddRange( new List<double>() { product.QuantityInOrders.ElementAt(i).Quantity});
+                        var newBSerie = new PieSeries
+                        {
+                            Title = product.ProductTitle,
+                            Values = chartValues1
+                        };
+                        PieSeries.Add(newBSerie);
                         Labels.Add("№ " + product.Number);
                     }
                 }
@@ -87,9 +97,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 {
                     Title = quantity.From.ToShortDateString() + "\n" + quantity.To.ToShortDateString(),
                     Values = chartValues,
-                    PointRadius = 3,
-                    StrokeThickness = 5
+                    PointRadius = 3
                 };
+                
                 Series.Add(newSerie);
                 i++;
             }
@@ -106,6 +116,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _Labels = value;
                 OnPropertyChanged("Labels");
+            }
+        }
+
+        public SeriesCollection PieSeries
+        {
+            get { return _pieSeries; }
+            set
+            {
+                _pieSeries = value;
+                OnPropertyChanged("PieSeries");
             }
         }
 

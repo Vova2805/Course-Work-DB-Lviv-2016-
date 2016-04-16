@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using CourseWorkDB_DudasVI.Views.UserControls;
-using CourseWorkDB_DudasVI.Views.UserControls.Charts.Bar;
 using CourseWorkDB_DudasVI.Views.UserControls.Charts.Line;
 using CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
@@ -21,23 +20,14 @@ namespace CourseWorkDB_DudasVI.Support
             {
                 new BasicLine(dataContext)
             };
-            BarExamples = new List<UserControl>
-            {
-                new MultiAxesBarChart(),
-                new RotatedBar(),
-                new MvvmBar(),
-                new PointPropertyChangedBar(),
-                new BasicBar()
-            };
             PieExamples = new List<UserControl>
             {
-                new BasicPie()
+                new BasicPie(dataContext)
             };
 
             window.LineControl.Content = LineAndAreaAexamples != null && LineAndAreaAexamples.Count > 0
                 ? LineAndAreaAexamples[0]
                 : null;
-            window.BarControl.Content = BarExamples != null && BarExamples.Count > 0 ? BarExamples[0] : null;
             // window.StackedBarControl.Content = StackedBarExamples != null && StackedBarExamples.Count > 0 ? StackedBarExamples[0] : null;
             window.PieControl.Content = PieExamples != null && PieExamples.Count > 0 ? PieExamples[0] : null;
         }

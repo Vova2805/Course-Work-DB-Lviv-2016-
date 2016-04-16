@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using LiveCharts;
+using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie
 {
@@ -9,7 +10,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie
     /// </summary>
     public partial class BasicPie
     {
-        public BasicPie()
+        public BasicPie(ViewModelBase dataContext)
         {
             InitializeComponent();
 
@@ -39,14 +40,13 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie
             Series.Add(mariaSeries);
 
             //that's it, LiveCharts is ready and listening for your data changes.
-            DataContext = this;
+            DataContext = dataContext;
         }
 
         public SeriesCollection Series { get; set; }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            //this is just to see animation everytime you click next
             Chart.Update();
         }
 

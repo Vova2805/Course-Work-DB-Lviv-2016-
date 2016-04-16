@@ -16,6 +16,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
         public string selectedCategory;
         public SeriesCollection Series;
+        public SeriesCollection pieSeries;
 
 
         public SpecialistModel(SWEET_FACTORYEntities FactoryEntities)
@@ -41,6 +42,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             OptionsList = options.Keys.ToList();
             selectedOption = OptionsList.First();
             Series = new SeriesCollection();
+            pieSeries = new SeriesCollection();
             Labels = new List<string>();
         }
 

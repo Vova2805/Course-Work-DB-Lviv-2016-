@@ -36,16 +36,6 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             LineControl.Previous(ExamplesMapper.LineAndAreaAexamples);
         }
 
-        private void BarPrevious(object sender, MouseButtonEventArgs e)
-        {
-            BarControl.Previous(ExamplesMapper.BarExamples);
-        }
-
-        private void BarNext(object sender, MouseButtonEventArgs e)
-        {
-            BarControl.Next(ExamplesMapper.BarExamples);
-        }
-
         private void PiePrevious(object sender, MouseButtonEventArgs e)
         {
             PieControl.Previous(ExamplesMapper.PieExamples);

@@ -225,22 +225,6 @@
     <Compile Include="Views\UserControls\Charts\Sequence\ChartsSet.xaml.cs">
       <DependentUpon>ChartsSet.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Charts\Bar\Basic.xaml.cs">
-      <DependentUpon>Basic.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Charts\Bar\MultiAxesBarChart.xaml.cs">
-      <DependentUpon>MultiAxesBarChart.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Charts\Bar\MvvmBar.xaml.cs">
-      <DependentUpon>MvvmBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Charts\Bar\PointPropertyChangedBar.xaml.cs">
-      <DependentUpon>PointPropertyChangedBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Charts\Bar\RotatedBar.xaml.cs">
-      <DependentUpon>RotatedBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Charts\Bar\StoreViewModel.cs" />
     <Compile Include="Views\UserControls\Charts\Line\BasicLine.xaml.cs">
       <DependentUpon>BasicLine.xaml</DependentUpon>
     </Compile>
@@ -353,26 +337,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Charts\Sequence\ChartsSet.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Charts\Bar\Basic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Charts\Bar\MultiAxesBarChart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Charts\Bar\MvvmBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Charts\Bar\PointPropertyChangedBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Charts\Bar\RotatedBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -495,7 +459,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MVVM\ViewModels\Additional\" />
-    <Folder Include="Views\UserControls\Charts\StackedBar\" />
+    <Folder Include="Views\UserControls\Charts\Bar\" />
     <Folder Include="Views\UserControls\Filters\Director\" />
     <Folder Include="Views\UserControls\Filters\Saler\" />
   </ItemGroup>
