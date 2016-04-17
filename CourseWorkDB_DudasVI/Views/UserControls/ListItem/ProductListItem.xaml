@@ -5,10 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"
              xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:rules="clr-namespace:CourseWorkDB_DudasVI.Views.Rules"
              mc:Ignorable="d">
-    <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="1,1,1,1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Height="Auto">
-       <Border.Resources>
-            <converters:ProductPriceConverter x:Key="PriceConverter"/>
+    <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="1,1,1,1" HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" Height="Auto">
+        <Border.Resources>
+            <converters:ProductPriceConverter x:Key="PriceConverter" />
         </Border.Resources>
         <Grid Height="Auto" Margin="5">
             <Grid.RowDefinitions>
@@ -24,8 +27,20 @@
             </Grid.ColumnDefinitions>
             <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Height="50" Width="50"
                    Source="pack://application:,,,/Resources/images/sweet.png" VerticalAlignment="Center" />
-            <TextBlock FontWeight="Bold" Grid.Row="0" ToolTip="Назва товару" VerticalAlignment="Center" TextWrapping="Wrap"  Grid.Column="2" Text="{Binding Path=PRODUCT_TITLE}" />
-            <TextBlock FontWeight="Bold" Grid.Row="1" Grid.Column="2" ToolTip="Назва категорії" VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left" Text="{Binding Path=CATEGORY.CATEGORY_TITLE}" />
+            <TextBlock FontWeight="Bold" Grid.Row="0" ToolTip="Назва товару" VerticalAlignment="Center"
+                       TextWrapping="Wrap" Grid.Column="2" Text="{Binding Path=PRODUCT_TITLE}" >
+                            <i:Interaction.Behaviors>
+                                <rules:TextHighlightBehavior Text="{Binding ElementName=searchTxt, Path=Text}" Background="Blue" />
+                            </i:Interaction.Behaviors>
+                </TextBlock>
+            <TextBlock FontWeight="Bold" Grid.Row="1" Grid.Column="2" ToolTip="Назва категорії"
+                       VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"
+                       Text="{Binding Path=CATEGORY.CATEGORY_TITLE}" >
+                                <i:Interaction.Behaviors>
+                                    <rules:TextHighlightBehavior Text="{Binding ElementName=searchTxt, Path=Text}"
+                                                                 Background="Blue" />
+                                </i:Interaction.Behaviors>
+                </TextBlock>
             <Grid Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -33,9 +48,11 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock FontWeight="Bold" Grid.Column="0" Foreground="Green" HorizontalAlignment="Left"
-                       Text="{Binding Path=PRODUCT_INFO_ID, Converter={StaticResource PriceConverter},ConverterParameter='$'}" ToolTip="Остання встановлена ціна"/>
+                           Text="{Binding Path=PRODUCT_INFO_ID, Converter={StaticResource PriceConverter},ConverterParameter='$'}"
+                           ToolTip="Остання встановлена ціна" />
                 <TextBlock FontWeight="Bold" Grid.Column="2" Foreground="Green" HorizontalAlignment="Left"
-                       Text="{Binding Path=PRODUCT_INFO_ID, Converter={StaticResource PriceConverter},ConverterParameter='%'}" ToolTip="У відсотках від вартості виробництва"/>
+                           Text="{Binding Path=PRODUCT_INFO_ID, Converter={StaticResource PriceConverter},ConverterParameter='%'}"
+                           ToolTip="У відсотках від вартості виробництва" />
             </Grid>
         </Grid>
     </Border>

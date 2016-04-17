@@ -11,14 +11,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="1"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" />
         <lvc:PieChart Name="Chart" Grid.Row="2" LegendLocation="Right"
                       Series="{Binding PieSeriesInstance}">
             <lvc:PieChart.AxisY>
                 <lvc:Axis Title="{Binding Path=YTitle}" />
             </lvc:PieChart.AxisY>
             <lvc:PieChart.AxisX>
-                <lvc:Axis Title="{Binding Path=XTitle}" Labels="{Binding Path=Labels}" Separator="{x:Static lvc:DefaultAxes.CleanSeparator}"/>
+                <lvc:Axis Title="{Binding Path=XTitle}" Labels="{Binding Path=Labels}"
+                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
             </lvc:PieChart.AxisX>
         </lvc:PieChart>
 

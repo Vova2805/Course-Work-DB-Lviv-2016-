@@ -54,7 +54,7 @@
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="За категорією" VerticalAlignment="Center" />
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="За вартістю продукту" VerticalAlignment="Center" />
                 <Controls:ToggleSwitch Grid.Row="2" Grid.Column="1" IsChecked="{Binding FilterByPrice,Mode=TwoWay}"
-                                       Margin="5" Foreground="BlanchedAlmond" IsCheckedChanged="CheckedChanged"/>
+                                       Margin="5" Foreground="BlanchedAlmond" IsCheckedChanged="CheckedChanged" />
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Від" TextAlignment="Right" />
                 <Controls:NumericUpDown Grid.Row="3" Name="fromPrice" IsEnabled="{Binding FilterByPrice}"
                                         Grid.Column="1" Margin="5" Minimum="0" Value="{Binding priceFrom,Mode=TwoWay}" />

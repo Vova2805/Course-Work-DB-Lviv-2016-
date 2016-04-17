@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,13 +14,22 @@ using MahApps.Metro.Controls;
 
 namespace CourseWorkDB_DudasVI.Views
 {
+    public static class ExtensionMethod
+    {
+        public static bool Contains(this string source, string cont
+                                               , StringComparison compare)
+        {
+            return source.IndexOf(cont, compare) >= 0;
+        }
+    }
+
     public partial class HomeWindowSpecialist : MetroWindow
     {
         private readonly SWEET_FACTORYEntities _sweetFactoryEntities = new SWEET_FACTORYEntities();
         private readonly List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
         public SpecialistViewModel _specialistViewModel;
-        private List<Flyout> flyouts;
-        private List<UserControls.ChartsSet> chartsSets;
+        private readonly List<ChartsSet> chartsSets;
+        private readonly List<Flyout> flyouts;
 
         public HomeWindowSpecialist()
         {
@@ -28,55 +38,55 @@ namespace CourseWorkDB_DudasVI.Views
             DataContext = _specialistViewModel;
 
             InitializeComponent();
-            chartsSets = new List<ChartsSet>() { ChartsSetView, ChartsSet2 };
+            chartsSets = new List<ChartsSet> {ChartsSetView, ChartsSet2};
             foreach (var chart in chartsSets)
             {
                 chart.DataContext = _specialistViewModel;
                 chart.init();
             }
-            
+
             addColumns();
-            flyouts = new List<Flyout>() {AdminFlyout, SpecialistEditOrders};
+            flyouts = new List<Flyout> {AdminFlyout, SpecialistEditOrders};
             addHotKey();
+            view = CollectionViewSource.GetDefaultView(_specialistViewModel.ProductsList);
+            view.Filter = this.FilterProductsRule;
         }
 
         private void addHotKey()
         {
-            RoutedCommand firstSettings = new RoutedCommand();
-            firstSettings.InputGestures.Add(new KeyGesture(System.Windows.Input.Key.E, ModifierKeys.Alt));
+            var firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(firstSettings, EditOrdersOpen));
 
             firstSettings = new RoutedCommand();
-            firstSettings.InputGestures.Add(new KeyGesture(System.Windows.Input.Key.F, ModifierKeys.Alt));
+            firstSettings.InputGestures.Add(new KeyGesture(Key.F, ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(firstSettings, EditOrdersOpen));
 
             firstSettings = new RoutedCommand();
-            firstSettings.InputGestures.Add(new KeyGesture(System.Windows.Input.Key.S, ModifierKeys.Alt));
+            firstSettings.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(firstSettings, SettingsClick));
 
             firstSettings = new RoutedCommand();
-            firstSettings.InputGestures.Add(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Alt));
+            firstSettings.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(firstSettings, OnCheckAll));
 
             firstSettings = new RoutedCommand();
-            firstSettings.InputGestures.Add(new KeyGesture(System.Windows.Input.Key.U, ModifierKeys.Alt));
+            firstSettings.InputGestures.Add(new KeyGesture(Key.U, ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(firstSettings, OnUncheckAll));
 
             firstSettings = new RoutedCommand();
-            firstSettings.InputGestures.Add(new KeyGesture(System.Windows.Input.Key.R, ModifierKeys.Alt));
+            firstSettings.InputGestures.Add(new KeyGesture(Key.R, ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(firstSettings, RefreshDiagram));
 
             firstSettings = new RoutedCommand();
-            firstSettings.InputGestures.Add(new KeyGesture(System.Windows.Input.Key.F1, ModifierKeys.Alt));
+            firstSettings.InputGestures.Add(new KeyGesture(Key.F1, ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(firstSettings, Help));
         }
-
 
         #region Func
 
         private void Help(object sender, RoutedEventArgs e)
         {
-            
         }
 
         public void addColumns()
@@ -92,7 +102,7 @@ namespace CourseWorkDB_DudasVI.Views
                 var column = new DataGridTextColumn();
                 column.Header = quantity.From.ToLongDateString() + " \n " + quantity.To.ToLongDateString();
                 column.Binding = new Binding("QuantityInOrders[" + i + "].Quantity");
-                var style = new Style(typeof(DataGridCell));
+                var style = new Style(typeof (DataGridCell));
                 style.Setters.Add(new Setter
                 {
                     Property = HorizontalAlignmentProperty,
@@ -112,25 +122,28 @@ namespace CourseWorkDB_DudasVI.Views
             {
                 model.UpdateSeries();
             }
-                    
         }
 
         private void OnCheckAll(object sender, RoutedEventArgs e)
         {
-           
             switch (SpecialistControl.SelectedIndex)
             {
                 case 0:
+                {
+                    var model = DataContext as SpecialistViewModel;
+                    if (model != null)
                     {
-                        var model = DataContext as SpecialistViewModel;
-                        if (model != null)
+                        foreach (var product in model.productPackagesList)
                         {
-                            foreach (var product in model.productPackagesList)
-                            {
-                                product.isChecked = true;
-                            }
+                            product.isChecked = true;
                         }
                     }
+                }
+                    break;
+                case 1:
+                {
+                    searchTxt.Text = "";
+                }
                     break;
             }
         }
@@ -140,23 +153,23 @@ namespace CourseWorkDB_DudasVI.Views
             switch (SpecialistControl.SelectedIndex)
             {
                 case 0:
+                {
+                    var model = DataContext as SpecialistViewModel;
+                    if (model != null)
                     {
-                        var model = DataContext as SpecialistViewModel;
-                        if (model != null)
+                        foreach (var product in model.productPackagesList)
                         {
-                            foreach (var product in model.productPackagesList)
-                            {
-                                product.isChecked = false;
-                            }
+                            product.isChecked = false;
                         }
                     }
+                }
                     break;
             }
         }
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
-         AdminFlyout.IsOpen = !AdminFlyout.IsOpen;
+            AdminFlyout.IsOpen = !AdminFlyout.IsOpen;
         }
 
         private void EditOrdersOpen(object sender, RoutedEventArgs e)
@@ -165,11 +178,15 @@ namespace CourseWorkDB_DudasVI.Views
             {
                 case 0:
                 {
-                        SpecialistEditOrders.IsOpen = !SpecialistEditOrders.IsOpen;
+                    SpecialistEditOrders.IsOpen = !SpecialistEditOrders.IsOpen;
                 }
                     break;
+                case 1:
+                    {
+                        SpecialistProductFilter.IsOpen = !SpecialistProductFilter.IsOpen;
+                    }
+                    break;
             }
-            
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -178,18 +195,35 @@ namespace CourseWorkDB_DudasVI.Views
             if (model != null)
             {
                 model.TabIndex = SpecialistControl.SelectedIndex;
+                model.UpdateSeries();
             }
-            if (flyouts!=null )
-            foreach (var flyout in flyouts)
-            {
-                flyout.IsOpen = false;
-            }
-        }   
+            if (flyouts != null)
+                foreach (var flyout in flyouts)
+                {
+                    flyout.IsOpen = false;
+                }
+        }
 
 
-        private void MouseClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void MouseClick(object sender, MouseButtonEventArgs e)
         {
+        }
 
+        private ICollectionView view;
+        private void OnSearch(object sender, TextChangedEventArgs e)
+        {
+            view.Refresh();
+        }
+       
+        private bool FilterProductsRule(object obj)
+        {
+            var product = obj as PRODUCT_INFO;
+            if(product.PRODUCT_TITLE.ToString().Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase)
+                ||product.CATEGORY.CATEGORY_TITLE.ToString().Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+            return false;
         }
 
         #endregion

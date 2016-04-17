@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
 using LiveCharts;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
@@ -13,6 +12,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
             InitializeComponent();
             DataContext = dataContext;
         }
+
         public SeriesCollection Series { get; set; }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -37,7 +37,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
 
             foreach (var series in Series)
             {
-                series.Values.Add((double)r.Next(0, 15));
+                series.Values.Add((double) r.Next(0, 15));
             }
         }
 
@@ -55,7 +55,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
             var r = new Random();
             var count = Series.Count > 0 ? Series[0].Values.Count : 5;
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 someRandomValues.Add(r.Next(0, 15));
             }

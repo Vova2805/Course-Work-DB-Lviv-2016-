@@ -143,7 +143,6 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\CustomElements\CustomTextBox.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\GoodsFilter.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\CostFilter.g.cs
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\ProductFilter.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\OrderListItem.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\ProductExtendedListItem.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\ProductListItem.g.cs
@@ -175,7 +174,6 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\CustomElements\CustomTextBox.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\GoodsFilter.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\CostFilter.baml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\ProductFilter.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\OrderListItem.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\ProductExtendedListItem.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\ProductListItem.baml
@@ -196,4 +194,5 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Sequence\ChartsSet.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Bar\BasicBar.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Bar\BasicBar.g.cs
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csprojResolveAssemblyReference.cache
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Specialist\ProductFilter.g.cs
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Specialist\ProductFilter.baml

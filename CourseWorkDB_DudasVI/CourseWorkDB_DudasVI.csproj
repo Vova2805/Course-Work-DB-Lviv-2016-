@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="MVVM\Mapping\Mapping.cs" />
     <Compile Include="MVVM\Models\Additional\OrderProductTransaction.cs" />
+    <Compile Include="MVVM\Models\Additional\ProductPriceListElement.cs" />
     <Compile Include="MVVM\Models\DirectorModel.cs" />
     <Compile Include="MVVM\Models\SpecialistModel.cs" />
     <Compile Include="MVVM\ViewModels\DirectorViewModel.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="STAFF.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Views\Rules\TextHighlightBehavior.cs" />
     <Compile Include="Views\UserControls\Charts\Bar\BasicBar.xaml.cs">
       <DependentUpon>BasicBar.xaml</DependentUpon>
     </Compile>
@@ -247,7 +249,7 @@
     <Compile Include="Views\UserControls\Filters\CostFilter.xaml.cs">
       <DependentUpon>CostFilter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Filters\ProductFilter.xaml.cs">
+    <Compile Include="Views\UserControls\Filters\Specialist\ProductFilter.xaml.cs">
       <DependentUpon>ProductFilter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Filters\Specialist\EditOrder.xaml.cs">
@@ -372,7 +374,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UserControls\Filters\ProductFilter.xaml">
+    <Page Include="Views\UserControls\Filters\Specialist\ProductFilter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

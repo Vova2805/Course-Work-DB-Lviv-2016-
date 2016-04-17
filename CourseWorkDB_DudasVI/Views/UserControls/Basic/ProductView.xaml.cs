@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls
@@ -13,9 +14,9 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             InitializeComponent();
         }
 
-        private void PriceChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double?> e)
+        private void PriceChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
         {
-            var model = this.DataContext as SpecialistViewModel;
+            var model = DataContext as SpecialistViewModel;
             if (model != null)
             {
                 model.ChangeProductPriceValue = true;

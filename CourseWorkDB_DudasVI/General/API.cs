@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Objects.DataClasses;
 using System.Linq;
-using System.Reflection;
 
 namespace CourseWorkDB_DudasVI.General
 {
@@ -10,17 +8,19 @@ namespace CourseWorkDB_DudasVI.General
     {
         public static PRODUCT_PRICE getlastPrice(ICollection<PRODUCT_PRICE> prices)
         {
-            PRODUCT_PRICE result = prices.OrderBy(pr => pr.CHANGED_DATE).Last();
-            return new SWEET_FACTORYEntities().PRODUCT_PRICE
+            var result = prices.OrderBy(pr => pr.CHANGED_DATE).Last();
+            SWEET_FACTORYEntities factoryEntities = new SWEET_FACTORYEntities();
+            return factoryEntities.PRODUCT_PRICE
                 .AsNoTracking()
-                .FirstOrDefault(p=>p.PRICE_ID == result.PRICE_ID);
+                .FirstOrDefault(p => p.PRICE_ID == result.PRICE_ID);
         }
 
         public static List<PRODUCT_PRICE> getPrice(ICollection<PRODUCT_PRICE> prices, DateTime startPeriod,
             DateTime endPeriod)
         {
 //TODO Поставити межі на дати
-            return  prices.ToList().FindAll(pr => pr.CHANGED_DATE <= endPeriod && pr.CHANGED_DATE >= startPeriod).ToList();
+            return
+                prices.ToList().FindAll(pr => pr.CHANGED_DATE <= endPeriod && pr.CHANGED_DATE >= startPeriod).ToList();
         }
 
         public static decimal getlastSalary(ICollection<SALARY> salaries)

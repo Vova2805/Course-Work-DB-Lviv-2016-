@@ -66,6 +66,10 @@
                              Theme="Accent">
                 <UserControls:EditOrder />
             </Controls:Flyout>
+            <Controls:Flyout Header="Фільтрувати продукти" Position="Right" Name="SpecialistProductFilter"
+                             Theme="Accent">
+                <UserControls:ProductFilter />
+            </Controls:Flyout>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
@@ -89,7 +93,7 @@
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
-                                Background="{DynamicResource GrayBrush2}"/>
+                                Background="{DynamicResource GrayBrush2}" />
                         <DataGrid Name="OrdersGrid" Grid.Row="0" Grid.Column="0" FontSize="14"
                                   ItemsSource="{Binding Path=productPackagesList}" AutoGenerateColumns="False"
                                   CanUserResizeColumns="True" MouseDown="MouseClick">
@@ -174,7 +178,7 @@
 
         <!--#region Товари-->
         <TabItem Header="Каталог товарів">
-           
+
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
@@ -188,15 +192,58 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
-                    <ListBox Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch"
+                    <Grid Grid.Column="0" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Margin="5" Height="Auto" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Margin="5" HorizontalAlignment="Stretch" Height="25" FontSize="15"
+                     ToolTip="Фільтрація за назвою" x:Name="searchTxt" TextChanged="OnSearch"/>
+                            <Button Grid.Column="1" Width="40" Click="OnCheckAll"
+                                    Height="35"
+                                    VerticalAlignment="Top"
+                                    ToolTip="Стерти Alt+C" Background="Transparent">
+                                <Rectangle Width="20"
+                                           Height="15">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <VisualBrush Stretch="Fill"
+                                                     Visual="{StaticResource appbar_clear_reflect_horizontal}" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                Visual="{StaticResource appbar_clear_inverse_reflect_horizontal}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                            </Button>
+                        </Grid>
+                        <ListBox Grid.Row="1"  VerticalAlignment="Stretch"
                              SelectedItem="{Binding SelectedProduct,Mode=TwoWay}"
                              Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding ProductsList}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <UserControls:ProductListItem />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <UserControls:ProductListItem />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                    
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <ScrollViewer Grid.Column="2" Grid.Row="0" VerticalScrollBarVisibility="Auto">
                         <StackPanel Orientation="Vertical">
@@ -206,21 +253,34 @@
 
 
                     <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <UserControls:ChartsSet Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" x:Name="ChartsSet2"/>
+                    <UserControls:ChartsSet Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" x:Name="ChartsSet2" />
                     <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="Gray">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
 
-                            <Button Width="50"
+                            <Button Width="50" Click="EditOrdersOpen"
                                     Height="50"
                                     VerticalAlignment="Top"
-                                    ToolTip="Фільтр"
+                                    ToolTip="Фільтр продуктів Alt+F"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20"
                                            Height="20">
                                     <Rectangle.Fill>
                                         <VisualBrush Stretch="Fill"
                                                      Visual="{StaticResource appbar_filter}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Button>
+                            <Button Width="50" Click="RefreshDiagram"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Оновити графік Alt+R"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="20"
+                                               Height="20">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Fill"
+                                                         Visual="{StaticResource appbar_refresh}" />
                                     </Rectangle.Fill>
                                 </Rectangle>
                             </Button>

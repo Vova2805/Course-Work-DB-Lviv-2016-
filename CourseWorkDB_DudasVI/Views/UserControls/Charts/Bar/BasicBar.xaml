@@ -7,14 +7,14 @@
              xmlns:lvc="clr-namespace:LiveCharts;assembly=LiveCharts">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <lvc:BarChart Name="Chart" Grid.Row="2" LegendLocation="Right"
-                       Series="{Binding BarSeriesInstance}">
+                      Series="{Binding BarSeriesInstance}">
             <lvc:BarChart.AxisY>
-                <lvc:Axis Title="{Binding Path=YTitle}"/>
+                <lvc:Axis Title="{Binding Path=YTitle}" />
             </lvc:BarChart.AxisY>
             <lvc:BarChart.AxisX>
                 <lvc:Axis Title="{Binding Path=XTitle}"

@@ -9,40 +9,19 @@ using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls
 {
-    public partial class EditOrder : UserControl
+    public partial class ProductFilter : UserControl
     {
         public static DateTime from = DateTime.Now;
         public static DateTime to = DateTime.Now;
         private readonly SWEET_FACTORYEntities FactoryEntities = new SWEET_FACTORYEntities();
 
-        public EditOrder()
+        public ProductFilter()
         {
             InitializeComponent();
-            FromDatePicker.DisplayDateEnd = DateTime.Now;
-            ToDatePicker.DisplayDateEnd = DateTime.Now;
+            //FromDatePicker.DisplayDateEnd = DateTime.Now;
+            //ToDatePicker.DisplayDateEnd = DateTime.Now;
         }
-
-        private void ToTimeChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var picker = sender as DatePicker;
-            var date = picker.SelectedDate;
-            if (date != null)
-            {
-                to = (DateTime) date;
-            }
-            FromDatePicker.SelectedDate = FromDatePicker.SelectedDate;
-        }
-
-        private void FromTimeChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var picker = sender as DatePicker;
-            var date = picker.SelectedDate;
-            if (date != null)
-            {
-                from = (DateTime) date;
-            }
-            ToDatePicker.SelectedDate = ToDatePicker.SelectedDate;
-        }
+        
 
         private void CategorySelectionChanged(object sender, SelectionChangedEventArgs e)
         {
