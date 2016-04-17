@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -79,32 +81,52 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                         }
                     }
                     model.UpdateQuantity();
+                    FilterByPrice(sender,e);
                 }
+                List<string> titles =
+                    model.productPackagesList.ToList().Select(p => p.packages.First().PRODUCT_INFO.PRODUCT_TITLE.ToString()).ToList();
+                List<PRODUCT_PRICE> prices =
+                    FactoryEntities.PRODUCT_PRICE.ToList()
+                        .FindAll(pr => titles.Contains(pr.PRODUCT_INFO.PRODUCT_TITLE))
+                        .ToList();
+                model.priceFrom = prices.Min(p => p.PRICE_VALUE);
+                model.priceTo = prices.Max(p => p.PRICE_VALUE);
             }
         }
 
         private void FilterByPrice(object sender, RoutedEventArgs e)
         {
             var model = DataContext as SpecialistViewModel;
-            if (model != null)
+            if (model != null && model.FilterByPrice)
             {
-                model.productPackagesList.Clear();
-                var groupedPackages =
-                    FactoryEntities.ORDER_PRODUCT.ToList()
-                        .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
-                        .ToDictionary(group => group.Key, group => group.ToList());
                 var i = 0;
-                foreach (var group in groupedPackages)
+                ObservableCollection<OrderProductTransaction> temp = new ObservableCollection<OrderProductTransaction>();
+                foreach (var product in model.productPackagesList)
                 {
-                    var price = API.getlastPrice(group.Value.First().PRODUCT_INFO.PRODUCT_PRICE);
+                    var price = API.getlastPrice(product.packages.First().PRODUCT_INFO.PRODUCT_PRICE);
                     if (price >= model.priceFrom && price <= model.priceTo)
                     {
-                        model.productPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value,
-                            Session.User));
+                        temp.Add(new OrderProductTransaction(i++, product.packages.First().PRODUCT_INFO.PRODUCT_TITLE, product.packages,Session.User));
                     }
                 }
+                model.productPackagesList = temp;
                 model.UpdateQuantity();
             }
+        }
+
+        private void CheckedChanged(object sender, EventArgs e)
+        {
+            var model = DataContext as SpecialistViewModel;
+            if (model != null)
+            {
+                if (model.productPackagesList != null)
+                {
+                    CategorySelectionChanged(sender, null);
+                    if (!model.FilterByPrice)
+                    model.UpdateSeries();
+                }
+            }
+               
         }
     }
 }

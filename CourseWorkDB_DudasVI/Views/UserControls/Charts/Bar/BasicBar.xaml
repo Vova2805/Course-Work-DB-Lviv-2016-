@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="CourseWorkDB_DudasVI.Views.UserControls.Charts.Line.BasicBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             xmlns:lvc="clr-namespace:LiveCharts;assembly=LiveCharts">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <lvc:BarChart Name="Chart" Grid.Row="2" LegendLocation="Right"
+                       Series="{Binding BarSeriesInstance}">
+            <lvc:BarChart.AxisY>
+                <lvc:Axis Title="{Binding Path=YTitle}"/>
+            </lvc:BarChart.AxisY>
+            <lvc:BarChart.AxisX>
+                <lvc:Axis Title="{Binding Path=XTitle}"
+                          Labels="{Binding Path=Labels}" />
+            </lvc:BarChart.AxisX>
+        </lvc:BarChart>
+    </Grid>
+</UserControl>

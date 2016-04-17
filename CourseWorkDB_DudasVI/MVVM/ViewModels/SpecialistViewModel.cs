@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
@@ -75,6 +76,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             Labels.Clear();
             UpdateLineSeries();
             UpdatePieSeries();
+            UpdateBarSeries();
 
             XTitle = "Номер продукції";
             YTitle = "Кількість замовлено";
@@ -132,7 +134,56 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         }
         private void UpdateBarSeries()
         {
-
+            int i = 0;
+            List<double> lineChartValues = new List<double>();
+            foreach (var quantity in productPackagesList.First().QuantityInOrders)
+            {
+                var serieQuantity = new List<double>();
+                int j = 0;
+                foreach (var product in productPackagesList)
+                {
+                    
+                    if (product.isChecked)
+                    {
+                        if (i == 0)
+                        {
+                            lineChartValues.Add(0);
+                            lineChartValues[lineChartValues.Count - 1] += product.QuantityInOrders.ElementAt(i).Quantity;
+                        }
+                        else
+                        {
+                            lineChartValues[j++] += product.QuantityInOrders.ElementAt(i).Quantity;
+                        }
+                        serieQuantity.Add(product.QuantityInOrders.ElementAt(i).Quantity);
+                        
+                        Labels.Add("№ " + product.Number);
+                    }
+                }
+                var chartValues = new ChartValues<double>();
+                chartValues.AddRange(serieQuantity);
+                var newSerie = new BarSeries
+                {
+                    Title = quantity.From.ToShortDateString() + "\n" + quantity.To.ToShortDateString(),
+                    Values = chartValues
+                };
+                BarSeriesInstance.Add(newSerie);
+                i++;
+            }
+            for (i=0;i<lineChartValues.Count;i++)
+            {
+                lineChartValues[i] /= productPackagesList.First().QuantityInOrders.Count;
+            }
+            var chartLineValues = new ChartValues<double>();
+            chartLineValues.AddRange(lineChartValues);
+            var newLineSerie = new LineSeries
+            {
+                Title = "Середнє значення",
+                Values = chartLineValues,
+                PointRadius = 3,
+                Fill = new SolidColorBrush(Colors.Transparent),
+                Stroke = new SolidColorBrush(Colors.DarkOrange)
+            };
+            BarSeriesInstance.Add(newLineSerie);
         }
 
         #region Properties

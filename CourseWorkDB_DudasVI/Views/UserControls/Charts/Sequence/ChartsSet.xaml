@@ -37,6 +37,23 @@
                 </StackPanel>
             </ScrollViewer>
         </TabItem>
+        <TabItem Header="Стовпчаста" VerticalAlignment="Stretch">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource Title}">Стовпчаста діаграма</TextBlock>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ContentControl Name="BarControl" Grid.Column="1" VerticalAlignment="Stretch" Height="500"
+                                        MinHeight="200"
+                                        Width="Auto" MinWidth="300" />
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
         <TabItem Header="Кругова" VerticalAlignment="Stretch">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>

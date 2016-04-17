@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using AutoMapper;
 using CourseWorkDB_DudasVI.MVVM.Models;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
@@ -15,6 +17,7 @@ namespace CourseWorkDB_DudasVI.Views
         private readonly SWEET_FACTORYEntities _sweetFactoryEntities = new SWEET_FACTORYEntities();
         private readonly List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
         public SpecialistViewModel _specialistViewModel;
+        private List<Flyout> flyouts; 
 
         public HomeWindowSpecialist()
         {
@@ -26,8 +29,23 @@ namespace CourseWorkDB_DudasVI.Views
             ChartsSetView.DataContext = _specialistViewModel;
             ChartsSetView.init();
             addColumns();
+            flyouts = new List<Flyout>() {AdminFlyout, SpecialistEditOrders};
+            addHotKey();
         }
 
+        private void addHotKey()
+        {
+            try
+            {
+                RoutedCommand firstSettings = new RoutedCommand();
+                firstSettings.InputGestures.Add(new KeyGesture(System.Windows.Input.Key.A, ModifierKeys.Alt));
+                CommandBindings.Add(new CommandBinding(firstSettings, EditOrdersOpen));
+            }
+            catch (Exception e)
+            {
+                
+            }
+        }
         public void addColumns()
         {
             foreach (var col in columns)
@@ -101,8 +119,21 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            foreach (var flyout in flyouts)
+            {
+                flyout.IsOpen = false;
+            }
         }
 
+
+        private void MouseClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
+
+        #endregion
+        #region HotKey
+        public HotKey Key = new HotKey(System.Windows.Input.Key.E,ModifierKeys.Alt);
         #endregion
     }
 }

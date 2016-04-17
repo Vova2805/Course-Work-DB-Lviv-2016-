@@ -178,6 +178,9 @@
     <Compile Include="STAFF.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Charts\Bar\BasicBar.xaml.cs">
+      <DependentUpon>BasicBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Charts\Sequence\ExamplesMapper.cs" />
     <Compile Include="SWEET_FACTORY_EDM.Context.cs">
       <AutoGen>True</AutoGen>
@@ -336,6 +339,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\UserControls\Charts\Bar\BasicBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\Charts\Sequence\ChartsSet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -459,7 +466,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MVVM\ViewModels\Additional\" />
-    <Folder Include="Views\UserControls\Charts\Bar\" />
     <Folder Include="Views\UserControls\Filters\Director\" />
     <Folder Include="Views\UserControls\Filters\Saler\" />
   </ItemGroup>

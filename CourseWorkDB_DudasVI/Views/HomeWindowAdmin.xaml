@@ -429,16 +429,6 @@
         <!--#region Рух товарів-->
         <TabItem Header="Рух товарів">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
-                <!--<Border.Resources>
-                    -->
-                <!--<Converters:StringTrimmerConverter MaxLengthAllowed="40" x:Key="trimConverter"/>-->
-                <!--Converters-->
-                <!--
-                    <BooleanToVisibilityConverter x:Key="boolToVis"/>
-                    <Converters:NullToBoolConverter x:Key="nullToBool"/>
-                    <Converters:TransactionHeaderConverter x:Key="headerTextConv"/>
-                    <local:BindingProxy x:Key="proxy" Data="{Binding}" />
-                </Border.Resources>-->
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />

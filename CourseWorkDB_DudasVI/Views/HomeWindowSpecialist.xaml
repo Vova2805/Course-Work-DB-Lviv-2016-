@@ -88,12 +88,10 @@
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
-                                Background="{DynamicResource GrayBrush2}">
-                            <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch" />
-                        </Border>
+                                Background="{DynamicResource GrayBrush2}"/>
                         <DataGrid Name="OrdersGrid" Grid.Row="0" Grid.Column="0" FontSize="14"
                                   ItemsSource="{Binding Path=productPackagesList}" AutoGenerateColumns="False"
-                                  CanUserResizeColumns="True">
+                                  CanUserResizeColumns="True" MouseDown="MouseClick">
                             <DataGrid.Columns>
                                 <DataGridCheckBoxColumn Width="20" Binding="{Binding Path=isChecked, Mode=TwoWay}"
                                                         Header="Відображати" />
