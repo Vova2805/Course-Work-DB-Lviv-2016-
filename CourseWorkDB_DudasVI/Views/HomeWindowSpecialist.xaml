@@ -6,6 +6,7 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:ViewModels="clr-namespace:CourseWorkDB_DudasVI.MVVM.ViewModels"
+                      xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
                       mc:Ignorable="d"
                       Title="Sweet retail system"
                       BorderThickness="0"
@@ -21,7 +22,7 @@
     </Controls:MetroWindow.Resources>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button ToolTip="Налаштування профілю" Click="SettingsClick">
+            <Button ToolTip="Налаштування профілю Alt+S" Click="SettingsClick">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5 0 5 0"
                                VerticalAlignment="Center"
@@ -33,7 +34,7 @@
                     </Rectangle>
                 </StackPanel>
             </Button>
-            <Button ToolTip="Довідка">
+            <Button ToolTip="Довідка Alt+F1" Click="Help">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5 0 5 0"
                                VerticalAlignment="Center"
@@ -68,8 +69,8 @@
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
-    <TabControl SelectionChanged="TabControl_SelectionChanged">
-        <!--#region Замовники і замовлення-->
+    <TabControl SelectionChanged="TabControl_SelectionChanged" Name="SpecialistControl">
+        <!--#region Замовлення-->
         <TabItem Header="Замовлення">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -110,7 +111,7 @@
                                 <Button Width="50" Click="EditOrdersOpen"
                                         Height="50"
                                         VerticalAlignment="Top"
-                                        ToolTip="Фільтр"
+                                        ToolTip="Фільтр та редагування Alt+E,F"
                                         Style="{DynamicResource MetroCircleButtonStyle}">
                                     <Rectangle Width="20"
                                                Height="20">
@@ -123,7 +124,7 @@
                                 <Button Width="50" Click="OnCheckAll"
                                         Height="50"
                                         VerticalAlignment="Top"
-                                        ToolTip="Позначити всі"
+                                        ToolTip="Позначити всі Alt+C"
                                         Style="{DynamicResource MetroCircleButtonStyle}">
                                     <Rectangle Width="20"
                                                Height="20">
@@ -135,7 +136,7 @@
                                 <Button Width="50" Click="OnUncheckAll"
                                         Height="50"
                                         VerticalAlignment="Top"
-                                        ToolTip="Зняти відмітки"
+                                        ToolTip="Зняти відмітки Alt+U"
                                         Style="{DynamicResource MetroCircleButtonStyle}">
                                     <Rectangle Width="20"
                                                Height="20">
@@ -148,7 +149,7 @@
                                 <Button Width="50" Click="RefreshDiagram"
                                         Height="50"
                                         VerticalAlignment="Top"
-                                        ToolTip="Оновити графік"
+                                        ToolTip="Оновити графік Alt+R"
                                         Style="{DynamicResource MetroCircleButtonStyle}">
                                     <Rectangle Width="20"
                                                Height="20">
@@ -165,78 +166,6 @@
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <UserControls:ChartsSet Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch"
                                             x:Name="ChartsSetView" />
-                    <!--<TabControl Grid.Column="2">
-                        <TabControl.Resources>
-                            <Style x:Key="Title" TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="#3F51B4" />
-                                <Setter Property="FontSize" Value="20" />
-                                <Setter Property="FontWeight" Value="SemiBold" />
-                                <Setter Property="HorizontalAlignment" Value="Center" />
-                                <Setter Property="Margin" Value="15" />
-                            </Style>
-                        </TabControl.Resources>
-                        <TabItem Header="Лінійна" Name="Panel">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch">
-                                <StackPanel>
-                                    <TextBlock Style="{StaticResource Title}">Лінійна діаграма</TextBlock>
-                                    <Grid VerticalAlignment="Stretch">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0"
-                                               Source="pack://application:,,,/Resources/images/Left.png" />
-                                        <ContentControl Name="LineControl" Grid.Column="1" Height="500" Width="Auto"
-                                                        VerticalAlignment="Top" />
-                                        <Image Grid.Column="2"
-                                               Source="pack://application:,,,/Resources/images/Right.png" />
-                                    </Grid>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </TabItem>
-                        <TabItem Header="Стовпчаста">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                <StackPanel>
-                                    <TextBlock Style="{StaticResource Title}">Стовпчаста діагрaма</TextBlock>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0"
-                                               Source="pack://application:,,,/Resources/images/Left.png" />
-                                        <ContentControl Name="BarControl" Grid.Column="1" Height="500" Width="Auto" />
-                                        <Image Grid.Column="2"
-                                               Source="pack://application:,,,/Resources/images/Right.png" />
-                                    </Grid>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </TabItem>
-                        <TabItem Header="Кругова">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                <StackPanel>
-                                    <TextBlock Style="{StaticResource Title}">Кругова діаграма</TextBlock>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0"
-                                               Source="pack://application:,,,/Resources/images/Left.png" />
-                                        <ContentControl Name="PieControl" Grid.Column="1" Height="500" Width="Auto" />
-                                        <Image Grid.Column="2"
-                                               Source="pack://application:,,,/Resources/images/Right.png" />
-                                    </Grid>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </TabItem>
-                    </TabControl>-->
                 </Grid>
             </Border>
         </TabItem>
@@ -245,6 +174,7 @@
 
         <!--#region Товари-->
         <TabItem Header="Каталог товарів">
+           
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
@@ -259,8 +189,8 @@
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
                     <ListBox Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch"
-                             SelectedItem="{Binding SelectedUser,Mode=TwoWay}"
-                             Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding Users}">
+                             SelectedItem="{Binding SelectedProduct,Mode=TwoWay}"
+                             Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding ProductsList}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <UserControls:ProductListItem />
@@ -276,8 +206,8 @@
 
 
                     <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <UserControls:ChartsSet Grid.Column="4" />
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" Background="Gray">
+                    <UserControls:ChartsSet Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" x:Name="ChartsSet2"/>
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="Gray">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
 

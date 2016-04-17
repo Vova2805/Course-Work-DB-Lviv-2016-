@@ -9,19 +9,38 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 {
     public class SpecialistModel
     {
+        public SeriesCollection LineSeriesInstance;
+        public SeriesCollection PieSeriesInstance;
+        public SeriesCollection BarSeriesInstance;
+        public int tabIndex ;
+        //TabPages
+        #region First
         public List<string> CategoriesList;
         public WAREHOUSE CurrentWarehouse;
         public decimal priceFrom;
         public decimal priceTo;
         public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
         public string selectedCategory;
-        public SeriesCollection LineSeriesInstance;
-        public SeriesCollection PieSeriesInstance;
-        public SeriesCollection BarSeriesInstance;
+        #endregion
+        #region Second
+
+        public List<PRODUCT_INFO> ProductsList;
+        public PRODUCT_INFO SelectedProduct;
+        public List<PRODUCT_PRICE> ProductPriceList; 
+        public PRODUCT_PRICE SelectedProductPrice;
+        public double ProductPriceValue;
+        public double ProductPricePersentage;
+        #endregion
+
 
 
         public SpecialistModel(SWEET_FACTORYEntities FactoryEntities)
         {
+            LineSeriesInstance = new SeriesCollection();
+            PieSeriesInstance = new SeriesCollection();
+            BarSeriesInstance = new SeriesCollection();
+            Labels = new List<string>();
+            #region First
             CategoriesList = FactoryEntities.CATEGORY.ToList().Select(c => c.CATEGORY_TITLE).ToList();
             CategoriesList.Insert(0, "Всі категорії");
             priceFrom = FactoryEntities.PRODUCT_PRICE.ToList().Min(p => p.PRICE_VALUE);
@@ -42,10 +61,18 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 new RegionInfo(0, FromTime, ToTime));
             OptionsList = options.Keys.ToList();
             selectedOption = OptionsList.First();
-            LineSeriesInstance = new SeriesCollection();
-            PieSeriesInstance = new SeriesCollection();
-            BarSeriesInstance = new SeriesCollection();
-            Labels = new List<string>();
+            #endregion
+            #region Second
+
+            ProductsList = FactoryEntities.PRODUCT_INFO.ToList();
+            SelectedProduct = ProductsList.First();
+            SelectedProductPrice = API.getlastPrice(SelectedProduct.PRODUCT_PRICE);
+            ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
+            ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+            ProductPriceList = SelectedProduct.PRODUCT_PRICE.ToList();
+            #endregion
+
+            
         }
 
         public class RegionInfo

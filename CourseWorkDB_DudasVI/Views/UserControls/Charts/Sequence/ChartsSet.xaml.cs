@@ -6,9 +6,6 @@ using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls
 {
-    /// <summary>
-    ///     Логика взаимодействия для ChartsSet.xaml
-    /// </summary>
     public partial class ChartsSet : UserControl
     {
         public ChartsSet()

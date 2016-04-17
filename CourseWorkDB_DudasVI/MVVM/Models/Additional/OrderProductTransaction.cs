@@ -30,7 +30,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             //first range will be from the last production schedule
             //create time up to now
             QuantityInOrders.Add(new QuantityInOrder(FromTime, ToTime, this));
-            productPrice = (double) API.getlastPrice(packagesTotal.PRODUCT_INFO.PRODUCT_PRICE);
+            productPrice = (double) API.getlastPrice(packagesTotal.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
         }
 
 

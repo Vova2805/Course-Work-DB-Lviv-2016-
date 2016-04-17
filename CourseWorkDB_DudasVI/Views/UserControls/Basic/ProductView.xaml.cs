@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls
 {
@@ -10,6 +11,16 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         public ProductView()
         {
             InitializeComponent();
+        }
+
+        private void PriceChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double?> e)
+        {
+            var model = this.DataContext as SpecialistViewModel;
+            if (model != null)
+            {
+                model.ChangeProductPriceValue = true;
+                model.ChangeProductPricePersentage = true;
+            }
         }
     }
 }

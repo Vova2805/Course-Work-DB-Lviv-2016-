@@ -18,8 +18,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class SpecialistViewModel : ViewModelBase
     {
+        #region General Charts
+        private SeriesCollection _LineSeriesInstance;
+        private SeriesCollection _PieSeriesInstance;
+        private SeriesCollection _BarSeriesInstance;
+        private int _tabIndex;
+        #endregion
+        //TabPages
+        #region First
         private ObservableCollection<string> _CategoriesList;
-
         private WAREHOUSE _CurrentWarehouse;
         private DateTime _FromTime;
         private ObservableCollection<string> _Labels;
@@ -30,14 +37,215 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<OrderProductTransaction> _productPackagesList;
         private string _selectedCategory;
         private string _selectedOption;
-        private SeriesCollection _LineSeriesInstance;
-        private SeriesCollection _PieSeriesInstance;
-        private SeriesCollection _BarSeriesInstance;
         private DateTime _ToTime;
         private string _xTitle;
         private string _yTitle;
         private bool filterByPrice;
+        #endregion
+        #region Second
 
+        private ObservableCollection<PRODUCT_INFO> _ProductsList;
+        private PRODUCT_INFO _SelectedProduct;
+        private PRODUCT_PRICE _SelectedProductPrice;
+        private List<PRODUCT_PRICE> _ProductPriceList;
+        private double _ProductPriceValue;
+        private double _ProductPricePersentage;
+        #endregion
+
+        #region Functions
+        #region Charts
+        private void UpdateLineSeries()
+        {
+            switch (TabIndex)
+            {
+                case 0:
+                {
+                        #region First
+                        int i = 0;
+                        foreach (var quantity in productPackagesList.First().QuantityInOrders)
+                        {
+                            var serieQuantity = new List<double>();
+                            foreach (var product in productPackagesList)
+                            {
+                                if (product.isChecked)
+                                {
+                                    serieQuantity.Add(product.QuantityInOrders.ElementAt(i).Quantity);
+                                    Labels.Add("№ " + product.Number);
+                                }
+                            }
+                            var chartValues = new ChartValues<double>();
+                            chartValues.AddRange(serieQuantity);
+                            var newSerie = new LineSeries
+                            {
+                                Title = quantity.From.ToShortDateString() + "\n" + quantity.To.ToShortDateString(),
+                                Values = chartValues,
+                                PointRadius = 3
+                            };
+                            LineSeriesInstance.Add(newSerie);
+                            i++;
+                        }
+                        #endregion
+                }
+                    break;
+                case 1:
+                    {
+                        #region Second
+                        for(int i = 0;i<2;i++)
+                        {
+                            var seriePrice = new List<double>();
+                            foreach (var price in ProductPriceList)
+                            {
+                                if(i==0)
+                                seriePrice.Add((double)price.PRICE_VALUE);
+                                else
+                                {
+                                    seriePrice.Add((double)price.PERSENTAGE_VALUE);
+                                }
+                                Labels.Add(price.CHANGED_DATE.ToString("g"));
+                            }
+                            var chartValues = new ChartValues<double>();
+                            chartValues.AddRange(seriePrice);
+                            var newSerie = new LineSeries
+                            {
+                                Title = i==0?"У валюті":"У відсотках",
+                                Values = chartValues,
+                                PointRadius = 3
+                            };
+                            LineSeriesInstance.Add(newSerie);
+                        }
+                        #endregion
+                    }
+                    break;
+            }
+           
+        }
+        private void UpdatePieSeries()
+        {
+            switch (TabIndex)
+            {
+                case 0:
+                    {
+                        #region First
+                        foreach (var product in productPackagesList)
+                        {
+
+                            if (product.isChecked)
+                            {
+                                var serieQuantity = new List<double>();
+                                foreach (var quantity in product.QuantityInOrders)
+                                {
+                                    serieQuantity.Add(quantity.Quantity);
+                                }
+                                var pieValues = new ChartValues<double>();
+                                pieValues.AddRange(serieQuantity);
+                                var newPSerie = new PieSeries
+                                {
+                                    Title = product.ProductTitle,
+                                    Values = pieValues
+                                };
+                                PieSeriesInstance.Add(newPSerie);
+                                Labels.Add("№ " + product.Number + ". " + product.ProductTitle);
+                            }
+                        }
+                        #endregion
+                    }
+                    break;
+            }
+           
+        }
+        private void UpdateBarSeries()
+        {
+            switch (TabIndex)
+            {
+                case 0:
+                    {
+                        #region First
+                        int i = 0;
+                        List<double> lineChartValues = new List<double>();
+                        foreach (var quantity in productPackagesList.First().QuantityInOrders)
+                        {
+                            var serieQuantity = new List<double>();
+                            int j = 0;
+                            foreach (var product in productPackagesList)
+                            {
+
+                                if (product.isChecked)
+                                {
+                                    if (i == 0)
+                                    {
+                                        lineChartValues.Add(0);
+                                        lineChartValues[lineChartValues.Count - 1] += product.QuantityInOrders.ElementAt(i).Quantity;
+                                    }
+                                    else
+                                    {
+                                        lineChartValues[j++] += product.QuantityInOrders.ElementAt(i).Quantity;
+                                    }
+                                    serieQuantity.Add(product.QuantityInOrders.ElementAt(i).Quantity);
+
+                                    Labels.Add("№ " + product.Number);
+                                }
+                            }
+                            var chartValues = new ChartValues<double>();
+                            chartValues.AddRange(serieQuantity);
+                            var newSerie = new BarSeries
+                            {
+                                Title = quantity.From.ToShortDateString() + "\n" + quantity.To.ToShortDateString(),
+                                Values = chartValues
+                            };
+                            BarSeriesInstance.Add(newSerie);
+                            i++;
+                        }
+                        for (i = 0; i < lineChartValues.Count; i++)
+                        {
+                            lineChartValues[i] /= productPackagesList.First().QuantityInOrders.Count;
+                        }
+                        var chartLineValues = new ChartValues<double>();
+                        chartLineValues.AddRange(lineChartValues);
+                        var newLineSerie = new LineSeries
+                        {
+                            Title = "Середнє значення",
+                            Values = chartLineValues,
+                            PointRadius = 3,
+                            Fill = new SolidColorBrush(Colors.Transparent),
+                            Stroke = new SolidColorBrush(Colors.DarkOrange)
+                        };
+                        BarSeriesInstance.Add(newLineSerie);
+                        #endregion
+                    }
+                    break;
+            }
+           
+        }
+        public void UpdateSeries()
+        {
+            if (LineSeriesInstance != null)
+            {
+                LineSeriesInstance.Clear();
+                PieSeriesInstance.Clear();
+                BarSeriesInstance.Clear();
+                Labels.Clear();
+                UpdateLineSeries();
+                UpdatePieSeries();
+                UpdateBarSeries();
+                switch (TabIndex)
+                {
+                    case 0:
+                        {
+                            XTitle = "Номер продукції";
+                            YTitle = "Кількість замовлено";
+                        }
+                        break;
+                    case 1:
+                        {
+                            XTitle = "Дата зміни ціни";
+                            YTitle = "Значення ціни";
+                        }
+                        break;
+                }
+            }
+        }
+        #endregion
+        #region First
         public void Update()
         {
             options = new Dictionary<string, SpecialistModel.RegionInfo>();
@@ -67,125 +275,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
             UpdateSeries();
         }
-
-        public void UpdateSeries()
-        {
-            LineSeriesInstance.Clear();
-            PieSeriesInstance.Clear();
-            BarSeriesInstance.Clear();
-            Labels.Clear();
-            UpdateLineSeries();
-            UpdatePieSeries();
-            UpdateBarSeries();
-
-            XTitle = "Номер продукції";
-            YTitle = "Кількість замовлено";
-        }
-
-        private void UpdateLineSeries()
-        {
-            int i = 0;
-            foreach (var quantity in productPackagesList.First().QuantityInOrders)
-            {
-                var serieQuantity = new List<double>();
-                foreach (var product in productPackagesList)
-                {
-                    if (product.isChecked)
-                    {
-                        serieQuantity.Add(product.QuantityInOrders.ElementAt(i).Quantity);
-                        Labels.Add("№ " + product.Number);
-                    }
-                }
-                var chartValues = new ChartValues<double>();
-                chartValues.AddRange(serieQuantity);
-                var newSerie = new LineSeries
-                {
-                    Title = quantity.From.ToShortDateString() + "\n" + quantity.To.ToShortDateString(),
-                    Values = chartValues,
-                    PointRadius = 3
-                };
-                LineSeriesInstance.Add(newSerie);
-                i++;
-            }
-        }
-        private void UpdatePieSeries()
-        {
-                foreach (var product in productPackagesList)
-                {
-                   
-                    if (product.isChecked)
-                    {
-                        var serieQuantity = new List<double>();
-                        foreach (var quantity in product.QuantityInOrders)
-                        {
-                            serieQuantity.Add(quantity.Quantity);
-                        }
-                        var pieValues = new ChartValues<double>();
-                        pieValues.AddRange(serieQuantity);
-                        var newPSerie = new PieSeries
-                        {
-                            Title = product.ProductTitle,
-                            Values = pieValues
-                        };
-                        PieSeriesInstance.Add(newPSerie);
-                        Labels.Add("№ " + product.Number + ". " + product.ProductTitle);
-                    }
-                }
-        }
-        private void UpdateBarSeries()
-        {
-            int i = 0;
-            List<double> lineChartValues = new List<double>();
-            foreach (var quantity in productPackagesList.First().QuantityInOrders)
-            {
-                var serieQuantity = new List<double>();
-                int j = 0;
-                foreach (var product in productPackagesList)
-                {
-                    
-                    if (product.isChecked)
-                    {
-                        if (i == 0)
-                        {
-                            lineChartValues.Add(0);
-                            lineChartValues[lineChartValues.Count - 1] += product.QuantityInOrders.ElementAt(i).Quantity;
-                        }
-                        else
-                        {
-                            lineChartValues[j++] += product.QuantityInOrders.ElementAt(i).Quantity;
-                        }
-                        serieQuantity.Add(product.QuantityInOrders.ElementAt(i).Quantity);
-                        
-                        Labels.Add("№ " + product.Number);
-                    }
-                }
-                var chartValues = new ChartValues<double>();
-                chartValues.AddRange(serieQuantity);
-                var newSerie = new BarSeries
-                {
-                    Title = quantity.From.ToShortDateString() + "\n" + quantity.To.ToShortDateString(),
-                    Values = chartValues
-                };
-                BarSeriesInstance.Add(newSerie);
-                i++;
-            }
-            for (i=0;i<lineChartValues.Count;i++)
-            {
-                lineChartValues[i] /= productPackagesList.First().QuantityInOrders.Count;
-            }
-            var chartLineValues = new ChartValues<double>();
-            chartLineValues.AddRange(lineChartValues);
-            var newLineSerie = new LineSeries
-            {
-                Title = "Середнє значення",
-                Values = chartLineValues,
-                PointRadius = 3,
-                Fill = new SolidColorBrush(Colors.Transparent),
-                Stroke = new SolidColorBrush(Colors.DarkOrange)
-            };
-            BarSeriesInstance.Add(newLineSerie);
-        }
-
+        #endregion
+        #endregion
         #region Properties
 
         public ObservableCollection<string> Labels
@@ -197,7 +288,51 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("Labels");
             }
         }
-        
+
+        public int TabIndex
+        {
+            get { return _tabIndex; }
+            set
+            {
+                _tabIndex = value;
+                UpdateSeries();
+                OnPropertyChanged("TabIndex");
+            }
+        }
+
+        public double ProductPriceValue
+        {
+            get { return _ProductPriceValue; }
+            set
+            {
+                _ProductPriceValue = value;
+                if(value!=null && SelectedProductPrice!=null)
+                SelectedProductPrice.PRICE_VALUE = (decimal) _ProductPriceValue;
+                if (ChangeProductPricePersentage)
+                {
+                    ChangeProductPriceValue = false;//to avoid endless cycle
+                    ProductPricePersentage = (ProductPriceValue/(double)SelectedProduct.PRODUCTION_PRICE)*100;
+                }
+                OnPropertyChanged("ProductPriceValue");
+            }
+        }
+
+        public double ProductPricePersentage
+        {
+            get { return _ProductPricePersentage; }
+            set
+            {
+                _ProductPricePersentage = value;
+                if (value != null && SelectedProductPrice != null)
+                    SelectedProductPrice.PERSENTAGE_VALUE = (decimal)_ProductPricePersentage;
+                if (ChangeProductPriceValue)
+                {
+                    ChangeProductPricePersentage = false;
+                    ProductPriceValue = (((double)SelectedProduct.PRODUCTION_PRICE) * ProductPricePersentage)/100.0;
+                }
+                OnPropertyChanged("ProductPricePersentage");
+            }
+        }
 
         public string XTitle
         {
@@ -382,6 +517,56 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
+        public bool ChangeProductPriceValue = false;
+        public bool ChangeProductPricePersentage = false;
+
+        public PRODUCT_PRICE SelectedProductPrice
+        {
+            get { return _SelectedProductPrice; }
+            set
+            {
+                _SelectedProductPrice = value;
+                ChangeProductPriceValue = false;
+                ChangeProductPricePersentage = false;
+                ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
+                ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+                OnPropertyChanged("SelectedProductPrice");
+            }
+        }
+
+        public ObservableCollection<PRODUCT_INFO> ProductsList
+        {
+            get { return _ProductsList; }
+            set
+            {
+                _ProductsList = value;
+                OnPropertyChanged("ProductsList");
+            }
+        }
+
+        public PRODUCT_INFO SelectedProduct
+        {
+            get { return _SelectedProduct; }
+            set
+            {
+                _SelectedProduct = value;
+                SelectedProductPrice = API.getlastPrice(SelectedProduct.PRODUCT_PRICE);
+                ProductPriceList = SelectedProduct.PRODUCT_PRICE.ToList();
+                UpdateSeries();
+                OnPropertyChanged("SelectedProduct");
+            }
+        }
+
+        public List<PRODUCT_PRICE> ProductPriceList
+        {
+            get { return _ProductPriceList; }
+            set
+            {
+                _ProductPriceList = value;
+                OnPropertyChanged("ProductPriceList");
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -390,7 +575,14 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             get { return new RelayCommand<string>(DoChange); }
         }
-
+        public ICommand CanselPriceChanges
+        {
+            get { return new RelayCommand<object>(CanselChanges); }
+        }
+        public ICommand SubmitPriceChanges
+        {
+            get { return new RelayCommand<object>(SubmitChanges); }
+        }
 
         public void DoChange(string parameter)
         {
@@ -447,6 +639,51 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
                     break;
             }
+        }
+
+        public void CanselChanges(object obj)
+        {
+            SelectedProductPrice = API.getlastPrice(SelectedProduct.PRODUCT_PRICE);
+        }
+
+        public async void SubmitChanges(object obj)
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var specialistWindow = window as HomeWindowSpecialist;
+            if (specialistWindow != null)
+            {
+                var result = await specialistWindow.ShowMessageAsync("Попередження", "Ви дійсно хочете підтвердити зміни?\nСкасувати цю дію буде не можливо.",MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    using (SWEET_FACTORYEntities factoryEntities = new SWEET_FACTORYEntities())
+                    {
+                        using (var dbContextTransaction = factoryEntities.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                var selected = factoryEntities.PRODUCT_PRICE;
+                                SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
+                                SelectedProductPrice.PRICE_ID = factoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
+                                SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
+                                selected.Add(SelectedProductPrice);
+                                factoryEntities.SaveChanges();
+                                dbContextTransaction.Commit();
+                                specialistWindow.ShowMessageAsync("Вітання", "Зміни внесено!");
+                            }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                                specialistWindow.ShowMessageAsync("Вітання", "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UpdateSelectedProduct()
+        {
+            
         }
 
         #endregion

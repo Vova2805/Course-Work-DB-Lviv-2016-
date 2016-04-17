@@ -103,7 +103,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                 ObservableCollection<OrderProductTransaction> temp = new ObservableCollection<OrderProductTransaction>();
                 foreach (var product in model.productPackagesList)
                 {
-                    var price = API.getlastPrice(product.packages.First().PRODUCT_INFO.PRODUCT_PRICE);
+                    var price = API.getlastPrice(product.packages.First().PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
                     if (price >= model.priceFrom && price <= model.priceTo)
                     {
                         temp.Add(new OrderProductTransaction(i++, product.packages.First().PRODUCT_INFO.PRODUCT_TITLE, product.packages,Session.User));

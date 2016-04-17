@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="Converters\ResultsVisibilityConverter.cs" />
     <Compile Include="Converters\StaffImageConverter.cs" />
+    <Compile Include="Converters\ProductPriceConverter.cs" />
     <Compile Include="DELIVERY.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
