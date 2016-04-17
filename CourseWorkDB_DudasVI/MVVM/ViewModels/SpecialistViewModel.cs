@@ -23,14 +23,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private DateTime _FromTime;
         private ObservableCollection<string> _Labels;
         private Dictionary<string, SpecialistModel.RegionInfo> _options;
-        public List<string> _OptionsList;
+        private List<string> _OptionsList;
         private decimal _priceFrom;
         private decimal _priceTo;
         private ObservableCollection<OrderProductTransaction> _productPackagesList;
         private string _selectedCategory;
-        public string _selectedOption;
-        private SeriesCollection _Series;
-        private SeriesCollection _pieSeries;
+        private string _selectedOption;
+        private SeriesCollection _LineSeriesInstance;
+        private SeriesCollection _PieSeriesInstance;
+        private SeriesCollection _BarSeriesInstance;
         private DateTime _ToTime;
         private string _xTitle;
         private string _yTitle;
@@ -68,10 +69,20 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public void UpdateSeries()
         {
-            Series.Clear();
-            PieSeries.Clear();
+            LineSeriesInstance.Clear();
+            PieSeriesInstance.Clear();
+            BarSeriesInstance.Clear();
             Labels.Clear();
-            var i = 0;
+            UpdateLineSeries();
+            UpdatePieSeries();
+
+            XTitle = "Номер продукції";
+            YTitle = "Кількість замовлено";
+        }
+
+        private void UpdateLineSeries()
+        {
+            int i = 0;
             foreach (var quantity in productPackagesList.First().QuantityInOrders)
             {
                 var serieQuantity = new List<double>();
@@ -80,14 +91,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     if (product.isChecked)
                     {
                         serieQuantity.Add(product.QuantityInOrders.ElementAt(i).Quantity);
-                        var chartValues1 = new ChartValues<double>();
-                        chartValues1.AddRange( new List<double>() { product.QuantityInOrders.ElementAt(i).Quantity});
-                        var newBSerie = new PieSeries
-                        {
-                            Title = product.ProductTitle,
-                            Values = chartValues1
-                        };
-                        PieSeries.Add(newBSerie);
                         Labels.Add("№ " + product.Number);
                     }
                 }
@@ -99,12 +102,37 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     Values = chartValues,
                     PointRadius = 3
                 };
-                
-                Series.Add(newSerie);
+                LineSeriesInstance.Add(newSerie);
                 i++;
             }
-            XTitle = "Номер продукції";
-            YTitle = "Кількість замовлено";
+        }
+        private void UpdatePieSeries()
+        {
+                foreach (var product in productPackagesList)
+                {
+                   
+                    if (product.isChecked)
+                    {
+                        var serieQuantity = new List<double>();
+                        foreach (var quantity in product.QuantityInOrders)
+                        {
+                            serieQuantity.Add(quantity.Quantity);
+                        }
+                        var pieValues = new ChartValues<double>();
+                        pieValues.AddRange(serieQuantity);
+                        var newPSerie = new PieSeries
+                        {
+                            Title = product.ProductTitle,
+                            Values = pieValues
+                        };
+                        PieSeriesInstance.Add(newPSerie);
+                        Labels.Add("№ " + product.Number + ". " + product.ProductTitle);
+                    }
+                }
+        }
+        private void UpdateBarSeries()
+        {
+
         }
 
         #region Properties
@@ -118,16 +146,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("Labels");
             }
         }
-
-        public SeriesCollection PieSeries
-        {
-            get { return _pieSeries; }
-            set
-            {
-                _pieSeries = value;
-                OnPropertyChanged("PieSeries");
-            }
-        }
+        
 
         public string XTitle
         {
@@ -149,13 +168,33 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public SeriesCollection Series
+        public SeriesCollection LineSeriesInstance
         {
-            get { return _Series; }
+            get { return _LineSeriesInstance; }
             set
             {
-                _Series = value;
-                OnPropertyChanged("Series");
+                _LineSeriesInstance = value;
+                OnPropertyChanged("LineSeriesInstance");
+            }
+        }
+
+        public SeriesCollection PieSeriesInstance
+        {
+            get { return _PieSeriesInstance; }
+            set
+            {
+                _PieSeriesInstance = value;
+                OnPropertyChanged("PieSeriesInstance");
+            }
+        }
+
+        public SeriesCollection BarSeriesInstance
+        {
+            get { return _BarSeriesInstance; }
+            set
+            {
+                _BarSeriesInstance = value;
+                OnPropertyChanged("BarSeriesInstance");
             }
         }
 

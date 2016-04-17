@@ -12,7 +12,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <lvc:LineChart x:Name="LineChart1" Grid.Row="2" LegendLocation="Right"
-                       Series="{Binding Series}" Background="White">
+                       Series="{Binding LineSeriesInstance}" Background="White">
             <lvc:LineChart.AxisY>
                 <lvc:Axis Title="{Binding Path=YTitle}" Position="RightTop" />
             </lvc:LineChart.AxisY>

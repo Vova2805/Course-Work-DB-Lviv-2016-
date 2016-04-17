@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="1"/>
         <lvc:PieChart Name="Chart" Grid.Row="2" LegendLocation="Right"
-                      Series="{Binding PieSeries}">
+                      Series="{Binding PieSeriesInstance}">
             <lvc:PieChart.AxisY>
                 <lvc:Axis Title="{Binding Path=YTitle}" />
             </lvc:PieChart.AxisY>

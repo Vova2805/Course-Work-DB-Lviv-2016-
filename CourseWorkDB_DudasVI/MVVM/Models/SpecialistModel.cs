@@ -15,8 +15,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public decimal priceTo;
         public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
         public string selectedCategory;
-        public SeriesCollection Series;
-        public SeriesCollection pieSeries;
+        public SeriesCollection LineSeriesInstance;
+        public SeriesCollection PieSeriesInstance;
+        public SeriesCollection BarSeriesInstance;
 
 
         public SpecialistModel(SWEET_FACTORYEntities FactoryEntities)
@@ -41,8 +42,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 new RegionInfo(0, FromTime, ToTime));
             OptionsList = options.Keys.ToList();
             selectedOption = OptionsList.First();
-            Series = new SeriesCollection();
-            pieSeries = new SeriesCollection();
+            LineSeriesInstance = new SeriesCollection();
+            PieSeriesInstance = new SeriesCollection();
+            BarSeriesInstance = new SeriesCollection();
             Labels = new List<string>();
         }
 
