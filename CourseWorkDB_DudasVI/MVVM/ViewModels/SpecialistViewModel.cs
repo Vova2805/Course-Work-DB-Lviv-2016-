@@ -32,7 +32,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #region First
 
         private ObservableCollection<string> _CategoriesList;
-        private WAREHOUSE _CurrentWarehouse;
         private DateTime _FromTime;
         private ObservableCollection<string> _Labels;
         private Dictionary<string, SpecialistModel.RegionInfo> _options;
@@ -62,6 +61,18 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private string _SelectedProductTitle;
 
         #endregion
+
+        #region Third
+
+        private WAREHOUSE _CurrentWarehouse;
+        public ObservableCollection<WAREHOUSE> _warehouses;
+        public ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
+        public ObservableCollection<string> _warehousesStrings;
+        public string _CurrentWarehouseString;
+
+        #endregion
+
+
 
         #region Functions
 
@@ -707,6 +718,49 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _ProductsTitleList = value;
                 OnPropertyChanged("ProductsTitleList");
+            }
+        }
+
+        public ObservableCollection<WarehouseProductTransaction> InOutComeFlow
+        {
+            get { return _InOutComeFlow; }
+            set
+            {
+                _InOutComeFlow = value;
+                OnPropertyChanged("InOutComeFlow");
+            }
+        }
+
+        public ObservableCollection<WAREHOUSE> Warehouses
+        {
+            get { return _warehouses; }
+            set
+            {
+                _warehouses = value;
+                OnPropertyChanged("Warehouses");
+            }
+        }
+
+        public string CurrentWarehouseString
+        {
+            get { return _CurrentWarehouseString; }
+            set
+            {
+                _CurrentWarehouseString = value;
+                if (WarehousesStrings != null)
+                {
+                    int index = WarehousesStrings.IndexOf(CurrentWarehouseString);
+                    CurrentWarehouse = Warehouses.ElementAt(index);
+                }
+                OnPropertyChanged("CurrentWarehouseString");
+            }
+        }
+
+        public ObservableCollection<string> WarehousesStrings
+        {
+            get { return _warehousesStrings; }
+            set { _warehousesStrings = value;
+                OnPropertyChanged("WarehousesStrings");
             }
         }
 

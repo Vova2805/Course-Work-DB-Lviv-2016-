@@ -97,10 +97,11 @@
     <Compile Include="CLIENT.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Converters\AddressConverter.cs" />
     <Compile Include="Converters\HeaderTitleConverter.cs" />
+    <Compile Include="Converters\ProductPriceConverter.cs" />
     <Compile Include="Converters\ResultsVisibilityConverter.cs" />
     <Compile Include="Converters\StaffImageConverter.cs" />
-    <Compile Include="Converters\ProductPriceConverter.cs" />
     <Compile Include="Converters\StringToColorConverter.cs" />
     <Compile Include="Converters\TabIndexBoolConverter.cs" />
     <Compile Include="DELIVERY.cs">

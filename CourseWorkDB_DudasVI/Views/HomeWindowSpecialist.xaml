@@ -372,10 +372,10 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="Склад (-и)" VerticalAlignment="Center" Margin="5" FontSize="15" />
-                                <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5" ItemsSource="{Binding ProductsTitleList, Mode=TwoWay}" SelectedValue="{Binding Path=SelectedProductTitle,Mode=TwoWay}" IsEditable="False"/>
+                                <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5" ItemsSource="{Binding WarehousesStrings, Mode=TwoWay}" SelectedValue="{Binding Path=CurrentWarehouseString,Mode=TwoWay}" IsEditable="False"/>
                             </Grid>
-                            <DataGrid Grid.Row="1"  SelectedItem="{Binding SelectedTransaction}" FontSize="14"
-                                  ItemsSource="{Binding Transactions}" AutoGenerateColumns="False">
+                            <DataGrid Grid.Row="1"  SelectedItem="{Binding CurrentWarehouse,Mode=TwoWay}" FontSize="14"
+                                  ItemsSource="{Binding CurrentWarehouse}" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Width="Auto" Header="DATE" IsReadOnly="True"
                                                     Binding="{Binding TransactionDate,StringFormat=\{0:dd-MMM-yyyy \}}" />
@@ -435,12 +435,11 @@
                         </ScrollViewer>
                     </Grid>
 
-                    <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
-                            Background="{DynamicResource GrayBrush2}">
+                    <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Background="{DynamicResource GrayBrush2}">
                         <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch" />
                     </Border>
 
-                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="Gray">
+                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="Gray">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                        LastChildFill="False">
                             <Button Width="50" Click="EditOrdersOpen"

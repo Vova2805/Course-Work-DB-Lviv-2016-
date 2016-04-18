@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Documents;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using LiveCharts;
@@ -69,6 +70,21 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             SelectedProductTitle = ProductsTitleList.First();
 
             #endregion
+
+            #region Third
+
+            warehouses = Session.FactoryEntities.WAREHOUSE.ToList();
+            CurrentWarehouse = warehouses.First();
+            warehousesStrings = new List<string>();
+            i = 0;
+            foreach (var warehouse in warehouses)
+            {
+                warehousesStrings.Add(ConvertAddress(warehouse,(++i).ToString()+"."));
+            }
+            CurrentWarehouseString = warehousesStrings.First();
+            //InOutComeFlow
+
+            #endregion
         }
 
         public class RegionInfo
@@ -90,7 +106,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         #region First
 
         public List<string> CategoriesList;
-        public WAREHOUSE CurrentWarehouse;
         public decimal priceFrom;
         public decimal priceTo;
         public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
@@ -112,6 +127,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
         #endregion
 
+        #region Third
+
+        public List<WAREHOUSE> warehouses;
+        public WAREHOUSE CurrentWarehouse;
+        public List<string> warehousesStrings;
+        public string CurrentWarehouseString;
+        public List<WarehouseProductTransaction> InOutComeFlow; 
+        #endregion
+
         #region OrderFilter
 
         public DateTime FromTime;
@@ -125,5 +149,20 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public string yTitle;
 
         #endregion
+        public static string ConvertAddress(WAREHOUSE warehouse, string number = "")
+        {
+            ADDRESS address = warehouse.ADDRESS1;
+            string response = "";
+            if (address != null)
+            {
+                response = number+" "+address.COUNTRY + ", " + address.REGION + ", " + address.CITY + ", " + address.STREET + ", " +
+                           address.BUILDING_NUMBER;
+            }
+            return response;
+        }
     }
 }
+
+#region Third
+
+#endregion
