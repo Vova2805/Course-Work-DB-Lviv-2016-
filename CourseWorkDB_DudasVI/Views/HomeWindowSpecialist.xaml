@@ -252,7 +252,7 @@
 
                     <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <UserControls:ChartsSet Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" x:Name="ChartsSet2" />
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="Gray">
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
 

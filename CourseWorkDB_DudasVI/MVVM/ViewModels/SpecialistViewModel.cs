@@ -263,6 +263,53 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     #endregion
                 }
                     break;
+                case 1:
+                    {
+                        #region Second
+
+
+                        var lineChartValues = new List<double>();
+                        for (int i=0;i<2;i++)
+                            {
+                                var serieQuantity = new List<double>();
+                                foreach (var price in ProductPriceList)
+                                {
+                                    if (i == 0)
+                                    {
+                                        serieQuantity.Add((double) price.ProductPrice.PRICE_VALUE);
+                                    }
+                                    else
+                                    {
+                                        serieQuantity.Add((double) price.ProductPrice.PERSENTAGE_VALUE);
+                                        lineChartValues.Add(100);
+                                    }
+                                    
+                                }
+                                var chartValues = new ChartValues<double>();
+                                chartValues.AddRange(serieQuantity);
+                                var newSerie = new BarSeries
+                                {
+                                    Title = i==0?"У валюті (грн.)":"У відсотках %",
+                                    Values = chartValues
+                                };
+                            BarSeriesInstance.Add(newSerie);
+                            }
+                        
+                        var chartLineValues = new ChartValues<double>();
+                        chartLineValues.AddRange(lineChartValues);
+                        var newLineSerie = new LineSeries
+                        {
+                            Title = "Лінія безбитковості",
+                            Values = chartLineValues,
+                            PointRadius = 3,
+                            Fill = new SolidColorBrush(Colors.Transparent),
+                            Stroke = new SolidColorBrush(Colors.DarkRed)
+                        };
+                        BarSeriesInstance.Add(newLineSerie);
+
+                    }
+                        #endregion
+                    break;
             }
         }
 
@@ -351,7 +398,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _tabIndex = value;
-                UpdateSeries();
                 OnPropertyChanged("TabIndex");
             }
         }
