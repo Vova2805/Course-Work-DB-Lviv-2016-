@@ -342,7 +342,7 @@
         </TabItem>
         <!--#endregion-->
 
-        <TabItem Header="Рух товарів">
+        <TabItem Header="Рух товарів та коштів">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
@@ -382,6 +382,8 @@
                                                     Binding="{Binding Date,StringFormat=\{0:dd-MMM-yyyy \}}" />
                                     <DataGridTextColumn Width="Auto" Header="Кількість" IsReadOnly="True"
                                                     Binding="{Binding Quantity}" />
+                                    <DataGridTextColumn Width="Auto" Header="На суму" IsReadOnly="True"
+                                                    Binding="{Binding MoneyQuantity,StringFormat=\{0:N2\}}" />
                                     <DataGridTemplateColumn Width="Auto"  Header="Напрям" IsReadOnly="True">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
@@ -504,111 +506,6 @@
             </Border>
         </TabItem>
         <!--#endregion-->
-        <!--#region Рух коштів-->
-        <TabItem Header="Рух коштів">
-            <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
-                <!--<Border.Resources>
-                    -->
-                <!--<Converters:StringTrimmerConverter MaxLengthAllowed="40" x:Key="trimConverter"/>-->
-                <!--Converters-->
-                <!--
-                    <BooleanToVisibilityConverter x:Key="boolToVis"/>
-                    <Converters:NullToBoolConverter x:Key="nullToBool"/>
-                    <Converters:TransactionHeaderConverter x:Key="headerTextConv"/>
-                    <local:BindingProxy x:Key="proxy" Data="{Binding}" />
-                </Border.Resources>-->
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="375*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="42*" />
-                        <ColumnDefinition Width="335*" />
-                    </Grid.ColumnDefinitions>
-                    <DataGrid Grid.Row="0" Grid.Column="0" Margin="5,5,0,0" HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch" SelectedItem="{Binding SelectedTransaction}"
-                              FontSize="14" ItemsSource="{Binding Transactions}" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Width="Auto" Header="DATE" IsReadOnly="True"
-                                                Binding="{Binding TransactionDate,StringFormat=\{0:dd-MMM-yyyy \}}" />
-                            <DataGridTextColumn Width="Auto" Header="AMOUNT" IsReadOnly="True"
-                                                Binding="{Binding Amount}" />
-                            <DataGridTextColumn Width="Auto" Header="PURPOSE" IsReadOnly="True"
-                                                Binding="{Binding PurposeType}" />
-                            <DataGridTemplateColumn Width="Auto" Header="FLOW" IsReadOnly="True">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <DockPanel>
-                                            <Path x:Name="figurePath" DockPanel.Dock="Left" Stretch="Uniform"
-                                                  Width="15" Height="15" Margin="5" RenderTransformOrigin="0.5,0.5">
-                                                <Path.RenderTransform>
-                                                    <TransformGroup>
-                                                        <TransformGroup.Children>
-                                                            <RotateTransform Angle="3" />
-                                                            <ScaleTransform ScaleX="1" ScaleY="1" />
-                                                        </TransformGroup.Children>
-                                                    </TransformGroup>
-                                                </Path.RenderTransform>
-                                            </Path>
-                                            <ContentPresenter Margin="0,5,5,5" Content="{Binding FlowType}" />
-                                        </DockPanel>
-                                        <!--<DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Expenditure}">
-                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource ExpenditureFigure}"/>
-                                                <Setter Property="Fill" TargetName="figurePath" Value="Red"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Income}">
-                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource IncomeFigure}"/>
-                                                <Setter Property="Fill" TargetName="figurePath" Value="Green"/>
-                                            </DataTrigger>
-                                        </DataTemplate.Triggers>-->
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn Width="*" Header="DESCRIPTION" IsReadOnly="True" />
-                            <DataGridTextColumn Width="Auto" Header="LAST MODYFIED" IsReadOnly="True"
-                                                Binding="{Binding LastModifiedBy}" />
-                            <DataGridTextColumn Width="Auto" Header="CREATED BY" IsReadOnly="True" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-
-                    <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
-                            Background="{DynamicResource GrayBrush2}">
-                        <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch" />
-                    </Border>
-
-                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Height="50" Background="Gray">
-                        <DockPanel HorizontalAlignment="Right">
-                            <Button Width="50"
-                                    Height="50"
-                                    VerticalAlignment="Top"
-                                    ToolTip="Фільтр"
-                                    Style="{DynamicResource MetroCircleButtonStyle}">
-                                <Rectangle Width="20"
-                                           Height="20">
-                                    <Rectangle.Fill>
-                                        <VisualBrush Stretch="Fill"
-                                                     Visual="{StaticResource appbar_filter}" />
-                                    </Rectangle.Fill>
-                                </Rectangle>
-                            </Button>
-                        </DockPanel>
-                    </Border>
-                    <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <DockPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                        <ScrollViewer DockPanel.Dock="Top" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                            <UserControls:ChartsSet />
-                        </ScrollViewer>
-                    </DockPanel>
-
-                </Grid>
-            </Border>
-        </TabItem>
-        <!--#endregion-->
         <!--#region Склад-->
         <TabItem Header="Склади">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
@@ -685,7 +582,7 @@
                         <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch" />
                     </Border>
 
-                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="Gray">
+                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="Gray">
                         <DockPanel HorizontalAlignment="Right">
                             <Button Width="50"
                                     Height="50"
@@ -789,7 +686,7 @@
                         <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch" />
                     </Border>
 
-                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="Gray">
+                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="Gray">
                         <DockPanel HorizontalAlignment="Right">
                             <Button Width="50"
                                     Height="50"

@@ -206,6 +206,9 @@
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Views\Rules\TextHighlightBehavior.cs" />
+    <Compile Include="Views\UserControls\Basic\TotalWarehouseView.xaml.cs">
+      <DependentUpon>TotalWarehouseView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\CustomDialogNumeric.xaml.cs">
       <DependentUpon>CustomDialogNumeric.xaml</DependentUpon>
     </Compile>
@@ -332,6 +335,10 @@
     <Page Include="Views\HomeWindowAdmin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Basic\TotalWarehouseView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\CustomDialogNumeric.xaml">
       <Generator>MSBuild:Compile</Generator>

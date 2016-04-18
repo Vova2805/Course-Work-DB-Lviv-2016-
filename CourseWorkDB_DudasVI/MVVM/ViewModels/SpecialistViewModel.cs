@@ -636,9 +636,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     var times = _InOutComeFlow.Select(el => el.Date).ToList();
                     DateFilterString = times.Min().ToLongDateString() + " - " + times.Max().ToLongDateString();
                     var values = _InOutComeFlow.Select(el => el.Quantity).ToList();
-                    ValueRange = values.Min() + " - " + values.Max();
+                    var money = _InOutComeFlow.Select(el => el.MoneyQuantity).ToList();
+                    ValueRange = values.Min() + "шт. - " + values.Max()+"шт. і "+ money.Min().ToString("N2") + " грн. - " + money.Max().ToString("N2") + " грн.";
                     int income = 0;
                     int outcome = 0;
+                    double incomeMoney = 0;
+                    double outcomeMoney = 0;
                     bool direct = true;
                     bool reverse = true;
                     foreach (var element in _InOutComeFlow)
@@ -647,15 +650,17 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         {
                             reverse = false;
                             income += element.Quantity;
+                            incomeMoney += element.MoneyQuantity;
                         }
                         else
                         {
                             direct = false;
                             outcome += element.Quantity;
+                            outcomeMoney += element.MoneyQuantity;
                         }
                     }
-                    TotalIncome = income + " шт.";
-                    TotalOutcome = outcome + " шт.";
+                    TotalIncome = income + " шт. або "+incomeMoney.ToString("N2") + " грн.";
+                    TotalOutcome = outcome + " шт. або " + outcomeMoney.ToString("N2") + " грн.";
                     if ((!direct && !reverse)||(direct && reverse))
                     {
                         FlowDirection = "Двосторонній";
@@ -729,17 +734,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("OptionsList");
             }
         }
-
-        private string _userNameSurname;
-
+        
         public string userNameSurname
         {
             get { return Session.User.STAFF_NAME + " " + Session.User.STAFF_SURNAME; }
-            set
-            {
-                _userNameSurname = value;
-                OnPropertyChanged("userNameSurname");
-            }
         }
 
         public bool ChangeProductPriceValue;

@@ -1,4 +1,5 @@
 ﻿using System;
+using CourseWorkDB_DudasVI.General;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
@@ -12,6 +13,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private string _category;
         private DateTime _date;
         private bool _flowType; //true - in, false - out
+        private double _moneyQuantity;
 
         //from warehouse
         public WarehouseProductTransaction(ORDER_PRODUCT order_product)
@@ -21,6 +23,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             this.Product = order_product.PRODUCT_INFO;
             this.Date = order_product.SALE_ORDER.REQUIRED_DATE;
             this.FlowType = false;
+            MoneyQuantity = Quantity * (double)API.getlastPrice(Product.PRODUCT_PRICE).PRICE_VALUE;
         }
 
         //to warehouse
@@ -31,6 +34,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             this.Product = schedule_product.PRODUCT_INFO;
             this.Date = schedule_product.PRODUCTION_SCHEDULE.REQUIRED_DATE;
             this.FlowType = true;
+            MoneyQuantity = Quantity*(double)API.getlastPrice(Product.PRODUCT_PRICE).PRICE_VALUE;
         }
 
 
@@ -92,6 +96,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _product = value;
                 OnPropertyChanged("Product");
+            }
+        }
+
+        public double MoneyQuantity
+        {
+            get { return _moneyQuantity; }
+            set
+            {
+                _moneyQuantity = value;
+                OnPropertyChanged("MoneyQuantity");
             }
         }
 
