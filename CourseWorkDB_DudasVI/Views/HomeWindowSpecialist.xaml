@@ -7,6 +7,7 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:ViewModels="clr-namespace:CourseWorkDB_DudasVI.MVVM.ViewModels"
                       xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
+                      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                       mc:Ignorable="d"
                       Title="Sweet retail system"
                       BorderThickness="0"
@@ -18,7 +19,7 @@
     <Controls:MetroWindow.Resources>
         <DataTemplate DataType="{x:Type ViewModels:SpecialistViewModel}">
             <UserControls:EditOrder />
-        </DataTemplate>
+        </DataTemplate> 
     </Controls:MetroWindow.Resources>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
@@ -51,7 +52,6 @@
     </Controls:MetroWindow.RightWindowCommands>
 
     <Controls:MetroWindow.Flyouts>
-
         <Controls:FlyoutsControl>
             <Controls:Flyout Header="Налаштування профілю" Position="Right" Name="AdminFlyout" Theme="Accent">
                 <UserControls:SettingView />
@@ -109,7 +109,7 @@
                                                     Binding="{Binding Path=productPrice,StringFormat=\{0:N\}}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="Gray">
+                        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="50" Background="{DynamicResource AccentColorBrush}">
                             <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                        LastChildFill="False">
                                 <Button Width="50" Click="EditOrdersOpen"
@@ -174,8 +174,6 @@
             </Border>
         </TabItem>
         <!--#endregion Товари-->
-
-
         <!--#region Товари-->
         <TabItem Header="Каталог товарів">
 
@@ -194,16 +192,16 @@
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0" Grid.Row="0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid Margin="5" Height="Auto" Grid.Row="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBox Grid.Column="0" Margin="5" HorizontalAlignment="Stretch" Height="25" FontSize="15"
-                     ToolTip="Фільтрація за назвою" x:Name="searchTxt" TextChanged="OnSearch"/>
+                                     ToolTip="Фільтрація за назвою" x:Name="searchTxt" TextChanged="OnSearch" />
                             <Button Grid.Column="1" Width="40" Click="OnCheckAll"
                                     Height="35"
                                     VerticalAlignment="Top"
@@ -215,7 +213,7 @@
                                             <Setter Property="Fill">
                                                 <Setter.Value>
                                                     <VisualBrush Stretch="Fill"
-                                                     Visual="{StaticResource appbar_clear_reflect_horizontal}" />
+                                                                 Visual="{StaticResource appbar_clear_reflect_horizontal}" />
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
@@ -223,7 +221,7 @@
                                                     <Setter Property="Fill">
                                                         <Setter.Value>
                                                             <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                Visual="{StaticResource appbar_clear_inverse_reflect_horizontal}" />
+                                                                         Visual="{StaticResource appbar_clear_inverse_reflect_horizontal}" />
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>
@@ -233,9 +231,9 @@
                                 </Rectangle>
                             </Button>
                         </Grid>
-                        <ListBox Grid.Row="1"  VerticalAlignment="Stretch"
-                             SelectedItem="{Binding SelectedProduct,Mode=TwoWay}"
-                             Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding ProductsList}">
+                        <ListBox Grid.Row="1" VerticalAlignment="Stretch"
+                                 SelectedItem="{Binding SelectedProduct,Mode=TwoWay}"
+                                 Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding ProductsList}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <UserControls:ProductListItem />
@@ -243,7 +241,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </Grid>
-                    
+
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <ScrollViewer Grid.Column="2" Grid.Row="0" VerticalScrollBarVisibility="Auto">
                         <StackPanel Orientation="Vertical">
@@ -272,15 +270,15 @@
                                 </Rectangle>
                             </Button>
                             <Button Width="50" Click="RefreshDiagram"
-                                        Height="50"
-                                        VerticalAlignment="Top"
-                                        ToolTip="Оновити графік Alt+R"
-                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    ToolTip="Оновити графік Alt+R"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20"
-                                               Height="20">
+                                           Height="20">
                                     <Rectangle.Fill>
                                         <VisualBrush Stretch="Fill"
-                                                         Visual="{StaticResource appbar_refresh}" />
+                                                     Visual="{StaticResource appbar_refresh}" />
                                     </Rectangle.Fill>
                                 </Rectangle>
                             </Button>

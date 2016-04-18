@@ -48,6 +48,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #endregion
 
             #region Second
+
             ProductsList = new List<ProductListElement>();
             foreach (var product in FactoryEntities.PRODUCT_INFO.ToList())
             {
@@ -63,6 +64,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 ProductPriceList.Add(new ProductPriceListElement(price));
             }
             CurrentProductionSchedule = new PRODUCTION_SCHEDULE();
+
             #endregion
         }
 

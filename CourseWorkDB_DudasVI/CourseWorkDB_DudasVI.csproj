@@ -100,6 +100,7 @@
     <Compile Include="Converters\ResultsVisibilityConverter.cs" />
     <Compile Include="Converters\StaffImageConverter.cs" />
     <Compile Include="Converters\ProductPriceConverter.cs" />
+    <Compile Include="Converters\StringToColorConverter.cs" />
     <Compile Include="DELIVERY.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
@@ -122,6 +123,7 @@
     <Compile Include="MVVM\Models\DirectorModel.cs" />
     <Compile Include="MVVM\Models\SpecialistModel.cs" />
     <Compile Include="MVVM\ViewModels\DirectorViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\SettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\SpecialistViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelBase.cs" />
     <Compile Include="ORDER_PRODUCT.cs">
@@ -181,11 +183,6 @@
     <Compile Include="STAFF.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Views\Rules\TextHighlightBehavior.cs" />
-    <Compile Include="Views\UserControls\Charts\Bar\BasicBar.xaml.cs">
-      <DependentUpon>BasicBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Charts\Sequence\ExamplesMapper.cs" />
     <Compile Include="SWEET_FACTORY_EDM.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -204,6 +201,14 @@
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Views\Rules\TextHighlightBehavior.cs" />
+    <Compile Include="Views\UserControls\CustomDialogNumeric.xaml.cs">
+      <DependentUpon>CustomDialogNumeric.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Bar\BasicBar.xaml.cs">
+      <DependentUpon>BasicBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Charts\Sequence\ExamplesMapper.cs" />
     <Compile Include="Views\HomeWindowSpecialist.xaml.cs">
       <DependentUpon>HomeWindowSpecialist.xaml</DependentUpon>
     </Compile>
@@ -295,6 +300,10 @@
     <Compile Include="WAREHOUSE.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
+    <Page Include="Styles\NewCustomDialogStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Authorization.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -322,6 +331,10 @@
     <Page Include="Views\HomeWindowAdmin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\CustomDialogNumeric.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Basic\AddressView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -469,7 +482,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MVVM\ViewModels\Additional\" />
     <Folder Include="Views\UserControls\Filters\Director\" />
     <Folder Include="Views\UserControls\Filters\Saler\" />
   </ItemGroup>

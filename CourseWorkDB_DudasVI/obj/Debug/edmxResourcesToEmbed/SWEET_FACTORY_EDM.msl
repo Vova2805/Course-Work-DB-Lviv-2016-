@@ -287,6 +287,7 @@
           <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
           <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
           <ScalarProperty Name="FULL_SALARY" ColumnName="FULL_SALARY" />
+          <ScalarProperty Name="THEME" ColumnName="THEME" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

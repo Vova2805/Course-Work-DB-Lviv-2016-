@@ -18,7 +18,7 @@ namespace CourseWorkDB_DudasVI.Views
     public static class ExtensionMethod
     {
         public static bool Contains(this string source, string cont
-                                               , StringComparison compare)
+            , StringComparison compare)
         {
             return source.IndexOf(cont, compare) >= 0;
         }
@@ -27,10 +27,10 @@ namespace CourseWorkDB_DudasVI.Views
     public partial class HomeWindowSpecialist : MetroWindow
     {
         private readonly SWEET_FACTORYEntities _sweetFactoryEntities = new SWEET_FACTORYEntities();
-        private readonly List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
-        public SpecialistViewModel _specialistViewModel;
         private readonly List<ChartsSet> chartsSets;
+        private readonly List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
         private readonly List<Flyout> flyouts;
+        public SpecialistViewModel _specialistViewModel;
 
         public HomeWindowSpecialist()
         {
@@ -50,7 +50,7 @@ namespace CourseWorkDB_DudasVI.Views
             flyouts = new List<Flyout> {AdminFlyout, SpecialistEditOrders};
             addHotKey();
             view = CollectionViewSource.GetDefaultView(_specialistViewModel.ProductsList);
-            view.Filter = this.FilterProductsRule;
+            view.Filter = FilterProductsRule;
         }
 
         private void addHotKey()
@@ -183,9 +183,9 @@ namespace CourseWorkDB_DudasVI.Views
                 }
                     break;
                 case 1:
-                    {
-                        SpecialistProductFilter.IsOpen = !SpecialistProductFilter.IsOpen;
-                    }
+                {
+                    SpecialistProductFilter.IsOpen = !SpecialistProductFilter.IsOpen;
+                }
                     break;
             }
         }
@@ -210,17 +210,19 @@ namespace CourseWorkDB_DudasVI.Views
         {
         }
 
-        private ICollectionView view;
+        private readonly ICollectionView view;
+
         private void OnSearch(object sender, TextChangedEventArgs e)
         {
             view.Refresh();
         }
-       
+
         private bool FilterProductsRule(object obj)
         {
             var product = obj as ProductListElement;
-            if(product.ProductInfo.PRODUCT_TITLE.ToString().Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase)
-                ||product.ProductInfo.CATEGORY.CATEGORY_TITLE.ToString().Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase))
+            if (product.ProductInfo.PRODUCT_TITLE.Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase)
+                ||
+                product.ProductInfo.CATEGORY.CATEGORY_TITLE.Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }

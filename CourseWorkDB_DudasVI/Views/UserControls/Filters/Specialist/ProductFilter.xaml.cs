@@ -21,7 +21,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             //FromDatePicker.DisplayDateEnd = DateTime.Now;
             //ToDatePicker.DisplayDateEnd = DateTime.Now;
         }
-        
+
 
         private void CategorySelectionChanged(object sender, SelectionChangedEventArgs e)
         {

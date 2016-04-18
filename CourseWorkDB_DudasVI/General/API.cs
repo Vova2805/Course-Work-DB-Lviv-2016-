@@ -9,11 +9,11 @@ namespace CourseWorkDB_DudasVI.General
         public static PRODUCT_PRICE getlastPrice(ICollection<PRODUCT_PRICE> prices)
         {
             var result = prices.OrderBy(pr => pr.CHANGED_DATE).Last();
-            using (SWEET_FACTORYEntities factoryEntities = new SWEET_FACTORYEntities())
+            using (var factoryEntities = new SWEET_FACTORYEntities())
             {
                 return factoryEntities.PRODUCT_PRICE
-                 .AsNoTracking()
-                 .FirstOrDefault(p => p.PRICE_ID == result.PRICE_ID);
+                    .AsNoTracking()
+                    .FirstOrDefault(p => p.PRICE_ID == result.PRICE_ID);
             }
         }
 

@@ -34,6 +34,7 @@ namespace CourseWorkDB_DudasVI
         public string LOGIN { get; set; }
         public string PASSWORD { get; set; }
         public decimal FULL_SALARY { get; set; }
+        public int THEME { get; set; }
     
         public virtual ADDRESS ADDRESS1 { get; set; }
         public virtual POST POST { get; set; }

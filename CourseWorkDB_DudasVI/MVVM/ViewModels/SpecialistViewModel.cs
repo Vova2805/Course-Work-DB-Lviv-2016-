@@ -167,37 +167,36 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
                     break;
                 case 1:
+                {
+                    #region Second
+
+                    foreach (var price in ProductPriceList)
                     {
-                        #region Second
-
-                        foreach (var price in ProductPriceList)
+                        var serieQuantity = new List<double>();
+                        for (var i = 0; i < 2; i++)
                         {
-                            var serieQuantity = new List<double>();
-                            for(int i = 0 ;i<2;i++)
+                            if (i == 1)
                             {
-                                if (i == 1)
-                                {
-                                    serieQuantity.Add((double)price.ProductPrice.PRICE_VALUE);
-                                }
-                                else
-                                {
-                                    serieQuantity.Add((double)price.ProductPrice.PERSENTAGE_VALUE);
-                                }
-                                
+                                serieQuantity.Add((double) price.ProductPrice.PRICE_VALUE);
                             }
-                            var pieValues = new ChartValues<double>();
-                            pieValues.AddRange(serieQuantity);
-                            var newPSerie = new PieSeries
+                            else
                             {
-                                Title = price.ProductPrice.CHANGED_DATE.ToLongDateString(),
-                                Values = pieValues
-                            };
-                            PieSeriesInstance.Add(newPSerie);
-                            Labels.Add(price.ProductPrice.CHANGED_DATE.ToLongDateString());
+                                serieQuantity.Add((double) price.ProductPrice.PERSENTAGE_VALUE);
+                            }
                         }
-
-                        #endregion
+                        var pieValues = new ChartValues<double>();
+                        pieValues.AddRange(serieQuantity);
+                        var newPSerie = new PieSeries
+                        {
+                            Title = price.ProductPrice.CHANGED_DATE.ToLongDateString(),
+                            Values = pieValues
+                        };
+                        PieSeriesInstance.Add(newPSerie);
+                        Labels.Add(price.ProductPrice.CHANGED_DATE.ToLongDateString());
                     }
+
+                    #endregion
+                }
                     break;
             }
         }
@@ -665,7 +664,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return new RelayCommand<object>(AddToSchedule); }
         }
 
-        public ICommand RemoveProductToPlan
+        public ICommand RemoveProductFromPlan
         {
             get { return new RelayCommand<object>(RemoveFromSchedule); }
         }
@@ -765,7 +764,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             catch (Exception e)
                             {
                                 dbContextTransaction.Rollback();
-                                await specialistWindow.ShowMessageAsync("Невдача", "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                                await
+                                    specialistWindow.ShowMessageAsync("Невдача",
+                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
                             }
                         }
                     }
@@ -779,37 +780,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             var specialistWindow = window as HomeWindowSpecialist;
             if (specialistWindow != null)
             {
-                var result =
-                    await
-                        specialistWindow.ShowMessageAsync("Попередження",
+                var result = await specialistWindow.ShowMessageAsync("Попередження",
                             "Ви дійсно хочете підтвердити зміни?\nСкасувати цю дію буде не можливо.",
                             MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    using (var factoryEntities = new SWEET_FACTORYEntities())
-                    {
-                        using (var dbContextTransaction = factoryEntities.Database.BeginTransaction())
-                        {
-                            try
-                            {
-                                var selected = factoryEntities.PRODUCT_PRICE;
-                                SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
-                                SelectedProductPrice.PRICE_ID =
-                                    factoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
-                                SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
-                                selected.Add(SelectedProductPrice);
-                                factoryEntities.SaveChanges();
-                                dbContextTransaction.Commit();
-                                await specialistWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
-                                UpdateDb();
-                            }
-                            catch (Exception e)
-                            {
-                                dbContextTransaction.Rollback();
-                                await specialistWindow.ShowMessageAsync("Невдача", "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
-                            }
-                        }
-                    }
+                    
                 }
             }
         }
@@ -847,7 +823,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             catch (Exception e)
                             {
                                 dbContextTransaction.Rollback();
-                                await specialistWindow.ShowMessageAsync("Невдача", "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                                await
+                                    specialistWindow.ShowMessageAsync("Невдача",
+                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
                             }
                         }
                     }
@@ -859,14 +837,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             using (var factoryEntities = new SWEET_FACTORYEntities())
             {
-                List<PRODUCT_INFO> temp = factoryEntities.PRODUCT_INFO.ToList();
+                var temp = factoryEntities.PRODUCT_INFO.ToList();
                 ProductsList.Clear();
                 foreach (var product in temp)
                 {
                     ProductsList.Add(new ProductListElement(product));
                 }
                 SelectedProduct =
-                    ProductsList.FirstOrDefault(pr => pr.ProductInfo.PRODUCT_INFO_ID == SelectedProduct.PRODUCT_INFO_ID).ProductInfo;
+                    ProductsList.FirstOrDefault(pr => pr.ProductInfo.PRODUCT_INFO_ID == SelectedProduct.PRODUCT_INFO_ID)
+                        .ProductInfo;
             }
         }
 
