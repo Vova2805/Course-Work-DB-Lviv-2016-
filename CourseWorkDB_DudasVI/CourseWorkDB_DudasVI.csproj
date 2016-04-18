@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="MVVM\Mapping\Mapping.cs" />
     <Compile Include="MVVM\Models\Additional\OrderProductTransaction.cs" />
+    <Compile Include="MVVM\Models\Additional\ProductListItem.cs" />
     <Compile Include="MVVM\Models\Additional\ProductPriceListElement.cs" />
     <Compile Include="MVVM\Models\DirectorModel.cs" />
     <Compile Include="MVVM\Models\SpecialistModel.cs" />

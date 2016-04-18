@@ -48,9 +48,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #endregion
 
             #region Second
-
-            ProductsList = FactoryEntities.PRODUCT_INFO.ToList();
-            SelectedProduct = ProductsList.First();
+            ProductsList = new List<ProductListElement>();
+            foreach (var product in FactoryEntities.PRODUCT_INFO.ToList())
+            {
+                ProductsList.Add(new ProductListElement(product));
+            }
+            SelectedProduct = ProductsList.First().ProductInfo;
             SelectedProductPrice = API.getlastPrice(SelectedProduct.PRODUCT_PRICE);
             ProductPriceValue = (double) SelectedProductPrice.PRICE_VALUE;
             ProductPricePersentage = (double) SelectedProductPrice.PERSENTAGE_VALUE;
@@ -59,7 +62,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             {
                 ProductPriceList.Add(new ProductPriceListElement(price));
             }
-
+            CurrentProductionSchedule = new PRODUCTION_SCHEDULE();
             #endregion
         }
 
@@ -92,12 +95,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
         #region Second
 
-        public List<PRODUCT_INFO> ProductsList;
+        public List<ProductListElement> ProductsList;
         public PRODUCT_INFO SelectedProduct;
         public List<ProductPriceListElement> ProductPriceList;
         public PRODUCT_PRICE SelectedProductPrice;
         public double ProductPriceValue;
         public double ProductPricePersentage;
+        public PRODUCTION_SCHEDULE CurrentProductionSchedule;
 
         #endregion
 

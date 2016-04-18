@@ -9,10 +9,12 @@ namespace CourseWorkDB_DudasVI.General
         public static PRODUCT_PRICE getlastPrice(ICollection<PRODUCT_PRICE> prices)
         {
             var result = prices.OrderBy(pr => pr.CHANGED_DATE).Last();
-            SWEET_FACTORYEntities factoryEntities = new SWEET_FACTORYEntities();
-            return factoryEntities.PRODUCT_PRICE
-                .AsNoTracking()
-                .FirstOrDefault(p => p.PRICE_ID == result.PRICE_ID);
+            using (SWEET_FACTORYEntities factoryEntities = new SWEET_FACTORYEntities())
+            {
+                return factoryEntities.PRODUCT_PRICE
+                 .AsNoTracking()
+                 .FirstOrDefault(p => p.PRICE_ID == result.PRICE_ID);
+            }
         }
 
         public static List<PRODUCT_PRICE> getPrice(ICollection<PRODUCT_PRICE> prices, DateTime startPeriod,

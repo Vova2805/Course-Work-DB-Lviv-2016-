@@ -8,6 +8,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using AutoMapper;
 using CourseWorkDB_DudasVI.MVVM.Models;
+using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using CourseWorkDB_DudasVI.Views.UserControls;
 using MahApps.Metro.Controls;
@@ -217,9 +218,9 @@ namespace CourseWorkDB_DudasVI.Views
        
         private bool FilterProductsRule(object obj)
         {
-            var product = obj as PRODUCT_INFO;
-            if(product.PRODUCT_TITLE.ToString().Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase)
-                ||product.CATEGORY.CATEGORY_TITLE.ToString().Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase))
+            var product = obj as ProductListElement;
+            if(product.ProductInfo.PRODUCT_TITLE.ToString().Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase)
+                ||product.ProductInfo.CATEGORY.CATEGORY_TITLE.ToString().Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }

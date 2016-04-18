@@ -133,7 +133,7 @@
                                     <Rectangle Width="20"
                                                Height="20">
                                         <Rectangle.Fill>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_check}" />
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark}" />
                                         </Rectangle.Fill>
                                     </Rectangle>
                                 </Button>

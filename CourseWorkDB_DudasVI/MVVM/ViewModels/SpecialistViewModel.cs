@@ -51,12 +51,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #region Second
 
-        private ObservableCollection<PRODUCT_INFO> _ProductsList;
+        private ObservableCollection<ProductListElement> _ProductsList;
         private PRODUCT_INFO _SelectedProduct;
         private PRODUCT_PRICE _SelectedProductPrice;
         private ObservableCollection<ProductPriceListElement> _ProductPriceList;
         private double _ProductPriceValue;
         private double _ProductPricePersentage;
+        private PRODUCTION_SCHEDULE _CurrentProductionSchedule;
 
         #endregion
 
@@ -590,7 +591,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public ObservableCollection<PRODUCT_INFO> ProductsList
+        public ObservableCollection<ProductListElement> ProductsList
         {
             get { return _ProductsList; }
             set
@@ -630,6 +631,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
+        public PRODUCTION_SCHEDULE CurrentProductionSchedule
+        {
+            get { return _CurrentProductionSchedule; }
+            set
+            {
+                _CurrentProductionSchedule = value;
+                OnPropertyChanged("CurrentProductionSchedule");
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -647,6 +658,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         public ICommand SubmitPriceChanges
         {
             get { return new RelayCommand<object>(SubmitChanges); }
+        }
+
+        public ICommand AddProductToPlan
+        {
+            get { return new RelayCommand<object>(AddToSchedule); }
+        }
+
+        public ICommand RemoveProductToPlan
+        {
+            get { return new RelayCommand<object>(RemoveFromSchedule); }
         }
 
         public void DoChange(string parameter)
@@ -752,6 +773,88 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
+        public async void AddToSchedule(object obj)
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var specialistWindow = window as HomeWindowSpecialist;
+            if (specialistWindow != null)
+            {
+                var result =
+                    await
+                        specialistWindow.ShowMessageAsync("Попередження",
+                            "Ви дійсно хочете підтвердити зміни?\nСкасувати цю дію буде не можливо.",
+                            MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    using (var factoryEntities = new SWEET_FACTORYEntities())
+                    {
+                        using (var dbContextTransaction = factoryEntities.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                var selected = factoryEntities.PRODUCT_PRICE;
+                                SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
+                                SelectedProductPrice.PRICE_ID =
+                                    factoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
+                                SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
+                                selected.Add(SelectedProductPrice);
+                                factoryEntities.SaveChanges();
+                                dbContextTransaction.Commit();
+                                await specialistWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
+                                UpdateDb();
+                            }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                                await specialistWindow.ShowMessageAsync("Невдача", "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public async void RemoveFromSchedule(object obj)
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var specialistWindow = window as HomeWindowSpecialist;
+            if (specialistWindow != null)
+            {
+                var result =
+                    await
+                        specialistWindow.ShowMessageAsync("Попередження",
+                            "Ви дійсно хочете підтвердити зміни?\nСкасувати цю дію буде не можливо.",
+                            MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    using (var factoryEntities = new SWEET_FACTORYEntities())
+                    {
+                        using (var dbContextTransaction = factoryEntities.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                var selected = factoryEntities.PRODUCT_PRICE;
+                                SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
+                                SelectedProductPrice.PRICE_ID =
+                                    factoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
+                                SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
+                                selected.Add(SelectedProductPrice);
+                                factoryEntities.SaveChanges();
+                                dbContextTransaction.Commit();
+                                await specialistWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
+                                UpdateDb();
+                            }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                                await specialistWindow.ShowMessageAsync("Невдача", "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private void UpdateDb()
         {
             using (var factoryEntities = new SWEET_FACTORYEntities())
@@ -760,10 +863,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 ProductsList.Clear();
                 foreach (var product in temp)
                 {
-                    ProductsList.Add(product);
+                    ProductsList.Add(new ProductListElement(product));
                 }
                 SelectedProduct =
-                    ProductsList.FirstOrDefault(pr => pr.PRODUCT_INFO_ID == SelectedProduct.PRODUCT_INFO_ID);
+                    ProductsList.FirstOrDefault(pr => pr.ProductInfo.PRODUCT_INFO_ID == SelectedProduct.PRODUCT_INFO_ID).ProductInfo;
             }
         }
 

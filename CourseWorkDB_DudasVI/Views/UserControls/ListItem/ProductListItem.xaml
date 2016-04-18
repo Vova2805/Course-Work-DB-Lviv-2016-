@@ -24,23 +24,96 @@
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Height="50" Width="50"
                    Source="pack://application:,,,/Resources/images/sweet.png" VerticalAlignment="Center" />
             <TextBlock FontWeight="Bold" Grid.Row="0" ToolTip="Назва товару" VerticalAlignment="Center"
-                       TextWrapping="Wrap" Grid.Column="2" Text="{Binding Path=PRODUCT_TITLE}" >
+                       TextWrapping="Wrap" Grid.Column="2" Text="{Binding Path=ProductInfo.PRODUCT_TITLE}" Width="200" >
                             <i:Interaction.Behaviors>
                                 <rules:TextHighlightBehavior Text="{Binding ElementName=searchTxt, Path=Text}" Background="Blue" />
                             </i:Interaction.Behaviors>
                 </TextBlock>
             <TextBlock FontWeight="Bold" Grid.Row="1" Grid.Column="2" ToolTip="Назва категорії"
                        VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"
-                       Text="{Binding Path=CATEGORY.CATEGORY_TITLE}" >
+                       Text="{Binding Path=ProductInfo.CATEGORY.CATEGORY_TITLE}" >
                                 <i:Interaction.Behaviors>
                                     <rules:TextHighlightBehavior Text="{Binding ElementName=searchTxt, Path=Text}"
                                                                  Background="Blue" />
                                 </i:Interaction.Behaviors>
-                </TextBlock>
+             </TextBlock>
+            <Grid Grid.Row="1" Grid.Column="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Width="40" Grid.Column="0" Margin="5"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        ToolTip="Додати до плану"
+                        Background="ForestGreen"
+                        Style="{DynamicResource MetroCircleButtonStyle}">
+                    <Rectangle Width="20" Height="20">
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Setter Property="Fill">
+                                    <Setter.Value>
+                                        <VisualBrush Stretch="Fill"
+                                                     Visual="{StaticResource appbar_add}" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                Visual="{StaticResource appbar_add_white}" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding Path=isAdded}" Value="True">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <VisualBrush  Stretch="Fill" Visual="{StaticResource appbar_edit}" />
+                                            </Setter.Value>
+                                        </Setter>
+                                     </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                </Button>
+                <Button Width="40" Grid.Column="1" Margin="5"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        ToolTip="Видалити із плану"
+                        Background="IndianRed"
+                        Style="{DynamicResource MetroCircleButtonStyle}" IsEnabled="{Binding Path=isAdded}" >
+                    <Rectangle Width="20" Height="20">
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Setter Property="Fill">
+                                    <Setter.Value>
+                                        <VisualBrush Stretch="Fill"
+                                                     Visual="{StaticResource appbar_cancel}" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                Visual="{StaticResource appbar_cancel_white}" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                </Button>
+            </Grid>
+            
             <Grid Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -48,10 +121,10 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock FontWeight="Bold" Grid.Column="0" Foreground="Green" HorizontalAlignment="Left"
-                           Text="{Binding Path=PRODUCT_INFO_ID, Converter={StaticResource PriceConverter},ConverterParameter='$'}"
+                           Text="{Binding Path=ProductInfo.PRODUCT_INFO_ID, Converter={StaticResource PriceConverter},ConverterParameter='$'}"
                            ToolTip="Остання встановлена ціна" />
                 <TextBlock FontWeight="Bold" Grid.Column="2" Foreground="Green" HorizontalAlignment="Left"
-                           Text="{Binding Path=PRODUCT_INFO_ID, Converter={StaticResource PriceConverter},ConverterParameter='%'}"
+                           Text="{Binding Path=ProductInfo.PRODUCT_INFO_ID, Converter={StaticResource PriceConverter},ConverterParameter='%'}"
                            ToolTip="У відсотках від вартості виробництва" />
             </Grid>
         </Grid>
