@@ -18,8 +18,10 @@ namespace CourseWorkDB_DudasVI
         public int SALE_ORDER_ID { get; set; }
         public int PRODUCT_INFO_ID { get; set; }
         public int QUANTITY_IN_ORDER { get; set; }
+        public Nullable<int> WAREHOUSE_ID { get; set; }
     
         public virtual SALE_ORDER SALE_ORDER { get; set; }
         public virtual PRODUCT_INFO PRODUCT_INFO { get; set; }
+        public virtual WAREHOUSE WAREHOUSE { get; set; }
     }
 }

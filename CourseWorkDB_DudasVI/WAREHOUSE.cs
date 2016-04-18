@@ -17,6 +17,7 @@ namespace CourseWorkDB_DudasVI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public WAREHOUSE()
         {
+            this.ORDER_PRODUCT = new HashSet<ORDER_PRODUCT>();
             this.PRODUCTION_SCHEDULE = new HashSet<PRODUCTION_SCHEDULE>();
             this.RAWSTUFF = new HashSet<RAWSTUFF>();
             this.RELEASED_PRODUCT = new HashSet<RELEASED_PRODUCT>();
@@ -31,6 +32,8 @@ namespace CourseWorkDB_DudasVI
         public int STAFF_ID { get; set; }
     
         public virtual ADDRESS ADDRESS1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ORDER_PRODUCT> ORDER_PRODUCT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCTION_SCHEDULE> PRODUCTION_SCHEDULE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

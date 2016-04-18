@@ -80,6 +80,7 @@
           <Property Name="SALE_ORDER_ID" Type="int" Nullable="false" />
           <Property Name="PRODUCT_INFO_ID" Type="int" Nullable="false" />
           <Property Name="QUANTITY_IN_ORDER" Type="int" Nullable="false" />
+          <Property Name="WAREHOUSE_ID" Type="int" />
         </EntityType>
         <EntityType Name="PACKAGE_DESCRIPTION">
           <Key>
@@ -432,6 +433,18 @@
             </Principal>
             <Dependent Role="RAWSTUFF_ORDER">
               <PropertyRef Name="DELIVERY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_149">
+          <End Role="WAREHOUSE" Type="Self.WAREHOUSE" Multiplicity="0..1" />
+          <End Role="ORDER_PRODUCT" Type="Self.ORDER_PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WAREHOUSE">
+              <PropertyRef Name="WAREHOUSE_ID" />
+            </Principal>
+            <Dependent Role="ORDER_PRODUCT">
+              <PropertyRef Name="WAREHOUSE_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -788,6 +801,10 @@
             <End Role="DELIVERY" EntitySet="DELIVERY" />
             <End Role="RAWSTUFF_ORDER" EntitySet="RAWSTUFF_ORDER" />
           </AssociationSet>
+          <AssociationSet Name="R_149" Association="Self.R_149">
+            <End Role="WAREHOUSE" EntitySet="WAREHOUSE" />
+            <End Role="ORDER_PRODUCT" EntitySet="ORDER_PRODUCT" />
+          </AssociationSet>
           <AssociationSet Name="R_15" Association="Self.R_15">
             <End Role="RAWSTUFF" EntitySet="RAWSTUFF" />
             <End Role="RAWSTUFF_DELIVERY" EntitySet="RAWSTUFF_DELIVERY" />
@@ -977,8 +994,10 @@
           <Property Name="SALE_ORDER_ID" Type="Int32" Nullable="false" />
           <Property Name="PRODUCT_INFO_ID" Type="Int32" Nullable="false" />
           <Property Name="QUANTITY_IN_ORDER" Type="Int32" Nullable="false" />
+          <Property Name="WAREHOUSE_ID" Type="Int32" />
           <NavigationProperty Name="SALE_ORDER" Relationship="Self.R_103" FromRole="ORDER_PRODUCT" ToRole="SALE_ORDER" />
           <NavigationProperty Name="PRODUCT_INFO" Relationship="Self.R_105" FromRole="ORDER_PRODUCT" ToRole="PRODUCT_INFO" />
+          <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_149" FromRole="ORDER_PRODUCT" ToRole="WAREHOUSE" />
         </EntityType>
         <EntityType Name="PACKAGE_DESCRIPTION">
           <Key>
@@ -1237,6 +1256,7 @@
           <Property Name="FAX" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="STAFF_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ADDRESS1" Relationship="Self.R_98" FromRole="WAREHOUSE" ToRole="ADDRESS" />
+          <NavigationProperty Name="ORDER_PRODUCT" Relationship="Self.R_149" FromRole="WAREHOUSE" ToRole="ORDER_PRODUCT" />
           <NavigationProperty Name="PRODUCTION_SCHEDULE" Relationship="Self.R_129" FromRole="WAREHOUSE" ToRole="PRODUCTION_SCHEDULE" />
           <NavigationProperty Name="RAWSTUFF" Relationship="Self.R_2" FromRole="WAREHOUSE" ToRole="RAWSTUFF" />
           <NavigationProperty Name="RELEASED_PRODUCT" Relationship="Self.R_87" FromRole="WAREHOUSE" ToRole="RELEASED_PRODUCT" />
@@ -1419,6 +1439,18 @@
             </Principal>
             <Dependent Role="ORDER_PRODUCT">
               <PropertyRef Name="PRODUCT_INFO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_149">
+          <End Role="WAREHOUSE" Type="Self.WAREHOUSE" Multiplicity="0..1" />
+          <End Role="ORDER_PRODUCT" Type="Self.ORDER_PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WAREHOUSE">
+              <PropertyRef Name="WAREHOUSE_ID" />
+            </Principal>
+            <Dependent Role="ORDER_PRODUCT">
+              <PropertyRef Name="WAREHOUSE_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1751,6 +1783,10 @@
             <End Role="PRODUCT_INFO" EntitySet="PRODUCT_INFO" />
             <End Role="ORDER_PRODUCT" EntitySet="ORDER_PRODUCT" />
           </AssociationSet>
+          <AssociationSet Name="R_149" Association="Self.R_149">
+            <End Role="WAREHOUSE" EntitySet="WAREHOUSE" />
+            <End Role="ORDER_PRODUCT" EntitySet="ORDER_PRODUCT" />
+          </AssociationSet>
           <AssociationSet Name="R_89" Association="Self.R_89">
             <End Role="PACKAGE_DESCRIPTION" EntitySet="PACKAGE_DESCRIPTION" />
             <End Role="PRODUCT_INFO" EntitySet="PRODUCT_INFO" />
@@ -1919,6 +1955,7 @@
                 <ScalarProperty Name="SALE_ORDER_ID" ColumnName="SALE_ORDER_ID" />
                 <ScalarProperty Name="PRODUCT_INFO_ID" ColumnName="PRODUCT_INFO_ID" />
                 <ScalarProperty Name="QUANTITY_IN_ORDER" ColumnName="QUANTITY_IN_ORDER" />
+                <ScalarProperty Name="WAREHOUSE_ID" ColumnName="WAREHOUSE_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,4 +1,4 @@
-﻿// Создание кода T4 для модели "E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_Lviv_2016_DudasV.I\CourseWorkDB_DudasVI\SWEET_FACTORY_EDM.edmx" включено. 
+﻿// Создание кода T4 для модели "E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\SWEET_FACTORY_EDM.edmx" включено. 
 // Чтобы включить формирование кода прежних версий, измените значение свойства "Стратегия создания кода" конструктора
 // на "Legacy ObjectContext". Это свойство доступно в окне "Свойства", если модель
 // открыта в конструкторе.

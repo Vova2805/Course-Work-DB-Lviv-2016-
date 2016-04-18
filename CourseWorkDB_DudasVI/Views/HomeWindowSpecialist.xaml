@@ -374,16 +374,15 @@
                                 <TextBlock Grid.Column="0" Text="Склад (-и)" VerticalAlignment="Center" Margin="5" FontSize="15" />
                                 <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5" ItemsSource="{Binding WarehousesStrings, Mode=TwoWay}" SelectedValue="{Binding Path=CurrentWarehouseString,Mode=TwoWay}" IsEditable="False"/>
                             </Grid>
-                            <DataGrid Grid.Row="1"  SelectedItem="{Binding CurrentWarehouse,Mode=TwoWay}" FontSize="14"
-                                  ItemsSource="{Binding CurrentWarehouse}" AutoGenerateColumns="False">
+                            <DataGrid Grid.Row="1" FontSize="14" ItemsSource="{Binding InOutComeFlow}" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Width="Auto" Header="DATE" IsReadOnly="True"
-                                                    Binding="{Binding TransactionDate,StringFormat=\{0:dd-MMM-yyyy \}}" />
-                                    <DataGridTextColumn Width="Auto" Header="AMOUNT" IsReadOnly="True"
-                                                    Binding="{Binding Amount}" />
-                                    <DataGridTextColumn Width="Auto" Header="PURPOSE" IsReadOnly="True"
-                                                    Binding="{Binding PurposeType}" />
-                                    <DataGridTemplateColumn Width="Auto"  Header="FLO" IsReadOnly="True">
+                                    <DataGridCheckBoxColumn Width="20" Binding="{Binding Path=IsMarked, Mode=TwoWay}"
+                                                        Header="Відображати" />
+                                    <DataGridTextColumn Width="Auto" Header="Дата" IsReadOnly="True"
+                                                    Binding="{Binding Date,StringFormat=\{0:dd-MMM-yyyy \}}" />
+                                    <DataGridTextColumn Width="Auto" Header="Кількість" IsReadOnly="True"
+                                                    Binding="{Binding Quantity}" />
+                                    <DataGridTemplateColumn Width="Auto"  Header="Напрям" IsReadOnly="True">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <DockPanel>
@@ -412,10 +411,9 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTextColumn Width="*" Header="DESCRIPTION" IsReadOnly="True" />
-                                    <DataGridTextColumn Width="Auto" Header="LAST MODYFIED" IsReadOnly="True"
-                                                    Binding="{Binding LastModifiedBy}" />
-                                    <DataGridTextColumn Width="Auto" Header="CREATED BY" IsReadOnly="True" />
+                                    <DataGridTextColumn Width="Auto" Header="Категорія"  Binding="{Binding Category}" IsReadOnly="True" />
+                                    <DataGridTextColumn Width="*" Header="Товар" IsReadOnly="True"
+                                                    Binding="{Binding Path=Product.PRODUCT_TITLE}" />
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>

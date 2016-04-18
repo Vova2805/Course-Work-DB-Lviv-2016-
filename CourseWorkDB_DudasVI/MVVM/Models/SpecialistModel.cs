@@ -82,7 +82,20 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 warehousesStrings.Add(ConvertAddress(warehouse,(++i).ToString()+"."));
             }
             CurrentWarehouseString = warehousesStrings.First();
-            //InOutComeFlow
+            InOutComeFlow = new List<WarehouseProductTransaction>();
+            List<ORDER_PRODUCT> order_products =
+                Session.FactoryEntities.ORDER_PRODUCT.ToList()
+                    .Where(op => op.WAREHOUSE_ID == CurrentWarehouse.WAREHOUSE_ID).ToList();
+            List<SCHEDULE_PRODUCT_INFO> scheduleProductInfos = Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
+                .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == CurrentWarehouse.WAREHOUSE_ID).ToList();
+            foreach (var package in order_products)
+            {
+                InOutComeFlow.Add(new WarehouseProductTransaction(package));
+            }
+            foreach (var package in scheduleProductInfos)
+            {
+                InOutComeFlow.Add(new WarehouseProductTransaction(package));
+            }
 
             #endregion
         }

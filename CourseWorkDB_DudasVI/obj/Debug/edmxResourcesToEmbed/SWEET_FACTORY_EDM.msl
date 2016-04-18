@@ -82,6 +82,7 @@
           <ScalarProperty Name="SALE_ORDER_ID" ColumnName="SALE_ORDER_ID" />
           <ScalarProperty Name="PRODUCT_INFO_ID" ColumnName="PRODUCT_INFO_ID" />
           <ScalarProperty Name="QUANTITY_IN_ORDER" ColumnName="QUANTITY_IN_ORDER" />
+          <ScalarProperty Name="WAREHOUSE_ID" ColumnName="WAREHOUSE_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
