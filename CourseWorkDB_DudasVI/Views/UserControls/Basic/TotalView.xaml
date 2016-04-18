@@ -18,48 +18,34 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="fsfsfs" FontSize="14" />
+        <TextBlock Grid.Row="0" FontWeight="Bold" Grid.Column="0" Text="Загальна інформація :" FontSize="14" />
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="asdasdasdas" />
-        <TextBlock Grid.Row="1" Grid.Column="3" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Період :" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DateFilterString}"/>
 
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="asdsadawaw" />
-        <TextBlock Grid.Row="2" Grid.Column="3" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Межі потоку :" />
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ValueRange}"/>
+        
+        <TextBlock Grid.Row="2" Grid.Column="3" Text="Загальний прихід :"/>
+        <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding TotalIncome}"/>
+        <TextBlock Grid.Row="3" Grid.Column="3" Text="Загальний вихід :"/>
+        <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding TotalOutcome}"/>
 
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="sfewfds" />
-        <TextBlock Grid.Row="3" Grid.Column="3" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Напрямок потоку: " />
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding FlowDirection}"/>
 
-        <Grid Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Категорія : " />
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding selectedCategory}"/>
 
-            <Grid.Resources>
-                <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="Margin" Value="5" />
-                    <Setter Property="Foreground" Value="{DynamicResource BlackColorBrush}" />
-                    <Setter Property="FontSize" Value="{DynamicResource NormalFontSize}" />
-                </Style>
-            </Grid.Resources>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="asdfwads" />
-            <TextBlock Grid.Row="1" Grid.Column="1" MinHeight="20" />
-
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="sdfwe" />
-            <TextBlock Grid.Row="2" Grid.Column="1" MinHeight="20" />
-        </Grid>
     </Grid>
 </UserControl>

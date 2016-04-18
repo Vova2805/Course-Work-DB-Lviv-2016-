@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Documents;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using LiveCharts;
@@ -96,9 +95,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             {
                 InOutComeFlow.Add(new WarehouseProductTransaction(package));
             }
-
-            #endregion
-        }
+            InOutComeFlow.Sort((transaction1, transaction2) =>
+            {
+                return transaction1.Date > transaction2.Date ? 1 : transaction1.Date == transaction2.Date ? 0 : -1;
+            } );
+            
+        #endregion
+    }
 
         public class RegionInfo
         {
@@ -146,7 +149,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public WAREHOUSE CurrentWarehouse;
         public List<string> warehousesStrings;
         public string CurrentWarehouseString;
-        public List<WarehouseProductTransaction> InOutComeFlow; 
+        public List<WarehouseProductTransaction> InOutComeFlow;
+        public string DateFilterString;
+        public string ValueRange;
+        public string TotalIncome;
+        public string TotalOutcome;
+        public string FlowDirection;
         #endregion
 
         #region OrderFilter

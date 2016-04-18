@@ -65,10 +65,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #region Third
 
         private WAREHOUSE _CurrentWarehouse;
-        public ObservableCollection<WAREHOUSE> _warehouses;
-        public ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
-        public ObservableCollection<string> _warehousesStrings;
-        public string _CurrentWarehouseString;
+        private ObservableCollection<WAREHOUSE> _warehouses;
+        private ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
+        private ObservableCollection<string> _warehousesStrings;
+        private string _CurrentWarehouseString;
+        private string _DateFilterString;
+        private string _ValueRange;
+        private string _TotalIncome;
+        private string _TotalOutcome;
+        private string _FlowDirection;
 
         #endregion
 
@@ -395,6 +400,56 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #region Properties
 
+        public string DateFilterString
+        {
+            get { return _DateFilterString; }
+            set
+            {
+                _DateFilterString = value;
+                OnPropertyChanged("DateFilterString");
+            }
+        }
+
+        public string FlowDirection
+        {
+            get { return _FlowDirection; }
+            set
+            {
+                _FlowDirection = value;
+                OnPropertyChanged("FlowDirection");
+            }
+        }
+        
+        public string TotalIncome
+        {
+            get { return _TotalIncome; }
+            set
+            {
+                _TotalIncome = value;
+                OnPropertyChanged("TotalIncome");
+            }
+        }
+
+        public string TotalOutcome
+        {
+            get { return _TotalOutcome; }
+            set
+            {
+                _TotalOutcome = value;
+                OnPropertyChanged("TotalOutcome");
+            }
+        }
+
+        public string ValueRange
+        {
+            get { return _ValueRange; }
+            set
+            {
+                _ValueRange = value;
+                OnPropertyChanged("ValueRange");
+            }
+        }
+
         public ObservableCollection<string> Labels
         {
             get { return _Labels; }
@@ -555,6 +610,61 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _CurrentWarehouse = value;
+                    InOutComeFlow = new ChartValues<WarehouseProductTransaction>();
+                    List<WarehouseProductTransaction> temp = new List<WarehouseProductTransaction>();
+                    List<ORDER_PRODUCT> order_products =
+                        Session.FactoryEntities.ORDER_PRODUCT.ToList()
+                            .Where(op => op.WAREHOUSE_ID == _CurrentWarehouse.WAREHOUSE_ID).ToList();
+                    List<SCHEDULE_PRODUCT_INFO> scheduleProductInfos = Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
+                        .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == _CurrentWarehouse.WAREHOUSE_ID).ToList();
+                    foreach (var package in order_products)
+                    {
+                        temp.Add(new WarehouseProductTransaction(package));
+                    }
+                    foreach (var package in scheduleProductInfos)
+                    {
+                        temp.Add(new WarehouseProductTransaction(package));
+                    }
+                    temp.Sort((transaction1, transaction2) =>
+                    {
+                        return transaction1.Date > transaction2.Date ? 1 : transaction1.Date == transaction2.Date ? 0 : -1;
+                    });
+                    foreach (var elem in temp)
+                    {
+                        _InOutComeFlow.Add(elem);
+                    }
+                    var times = _InOutComeFlow.Select(el => el.Date).ToList();
+                    DateFilterString = times.Min().ToLongDateString() + " - " + times.Max().ToLongDateString();
+                    var values = _InOutComeFlow.Select(el => el.Quantity).ToList();
+                    ValueRange = values.Min() + " - " + values.Max();
+                    int income = 0;
+                    int outcome = 0;
+                    bool direct = true;
+                    bool reverse = true;
+                    foreach (var element in _InOutComeFlow)
+                    {
+                        if (element.FlowType)
+                        {
+                            reverse = false;
+                            income += element.Quantity;
+                        }
+                        else
+                        {
+                            direct = false;
+                            outcome += element.Quantity;
+                        }
+                    }
+                    TotalIncome = income + " шт.";
+                    TotalOutcome = outcome + " шт.";
+                    if ((!direct && !reverse)||(direct && reverse))
+                    {
+                        FlowDirection = "Двосторонній";
+                    }
+                    else
+                    {
+                       if(direct) FlowDirection = " Вхідний";
+                       else FlowDirection = " Вихідний";
+                    }
                 OnPropertyChanged("CurrentWarehouse");
             }
         }
