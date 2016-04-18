@@ -51,13 +51,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #region Second
 
-        private ObservableCollection<ProductListElement> _ProductsList;
+        private List<ProductListElement> _ProductsList;
+        private ObservableCollection<string> _ProductsTitleList;
         private PRODUCT_INFO _SelectedProduct;
         private PRODUCT_PRICE _SelectedProductPrice;
-        private ObservableCollection<ProductPriceListElement> _ProductPriceList;
+        private List<ProductPriceListElement> _ProductPriceList;
         private double _ProductPriceValue;
         private double _ProductPricePersentage;
         private PRODUCTION_SCHEDULE _CurrentProductionSchedule;
+        private string _SelectedProductTitle;
 
         #endregion
 
@@ -636,12 +638,14 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public ObservableCollection<ProductListElement> ProductsList
+        public List<ProductListElement> ProductsList
         {
             get { return _ProductsList; }
             set
             {
                 _ProductsList = value;
+                if(ProductsList.Count>0)
+                SelectedProduct = ProductsList.First().ProductInfo;
                 OnPropertyChanged("ProductsList");
             }
         }
@@ -654,19 +658,22 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (value != null)
                 {
                     _SelectedProduct = value;
-                    SelectedProductPrice = API.getlastPrice(SelectedProduct.PRODUCT_PRICE);
-                    ProductPriceList = new ObservableCollection<ProductPriceListElement>();
-                    foreach (var price in SelectedProduct.PRODUCT_PRICE.ToList())
-                    {
-                        ProductPriceList.Add(new ProductPriceListElement(price));
-                    }
+                    SelectedProductPrice = API.getlastPrice(
+                        Session.FactoryEntities.PRODUCT_PRICE
+                        .ToList()
+                        .FindAll(pr=>pr.PRODUCT_INFO_ID == SelectedProduct.PRODUCT_INFO_ID));
+                        ProductPriceList = new List<ProductPriceListElement>();
+                        foreach (var price in SelectedProduct.PRODUCT_PRICE)
+                        {
+                            ProductPriceList.Add(new ProductPriceListElement(price));
+                        } 
                     UpdateSeries();
                     OnPropertyChanged("SelectedProduct");
                 }
             }
         }
 
-        public ObservableCollection<ProductPriceListElement> ProductPriceList
+        public List<ProductPriceListElement> ProductPriceList
         {
             get { return _ProductPriceList; }
             set
@@ -683,6 +690,23 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _CurrentProductionSchedule = value;
                 OnPropertyChanged("CurrentProductionSchedule");
+            }
+        }
+
+        public string SelectedProductTitle
+        {
+            get { return _SelectedProductTitle; }
+            set { _SelectedProductTitle = value;
+                OnPropertyChanged("SelectedProductTitle"); }
+        }
+
+        public ObservableCollection<string> ProductsTitleList
+        {
+            get { return _ProductsTitleList; }
+            set
+            {
+                _ProductsTitleList = value;
+                OnPropertyChanged("ProductsTitleList");
             }
         }
 
@@ -790,19 +814,17 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    using (var factoryEntities = new SWEET_FACTORYEntities())
-                    {
-                        using (var dbContextTransaction = factoryEntities.Database.BeginTransaction())
+                        using (var dbContextTransaction = Session.FactoryEntities.Database.BeginTransaction())
                         {
                             try
                             {
-                                var selected = factoryEntities.PRODUCT_PRICE;
+                                var selected = Session.FactoryEntities.PRODUCT_PRICE;
                                 SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
                                 SelectedProductPrice.PRICE_ID =
-                                    factoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
+                                Session.FactoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
                                 SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
                                 selected.Add(SelectedProductPrice);
-                                factoryEntities.SaveChanges();
+                                Session.FactoryEntities.SaveChanges();
                                 dbContextTransaction.Commit();
                                 await specialistWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
                                 UpdateDb();
@@ -815,7 +837,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                         "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
                             }
                         }
-                    }
+                    
                 }
             }
         }
@@ -849,19 +871,17 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    using (var factoryEntities = new SWEET_FACTORYEntities())
-                    {
-                        using (var dbContextTransaction = factoryEntities.Database.BeginTransaction())
+                        using (var dbContextTransaction = Session.FactoryEntities.Database.BeginTransaction())
                         {
                             try
                             {
-                                var selected = factoryEntities.PRODUCT_PRICE;
+                                var selected = Session.FactoryEntities.PRODUCT_PRICE;
                                 SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
                                 SelectedProductPrice.PRICE_ID =
-                                    factoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
+                                Session.FactoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
                                 SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
                                 selected.Add(SelectedProductPrice);
-                                factoryEntities.SaveChanges();
+                                Session.FactoryEntities.SaveChanges();
                                 dbContextTransaction.Commit();
                                 await specialistWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
                                 UpdateDb();
@@ -874,25 +894,23 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                         "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
                             }
                         }
-                    }
                 }
             }
         }
 
         private void UpdateDb()
         {
-            using (var factoryEntities = new SWEET_FACTORYEntities())
-            {
-                var temp = factoryEntities.PRODUCT_INFO.ToList();
+                var temp = Session.FactoryEntities.PRODUCT_INFO.ToList();
                 ProductsList.Clear();
                 foreach (var product in temp)
                 {
                     ProductsList.Add(new ProductListElement(product));
                 }
+                if(ProductsList!=null && ProductsList.Count>0)
                 SelectedProduct =
                     ProductsList.FirstOrDefault(pr => pr.ProductInfo.PRODUCT_INFO_ID == SelectedProduct.PRODUCT_INFO_ID)
                         .ProductInfo;
-            }
+            
         }
 
         #endregion

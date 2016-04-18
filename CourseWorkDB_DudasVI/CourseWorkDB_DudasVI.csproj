@@ -97,10 +97,12 @@
     <Compile Include="CLIENT.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Converters\HeaderTitleConverter.cs" />
     <Compile Include="Converters\ResultsVisibilityConverter.cs" />
     <Compile Include="Converters\StaffImageConverter.cs" />
     <Compile Include="Converters\ProductPriceConverter.cs" />
     <Compile Include="Converters\StringToColorConverter.cs" />
+    <Compile Include="Converters\TabIndexBoolConverter.cs" />
     <Compile Include="DELIVERY.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
@@ -117,6 +119,7 @@
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="MVVM\Mapping\Mapping.cs" />
+    <Compile Include="MVVM\Models\Additional\WarehouseProductTransaction.cs" />
     <Compile Include="MVVM\Models\Additional\OrderProductTransaction.cs" />
     <Compile Include="MVVM\Models\Additional\ProductListItem.cs" />
     <Compile Include="MVVM\Models\Additional\ProductPriceListElement.cs" />
@@ -255,9 +258,6 @@
     <Compile Include="Views\UserControls\Filters\CostFilter.xaml.cs">
       <DependentUpon>CostFilter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Filters\Specialist\ProductFilter.xaml.cs">
-      <DependentUpon>ProductFilter.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Filters\Specialist\EditOrder.xaml.cs">
       <DependentUpon>EditOrder.xaml</DependentUpon>
     </Compile>
@@ -385,10 +385,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Filters\CostFilter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControls\Filters\Specialist\ProductFilter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

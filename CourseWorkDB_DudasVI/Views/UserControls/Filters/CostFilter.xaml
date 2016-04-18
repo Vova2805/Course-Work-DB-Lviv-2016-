@@ -69,8 +69,6 @@
                         IsEnabled="{Binding IsDateRangeIncluded}"
                         SelectedDate="{Binding ToDate,ValidatesOnDataErrors=True}" />
 
-            <!--<ContentPresenter Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Content="Фільтрувати працівників"/>-->
-
             <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,15,5,5"
                        Text="Фільтрувати працівників" />
             <TextBlock Grid.Row="5" Grid.Column="0" Text="Працівник" />

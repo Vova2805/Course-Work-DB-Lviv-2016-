@@ -19,7 +19,7 @@ namespace CourseWorkDB_DudasVI.Views.Rules
         {
             var date = (DateTime) value;
 
-            return new ValidationResult(date > EditOrder.from, "Кінець терміну не повинен бути меншим його початку!");
+            return new ValidationResult(date > EditOrderOrProduct.from, "Кінець терміну не повинен бути меншим його початку!");
         }
     }
 
@@ -29,7 +29,7 @@ namespace CourseWorkDB_DudasVI.Views.Rules
         {
             var date = (DateTime) value;
 
-            return new ValidationResult(date < EditOrder.to, "Початок терміну не повинен бути більшим його кінця");
+            return new ValidationResult(date < EditOrderOrProduct.to, "Початок терміну не повинен бути більшим його кінця");
         }
     }
 }

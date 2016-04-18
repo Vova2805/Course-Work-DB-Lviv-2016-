@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -10,9 +11,9 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace CourseWorkDB_DudasVI
 {
-    public partial class MainWindow : MetroWindow
+    public partial class Authorization : MetroWindow
     {
-        public MainWindow()
+        public Authorization()
         {
             InitializeComponent();
         }
@@ -37,26 +38,23 @@ namespace CourseWorkDB_DudasVI
             ProgressRing.Opacity = 0;
         }
 
-        private async void SubmitClick(object sender, RoutedEventArgs e)
+        private void SubmitClick(object sender, RoutedEventArgs e)
         {
-            var thread = new Thread(() =>
-            {
-                LoginDetails.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                    new EventHandler<RoutedEventArgs>(ChangeOpacityLoginDetails), sender, e);
-                ProgressRing.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                    new EventHandler<RoutedEventArgs>(ChangeOpacityProgressRing), sender, e);
-            });
+            //var thread = new Thread(() =>
+            //{
+            //    LoginDetails.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+            //        new EventHandler<RoutedEventArgs>(ChangeOpacityLoginDetails), sender, e);
+            //    ProgressRing.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+            //        new EventHandler<RoutedEventArgs>(ChangeOpacityProgressRing), sender, e);
+            //});
             //thread.Start();
-
-            var sweetFactory = new SWEET_FACTORYEntities();
             LoginBlock.Text = "specialist_test";
             PassBlock.Password = "test";
-
-            var resultUser =
-                sweetFactory.STAFF.ToList()
+            STAFF resultUser = null;
+                resultUser =
+                Session.FactoryEntities.STAFF.ToList()
                     .SingleOrDefault(
                         user => user.LOGIN.Equals(LoginBlock.Text) && user.PASSWORD.Equals(PassBlock.Password));
-
             if (resultUser != null)
             {
                 //switch (resultUser.POST_ID)
@@ -110,11 +108,14 @@ namespace CourseWorkDB_DudasVI
             }
             else
             {
-                await
-                    this.ShowMessageAsync("Помилка",
-                        "Не правильний пароль чи логін. Перевірте введені дані і спробуйте знову");
-                Back(sender, e);
+                Error();
             }
+        }
+
+        private async void Error()
+        {
+            await this.ShowMessageAsync("Помилка", "Не правильний пароль чи логін. Перевірте введені дані і спробуйте знову");
+            Back(null, null);
         }
 
         private void Back(object sender, RoutedEventArgs e)

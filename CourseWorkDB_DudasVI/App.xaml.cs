@@ -14,6 +14,7 @@ namespace CourseWorkDB_DudasVI
         {
             Mapping.Create();
             settingsViewModel = new SettingsViewModel();
+          
         }
     }
 }

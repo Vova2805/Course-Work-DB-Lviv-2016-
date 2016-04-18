@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using AutoMapper;
+using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
@@ -26,20 +28,18 @@ namespace CourseWorkDB_DudasVI.Views
 
     public partial class HomeWindowSpecialist : MetroWindow
     {
-        private readonly SWEET_FACTORYEntities _sweetFactoryEntities = new SWEET_FACTORYEntities();
-        private readonly List<ChartsSet> chartsSets;
-        private readonly List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
-        private readonly List<Flyout> flyouts;
+        private List<ChartsSet> chartsSets;
+        private List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
+        private List<Flyout> flyouts;
         public SpecialistViewModel _specialistViewModel;
 
         public HomeWindowSpecialist()
         {
-            var specialistModel = new SpecialistModel(_sweetFactoryEntities);
+            var specialistModel = new SpecialistModel();
             _specialistViewModel = Mapper.Map<SpecialistModel, SpecialistViewModel>(specialistModel);
             DataContext = _specialistViewModel;
-
             InitializeComponent();
-            chartsSets = new List<ChartsSet> {ChartsSetView, ChartsSet2};
+            chartsSets = new List<ChartsSet> { ChartsSetView, ChartsSet2 };
             foreach (var chart in chartsSets)
             {
                 chart.DataContext = _specialistViewModel;
@@ -47,7 +47,7 @@ namespace CourseWorkDB_DudasVI.Views
             }
 
             addColumns();
-            flyouts = new List<Flyout> {AdminFlyout, SpecialistEditOrders};
+            flyouts = new List<Flyout> { AdminFlyout, SpecialistEditOrders };
             addHotKey();
             view = CollectionViewSource.GetDefaultView(_specialistViewModel.ProductsList);
             view.Filter = FilterProductsRule;
@@ -198,6 +198,12 @@ namespace CourseWorkDB_DudasVI.Views
                 model.TabIndex = SpecialistControl.SelectedIndex;
                 model.UpdateSeries();
             }
+            MouseClick(sender, null);
+        }
+
+
+        private void MouseClick(object sender, MouseButtonEventArgs e)
+        {
             if (flyouts != null)
                 foreach (var flyout in flyouts)
                 {
@@ -205,12 +211,7 @@ namespace CourseWorkDB_DudasVI.Views
                 }
         }
 
-
-        private void MouseClick(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private readonly ICollectionView view;
+        private ICollectionView view;
 
         private void OnSearch(object sender, TextChangedEventArgs e)
         {
@@ -229,6 +230,16 @@ namespace CourseWorkDB_DudasVI.Views
             return false;
         }
 
+
         #endregion
+
+        private void LogoutClick(object sender, RoutedEventArgs e)
+        {
+            var Home = new Authorization();
+            Home.Show();
+            Session.FactoryEntities.Dispose();
+            Session.User = null;
+            Close();
+        }
     }
 }

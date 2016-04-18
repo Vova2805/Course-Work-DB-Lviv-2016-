@@ -39,7 +39,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             private DateTime _From;
             private int _Quantity;
             private DateTime _To;
-
+            #region Properties
             public QuantityInOrder(DateTime from, DateTime to, OrderProductTransaction parent)
             {
                 From = from;
@@ -85,7 +85,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        #region Properties
+       
 
         public bool isChecked
         {

@@ -15,7 +15,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public int tabIndex;
 
 
-        public SpecialistModel(SWEET_FACTORYEntities FactoryEntities)
+        public SpecialistModel()
         {
             LineSeriesInstance = new SeriesCollection();
             PieSeriesInstance = new SeriesCollection();
@@ -24,13 +24,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
             #region First
 
-            CategoriesList = FactoryEntities.CATEGORY.ToList().Select(c => c.CATEGORY_TITLE).ToList();
+            CategoriesList = Session.FactoryEntities.CATEGORY.ToList().Select(c => c.CATEGORY_TITLE).ToList();
             CategoriesList.Insert(0, "Всі категорії");
-            priceFrom = FactoryEntities.PRODUCT_PRICE.ToList().Min(p => p.PRICE_VALUE);
-            priceTo = FactoryEntities.PRODUCT_PRICE.ToList().Max(p => p.PRICE_VALUE);
+            priceFrom = Session.FactoryEntities.PRODUCT_PRICE.ToList().Min(p => p.PRICE_VALUE);
+            priceTo = Session.FactoryEntities.PRODUCT_PRICE.ToList().Max(p => p.PRICE_VALUE);
             selectedCategory = CategoriesList.First();
             var groupedPackages =
-                FactoryEntities.ORDER_PRODUCT.ToList()
+                Session.FactoryEntities.ORDER_PRODUCT.ToList()
                     .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
                     .ToDictionary(group => group.Key, group => group.ToList());
             var i = 0;
@@ -50,7 +50,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #region Second
 
             ProductsList = new List<ProductListElement>();
-            foreach (var product in FactoryEntities.PRODUCT_INFO.ToList())
+            foreach (var product in Session.FactoryEntities.PRODUCT_INFO.ToList())
             {
                 ProductsList.Add(new ProductListElement(product));
             }
@@ -64,6 +64,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 ProductPriceList.Add(new ProductPriceListElement(price));
             }
             CurrentProductionSchedule = new PRODUCTION_SCHEDULE();
+            ProductsTitleList = ProductsList.Select(pr => pr.ProductInfo.PRODUCT_TITLE).ToList();
+            ProductsTitleList.Insert(0,"Всі продукти");
+            SelectedProductTitle = ProductsTitleList.First();
 
             #endregion
         }
@@ -98,6 +101,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         #region Second
 
         public List<ProductListElement> ProductsList;
+        public List<string> ProductsTitleList;
+        public string SelectedProductTitle;
         public PRODUCT_INFO SelectedProduct;
         public List<ProductPriceListElement> ProductPriceList;
         public PRODUCT_PRICE SelectedProductPrice;

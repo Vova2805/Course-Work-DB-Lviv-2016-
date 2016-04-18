@@ -13,12 +13,11 @@ namespace CourseWorkDB_DudasVI.Views
     public partial class HomeWindowAdmin : MetroWindow
     {
         private static bool isopenFlyout;
-        private readonly SWEET_FACTORYEntities sweetFactory = new SWEET_FACTORYEntities();
 
         public HomeWindowAdmin()
         {
             InitializeComponent();
-            var directorModel = new DirectorModel(sweetFactory);
+            var directorModel = new DirectorModel();
             var directorViewModel = Mapper.Map<DirectorModel, DirectorViewModel>(directorModel);
             DataContext = directorViewModel;
         }

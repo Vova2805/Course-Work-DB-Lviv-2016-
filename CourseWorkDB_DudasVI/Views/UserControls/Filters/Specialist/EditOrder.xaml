@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CourseWorkDB_DudasVI.Views.UserControls.EditOrder"
+﻿<UserControl x:Class="CourseWorkDB_DudasVI.Views.UserControls.EditOrderOrProduct"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,9 +7,14 @@
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:rules="clr-namespace:CourseWorkDB_DudasVI.Views.Rules"
+             xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
              mc:Ignorable="d">
     <Border BorderThickness="0">
         <StackPanel Orientation="Vertical">
+            <StackPanel.Resources>
+                <converters:TabIndexBoolConverter x:Key="BoolConverter" />
+                <converters:HeaderTitleConverter x:Key="HeaderTitleConverter" />
+            </StackPanel.Resources>
             <Grid Background="Transparent" Margin="10">
                 <Grid.Resources>
                     <ResourceDictionary>
@@ -49,20 +54,27 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" FontSize="20" Grid.ColumnSpan="4"
-                           Text="Фільтрувати записи" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="За категорією" VerticalAlignment="Center" />
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="За вартістю продукту" VerticalAlignment="Center" />
-                <Controls:ToggleSwitch Grid.Row="2" Grid.Column="1" IsChecked="{Binding FilterByPrice,Mode=TwoWay}"
+                <TextBlock 
+                    Grid.Row="0" Grid.Column="0" FontSize="20" Grid.ColumnSpan="4"
+                           Text="{Binding Path=TabIndex,Converter={StaticResource HeaderTitleConverter}}" />
+                <ComboBox Visibility="{Binding Path=TabIndex,Converter={StaticResource BoolConverter},ConverterParameter='1'}"
+                    HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1"
+                          Grid.ColumnSpan="3" Margin="5" SelectionChanged="ProductSelectionChanged"
+                          ItemsSource="{Binding ProductsTitleList, Mode=TwoWay}" SelectedValue="{Binding Path=SelectedProductTitle,Mode=TwoWay}" IsEditable="True">
+                </ComboBox>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="За назвою" VerticalAlignment="Center" Visibility="{Binding Path=TabIndex,Converter={StaticResource BoolConverter},ConverterParameter='1'}" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="За категорією" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="За вартістю продукту" VerticalAlignment="Center" />
+                <Controls:ToggleSwitch Grid.Row="3" Grid.Column="1" IsChecked="{Binding FilterByPrice,Mode=TwoWay}"
                                        Margin="5" Foreground="BlanchedAlmond" IsCheckedChanged="CheckedChanged" />
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Від" TextAlignment="Right" />
-                <Controls:NumericUpDown Grid.Row="3" Name="fromPrice" IsEnabled="{Binding FilterByPrice}"
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Від" TextAlignment="Right" />
+                <Controls:NumericUpDown Grid.Row="4" Name="fromPrice" IsEnabled="{Binding FilterByPrice}"
                                         Grid.Column="1" Margin="5" Minimum="0" Value="{Binding priceFrom,Mode=TwoWay}" />
 
-                <TextBlock Grid.Row="3" Grid.Column="2" Text="До" />
-                <Controls:NumericUpDown Grid.Row="3" Name="toPrice" Grid.Column="3" Margin="5" Minimum="0"
+                <TextBlock Grid.Row="4" Grid.Column="2" Text="До" />
+                <Controls:NumericUpDown Grid.Row="4" Name="toPrice" Grid.Column="3" Margin="5" Minimum="0"
                                         Value="{Binding priceTo}" IsEnabled="{Binding FilterByPrice,Mode=TwoWay}" />
-                <ComboBox HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1"
+                <ComboBox HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="1"
                           Grid.ColumnSpan="3" Margin="5" SelectionChanged="CategorySelectionChanged"
                           ItemsSource="{Binding CategoriesList, Mode=TwoWay}">
                     <ComboBox.SelectedItem>
@@ -95,7 +107,7 @@
                     </Button.Style>
                 </Button>
             </Grid>
-            <Grid Background="Transparent" Margin="10">
+            <Grid Background="Transparent" Margin="10" Visibility="{Binding Path=TabIndex,Converter={StaticResource BoolConverter},ConverterParameter='0'}">
                 <Grid.Resources>
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
