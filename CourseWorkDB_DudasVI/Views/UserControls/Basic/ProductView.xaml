@@ -13,7 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Border Background="GhostWhite" BorderBrush="DimGray" BorderThickness="2">
+    <Border>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <StackPanel.Resources>
@@ -47,8 +47,7 @@
                     <Image Grid.Row="0" Margin="2,4,2,3" HorizontalAlignment="Left" VerticalAlignment="Top" Source="pack://application:,,,/Resources/images/test.jpg" Width="100"/>
                     <Button Grid.Row="1" HorizontalAlignment="Center" Command="{Binding ChangeImageCommand}" VerticalAlignment="Top" Margin="5" Content="Змінити"/>-->
                     </Grid>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="1"
-                                Grid.RowSpan="2" Margin="5">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="1" Margin="5">
                         <!--#region First expander-->
                         <Expander Header="Загальні відомості" IsExpanded="True">
                             <Grid>
@@ -129,7 +128,7 @@
                         </Expander>
                         <!--#endregion-->
                         <!--#region Third expander-->
-                        <Expander Header="Зміни ціни" IsExpanded="False">
+                        <Expander Header="Зміни ціни" IsExpanded="True">
                             <ScrollViewer>
                                 <DataGrid Name="PriceGrid" ItemsSource="{Binding Path=ProductPriceList}"
                                           AutoGenerateColumns="False"

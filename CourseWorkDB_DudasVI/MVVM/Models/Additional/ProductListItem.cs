@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
+using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using CourseWorkDB_DudasVI.Views;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -12,18 +15,31 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
     public class ProductListElement:ViewModelBase
     {
-        public ProductListElement(PRODUCT_INFO ProductInfo)
+        private SpecialistViewModel DataContextVM;
+        private SpecialistModel DataContextM;
+        private PRODUCT_INFO _ProductInfo;
+        private bool _isAdded;
+        private string _title;
+        private string _categoryTitle;
+       
+
+        private ProductListElement(PRODUCT_INFO ProductInfo)
         {
             this.ProductInfo = ProductInfo;
             isAdded = false;
             _title = ProductInfo.PRODUCT_TITLE;
             _categoryTitle = ProductInfo.CATEGORY.CATEGORY_TITLE;
         }
+        public ProductListElement(PRODUCT_INFO ProductInfo, SpecialistViewModel dataContextViewModel): this(ProductInfo)
+        {
+            this.DataContextVM = dataContextViewModel;
+        }
+        public ProductListElement(PRODUCT_INFO ProductInfo, SpecialistModel dataContextModel): this(ProductInfo)
+        {
+            this.DataContextM = dataContextModel;
+        }
 
-        public PRODUCT_INFO _ProductInfo;
-        public bool _isAdded;
-        private string _title;
-        private string _categoryTitle;
+        
 
         public PRODUCT_INFO ProductInfo {
             get { return _ProductInfo; }
@@ -78,15 +94,23 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             var specialistWindow = window as HomeWindowSpecialist;
             if (specialistWindow != null)
             {
-                var result = await specialistWindow.ShowMessageAsync("Попередження",
-                            "Ви дійсно хочете підтвердити зміни?\nСкасувати цю дію буде не можливо.",
+                //TODO додати кількість
+                var result = await specialistWindow.ShowMessageAsync("Додати до плану",
+                            "Додати?",
                             MessageDialogStyle.AffirmativeAndNegative);
-                if (result == MessageDialogResult.Affirmative)
-                {
-
+                    if (result == MessageDialogResult.Affirmative)
+                    {
+                        SCHEDULE_PRODUCT_INFO scheduleProductInfo = new SCHEDULE_PRODUCT_INFO();
+                        scheduleProductInfo.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
+                        scheduleProductInfo.QUANTITY_IN_SCHEDULE = 1;
+                        scheduleProductInfo.PRODUCT_INFO = ProductInfo;
+                    if(DataContextVM!=null)
+                        DataContextVM.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
+                    else DataContextM.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
+                        this.isAdded = true;
+                    }
                 }
-            }
-        }
+         }
 
         public async void RemoveFromSchedule(object obj)
         {
@@ -96,12 +120,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 var result =
                     await
-                        specialistWindow.ShowMessageAsync("Попередження",
-                            "Ви дійсно хочете підтвердити зміни?\nСкасувати цю дію буде не можливо.",
+                        specialistWindow.ShowMessageAsync("Видалити із плану",
+                            "Видалити?",
                             MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Affirmative)
                 {
-                   
+                    if(DataContextVM!=null)
+                        DataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                    else DataContextM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                    this.isAdded = false;
                 }
             }
         }

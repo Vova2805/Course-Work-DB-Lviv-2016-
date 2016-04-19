@@ -1094,7 +1094,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                         "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
                             }
                         }
-                    
                 }
             }
         }
@@ -1107,7 +1106,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 ProductsList.Clear();
                 foreach (var product in temp)
                 {
-                    ProductsList.Add(new ProductListElement(product));
+                    ProductsList.Add(new ProductListElement(product,this));
                 }
                 if(ProductsList!=null && ProductsList.Count>0)
                 SelectedProduct =

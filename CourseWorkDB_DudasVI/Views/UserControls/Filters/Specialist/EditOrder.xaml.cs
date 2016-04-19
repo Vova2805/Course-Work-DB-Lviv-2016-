@@ -109,7 +109,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                                 model.ProductsList = new List<ProductListElement>();
                                 foreach (var product in Session.FactoryEntities.PRODUCT_INFO.ToList())
                                 {
-                                    model.ProductsList.Add(new ProductListElement(product));
+                                    model.ProductsList.Add(new ProductListElement(product,model));
                                 }
                             if (!model.selectedCategory.Equals("Всі категорії"))
                             {

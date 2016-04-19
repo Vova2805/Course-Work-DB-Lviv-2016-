@@ -144,6 +144,16 @@ namespace CourseWorkDB_DudasVI.Views
                     }
                 }
                     break;
+                case 1:
+                {
+                    ProductsCatalog.ClearText();
+                }
+                    break;
+                case 4:
+                {
+                   ProductsScheduleCatalog.ClearText();
+                }
+                    break;
             }
         }
 
@@ -195,6 +205,7 @@ namespace CourseWorkDB_DudasVI.Views
             {
                 model.TabIndex = SpecialistControl.SelectedIndex;
                 model.UpdateSeries();
+                ProductsCatalog.ClearText();
             }
             MouseClick(sender, null);
         }

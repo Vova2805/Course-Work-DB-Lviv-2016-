@@ -126,7 +126,7 @@
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
-    <TabControl SelectionChanged="TabControl_SelectionChanged" Name="SpecialistControl">
+    <TabControl Name="SpecialistControl">
         <!--#region Замовлення-->
         <TabItem Header="Замовлення">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
@@ -315,7 +315,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
+                            <Grid Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
@@ -383,11 +383,11 @@
                         </ScrollViewer>
                     </Grid>
 
-                    <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Background="{DynamicResource GrayBrush2}">
+                    <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Background="{DynamicResource AccentColorBrush}">
                         <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch" />
                     </Border>
 
-                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="Gray">
+                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                        LastChildFill="False">
                             <Button Width="50" Click="EditOrdersOpen"
@@ -500,11 +500,11 @@
                     </Grid>
 
                     <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
-                            Background="{DynamicResource GrayBrush2}">
+                           Background="{DynamicResource AccentColorBrush}">
                         <UserControls:TotalWarehouseView DockPanel.Dock="Left" HorizontalAlignment="Stretch" />
                     </Border>
 
-                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="Gray">
+                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right">
                             <Button Width="50"
                                     Height="50"
@@ -553,7 +553,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Grid Grid.Row="0">
+                                <Grid Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
@@ -597,7 +597,7 @@
                             <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
                             Background="{DynamicResource GrayBrush2}"/>
 
-                            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="Gray">
+                            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="{DynamicResource AccentColorBrush}">
                                 <DockPanel HorizontalAlignment="Right">
                                     <Button Width="50"
                                     Height="50"
@@ -642,7 +642,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Grid Grid.Row="0">
+                                <Grid Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
@@ -660,35 +660,23 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0"  Grid.Row="0" Text="Каталог продуктів" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" FontSize="15" />
-                                    <ListBox Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch"
-                                         SelectedItem="{Binding SelectedProduct,Mode=TwoWay}"
-                                        Background="{DynamicResource AccentColorBrush}" ItemsSource="{Binding ProductsList}">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <UserControls:ProductListItem />
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
+                                    <UserControls:ProductsCatalog Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" x:Name="ProductsScheduleCatalog"/>
                                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                                    <DataGrid Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" FrozenColumnCount = "1"  FontSize="14" ItemsSource="{Binding ProductsOnWarehouse}" AutoGenerateColumns="False">
+                                    <DataGrid Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" FrozenColumnCount = "1"  FontSize="14" ItemsSource="{Binding Path=CurrentWarehouse.ScheduleProductInfos}" AutoGenerateColumns="False">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
                                                     Binding="{Binding Path=PRODUCT_INFO.PRODUCT_TITLE}" />
                                             <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
                                                     Binding="{Binding Path=PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
-                                            <DataGridTextColumn Width="Auto" Header="Кількість" IsReadOnly="True"
-                                                    Binding="{Binding QUANTITY}" />
-                                            <DataGridTextColumn Width="Auto" Header="Дата виробництва"  IsReadOnly="True" />
-                                            <DataGridTextColumn Width="Auto" Header="Закінчення строку" IsReadOnly="True"  />
-                                            <DataGridTextColumn Width="Auto" Header="Адреса виробника" IsReadOnly="True" />
+                                            <DataGridTextColumn Width="*" Header="Кількість" IsReadOnly="True"
+                                                    Binding="{Binding QUANTITY_IN_SCHEDULE}" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>
                             </Grid>
 
                             <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
-                            Background="{DynamicResource GrayBrush2}">
+                           Background="{DynamicResource AccentColorBrush}">
                                 <Grid Margin="5">
                                     <Grid.Resources>
                                         <!--<Converters:EmptyStringConverter x:Key="emptyStringConv"/>-->
@@ -739,7 +727,7 @@
                                 </Grid>
                             </Border>
 
-                            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="Gray">
+                            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="{DynamicResource AccentColorBrush}">
                                 <DockPanel HorizontalAlignment="Right">
                                     <Button Width="50"
                                     Height="50"
