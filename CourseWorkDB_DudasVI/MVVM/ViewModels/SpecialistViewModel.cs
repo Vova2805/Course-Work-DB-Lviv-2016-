@@ -74,6 +74,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private string _TotalIncome;
         private string _TotalOutcome;
         private string _FlowDirection;
+        private ObservableCollection<RELEASED_PRODUCT> _ProductsOnWarehouse;
+        private decimal _Engaged;
 
         #endregion
 
@@ -339,7 +341,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 PieSeriesInstance.Clear();
                 BarSeriesInstance.Clear();
                 Labels.Clear();
-                UpdateLineSeries();
+                //UpdateLineSeries();
                 UpdatePieSeries();
                 UpdateBarSeries();
                 switch (TabIndex)
@@ -604,12 +606,21 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
+        public ObservableCollection<RELEASED_PRODUCT> ProductsOnWarehouse
+        {
+            get { return _ProductsOnWarehouse; }
+            set
+            {
+                _ProductsOnWarehouse = value;
+                OnPropertyChanged("ProductsOnWarehouse");
+            }
+        }
         public WAREHOUSE CurrentWarehouse
         {
             get { return _CurrentWarehouse; }
             set
             {
-                _CurrentWarehouse = value;
+                    _CurrentWarehouse = value;
                     InOutComeFlow = new ChartValues<WarehouseProductTransaction>();
                     List<WarehouseProductTransaction> temp = new List<WarehouseProductTransaction>();
                     List<ORDER_PRODUCT> order_products =
@@ -670,7 +681,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                        if(direct) FlowDirection = " Вхідний";
                        else FlowDirection = " Вихідний";
                     }
-                OnPropertyChanged("CurrentWarehouse");
+                    ProductsOnWarehouse.Clear();
+                   List<RELEASED_PRODUCT> tempProducts = Session.FactoryEntities.RELEASED_PRODUCT.ToList()
+                    .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.WAREHOUSE_ID).ToList();
+                    foreach (var product in tempProducts)
+                    {
+                        ProductsOnWarehouse.Add(product);
+                    }
+                    Engaged = _CurrentWarehouse.CAPACITY - _CurrentWarehouse.FREE_SPACE;
+                    OnPropertyChanged("CurrentWarehouse");
             }
         }
 
@@ -789,6 +808,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     UpdateSeries();
                     OnPropertyChanged("SelectedProduct");
                 }
+            }
+        }
+
+        public decimal Engaged
+        {
+            get { return _Engaged; }
+            set
+            {
+                _Engaged = value;
+                OnPropertyChanged("Engaged");
             }
         }
 

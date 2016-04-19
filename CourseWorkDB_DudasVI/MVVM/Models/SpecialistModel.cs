@@ -99,9 +99,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             {
                 return transaction1.Date > transaction2.Date ? 1 : transaction1.Date == transaction2.Date ? 0 : -1;
             } );
-            
-        #endregion
-    }
+            ProductsOnWarehouse =
+                Session.FactoryEntities.RELEASED_PRODUCT.ToList()
+                    .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.WAREHOUSE_ID).ToList();
+
+            #endregion
+        }
 
         public class RegionInfo
         {
@@ -147,6 +150,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
         public List<WAREHOUSE> warehouses;
         public WAREHOUSE CurrentWarehouse;
+        public decimal Engaged;
         public List<string> warehousesStrings;
         public string CurrentWarehouseString;
         public List<WarehouseProductTransaction> InOutComeFlow;
@@ -155,6 +159,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public string TotalIncome;
         public string TotalOutcome;
         public string FlowDirection;
+        public List<RELEASED_PRODUCT> ProductsOnWarehouse;
         #endregion
 
         #region OrderFilter

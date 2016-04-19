@@ -12,7 +12,7 @@
             <Setter Property="FontSize" Value="{DynamicResource ContentFontSize}" />
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
