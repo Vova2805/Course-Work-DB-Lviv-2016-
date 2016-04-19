@@ -65,7 +65,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #region Third
 
         private WAREHOUSE _CurrentWarehouse;
-        private ObservableCollection<WAREHOUSE> _warehouses;
+        private ObservableCollection<WarehouseListItem> _warehouses;
         private ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
         private ObservableCollection<string> _warehousesStrings;
         private string _CurrentWarehouseString;
@@ -868,7 +868,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public ObservableCollection<WAREHOUSE> Warehouses
+        public ObservableCollection<WarehouseListItem> Warehouses
         {
             get { return _warehouses; }
             set
@@ -887,7 +887,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (WarehousesStrings != null)
                 {
                     int index = WarehousesStrings.IndexOf(CurrentWarehouseString);
-                    CurrentWarehouse = Warehouses.ElementAt(index);
+                    CurrentWarehouse = Warehouses.ElementAt(index).Warehouse;
                 }
                 OnPropertyChanged("CurrentWarehouseString");
             }

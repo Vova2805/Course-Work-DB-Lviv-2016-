@@ -120,6 +120,7 @@
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="MVVM\Mapping\Mapping.cs" />
+    <Compile Include="MVVM\Models\Additional\WarehouseListItem.cs" />
     <Compile Include="MVVM\Models\Additional\WarehouseProductTransaction.cs" />
     <Compile Include="MVVM\Models\Additional\OrderProductTransaction.cs" />
     <Compile Include="MVVM\Models\Additional\ProductListItem.cs" />

@@ -636,7 +636,7 @@
                                 
                                 <Grid Grid.Row="1">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="200" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
@@ -667,9 +667,7 @@
                              </Grid>
 
                             <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
-                            Background="{DynamicResource GrayBrush2}">
-                                <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch" />
-                            </Border>
+                            Background="{DynamicResource GrayBrush2}"/>
 
                             <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="Gray">
                                 <DockPanel HorizontalAlignment="Right">
@@ -734,24 +732,76 @@
                                     <TextBlock Grid.Column="0" Text="Склад " VerticalAlignment="Center" Margin="5" FontSize="15" />
                                     <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5" ItemsSource="{Binding WarehousesStrings, Mode=TwoWay}" SelectedValue="{Binding Path=CurrentWarehouseString,Mode=TwoWay}" IsEditable="False"/>
                                 </Grid>
-                                <DataGrid FrozenColumnCount = "1" Grid.Row="1" FontSize="14" ItemsSource="{Binding ProductsOnWarehouse}" AutoGenerateColumns="False">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <ListBox Grid.Column="0" VerticalAlignment="Stretch"
+                                         SelectedItem="{Binding SelectedProduct,Mode=TwoWay}"
+                                        Background="{DynamicResource AccentColorBrush}" ItemsSource="{Binding ProductsList}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <UserControls:ProductListItem />
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                    <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                                    <DataGrid Grid.Column="2" FrozenColumnCount = "1"  FontSize="14" ItemsSource="{Binding ProductsOnWarehouse}" AutoGenerateColumns="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
                                                     Binding="{Binding Path=PRODUCT_INFO.PRODUCT_TITLE}" />
-                                        <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
+                                            <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
                                                     Binding="{Binding Path=PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
-                                        <DataGridTextColumn Width="Auto" Header="Кількість" IsReadOnly="True"
+                                            <DataGridTextColumn Width="Auto" Header="Кількість" IsReadOnly="True"
                                                     Binding="{Binding QUANTITY}" />
-                                        <DataGridTextColumn Width="Auto" Header="Дата виробництва"  IsReadOnly="True" />
-                                        <DataGridTextColumn Width="Auto" Header="Закінчення строку" IsReadOnly="True"  />
-                                        <DataGridTextColumn Width="Auto" Header="Адреса виробника" IsReadOnly="True"  />
-                                    </DataGrid.Columns>
-                                </DataGrid>
+                                            <DataGridTextColumn Width="Auto" Header="Дата виробництва"  IsReadOnly="True" />
+                                            <DataGridTextColumn Width="Auto" Header="Закінчення строку" IsReadOnly="True"  />
+                                            <DataGridTextColumn Width="Auto" Header="Адреса виробника" IsReadOnly="True" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
                             </Grid>
 
                             <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
                             Background="{DynamicResource GrayBrush2}">
-                                <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" FontWeight="Bold" Grid.Column="0" Text="Загальна інформація про план :" FontSize="14" />
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Період :" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DateFilterString}"/>
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Межі потоку :" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ValueRange}"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="3" Text="Загальна кількість продукції :"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding TotalIncome}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="3" Text="Загальна вартість продукції :"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding TotalOutcome}"/>
+
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Напрямок потоку: " />
+                                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding FlowDirection}"/>
+
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Категорія : " />
+                                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding selectedCategory}"/>
+
+                                </Grid>
                             </Border>
 
                             <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50" Background="Gray">

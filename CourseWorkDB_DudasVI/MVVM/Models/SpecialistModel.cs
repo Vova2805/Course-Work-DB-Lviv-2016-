@@ -71,14 +71,19 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #endregion
 
             #region Third
-
-            warehouses = Session.FactoryEntities.WAREHOUSE.ToList();
-            CurrentWarehouse = warehouses.First();
+            warehouses = new List<WarehouseListItem>();
+            List<WAREHOUSE> tempWarehouses = Session.FactoryEntities.WAREHOUSE.ToList();
+            foreach (var warehouse in tempWarehouses)
+            {
+                warehouses.Add(new WarehouseListItem(warehouse));
+            }
+            
+            CurrentWarehouse = warehouses.First().Warehouse;
             warehousesStrings = new List<string>();
             i = 0;
             foreach (var warehouse in warehouses)
             {
-                warehousesStrings.Add(ConvertAddress(warehouse,(++i).ToString()+"."));
+                warehousesStrings.Add(ConvertAddress(warehouse.Warehouse,(++i).ToString()+"."));
             }
             CurrentWarehouseString = warehousesStrings.First();
             InOutComeFlow = new List<WarehouseProductTransaction>();
@@ -148,7 +153,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
         #region Third
 
-        public List<WAREHOUSE> warehouses;
+        public List<WarehouseListItem> warehouses;
         public WAREHOUSE CurrentWarehouse;
         public decimal Engaged;
         public List<string> warehousesStrings;
@@ -160,6 +165,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public string TotalOutcome;
         public string FlowDirection;
         public List<RELEASED_PRODUCT> ProductsOnWarehouse;
+        #endregion
+
+        #region So on
+
+        public List<PRODUCTION_SCHEDULE> Schedules;
+        public PRODUCTION_SCHEDULE SelectedProductionSchedule;
         #endregion
 
         #region OrderFilter
