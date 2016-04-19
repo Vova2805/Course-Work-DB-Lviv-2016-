@@ -51,6 +51,7 @@ namespace CourseWorkDB_DudasVI.Views
             addHotKey();
             view = CollectionViewSource.GetDefaultView(_specialistViewModel.ProductsList);
             view.Filter = FilterProductsRule;
+            RequiredDatePicker.DisplayDateStart = API.getTodayDate();
         }
 
         private void addHotKey()
@@ -240,6 +241,11 @@ namespace CourseWorkDB_DudasVI.Views
             Session.FactoryEntities.Dispose();
             Session.User = null;
             Close();
+        }
+
+        private void ChartsSet_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

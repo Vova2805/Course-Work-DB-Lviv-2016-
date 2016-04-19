@@ -508,16 +508,6 @@
         <!--#region Склад-->
         <TabItem Header="Склади">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
-                <!--<Border.Resources>
-                    -->
-                <!--<Converters:StringTrimmerConverter MaxLengthAllowed="40" x:Key="trimConverter"/>-->
-                <!--Converters-->
-                <!--
-                    <BooleanToVisibilityConverter x:Key="boolToVis"/>
-                    <Converters:NullToBoolConverter x:Key="nullToBool"/>
-                    <Converters:TransactionHeaderConverter x:Key="headerTextConv"/>
-                    <local:BindingProxy x:Key="proxy" Data="{Binding}" />
-                </Border.Resources>-->
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.Resources>
                         <converters:AddressConverter x:Key="AddressConverter"/>
@@ -598,16 +588,6 @@
             <TabControl >
                 <TabItem Header="Історія">
                     <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
-                        <!--<Border.Resources>
-                    -->
-                        <!--<Converters:StringTrimmerConverter MaxLengthAllowed="40" x:Key="trimConverter"/>-->
-                        <!--Converters-->
-                        <!--
-                    <BooleanToVisibilityConverter x:Key="boolToVis"/>
-                    <Converters:NullToBoolConverter x:Key="nullToBool"/>
-                    <Converters:TransactionHeaderConverter x:Key="headerTextConv"/>
-                    <local:BindingProxy x:Key="proxy" Data="{Binding}" />
-                </Border.Resources>-->
                         <Grid HorizontalAlignment="Stretch">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -636,31 +616,30 @@
                                 
                                 <Grid Grid.Row="1">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <ListBox Grid.Column="0" VerticalAlignment="Stretch"
-                                         SelectedItem="{Binding SelectedProduct,Mode=TwoWay}"
-                                        Background="{DynamicResource AccentColorBrush}" ItemsSource="{Binding ProductsList}">
+                                    <ListBox Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch"
+                                 SelectedItem="{Binding SelectedProductionSchedule,Mode=TwoWay}"
+                                 Background="{DynamicResource AccentColorBrush}" ItemsSource="{Binding Schedules}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <UserControls:ProductListItem />
+                                                <UserControls:ProductionScheduleListItem />
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
-                                      </ListBox>
+                                    </ListBox>
                                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                                    <DataGrid Grid.Column="2" FrozenColumnCount = "1"  FontSize="14" ItemsSource="{Binding ProductsOnWarehouse}" AutoGenerateColumns="False">
+                                    <DataGrid Grid.Column="2" FrozenColumnCount = "1"  FontSize="14" ItemsSource="{Binding SchedulePackages}" AutoGenerateColumns="False">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
                                                     Binding="{Binding Path=PRODUCT_INFO.PRODUCT_TITLE}" />
                                             <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
                                                     Binding="{Binding Path=PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
-                                            <DataGridTextColumn Width="Auto" Header="Кількість" IsReadOnly="True"
-                                                    Binding="{Binding QUANTITY}" />
-                                            <DataGridTextColumn Width="Auto" Header="Дата виробництва"  IsReadOnly="True" />
-                                            <DataGridTextColumn Width="Auto" Header="Закінчення строку" IsReadOnly="True"  />
-                                            <DataGridTextColumn Width="Auto" Header="Адреса виробника" IsReadOnly="True" />
+                                            <DataGridTextColumn Width="Auto" Header="Кількість замовлена" IsReadOnly="True"
+                                                    Binding="{Binding QUANTITY_IN_SCHEDULE}" />
+                                            <DataGridTextColumn Width="Auto" Header="Кількість реалізована" IsReadOnly="True"
+                                                    Binding="{Binding RELEASED_QUANTITY}" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>
@@ -698,16 +677,6 @@
                 </TabItem>
                 <TabItem Header="Новий план виробництва">
                     <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
-                        <!--<Border.Resources>
-                    -->
-                        <!--<Converters:StringTrimmerConverter MaxLengthAllowed="40" x:Key="trimConverter"/>-->
-                        <!--Converters-->
-                        <!--
-                    <BooleanToVisibilityConverter x:Key="boolToVis"/>
-                    <Converters:NullToBoolConverter x:Key="nullToBool"/>
-                    <Converters:TransactionHeaderConverter x:Key="headerTextConv"/>
-                    <local:BindingProxy x:Key="proxy" Data="{Binding}" />
-                </Border.Resources>-->
                         <Grid HorizontalAlignment="Stretch">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -733,12 +702,17 @@
                                     <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5" ItemsSource="{Binding WarehousesStrings, Mode=TwoWay}" SelectedValue="{Binding Path=CurrentWarehouseString,Mode=TwoWay}" IsEditable="False"/>
                                 </Grid>
                                 <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <ListBox Grid.Column="0" VerticalAlignment="Stretch"
+                                    <TextBlock Grid.Column="0"  Grid.Row="0" Text="Каталог продуктів" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" FontSize="15" />
+                                    <ListBox Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch"
                                          SelectedItem="{Binding SelectedProduct,Mode=TwoWay}"
                                         Background="{DynamicResource AccentColorBrush}" ItemsSource="{Binding ProductsList}">
                                         <ListBox.ItemTemplate>
@@ -748,7 +722,7 @@
                                         </ListBox.ItemTemplate>
                                     </ListBox>
                                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                                    <DataGrid Grid.Column="2" FrozenColumnCount = "1"  FontSize="14" ItemsSource="{Binding ProductsOnWarehouse}" AutoGenerateColumns="False">
+                                    <DataGrid Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" FrozenColumnCount = "1"  FontSize="14" ItemsSource="{Binding ProductsOnWarehouse}" AutoGenerateColumns="False">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
                                                     Binding="{Binding Path=PRODUCT_INFO.PRODUCT_TITLE}" />
@@ -766,7 +740,14 @@
 
                             <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
                             Background="{DynamicResource GrayBrush2}">
-                                <Grid>
+                                <Grid Margin="5">
+                                    <Grid.Resources>
+                                        <!--<Converters:EmptyStringConverter x:Key="emptyStringConv"/>-->
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Margin" Value="5" />
+                                            <Setter Property="Foreground" Value="{DynamicResource BlackColorBrush}" />
+                                        </Style>
+                                    </Grid.Resources>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
@@ -784,23 +765,28 @@
 
                                     <TextBlock Grid.Row="0" FontWeight="Bold" Grid.Column="0" Text="Загальна інформація про план :" FontSize="14" />
 
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Період :" />
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DateFilterString}"/>
 
-                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Межі потоку :" />
-                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ValueRange}"/>
-
+                                    <Grid  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Дата створення :" />
+                                        <TextBlock  Grid.Column="1" FontWeight="Bold" TextAlignment="Center" Text="{Binding Path=CurrentWarehouse.NewSchedule.CREATED_DATE,StringFormat=\{0:dd.MM.yyyy \}}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock  Text="Кінцева дата реалізації :" />
+                                        <DatePicker Grid.Column="1"  SelectedDate="{Binding Path=CurrentWarehouse.NewSchedule.REQUIRED_DATE,Mode=TwoWay}" Name="RequiredDatePicker"/>
+                                    </Grid>
+                                    
                                     <TextBlock Grid.Row="1" Grid.Column="3" Text="Загальна кількість продукції :"/>
-                                    <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding TotalIncome}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding Path=CurrentWarehouse.TotalQuantity}"/>
                                     <TextBlock Grid.Row="2" Grid.Column="3" Text="Загальна вартість продукції :"/>
-                                    <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding TotalOutcome}"/>
-
-                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Напрямок потоку: " />
-                                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding FlowDirection}"/>
-
-                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Категорія : " />
-                                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding selectedCategory}"/>
-
+                                    <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding Path=CurrentWarehouse.TotalPrice}"/>
                                 </Grid>
                             </Border>
 
@@ -822,7 +808,7 @@
                                 </DockPanel>
                             </Border>
                             <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                            <DockPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
+                            <DockPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
                                 <ScrollViewer DockPanel.Dock="Top" ScrollViewer.VerticalScrollBarVisibility="Auto">
                                     <UserControls:ChartsSet />
                                 </ScrollViewer>

@@ -64,7 +64,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #region Third
 
-        private WAREHOUSE _CurrentWarehouse;
+        private WarehouseListItem _CurrentWarehouse;
         private ObservableCollection<WarehouseListItem> _warehouses;
         private ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
         private ObservableCollection<string> _warehousesStrings;
@@ -77,6 +77,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<RELEASED_PRODUCT> _ProductsOnWarehouse;
         private decimal _Engaged;
 
+        #endregion
+
+        #region So on
+        private ObservableCollection<PRODUCTION_SCHEDULE> _Schedules;
+        private PRODUCTION_SCHEDULE _SelectedProductionSchedule;
+        private ObservableCollection<SCHEDULE_PRODUCT_INFO> _schedulePackages;
         #endregion
 
 
@@ -337,28 +343,28 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             if (LineSeriesInstance != null)
             {
-                LineSeriesInstance.Clear();
-                PieSeriesInstance.Clear();
-                BarSeriesInstance.Clear();
-                Labels.Clear();
+                //LineSeriesInstance.Clear();
+                //PieSeriesInstance.Clear();
+                //BarSeriesInstance.Clear();
+                //Labels.Clear();
                 //UpdateLineSeries();
-                UpdatePieSeries();
-                UpdateBarSeries();
-                switch (TabIndex)
-                {
-                    case 0:
-                    {
-                        XTitle = "Номер продукції";
-                        YTitle = "Кількість замовлено";
-                    }
-                        break;
-                    case 1:
-                    {
-                        XTitle = "Дата зміни ціни";
-                        YTitle = "Значення ціни";
-                    }
-                        break;
-                }
+                //UpdatePieSeries();
+                //UpdateBarSeries();
+                //switch (TabIndex)
+                //{
+                //    case 0:
+                //    {
+                //        XTitle = "Номер продукції";
+                //        YTitle = "Кількість замовлено";
+                //    }
+                //        break;
+                //    case 1:
+                //    {
+                //        XTitle = "Дата зміни ціни";
+                //        YTitle = "Значення ціни";
+                //    }
+                //        break;
+                //}
             }
         }
 
@@ -615,7 +621,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("ProductsOnWarehouse");
             }
         }
-        public WAREHOUSE CurrentWarehouse
+        public WarehouseListItem CurrentWarehouse
         {
             get { return _CurrentWarehouse; }
             set
@@ -625,9 +631,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     List<WarehouseProductTransaction> temp = new List<WarehouseProductTransaction>();
                     List<ORDER_PRODUCT> order_products =
                         Session.FactoryEntities.ORDER_PRODUCT.ToList()
-                            .Where(op => op.WAREHOUSE_ID == _CurrentWarehouse.WAREHOUSE_ID).ToList();
+                            .Where(op => op.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
                     List<SCHEDULE_PRODUCT_INFO> scheduleProductInfos = Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
-                        .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == _CurrentWarehouse.WAREHOUSE_ID).ToList();
+                        .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
                     foreach (var package in order_products)
                     {
                         temp.Add(new WarehouseProductTransaction(package));
@@ -683,13 +689,61 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     }
                     ProductsOnWarehouse.Clear();
                    List<RELEASED_PRODUCT> tempProducts = Session.FactoryEntities.RELEASED_PRODUCT.ToList()
-                    .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.WAREHOUSE_ID).ToList();
+                    .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
                     foreach (var product in tempProducts)
                     {
                         ProductsOnWarehouse.Add(product);
                     }
-                    Engaged = _CurrentWarehouse.CAPACITY - _CurrentWarehouse.FREE_SPACE;
+                    Engaged = _CurrentWarehouse.Warehouse.CAPACITY - _CurrentWarehouse.Warehouse.FREE_SPACE;
+                    Schedules = new ChartValues<PRODUCTION_SCHEDULE>();
+
+                    List<PRODUCTION_SCHEDULE> tempSchedules =
+                    Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList()
+                        .Where(prs => prs.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID)
+                        .ToList();
+                    foreach (var schedule in tempSchedules)
+                    {
+                        _Schedules.Add(schedule);
+                    }
+                if (Schedules.Count > 0)
+                    SelectedProductionSchedule = Schedules.First();
+                else
+                {
+                    SelectedProductionSchedule = null;
+                }
                     OnPropertyChanged("CurrentWarehouse");
+            }
+        }
+
+        public ObservableCollection<PRODUCTION_SCHEDULE> Schedules
+        {
+            get { return _Schedules; }
+            set
+            {
+                _Schedules = value;
+                OnPropertyChanged("Schedules");
+            }
+        }
+
+        public PRODUCTION_SCHEDULE SelectedProductionSchedule
+        {
+            get { return _SelectedProductionSchedule; }
+            set
+            {
+                _SelectedProductionSchedule = value;
+                if (_SelectedProductionSchedule != null)
+                {
+                    SchedulePackages = new ObservableCollection<SCHEDULE_PRODUCT_INFO>();
+                    List<SCHEDULE_PRODUCT_INFO> temp =
+                        Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
+                            .Where(s => s.SCHEDULE_ID == SelectedProductionSchedule.SCHEDULE_ID)
+                            .ToList();
+                    foreach (var pack in temp)
+                    {
+                        SchedulePackages.Add(pack);
+                    }
+                    OnPropertyChanged("SelectedProductionSchedule");
+                }
             }
         }
 
@@ -811,6 +865,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
+        public ObservableCollection<SCHEDULE_PRODUCT_INFO> SchedulePackages
+        {
+            get { return _schedulePackages; }
+            set
+            {
+                _schedulePackages = value;
+                OnPropertyChanged("SchedulePackages");
+            }
+        }
+
         public decimal Engaged
         {
             get { return _Engaged; }
@@ -887,7 +951,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (WarehousesStrings != null)
                 {
                     int index = WarehousesStrings.IndexOf(CurrentWarehouseString);
-                    CurrentWarehouse = Warehouses.ElementAt(index).Warehouse;
+                    CurrentWarehouse = Warehouses.ElementAt(index);
                 }
                 OnPropertyChanged("CurrentWarehouseString");
             }

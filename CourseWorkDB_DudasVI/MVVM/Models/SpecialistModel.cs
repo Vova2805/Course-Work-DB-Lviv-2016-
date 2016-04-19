@@ -78,7 +78,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 warehouses.Add(new WarehouseListItem(warehouse));
             }
             
-            CurrentWarehouse = warehouses.First().Warehouse;
+            CurrentWarehouse = warehouses.First();
             warehousesStrings = new List<string>();
             i = 0;
             foreach (var warehouse in warehouses)
@@ -89,9 +89,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             InOutComeFlow = new List<WarehouseProductTransaction>();
             List<ORDER_PRODUCT> order_products =
                 Session.FactoryEntities.ORDER_PRODUCT.ToList()
-                    .Where(op => op.WAREHOUSE_ID == CurrentWarehouse.WAREHOUSE_ID).ToList();
+                    .Where(op => op.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
             List<SCHEDULE_PRODUCT_INFO> scheduleProductInfos = Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
-                .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == CurrentWarehouse.WAREHOUSE_ID).ToList();
+                .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
             foreach (var package in order_products)
             {
                 InOutComeFlow.Add(new WarehouseProductTransaction(package));
@@ -106,7 +106,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             } );
             ProductsOnWarehouse =
                 Session.FactoryEntities.RELEASED_PRODUCT.ToList()
-                    .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.WAREHOUSE_ID).ToList();
+                    .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
+            Schedules =
+                Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList()
+                    .Where(ps => ps.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID)
+                    .ToList();
+            SelectedProductionSchedule = Schedules.First();
+            schedulePackages =
+                Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
+                    .Where(pack => pack.SCHEDULE_ID == SelectedProductionSchedule.SCHEDULE_ID).ToList();
 
             #endregion
         }
@@ -154,7 +162,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         #region Third
 
         public List<WarehouseListItem> warehouses;
-        public WAREHOUSE CurrentWarehouse;
+        public WarehouseListItem CurrentWarehouse;
         public decimal Engaged;
         public List<string> warehousesStrings;
         public string CurrentWarehouseString;
@@ -171,6 +179,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
         public List<PRODUCTION_SCHEDULE> Schedules;
         public PRODUCTION_SCHEDULE SelectedProductionSchedule;
+        public List<SCHEDULE_PRODUCT_INFO> schedulePackages;
         #endregion
 
         #region OrderFilter

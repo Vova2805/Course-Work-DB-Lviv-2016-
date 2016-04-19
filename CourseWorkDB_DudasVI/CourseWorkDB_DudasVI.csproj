@@ -281,6 +281,9 @@
     <Compile Include="Views\UserControls\ListItem\ProductScheduleListItem.xaml.cs">
       <DependentUpon>ProductScheduleListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\ListItem\ProductionScheduleListItem.xaml.cs">
+      <DependentUpon>ProductionScheduleListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\ListItem\ScheduleListItem.xaml.cs">
       <DependentUpon>ScheduleListItem.xaml</DependentUpon>
     </Compile>
@@ -420,6 +423,10 @@
     <Page Include="Views\UserControls\ListItem\ProductScheduleListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ListItem\ProductionScheduleListItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\ListItem\ScheduleListItem.xaml">
       <SubType>Designer</SubType>

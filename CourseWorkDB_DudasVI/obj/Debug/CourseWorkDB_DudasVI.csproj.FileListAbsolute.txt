@@ -215,7 +215,6 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\bin\Debug\EntityFramework.SqlServer.xml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\bin\Debug\MahApps.Metro.pdb
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\bin\Debug\MahApps.Metro.xml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csprojResolveAssemblyReference.cache
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\obj\Debug\Styles\NewCustomDialogStyle.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\obj\Debug\Resources\Icons.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\ProductViewForSale.baml
@@ -292,3 +291,5 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\C
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csproj.GenerateResource.Cache
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\TotalWarehouseView.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\TotalWarehouseView.g.cs
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\ProductionScheduleListItem.g.cs
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\GIT HUB\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\ProductionScheduleListItem.baml
