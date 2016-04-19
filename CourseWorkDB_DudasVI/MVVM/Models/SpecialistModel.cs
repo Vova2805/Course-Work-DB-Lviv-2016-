@@ -54,12 +54,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             {
                 ProductsList.Add(new ProductListElement(product));
             }
-            SelectedProduct = ProductsList.First().ProductInfo;
-            SelectedProductPrice = API.getlastPrice(SelectedProduct.PRODUCT_PRICE);
+            SelectedProduct = ProductsList.First();
+            SelectedProductPrice = API.getlastPrice(SelectedProduct.ProductInfo.PRODUCT_PRICE);
             ProductPriceValue = (double) SelectedProductPrice.PRICE_VALUE;
             ProductPricePersentage = (double) SelectedProductPrice.PERSENTAGE_VALUE;
             ProductPriceList = new List<ProductPriceListElement>();
-            foreach (var price in SelectedProduct.PRODUCT_PRICE.ToList())
+            foreach (var price in SelectedProduct.ProductInfo.PRODUCT_PRICE.ToList())
             {
                 ProductPriceList.Add(new ProductPriceListElement(price));
             }
@@ -117,6 +117,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                     .Where(pack => pack.SCHEDULE_ID == SelectedProductionSchedule.SCHEDULE_ID).ToList();
 
             #endregion
+
+            ChangedText = "";
         }
 
         public class RegionInfo
@@ -150,7 +152,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public List<ProductListElement> ProductsList;
         public List<string> ProductsTitleList;
         public string SelectedProductTitle;
-        public PRODUCT_INFO SelectedProduct;
+        public ProductListElement SelectedProduct;
         public List<ProductPriceListElement> ProductPriceList;
         public PRODUCT_PRICE SelectedProductPrice;
         public double ProductPriceValue;
@@ -180,6 +182,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public List<PRODUCTION_SCHEDULE> Schedules;
         public PRODUCTION_SCHEDULE SelectedProductionSchedule;
         public List<SCHEDULE_PRODUCT_INFO> schedulePackages;
+        public string ChangedText;
         #endregion
 
         #region OrderFilter

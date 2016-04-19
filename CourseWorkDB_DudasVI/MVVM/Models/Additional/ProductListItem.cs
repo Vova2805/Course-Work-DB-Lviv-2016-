@@ -22,7 +22,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 
         public PRODUCT_INFO _ProductInfo;
         public bool _isAdded;
-        private string _text;
         private string _title;
         private string _categoryTitle;
 
@@ -40,15 +39,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _isAdded = value;
                 OnPropertyChanged("isAdded");
-            }
-        }
-        public string Text
-        {
-            get { return _text; }
-            set
-            {
-                _text = value;
-                OnPropertyChanged("Text");
             }
         }
 

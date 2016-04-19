@@ -38,7 +38,10 @@ namespace CourseWorkDB_DudasVI.Views
             var specialistModel = new SpecialistModel();
             _specialistViewModel = Mapper.Map<SpecialistModel, SpecialistViewModel>(specialistModel);
             DataContext = _specialistViewModel;
+            
             InitializeComponent();
+            ProductsCatalog.DataContext = _specialistViewModel;
+            ProductsCatalog.init();
             chartsSets = new List<ChartsSet> { ChartsSetView, ChartsSet2 };
             foreach (var chart in chartsSets)
             {
@@ -49,8 +52,7 @@ namespace CourseWorkDB_DudasVI.Views
             addColumns();
             flyouts = new List<Flyout> { AdminFlyout, SpecialistEditOrders };
             addHotKey();
-            view = CollectionViewSource.GetDefaultView(_specialistViewModel.ProductsList);
-            view.Filter = FilterProductsRule;
+            
             RequiredDatePicker.DisplayDateStart = API.getTodayDate();
         }
 
@@ -142,11 +144,6 @@ namespace CourseWorkDB_DudasVI.Views
                     }
                 }
                     break;
-                case 1:
-                {
-                    searchTxt.Text = "";
-                }
-                    break;
             }
         }
 
@@ -211,26 +208,6 @@ namespace CourseWorkDB_DudasVI.Views
                     flyout.IsOpen = false;
                 }
         }
-
-        private ICollectionView view;
-
-        private void OnSearch(object sender, TextChangedEventArgs e)
-        {
-            view.Refresh();
-        }
-
-        private bool FilterProductsRule(object obj)
-        {
-            var product = obj as ProductListElement;
-            if (product.ProductInfo.PRODUCT_TITLE.Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase)
-                ||
-                product.ProductInfo.CATEGORY.CATEGORY_TITLE.Contains(searchTxt.Text, StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-            return false;
-        }
-
 
         #endregion
 

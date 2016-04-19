@@ -52,7 +52,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         private List<ProductListElement> _ProductsList;
         private ObservableCollection<string> _ProductsTitleList;
-        private PRODUCT_INFO _SelectedProduct;
+        private ProductListElement _SelectedProduct;
         private PRODUCT_PRICE _SelectedProductPrice;
         private List<ProductPriceListElement> _ProductPriceList;
         private double _ProductPriceValue;
@@ -83,7 +83,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<PRODUCTION_SCHEDULE> _Schedules;
         private PRODUCTION_SCHEDULE _SelectedProductionSchedule;
         private ObservableCollection<SCHEDULE_PRODUCT_INFO> _schedulePackages;
-        private string _changedTest;
+        private string _changedText;
         #endregion
 
 
@@ -429,17 +429,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public string ChangedTest
+        public string ChangedText
         {
-            get { return _changedTest; }
+            get { return _changedText; }
             set
             {
-                _changedTest = value;
-                foreach (var elem in ProductsList)
-                {
-                    elem.Text = value;
-                }
-                OnPropertyChanged("ChangedTest");
+                _changedText = value;
+                OnPropertyChanged("ChangedText");
             }
         }
         
@@ -505,7 +501,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (ChangeProductPricePersentage)
                 {
                     ChangeProductPriceValue = false; //to avoid endless cycle
-                    ProductPricePersentage = ProductPriceValue/(double) SelectedProduct.PRODUCTION_PRICE*100;
+                    ProductPricePersentage = ProductPriceValue/(double) SelectedProduct.ProductInfo.PRODUCTION_PRICE *100;
                 }
                 OnPropertyChanged("ProductPriceValue");
             }
@@ -522,7 +518,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (ChangeProductPriceValue)
                 {
                     ChangeProductPricePersentage = false;
-                    ProductPriceValue = (double) SelectedProduct.PRODUCTION_PRICE*ProductPricePersentage/100.0;
+                    ProductPriceValue = (double) SelectedProduct.ProductInfo.PRODUCTION_PRICE *ProductPricePersentage/100.0;
                 }
                 OnPropertyChanged("ProductPricePersentage");
             }
@@ -853,12 +849,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _ProductsList = value;
                 if(ProductsList.Count>0)
-                SelectedProduct = ProductsList.First().ProductInfo;
+                SelectedProduct = ProductsList.First();
                 OnPropertyChanged("ProductsList");
             }
         }
 
-        public PRODUCT_INFO SelectedProduct
+        public ProductListElement SelectedProduct
         {
             get { return _SelectedProduct; }
             set
@@ -869,9 +865,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     SelectedProductPrice = API.getlastPrice(
                         Session.FactoryEntities.PRODUCT_PRICE
                         .ToList()
-                        .FindAll(pr=>pr.PRODUCT_INFO_ID == SelectedProduct.PRODUCT_INFO_ID));
+                        .FindAll(pr=>pr.PRODUCT_INFO_ID == SelectedProduct.ProductInfo.PRODUCT_INFO_ID));
                         ProductPriceList = new List<ProductPriceListElement>();
-                        foreach (var price in SelectedProduct.PRODUCT_PRICE)
+                        foreach (var price in SelectedProduct.ProductInfo.PRODUCT_PRICE)
                         {
                             ProductPriceList.Add(new ProductPriceListElement(price));
                         } 
@@ -1059,7 +1055,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public void CanselChanges(object obj)
         {
-            SelectedProductPrice = API.getlastPrice(SelectedProduct.PRODUCT_PRICE);
+            SelectedProductPrice = API.getlastPrice(SelectedProduct.ProductInfo.PRODUCT_PRICE);
         }
 
         public async void SubmitChanges(object obj)
@@ -1115,8 +1111,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
                 if(ProductsList!=null && ProductsList.Count>0)
                 SelectedProduct =
-                    ProductsList.FirstOrDefault(pr => pr.ProductInfo.PRODUCT_INFO_ID == SelectedProduct.PRODUCT_INFO_ID)
-                        .ProductInfo;
+                    ProductsList.FirstOrDefault(pr => pr.ProductInfo.PRODUCT_INFO_ID == SelectedProduct.ProductInfo.PRODUCT_INFO_ID);
             
         }
 

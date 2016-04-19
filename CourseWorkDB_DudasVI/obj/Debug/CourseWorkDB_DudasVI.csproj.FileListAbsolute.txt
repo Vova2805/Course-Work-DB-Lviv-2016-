@@ -389,3 +389,5 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github pr
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.g.resources
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.Properties.Resources.resources
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csproj.GenerateResource.Cache
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\ProductsCatalog.g.cs
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\ProductsCatalog.baml
