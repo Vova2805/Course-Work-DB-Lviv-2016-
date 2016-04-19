@@ -83,6 +83,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<PRODUCTION_SCHEDULE> _Schedules;
         private PRODUCTION_SCHEDULE _SelectedProductionSchedule;
         private ObservableCollection<SCHEDULE_PRODUCT_INFO> _schedulePackages;
+        private string _changedTest;
         #endregion
 
 
@@ -427,6 +428,21 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("FlowDirection");
             }
         }
+
+        public string ChangedTest
+        {
+            get { return _changedTest; }
+            set
+            {
+                _changedTest = value;
+                foreach (var elem in ProductsList)
+                {
+                    elem.Text = value;
+                }
+                OnPropertyChanged("ChangedTest");
+            }
+        }
+        
         
         public string TotalIncome
         {
@@ -984,17 +1000,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return new RelayCommand<object>(SubmitChanges); }
         }
 
-        public ICommand AddProductToPlan
-        {
-            get { return new RelayCommand<object>(AddToSchedule); }
-        }
-
-        public ICommand RemoveProductFromPlan
-        {
-            get { return new RelayCommand<object>(RemoveFromSchedule); }
-        }
-
-        public void DoChange(string parameter)
+      public void DoChange(string parameter)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
 
@@ -1097,61 +1103,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public async void AddToSchedule(object obj)
-        {
-            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
-            var specialistWindow = window as HomeWindowSpecialist;
-            if (specialistWindow != null)
-            {
-                var result = await specialistWindow.ShowMessageAsync("Попередження",
-                            "Ви дійсно хочете підтвердити зміни?\nСкасувати цю дію буде не можливо.",
-                            MessageDialogStyle.AffirmativeAndNegative);
-                if (result == MessageDialogResult.Affirmative)
-                {
-                    
-                }
-            }
-        }
-
-        public async void RemoveFromSchedule(object obj)
-        {
-            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
-            var specialistWindow = window as HomeWindowSpecialist;
-            if (specialistWindow != null)
-            {
-                var result =
-                    await
-                        specialistWindow.ShowMessageAsync("Попередження",
-                            "Ви дійсно хочете підтвердити зміни?\nСкасувати цю дію буде не можливо.",
-                            MessageDialogStyle.AffirmativeAndNegative);
-                if (result == MessageDialogResult.Affirmative)
-                {
-                        using (var dbContextTransaction = Session.FactoryEntities.Database.BeginTransaction())
-                        {
-                            try
-                            {
-                                var selected = Session.FactoryEntities.PRODUCT_PRICE;
-                                SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
-                                SelectedProductPrice.PRICE_ID =
-                                Session.FactoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
-                                SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
-                                selected.Add(SelectedProductPrice);
-                                Session.FactoryEntities.SaveChanges();
-                                dbContextTransaction.Commit();
-                                await specialistWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
-                                UpdateDb();
-                            }
-                            catch (Exception e)
-                            {
-                                dbContextTransaction.Rollback();
-                                await
-                                    specialistWindow.ShowMessageAsync("Невдача",
-                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
-                            }
-                        }
-                }
-            }
-        }
+       
 
         private void UpdateDb()
         {
