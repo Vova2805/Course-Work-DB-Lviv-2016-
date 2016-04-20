@@ -1,8 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using CourseWorkDB_DudasVI.MVVM.Mapping;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
-using MahApps.Metro;
 
 namespace CourseWorkDB_DudasVI
 {
@@ -14,7 +12,6 @@ namespace CourseWorkDB_DudasVI
         {
             Mapping.Create();
             settingsViewModel = new SettingsViewModel();
-          
         }
     }
 }

@@ -9,9 +9,9 @@ namespace CourseWorkDB_DudasVI.General
         public static PRODUCT_PRICE getlastPrice(ICollection<PRODUCT_PRICE> prices)
         {
             var result = prices.OrderBy(pr => pr.CHANGED_DATE).Last();
-                return Session.FactoryEntities.PRODUCT_PRICE
-                        .AsNoTracking()
-                        .FirstOrDefault(p => p.PRICE_ID == result.PRICE_ID);
+            return Session.FactoryEntities.PRODUCT_PRICE
+                .AsNoTracking()
+                .FirstOrDefault(p => p.PRICE_ID == result.PRICE_ID);
         }
 
         public static List<PRODUCT_PRICE> getPrice(ICollection<PRODUCT_PRICE> prices, DateTime startPeriod,
@@ -29,7 +29,8 @@ namespace CourseWorkDB_DudasVI.General
 
         public static List<SALARY> getPrice(ICollection<SALARY> salaries, DateTime startPeriod, DateTime endPeriod)
         {
-            return salaries.ToList().FindAll(pr => pr.CHANGED_DATE <= endPeriod && pr.CHANGED_DATE >= startPeriod).ToList();
+            return
+                salaries.ToList().FindAll(pr => pr.CHANGED_DATE <= endPeriod && pr.CHANGED_DATE >= startPeriod).ToList();
         }
 
         public static DateTime getLastPlanDate(WAREHOUSE warehouse)
@@ -45,7 +46,7 @@ namespace CourseWorkDB_DudasVI.General
         public static DateTime getLastPlanDate(STAFF staff)
         {
             var result = staff.PRODUCTION_SCHEDULE.ToList();
-            
+
             if (result.Count > 0)
             {
                 return result.OrderBy(p => p.CREATED_DATE).ToList().Last().CREATED_DATE;

@@ -31,21 +31,21 @@
         <TextBlock Grid.Row="0" FontWeight="Bold" Grid.Column="0" Text="Загальна інформація :" FontSize="14" />
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Період :" />
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DateFilterString}"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DateFilterString}" />
 
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Межі потоку :" />
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ValueRange}"/>
-        
-        <TextBlock Grid.Row="2" Grid.Column="3" Text="Загальний прихід :"/>
-        <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding TotalIncome}"/>
-        <TextBlock Grid.Row="3" Grid.Column="3" Text="Загальний вихід :"/>
-        <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding TotalOutcome}"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ValueRange}" />
+
+        <TextBlock Grid.Row="2" Grid.Column="3" Text="Загальний прихід :" />
+        <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding TotalIncome}" />
+        <TextBlock Grid.Row="3" Grid.Column="3" Text="Загальний вихід :" />
+        <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding TotalOutcome}" />
 
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Напрямок потоку: " />
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding FlowDirection}"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding FlowDirection}" />
 
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Категорія : " />
-        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding selectedCategory}"/>
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding selectedCategory}" />
 
     </Grid>
 </UserControl>

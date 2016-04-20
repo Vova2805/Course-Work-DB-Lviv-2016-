@@ -126,9 +126,11 @@
     <Compile Include="MVVM\Models\Additional\ProductListItem.cs" />
     <Compile Include="MVVM\Models\Additional\ProductPriceListElement.cs" />
     <Compile Include="MVVM\Models\DirectorModel.cs" />
+    <Compile Include="MVVM\Models\SalerModel.cs" />
     <Compile Include="MVVM\Models\SpecialistModel.cs" />
     <Compile Include="MVVM\ViewModels\DirectorViewModel.cs" />
     <Compile Include="MVVM\ViewModels\SettingsViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\SalerViewModel.cs" />
     <Compile Include="MVVM\ViewModels\SpecialistViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelBase.cs" />
     <Compile Include="ORDER_PRODUCT.cs">

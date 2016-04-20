@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -48,10 +47,14 @@ namespace CourseWorkDB_DudasVI
             //        new EventHandler<RoutedEventArgs>(ChangeOpacityProgressRing), sender, e);
             //});
             //thread.Start();
-            LoginBlock.Text = "specialist_test";
+
+            //LoginBlock.Text = "specialist_test";
+            //LoginBlock.Text = "director_test";
+            LoginBlock.Text = "saler_test";
+
             PassBlock.Password = "test";
             STAFF resultUser = null;
-                resultUser =
+            resultUser =
                 Session.FactoryEntities.STAFF.ToList()
                     .SingleOrDefault(
                         user => user.LOGIN.Equals(LoginBlock.Text) && user.PASSWORD.Equals(PassBlock.Password));
@@ -97,10 +100,12 @@ namespace CourseWorkDB_DudasVI
                 //        break;
                 //}
                 Session.User = resultUser;
-                var homeWindowSpecialist = new HomeWindowSpecialist();
-                homeWindowSpecialist.Show();
+                //var homeWindowSpecialist = new HomeWindowSpecialist();
+                //homeWindowSpecialist.Show();
                 //HomeWindowAdmin homeWindow = new HomeWindowAdmin();
                 //homeWindow.Show();
+                var homeWindowSale = new HomeWindowSale();
+                homeWindowSale.Show();
 
                 //thread.Interrupt();
                 //Back(sender, e);
@@ -114,7 +119,9 @@ namespace CourseWorkDB_DudasVI
 
         private async void Error()
         {
-            await this.ShowMessageAsync("Помилка", "Не правильний пароль чи логін. Перевірте введені дані і спробуйте знову");
+            await
+                this.ShowMessageAsync("Помилка",
+                    "Не правильний пароль чи логін. Перевірте введені дані і спробуйте знову");
             Back(null, null);
         }
 

@@ -80,13 +80,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region So on
+
         private ObservableCollection<PRODUCTION_SCHEDULE> _Schedules;
         private PRODUCTION_SCHEDULE _SelectedProductionSchedule;
         private ObservableCollection<SCHEDULE_PRODUCT_INFO> _schedulePackages;
         private string _changedText;
+
         #endregion
-
-
 
         #region Functions
 
@@ -291,51 +291,50 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
                     break;
                 case 1:
+                {
+                    #region Second
+
+                    var lineChartValues = new List<double>();
+                    for (var i = 0; i < 2; i++)
                     {
-                        #region Second
-
-
-                        var lineChartValues = new List<double>();
-                        for (int i=0;i<2;i++)
-                            {
-                                var serieQuantity = new List<double>();
-                                foreach (var price in ProductPriceList)
-                                {
-                                    if (i == 0)
-                                    {
-                                        serieQuantity.Add((double) price.ProductPrice.PRICE_VALUE);
-                                    }
-                                    else
-                                    {
-                                        serieQuantity.Add((double) price.ProductPrice.PERSENTAGE_VALUE);
-                                        lineChartValues.Add(100);
-                                    }
-                                    
-                                }
-                                var chartValues = new ChartValues<double>();
-                                chartValues.AddRange(serieQuantity);
-                                var newSerie = new BarSeries
-                                {
-                                    Title = i==0?"У валюті (грн.)":"У відсотках %",
-                                    Values = chartValues
-                                };
-                            BarSeriesInstance.Add(newSerie);
-                            }
-                        
-                        var chartLineValues = new ChartValues<double>();
-                        chartLineValues.AddRange(lineChartValues);
-                        var newLineSerie = new LineSeries
+                        var serieQuantity = new List<double>();
+                        foreach (var price in ProductPriceList)
                         {
-                            Title = "Лінія безбитковості",
-                            Values = chartLineValues,
-                            PointRadius = 3,
-                            Fill = new SolidColorBrush(Colors.Transparent),
-                            Stroke = new SolidColorBrush(Colors.DarkRed)
+                            if (i == 0)
+                            {
+                                serieQuantity.Add((double) price.ProductPrice.PRICE_VALUE);
+                            }
+                            else
+                            {
+                                serieQuantity.Add((double) price.ProductPrice.PERSENTAGE_VALUE);
+                                lineChartValues.Add(100);
+                            }
+                        }
+                        var chartValues = new ChartValues<double>();
+                        chartValues.AddRange(serieQuantity);
+                        var newSerie = new BarSeries
+                        {
+                            Title = i == 0 ? "У валюті (грн.)" : "У відсотках %",
+                            Values = chartValues
                         };
-                        BarSeriesInstance.Add(newLineSerie);
-
+                        BarSeriesInstance.Add(newSerie);
                     }
-                        #endregion
+
+                    var chartLineValues = new ChartValues<double>();
+                    chartLineValues.AddRange(lineChartValues);
+                    var newLineSerie = new LineSeries
+                    {
+                        Title = "Лінія безбитковості",
+                        Values = chartLineValues,
+                        PointRadius = 3,
+                        Fill = new SolidColorBrush(Colors.Transparent),
+                        Stroke = new SolidColorBrush(Colors.DarkRed)
+                    };
+                    BarSeriesInstance.Add(newLineSerie);
+                }
+
+                    #endregion
+
                     break;
             }
         }
@@ -438,8 +437,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("ChangedText");
             }
         }
-        
-        
+
+
         public string TotalIncome
         {
             get { return _TotalIncome; }
@@ -501,7 +500,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (ChangeProductPricePersentage)
                 {
                     ChangeProductPriceValue = false; //to avoid endless cycle
-                    ProductPricePersentage = ProductPriceValue/(double) SelectedProduct.ProductInfo.PRODUCTION_PRICE *100;
+                    ProductPricePersentage = ProductPriceValue/(double) SelectedProduct.ProductInfo.PRODUCTION_PRICE*100;
                 }
                 OnPropertyChanged("ProductPriceValue");
             }
@@ -518,7 +517,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (ChangeProductPriceValue)
                 {
                     ChangeProductPricePersentage = false;
-                    ProductPriceValue = (double) SelectedProduct.ProductInfo.PRODUCTION_PRICE *ProductPricePersentage/100.0;
+                    ProductPriceValue = (double) SelectedProduct.ProductInfo.PRODUCTION_PRICE*ProductPricePersentage/
+                                        100.0;
                 }
                 OnPropertyChanged("ProductPricePersentage");
             }
@@ -633,97 +633,103 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("ProductsOnWarehouse");
             }
         }
+
         public WarehouseListItem CurrentWarehouse
         {
             get { return _CurrentWarehouse; }
             set
             {
-                    _CurrentWarehouse = value;
-                    InOutComeFlow = new ChartValues<WarehouseProductTransaction>();
-                    List<WarehouseProductTransaction> temp = new List<WarehouseProductTransaction>();
-                    List<ORDER_PRODUCT> order_products =
-                        Session.FactoryEntities.ORDER_PRODUCT.ToList()
-                            .Where(op => op.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
-                    List<SCHEDULE_PRODUCT_INFO> scheduleProductInfos = Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
-                        .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
-                    foreach (var package in order_products)
+                _CurrentWarehouse = value;
+                InOutComeFlow = new ChartValues<WarehouseProductTransaction>();
+                var temp = new List<WarehouseProductTransaction>();
+                var order_products =
+                    Session.FactoryEntities.ORDER_PRODUCT.ToList()
+                        .Where(op => op.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
+                var scheduleProductInfos = Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
+                    .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID)
+                    .ToList();
+                foreach (var package in order_products)
+                {
+                    temp.Add(new WarehouseProductTransaction(package));
+                }
+                foreach (var package in scheduleProductInfos)
+                {
+                    temp.Add(new WarehouseProductTransaction(package));
+                }
+                temp.Sort(
+                    (transaction1, transaction2) =>
                     {
-                        temp.Add(new WarehouseProductTransaction(package));
-                    }
-                    foreach (var package in scheduleProductInfos)
-                    {
-                        temp.Add(new WarehouseProductTransaction(package));
-                    }
-                    temp.Sort((transaction1, transaction2) =>
-                    {
-                        return transaction1.Date > transaction2.Date ? 1 : transaction1.Date == transaction2.Date ? 0 : -1;
+                        return transaction1.Date > transaction2.Date
+                            ? 1
+                            : transaction1.Date == transaction2.Date ? 0 : -1;
                     });
-                    foreach (var elem in temp)
+                foreach (var elem in temp)
+                {
+                    _InOutComeFlow.Add(elem);
+                }
+                var times = _InOutComeFlow.Select(el => el.Date).ToList();
+                DateFilterString = times.Min().ToLongDateString() + " - " + times.Max().ToLongDateString();
+                var values = _InOutComeFlow.Select(el => el.Quantity).ToList();
+                var money = _InOutComeFlow.Select(el => el.MoneyQuantity).ToList();
+                ValueRange = values.Min() + "шт. - " + values.Max() + "шт. і " + money.Min().ToString("N2") + " грн. - " +
+                             money.Max().ToString("N2") + " грн.";
+                var income = 0;
+                var outcome = 0;
+                double incomeMoney = 0;
+                double outcomeMoney = 0;
+                var direct = true;
+                var reverse = true;
+                foreach (var element in _InOutComeFlow)
+                {
+                    if (element.FlowType)
                     {
-                        _InOutComeFlow.Add(elem);
-                    }
-                    var times = _InOutComeFlow.Select(el => el.Date).ToList();
-                    DateFilterString = times.Min().ToLongDateString() + " - " + times.Max().ToLongDateString();
-                    var values = _InOutComeFlow.Select(el => el.Quantity).ToList();
-                    var money = _InOutComeFlow.Select(el => el.MoneyQuantity).ToList();
-                    ValueRange = values.Min() + "шт. - " + values.Max()+"шт. і "+ money.Min().ToString("N2") + " грн. - " + money.Max().ToString("N2") + " грн.";
-                    int income = 0;
-                    int outcome = 0;
-                    double incomeMoney = 0;
-                    double outcomeMoney = 0;
-                    bool direct = true;
-                    bool reverse = true;
-                    foreach (var element in _InOutComeFlow)
-                    {
-                        if (element.FlowType)
-                        {
-                            reverse = false;
-                            income += element.Quantity;
-                            incomeMoney += element.MoneyQuantity;
-                        }
-                        else
-                        {
-                            direct = false;
-                            outcome += element.Quantity;
-                            outcomeMoney += element.MoneyQuantity;
-                        }
-                    }
-                    TotalIncome = income + " шт. або "+incomeMoney.ToString("N2") + " грн.";
-                    TotalOutcome = outcome + " шт. або " + outcomeMoney.ToString("N2") + " грн.";
-                    if ((!direct && !reverse)||(direct && reverse))
-                    {
-                        FlowDirection = "Двосторонній";
+                        reverse = false;
+                        income += element.Quantity;
+                        incomeMoney += element.MoneyQuantity;
                     }
                     else
                     {
-                       if(direct) FlowDirection = " Вхідний";
-                       else FlowDirection = " Вихідний";
+                        direct = false;
+                        outcome += element.Quantity;
+                        outcomeMoney += element.MoneyQuantity;
                     }
-                    ProductsOnWarehouse.Clear();
-                   List<RELEASED_PRODUCT> tempProducts = Session.FactoryEntities.RELEASED_PRODUCT.ToList()
+                }
+                TotalIncome = income + " шт. або " + incomeMoney.ToString("N2") + " грн.";
+                TotalOutcome = outcome + " шт. або " + outcomeMoney.ToString("N2") + " грн.";
+                if ((!direct && !reverse) || (direct && reverse))
+                {
+                    FlowDirection = "Двосторонній";
+                }
+                else
+                {
+                    if (direct) FlowDirection = " Вхідний";
+                    else FlowDirection = " Вихідний";
+                }
+                ProductsOnWarehouse.Clear();
+                var tempProducts = Session.FactoryEntities.RELEASED_PRODUCT.ToList()
                     .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
-                    foreach (var product in tempProducts)
-                    {
-                        ProductsOnWarehouse.Add(product);
-                    }
-                    Engaged = _CurrentWarehouse.Warehouse.CAPACITY - _CurrentWarehouse.Warehouse.FREE_SPACE;
-                    Schedules = new ChartValues<PRODUCTION_SCHEDULE>();
+                foreach (var product in tempProducts)
+                {
+                    ProductsOnWarehouse.Add(product);
+                }
+                Engaged = _CurrentWarehouse.Warehouse.CAPACITY - _CurrentWarehouse.Warehouse.FREE_SPACE;
+                Schedules = new ChartValues<PRODUCTION_SCHEDULE>();
 
-                    List<PRODUCTION_SCHEDULE> tempSchedules =
+                var tempSchedules =
                     Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList()
                         .Where(prs => prs.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID)
                         .ToList();
-                    foreach (var schedule in tempSchedules)
-                    {
-                        _Schedules.Add(schedule);
-                    }
+                foreach (var schedule in tempSchedules)
+                {
+                    _Schedules.Add(schedule);
+                }
                 if (Schedules.Count > 0)
                     SelectedProductionSchedule = Schedules.First();
                 else
                 {
                     SelectedProductionSchedule = null;
                 }
-                    OnPropertyChanged("CurrentWarehouse");
+                OnPropertyChanged("CurrentWarehouse");
             }
         }
 
@@ -746,7 +752,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (_SelectedProductionSchedule != null)
                 {
                     SchedulePackages = new ObservableCollection<SCHEDULE_PRODUCT_INFO>();
-                    List<SCHEDULE_PRODUCT_INFO> temp =
+                    var temp =
                         Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
                             .Where(s => s.SCHEDULE_ID == SelectedProductionSchedule.SCHEDULE_ID)
                             .ToList();
@@ -819,7 +825,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("OptionsList");
             }
         }
-        
+
         public string userNameSurname
         {
             get { return Session.User.STAFF_NAME + " " + Session.User.STAFF_SURNAME; }
@@ -848,8 +854,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _ProductsList = value;
-                if(ProductsList.Count>0)
-                SelectedProduct = ProductsList.First();
+                if (ProductsList.Count > 0)
+                    SelectedProduct = ProductsList.First();
                 OnPropertyChanged("ProductsList");
             }
         }
@@ -864,13 +870,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     _SelectedProduct = value;
                     SelectedProductPrice = API.getlastPrice(
                         Session.FactoryEntities.PRODUCT_PRICE
-                        .ToList()
-                        .FindAll(pr=>pr.PRODUCT_INFO_ID == SelectedProduct.ProductInfo.PRODUCT_INFO_ID));
-                        ProductPriceList = new List<ProductPriceListElement>();
-                        foreach (var price in SelectedProduct.ProductInfo.PRODUCT_PRICE)
-                        {
-                            ProductPriceList.Add(new ProductPriceListElement(price));
-                        } 
+                            .ToList()
+                            .FindAll(pr => pr.PRODUCT_INFO_ID == SelectedProduct.ProductInfo.PRODUCT_INFO_ID));
+                    ProductPriceList = new List<ProductPriceListElement>();
+                    foreach (var price in SelectedProduct.ProductInfo.PRODUCT_PRICE)
+                    {
+                        ProductPriceList.Add(new ProductPriceListElement(price));
+                    }
                     UpdateSeries();
                     OnPropertyChanged("SelectedProduct");
                 }
@@ -920,8 +926,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         public string SelectedProductTitle
         {
             get { return _SelectedProductTitle; }
-            set { _SelectedProductTitle = value;
-                OnPropertyChanged("SelectedProductTitle"); }
+            set
+            {
+                _SelectedProductTitle = value;
+                OnPropertyChanged("SelectedProductTitle");
+            }
         }
 
         public ObservableCollection<string> ProductsTitleList
@@ -962,7 +971,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 _CurrentWarehouseString = value;
                 if (WarehousesStrings != null)
                 {
-                    int index = WarehousesStrings.IndexOf(CurrentWarehouseString);
+                    var index = WarehousesStrings.IndexOf(CurrentWarehouseString);
                     CurrentWarehouse = Warehouses.ElementAt(index);
                 }
                 OnPropertyChanged("CurrentWarehouseString");
@@ -972,7 +981,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         public ObservableCollection<string> WarehousesStrings
         {
             get { return _warehousesStrings; }
-            set { _warehousesStrings = value;
+            set
+            {
+                _warehousesStrings = value;
                 OnPropertyChanged("WarehousesStrings");
             }
         }
@@ -996,7 +1007,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return new RelayCommand<object>(SubmitChanges); }
         }
 
-      public void DoChange(string parameter)
+        public void DoChange(string parameter)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
 
@@ -1071,47 +1082,46 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Affirmative)
                 {
-                        using (var dbContextTransaction = Session.FactoryEntities.Database.BeginTransaction())
+                    using (var dbContextTransaction = Session.FactoryEntities.Database.BeginTransaction())
+                    {
+                        try
                         {
-                            try
-                            {
-                                var selected = Session.FactoryEntities.PRODUCT_PRICE;
-                                SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
-                                SelectedProductPrice.PRICE_ID =
+                            var selected = Session.FactoryEntities.PRODUCT_PRICE;
+                            SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
+                            SelectedProductPrice.PRICE_ID =
                                 Session.FactoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
-                                SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
-                                selected.Add(SelectedProductPrice);
-                                Session.FactoryEntities.SaveChanges();
-                                dbContextTransaction.Commit();
-                                await specialistWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
-                                UpdateDb();
-                            }
-                            catch (Exception e)
-                            {
-                                dbContextTransaction.Rollback();
-                                await
-                                    specialistWindow.ShowMessageAsync("Невдача",
-                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
-                            }
+                            SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
+                            selected.Add(SelectedProductPrice);
+                            Session.FactoryEntities.SaveChanges();
+                            dbContextTransaction.Commit();
+                            await specialistWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
+                            UpdateDb();
                         }
+                        catch (Exception e)
+                        {
+                            dbContextTransaction.Rollback();
+                            await
+                                specialistWindow.ShowMessageAsync("Невдача",
+                                    "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                        }
+                    }
                 }
             }
         }
 
-       
 
         private void UpdateDb()
         {
-                var temp = Session.FactoryEntities.PRODUCT_INFO.ToList();
-                ProductsList.Clear();
-                foreach (var product in temp)
-                {
-                    ProductsList.Add(new ProductListElement(product,this));
-                }
-                if(ProductsList!=null && ProductsList.Count>0)
+            var temp = Session.FactoryEntities.PRODUCT_INFO.ToList();
+            ProductsList.Clear();
+            foreach (var product in temp)
+            {
+                ProductsList.Add(new ProductListElement(product, this));
+            }
+            if (ProductsList != null && ProductsList.Count > 0)
                 SelectedProduct =
-                    ProductsList.FirstOrDefault(pr => pr.ProductInfo.PRODUCT_INFO_ID == SelectedProduct.ProductInfo.PRODUCT_INFO_ID);
-            
+                    ProductsList.FirstOrDefault(
+                        pr => pr.ProductInfo.PRODUCT_INFO_ID == SelectedProduct.ProductInfo.PRODUCT_INFO_ID);
         }
 
         #endregion

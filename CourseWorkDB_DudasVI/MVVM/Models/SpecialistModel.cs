@@ -48,6 +48,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #endregion
 
             #region Second
+
             ProductsList = new List<ProductListElement>();
             foreach (var product in Session.FactoryEntities.PRODUCT_INFO.ToList())
             {
@@ -55,8 +56,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             }
             SelectedProduct = ProductsList.First();
             SelectedProductPrice = API.getlastPrice(SelectedProduct.ProductInfo.PRODUCT_PRICE);
-            ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
-            ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+            ProductPriceValue = (double) SelectedProductPrice.PRICE_VALUE;
+            ProductPricePersentage = (double) SelectedProductPrice.PERSENTAGE_VALUE;
             ProductPriceList = new List<ProductPriceListElement>();
             foreach (var price in SelectedProduct.ProductInfo.PRODUCT_PRICE.ToList())
             {
@@ -64,32 +65,33 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             }
             CurrentProductionSchedule = new PRODUCTION_SCHEDULE();
             ProductsTitleList = ProductsList.Select(pr => pr.ProductInfo.PRODUCT_TITLE).ToList();
-            ProductsTitleList.Insert(0,"Всі продукти");
+            ProductsTitleList.Insert(0, "Всі продукти");
             SelectedProductTitle = ProductsTitleList.First();
 
             #endregion
 
             #region Third
+
             warehouses = new List<WarehouseListItem>();
-            List<WAREHOUSE> tempWarehouses = Session.FactoryEntities.WAREHOUSE.ToList();
+            var tempWarehouses = Session.FactoryEntities.WAREHOUSE.ToList();
             foreach (var warehouse in tempWarehouses)
             {
                 warehouses.Add(new WarehouseListItem(warehouse));
             }
-            
+
             CurrentWarehouse = warehouses.First();
             warehousesStrings = new List<string>();
             i = 0;
             foreach (var warehouse in warehouses)
             {
-                warehousesStrings.Add(ConvertAddress(warehouse.Warehouse,(++i).ToString()+"."));
+                warehousesStrings.Add(ConvertAddress(warehouse.Warehouse, ++i + "."));
             }
             CurrentWarehouseString = warehousesStrings.First();
             InOutComeFlow = new List<WarehouseProductTransaction>();
-            List<ORDER_PRODUCT> order_products =
+            var order_products =
                 Session.FactoryEntities.ORDER_PRODUCT.ToList()
                     .Where(op => op.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
-            List<SCHEDULE_PRODUCT_INFO> scheduleProductInfos = Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
+            var scheduleProductInfos = Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
                 .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
             foreach (var package in order_products)
             {
@@ -99,10 +101,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             {
                 InOutComeFlow.Add(new WarehouseProductTransaction(package));
             }
-            InOutComeFlow.Sort((transaction1, transaction2) =>
-            {
-                return transaction1.Date > transaction2.Date ? 1 : transaction1.Date == transaction2.Date ? 0 : -1;
-            } );
+            InOutComeFlow.Sort(
+                (transaction1, transaction2) =>
+                {
+                    return transaction1.Date > transaction2.Date ? 1 : transaction1.Date == transaction2.Date ? 0 : -1;
+                });
             ProductsOnWarehouse =
                 Session.FactoryEntities.RELEASED_PRODUCT.ToList()
                     .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
@@ -118,6 +121,19 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #endregion
 
             ChangedText = "";
+        }
+
+        public static string ConvertAddress(WAREHOUSE warehouse, string number = "")
+        {
+            var address = warehouse.ADDRESS1;
+            var response = "";
+            if (address != null)
+            {
+                response = number + " " + address.COUNTRY + ", " + address.REGION + ", " + address.CITY + ", " +
+                           address.STREET + ", " +
+                           address.BUILDING_NUMBER;
+            }
+            return response;
         }
 
         public class RegionInfo
@@ -174,6 +190,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public string TotalOutcome;
         public string FlowDirection;
         public List<RELEASED_PRODUCT> ProductsOnWarehouse;
+
         #endregion
 
         #region So on
@@ -182,6 +199,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public PRODUCTION_SCHEDULE SelectedProductionSchedule;
         public List<SCHEDULE_PRODUCT_INFO> schedulePackages;
         public string ChangedText;
+
         #endregion
 
         #region OrderFilter
@@ -197,17 +215,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public string yTitle;
 
         #endregion
-        public static string ConvertAddress(WAREHOUSE warehouse, string number = "")
-        {
-            ADDRESS address = warehouse.ADDRESS1;
-            string response = "";
-            if (address != null)
-            {
-                response = number+" "+address.COUNTRY + ", " + address.REGION + ", " + address.CITY + ", " + address.STREET + ", " +
-                           address.BUILDING_NUMBER;
-            }
-            return response;
-        }
     }
 }
 

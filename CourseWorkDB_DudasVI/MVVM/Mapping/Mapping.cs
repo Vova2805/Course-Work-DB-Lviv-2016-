@@ -16,6 +16,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Mapping
 
             #endregion
 
+            #region Saler
+
+            Mapper.CreateMap<SalerModel, SalerViewModel>();
+            Mapper.CreateMap<SalerViewModel, SalerModel>();
+
+            #endregion
+
             #region Specialist
 
             Mapper.CreateMap<SpecialistModel, SpecialistViewModel>();

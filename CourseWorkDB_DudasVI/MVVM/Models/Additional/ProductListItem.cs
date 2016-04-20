@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
@@ -13,15 +10,15 @@ using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
-    public class ProductListElement:ViewModelBase
+    public class ProductListElement : ViewModelBase
     {
-        private SpecialistViewModel DataContextVM;
-        private SpecialistModel DataContextM;
-        private PRODUCT_INFO _ProductInfo;
-        private bool _isAdded;
-        private string _title;
         private string _categoryTitle;
-       
+        private bool _isAdded;
+        private PRODUCT_INFO _ProductInfo;
+        private string _title;
+        private readonly SpecialistModel DataContextM;
+        private readonly SpecialistViewModel DataContextVM;
+
 
         private ProductListElement(PRODUCT_INFO ProductInfo)
         {
@@ -30,18 +27,21 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             _title = ProductInfo.PRODUCT_TITLE;
             _categoryTitle = ProductInfo.CATEGORY.CATEGORY_TITLE;
         }
-        public ProductListElement(PRODUCT_INFO ProductInfo, SpecialistViewModel dataContextViewModel): this(ProductInfo)
+
+        public ProductListElement(PRODUCT_INFO ProductInfo, SpecialistViewModel dataContextViewModel)
+            : this(ProductInfo)
         {
-            this.DataContextVM = dataContextViewModel;
-        }
-        public ProductListElement(PRODUCT_INFO ProductInfo, SpecialistModel dataContextModel): this(ProductInfo)
-        {
-            this.DataContextM = dataContextModel;
+            DataContextVM = dataContextViewModel;
         }
 
-        
+        public ProductListElement(PRODUCT_INFO ProductInfo, SpecialistModel dataContextModel) : this(ProductInfo)
+        {
+            DataContextM = dataContextModel;
+        }
 
-        public PRODUCT_INFO ProductInfo {
+
+        public PRODUCT_INFO ProductInfo
+        {
             get { return _ProductInfo; }
             set
             {
@@ -49,7 +49,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("ProductInfo");
             }
         }
-        public bool isAdded {
+
+        public bool isAdded
+        {
             get { return _isAdded; }
             set
             {
@@ -96,21 +98,21 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 //TODO додати кількість
                 var result = await specialistWindow.ShowMessageAsync("Додати до плану",
-                            "Додати?",
-                            MessageDialogStyle.AffirmativeAndNegative);
-                    if (result == MessageDialogResult.Affirmative)
-                    {
-                        SCHEDULE_PRODUCT_INFO scheduleProductInfo = new SCHEDULE_PRODUCT_INFO();
-                        scheduleProductInfo.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
-                        scheduleProductInfo.QUANTITY_IN_SCHEDULE = 1;
-                        scheduleProductInfo.PRODUCT_INFO = ProductInfo;
-                    if(DataContextVM!=null)
+                    "Додати?",
+                    MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    var scheduleProductInfo = new SCHEDULE_PRODUCT_INFO();
+                    scheduleProductInfo.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
+                    scheduleProductInfo.QUANTITY_IN_SCHEDULE = 1;
+                    scheduleProductInfo.PRODUCT_INFO = ProductInfo;
+                    if (DataContextVM != null)
                         DataContextVM.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
                     else DataContextM.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
-                        this.isAdded = true;
-                    }
+                    isAdded = true;
                 }
-         }
+            }
+        }
 
         public async void RemoveFromSchedule(object obj)
         {
@@ -125,10 +127,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                             MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    if(DataContextVM!=null)
+                    if (DataContextVM != null)
                         DataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
                     else DataContextM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
-                    this.isAdded = false;
+                    isAdded = false;
                 }
             }
         }

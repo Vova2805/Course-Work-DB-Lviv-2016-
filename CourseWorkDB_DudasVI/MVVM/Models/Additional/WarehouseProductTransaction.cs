@@ -6,37 +6,36 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
     public class WarehouseProductTransaction : ViewModelBase
     {
-
-        private bool _isMarked = true;
-        private int _quantity;
-        private PRODUCT_INFO _product;
         private string _category;
         private DateTime _date;
         private bool _flowType; //true - in, false - out
+
+        private bool _isMarked = true;
         private double _moneyQuantity;
+        private PRODUCT_INFO _product;
+        private int _quantity;
 
         //from warehouse
         public WarehouseProductTransaction(ORDER_PRODUCT order_product)
         {
-            this.Quantity = order_product.QUANTITY_IN_ORDER;
-            this.Category = order_product.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE;
-            this.Product = order_product.PRODUCT_INFO;
-            this.Date = order_product.SALE_ORDER.REQUIRED_DATE;
-            this.FlowType = false;
-            MoneyQuantity = Quantity * (double)API.getlastPrice(Product.PRODUCT_PRICE).PRICE_VALUE;
+            Quantity = order_product.QUANTITY_IN_ORDER;
+            Category = order_product.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE;
+            Product = order_product.PRODUCT_INFO;
+            Date = order_product.SALE_ORDER.REQUIRED_DATE;
+            FlowType = false;
+            MoneyQuantity = Quantity*(double) API.getlastPrice(Product.PRODUCT_PRICE).PRICE_VALUE;
         }
 
         //to warehouse
         public WarehouseProductTransaction(SCHEDULE_PRODUCT_INFO schedule_product)
         {
-            this.Quantity = schedule_product.QUANTITY_IN_SCHEDULE;
-            this.Category = schedule_product.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE;
-            this.Product = schedule_product.PRODUCT_INFO;
-            this.Date = schedule_product.PRODUCTION_SCHEDULE.REQUIRED_DATE;
-            this.FlowType = true;
-            MoneyQuantity = Quantity*(double)API.getlastPrice(Product.PRODUCT_PRICE).PRICE_VALUE;
+            Quantity = schedule_product.QUANTITY_IN_SCHEDULE;
+            Category = schedule_product.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE;
+            Product = schedule_product.PRODUCT_INFO;
+            Date = schedule_product.PRODUCTION_SCHEDULE.REQUIRED_DATE;
+            FlowType = true;
+            MoneyQuantity = Quantity*(double) API.getlastPrice(Product.PRODUCT_PRICE).PRICE_VALUE;
         }
-
 
         #region Properties
 
@@ -89,6 +88,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("IsMarked");
             }
         }
+
         public PRODUCT_INFO Product
         {
             get { return _product; }

@@ -7,14 +7,14 @@
              mc:Ignorable="d"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro">
-    <dialogs:CustomDialog 
-                        Title="This dialog allows arbitrary content. It will close in 5 seconds."
-                        x:Name="CustomTestDialog">
+    <dialogs:CustomDialog
+        Title="This dialog allows arbitrary content. It will close in 5 seconds."
+        x:Name="CustomTestDialog">
         <StackPanel>
             <TextBlock Height="30"
-                    Text="This dialog allows arbitrary content. You have to close it yourself by clicking the close button below."
-                    TextWrapping="Wrap"
-                    Foreground="{DynamicResource AccentColorBrush}" />
+                       Text="This dialog allows arbitrary content. You have to close it yourself by clicking the close button below."
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource AccentColorBrush}" />
             <Button Content="Close Me!" />
         </StackPanel>
     </dialogs:CustomDialog>

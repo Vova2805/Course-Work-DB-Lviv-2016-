@@ -47,7 +47,8 @@
                     <Image Grid.Row="0" Margin="2,4,2,3" HorizontalAlignment="Left" VerticalAlignment="Top" Source="pack://application:,,,/Resources/images/test.jpg" Width="100"/>
                     <Button Grid.Row="1" HorizontalAlignment="Center" Command="{Binding ChangeImageCommand}" VerticalAlignment="Top" Margin="5" Content="Змінити"/>-->
                     </Grid>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="1" Margin="5">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="1"
+                                Margin="5">
                         <!--#region First expander-->
                         <Expander Header="Загальні відомості" IsExpanded="True">
                             <Grid>
@@ -71,7 +72,8 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Назва продукту" />
                                 <TextBlock FontWeight="Bold" Grid.Row="1" Grid.Column="2" TextWrapping="Wrap"
-                                           Margin="5,5,5,0" Text="{Binding Path=SelectedProduct.ProductInfo.PRODUCT_TITLE}" />
+                                           Margin="5,5,5,0"
+                                           Text="{Binding Path=SelectedProduct.ProductInfo.PRODUCT_TITLE}" />
                                 <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="Категорія" />
                                 <TextBlock FontWeight="Bold" Grid.Row="2" Grid.Column="2"
                                            Margin="5,5,5,0"
@@ -105,7 +107,8 @@
                                 </Grid>
                                 <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="Кількість в пакеті"
                                            VerticalAlignment="Center" />
-                                <TextBlock FontWeight="Bold" Text="{Binding Path=SelectedProduct.ProductInfo.QUANTITY_IN_PACKAGE}"
+                                <TextBlock FontWeight="Bold"
+                                           Text="{Binding Path=SelectedProduct.ProductInfo.QUANTITY_IN_PACKAGE}"
                                            Grid.Row="4" Grid.Column="2"
                                            Margin="5" VerticalAlignment="Center" />
 

@@ -54,15 +54,17 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock 
+                <TextBlock
                     Grid.Row="0" Grid.Column="0" FontSize="20" Grid.ColumnSpan="4"
-                           Text="{Binding Path=TabIndex,Converter={StaticResource HeaderTitleConverter}}" />
-                <ComboBox Visibility="{Binding Path=TabIndex,Converter={StaticResource BoolConverter},ConverterParameter='1'}"
+                    Text="{Binding Path=TabIndex,Converter={StaticResource HeaderTitleConverter}}" />
+                <ComboBox
+                    Visibility="{Binding Path=TabIndex,Converter={StaticResource BoolConverter},ConverterParameter='1'}"
                     HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1"
-                          Grid.ColumnSpan="3" Margin="5" SelectionChanged="ProductSelectionChanged"
-                          ItemsSource="{Binding ProductsTitleList, Mode=TwoWay}" SelectedValue="{Binding Path=SelectedProductTitle,Mode=TwoWay}" IsEditable="True">
-                </ComboBox>
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="За назвою" VerticalAlignment="Center" Visibility="{Binding Path=TabIndex,Converter={StaticResource BoolConverter},ConverterParameter='1'}" />
+                    Grid.ColumnSpan="3" Margin="5" SelectionChanged="ProductSelectionChanged"
+                    ItemsSource="{Binding ProductsTitleList, Mode=TwoWay}"
+                    SelectedValue="{Binding Path=SelectedProductTitle,Mode=TwoWay}" IsEditable="True" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="За назвою" VerticalAlignment="Center"
+                           Visibility="{Binding Path=TabIndex,Converter={StaticResource BoolConverter},ConverterParameter='1'}" />
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="За категорією" VerticalAlignment="Center" />
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="За вартістю продукту" VerticalAlignment="Center" />
                 <Controls:ToggleSwitch Grid.Row="3" Grid.Column="1" IsChecked="{Binding FilterByPrice,Mode=TwoWay}"
@@ -107,7 +109,8 @@
                     </Button.Style>
                 </Button>
             </Grid>
-            <Grid Background="Transparent" Margin="10" Visibility="{Binding Path=TabIndex,Converter={StaticResource BoolConverter},ConverterParameter='0'}">
+            <Grid Background="Transparent" Margin="10"
+                  Visibility="{Binding Path=TabIndex,Converter={StaticResource BoolConverter},ConverterParameter='0'}">
                 <Grid.Resources>
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>

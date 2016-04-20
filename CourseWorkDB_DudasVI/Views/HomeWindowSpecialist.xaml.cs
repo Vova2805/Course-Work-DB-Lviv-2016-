@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,7 +8,6 @@ using System.Windows.Input;
 using AutoMapper;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models;
-using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using CourseWorkDB_DudasVI.Views.UserControls;
 using MahApps.Metro.Controls;
@@ -28,21 +25,21 @@ namespace CourseWorkDB_DudasVI.Views
 
     public partial class HomeWindowSpecialist : MetroWindow
     {
-        private List<ChartsSet> chartsSets;
-        private List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
-        private List<Flyout> flyouts;
         public SpecialistViewModel _specialistViewModel;
+        private readonly List<ChartsSet> chartsSets;
+        private readonly List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
+        private readonly List<Flyout> flyouts;
 
         public HomeWindowSpecialist()
         {
             var specialistModel = new SpecialistModel();
             _specialistViewModel = Mapper.Map<SpecialistModel, SpecialistViewModel>(specialistModel);
             DataContext = _specialistViewModel;
-            
+
             InitializeComponent();
             ProductsCatalog.DataContext = _specialistViewModel;
             ProductsCatalog.init();
-            chartsSets = new List<ChartsSet> { ChartsSetView, ChartsSet2 };
+            chartsSets = new List<ChartsSet> {ChartsSetView, ChartsSet2};
             foreach (var chart in chartsSets)
             {
                 chart.DataContext = _specialistViewModel;
@@ -50,9 +47,9 @@ namespace CourseWorkDB_DudasVI.Views
             }
 
             addColumns();
-            flyouts = new List<Flyout> { AdminFlyout, SpecialistEditOrders };
+            flyouts = new List<Flyout> {AdminFlyout, SpecialistEditOrders};
             addHotKey();
-            
+
             RequiredDatePicker.DisplayDateStart = API.getTodayDate();
         }
 
@@ -85,6 +82,19 @@ namespace CourseWorkDB_DudasVI.Views
             firstSettings = new RoutedCommand();
             firstSettings.InputGestures.Add(new KeyGesture(Key.F1, ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(firstSettings, Help));
+        }
+
+        private void LogoutClick(object sender, RoutedEventArgs e)
+        {
+            var Home = new Authorization();
+            Home.Show();
+            Session.FactoryEntities.Dispose();
+            Session.User = null;
+            Close();
+        }
+
+        private void ChartsSet_Loaded(object sender, RoutedEventArgs e)
+        {
         }
 
         #region Func
@@ -151,7 +161,7 @@ namespace CourseWorkDB_DudasVI.Views
                     break;
                 case 4:
                 {
-                   ProductsScheduleCatalog.ClearText();
+                    ProductsScheduleCatalog.ClearText();
                 }
                     break;
             }
@@ -221,19 +231,5 @@ namespace CourseWorkDB_DudasVI.Views
         }
 
         #endregion
-
-        private void LogoutClick(object sender, RoutedEventArgs e)
-        {
-            var Home = new Authorization();
-            Home.Show();
-            Session.FactoryEntities.Dispose();
-            Session.User = null;
-            Close();
-        }
-
-        private void ChartsSet_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

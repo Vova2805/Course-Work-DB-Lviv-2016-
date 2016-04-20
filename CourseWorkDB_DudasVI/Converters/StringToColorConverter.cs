@@ -7,8 +7,8 @@ using MahApps.Metro;
 
 namespace CourseWorkDB_DudasVI.Converters
 {
-       public class StringToColorConverter : IValueConverter
-        {
+    public class StringToColorConverter : IValueConverter
+    {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var purpose = System.Convert.ToString(parameter);
@@ -16,7 +16,8 @@ namespace CourseWorkDB_DudasVI.Converters
             {
                 case "ConvertToAccentColor":
                     var aceentColorName = System.Convert.ToString(value);
-                    var accent = ThemeManager.Accents.FirstOrDefault(a => string.CompareOrdinal(a.Name, aceentColorName) == 0);
+                    var accent =
+                        ThemeManager.Accents.FirstOrDefault(a => string.CompareOrdinal(a.Name, aceentColorName) == 0);
                     if (null != accent)
                         return accent.Resources["AccentColorBrush"] as Brush;
                     break;
@@ -25,12 +26,12 @@ namespace CourseWorkDB_DudasVI.Converters
                     var converter = new BrushConverter();
                     if (string.CompareOrdinal(baseColorName, "BaseLight") == 0)
                     {
-                        var brush = (Brush)converter.ConvertFromString("#FFFFFFFF");
+                        var brush = (Brush) converter.ConvertFromString("#FFFFFFFF");
                         return brush;
                     }
                     if (string.CompareOrdinal(baseColorName, "BaseDark") == 0)
                     {
-                        var brush = (Brush)converter.ConvertFromString("#FF000000");
+                        var brush = (Brush) converter.ConvertFromString("#FF000000");
                         return brush;
                     }
 
@@ -40,8 +41,8 @@ namespace CourseWorkDB_DudasVI.Converters
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                throw new NotImplementedException();
-            }
+        {
+            throw new NotImplementedException();
+        }
     }
 }

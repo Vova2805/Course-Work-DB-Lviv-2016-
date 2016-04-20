@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Controls;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls
 {
@@ -13,6 +11,5 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         {
             InitializeComponent();
         }
-        
     }
 }

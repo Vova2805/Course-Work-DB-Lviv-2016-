@@ -86,7 +86,7 @@
                     </Grid.ColumnDefinitions>
                     <ListBox Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch"
                              SelectedItem="{Binding SelectedUser,Mode=TwoWay}"
-                             Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding Users}">
+                              Background="{DynamicResource AccentColorBrush}" ItemsSource="{Binding Users}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <UserControls:UserListElement />
@@ -144,7 +144,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" Background="Gray">
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black"  Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
 
@@ -169,7 +169,7 @@
         <!--#endregion-->
         <TabItem Header="Нове замовлення">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
-                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="{DynamicResource AccentColorBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="auto" />
@@ -188,7 +188,7 @@
                         </Grid.RowDefinitions>
                         <UserControls:CustomTextBox Grid.Row="0" Margin="5" />
                         <ListBox Grid.Row="1" SelectedItem="{Binding SelectedUser,Mode=TwoWay}"
-                                 Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding Users}">
+                                  ItemsSource="{Binding Users}"  Background="{DynamicResource AccentColorBrush}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <listItem:ProductExtendedListItem />
@@ -247,7 +247,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" Background="Gray">
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
 
@@ -270,7 +270,7 @@
             </Border>
         </TabItem>
         <TabItem Header="Каталог продуктів">
-            <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
+            <Border BorderBrush="DodgerBlue" BorderThickness="0,2,0,0"  Background="{DynamicResource AccentColorBrush}">
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -335,13 +335,13 @@
                             </DataGrid.Columns>
                         </DataGrid>
                         <Border Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch"
-                                Background="{DynamicResource GrayBrush2}">
+                                Background="{DynamicResource AccentColorBrush}">
                             <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch" />
                         </Border>
                     </Grid>
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <UserControls:ProductViewForSale Grid.Column="2" Grid.Row="0" />
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" Background="Gray">
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" BorderBrush="Black" BorderThickness="0,2,0,0" Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
 

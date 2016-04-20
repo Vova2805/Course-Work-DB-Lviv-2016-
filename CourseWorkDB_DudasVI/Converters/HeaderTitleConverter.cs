@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace CourseWorkDB_DudasVI.Converters
 {
-    public class HeaderTitleConverter:IValueConverter
+    public class HeaderTitleConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -15,11 +15,13 @@ namespace CourseWorkDB_DudasVI.Converters
                 case 0:
                 {
                     return "Фільтрувати замовлення";
-                }break;
+                }
+                    break;
                 case 1:
                 {
-                        return "Фільтрувати товари";
-                } break;
+                    return "Фільтрувати товари";
+                }
+                    break;
             }
             return "";
         }

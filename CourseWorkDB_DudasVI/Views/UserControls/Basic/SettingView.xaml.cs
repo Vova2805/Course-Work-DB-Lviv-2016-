@@ -7,7 +7,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         public SettingView()
         {
             InitializeComponent();
-            this.DataContext = App.settingsViewModel;
+            DataContext = App.settingsViewModel;
         }
     }
 }
