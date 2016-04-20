@@ -166,10 +166,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                         orderProduct.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
                         orderProduct.PRODUCT_INFO = ProductInfo;
                         orderProduct.QUANTITY_IN_ORDER = 1;
-
+                        DataContextVMSaler = saleWindow.DataContext as SalerViewModel;
                     if (DataContextVMSaler != null)
                         DataContextVMSaler.SelectedClient.addOrderProduct(orderProduct);
-                    else DataContextMSaler.SelectedClient.addOrderProduct(orderProduct);
                     isAdded = true;
                 }
             }

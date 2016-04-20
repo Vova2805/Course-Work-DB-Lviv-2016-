@@ -8,6 +8,7 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:listItem="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls.ListItem"
                       xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
+                      xmlns:system="clr-namespace:System;assembly=mscorlib"
                       mc:Ignorable="d"
                       Icon="../Resources/images/icon_main.png"
                       Title="Sweet retail system"
@@ -431,7 +432,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="6*" />
                         </Grid.ColumnDefinitions>
                         <UserControls:ProductsCatalog Grid.Column="0"/>
                         <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
@@ -474,10 +475,9 @@
                                                                 Binding="{Binding Path=OrderProduct.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
                                             <DataGridTemplateColumn  Width="Auto" Header="Кількість">
                                                 <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
+                                                    <DataTemplate DataType="{x:Type system:Decimal}">
                                                         <Controls:NumericUpDown Minimum="1" Width="auto"
-                                                            Interval="1"
-                                                            Value="{Binding Path=OrderProduct.QUANTITY_IN_ORDER,Mode=TwoWay}"
+                                                            Interval="1" Value="{Binding  QuantityInOrder, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                                             BorderThickness="1"/>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
@@ -568,10 +568,10 @@
                                             </Grid>
 
                                             <TextBlock Grid.Row="1" Grid.Column="3" Text="Загальна кількість продукції :" />
-                                            <TextBlock Grid.Row="1" Grid.Column="4"
+                                            <TextBlock Grid.Row="1" Grid.Column="4"  FontWeight="Bold"
                                                Text="{Binding Path=SelectedClient.TotalQuantity}" />
-                                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Загальна вартість замовлення :" />
-                                            <TextBlock Grid.Row="2" Grid.Column="4"
+                                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Вартість замовлення :" />
+                                            <TextBlock Grid.Row="2" Grid.Column="4" FontWeight="Bold" Foreground="Green"
                                                Text="{Binding Path=SelectedClient.TotalPrice}" />
                                         </Grid>
                                     </Border>
@@ -721,15 +721,7 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <UserControls:CustomTextBox Grid.Row="0" Margin="5" />
-                        <ListBox Grid.Row="1" SelectedItem="{Binding SelectedUser,Mode=TwoWay}"
-                                  ItemsSource="{Binding Users}"  Background="{DynamicResource AccentColorBrush}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <listItem:ProductExtendedListItem />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                        <UserControls:ProductsCatalog Grid.Column="0"/>
                     </Grid>
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <UserControls:CustomerEditableView Grid.Column="4" Grid.Row="0" />

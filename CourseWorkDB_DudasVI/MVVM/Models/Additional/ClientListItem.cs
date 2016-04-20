@@ -25,9 +25,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             private ORDER_PRODUCT _orderProduct;
             private int _QuantityInOrder;
             private decimal _packageTotal;
+            private ClientListItem DataContext;
 
-            public OrderProductListItem(ORDER_PRODUCT orderProduct)
+            public OrderProductListItem(ORDER_PRODUCT orderProduct, ClientListItem dataContext)
             {
+                this.DataContext = dataContext;
                 _orderProduct = orderProduct;
                 QuantityInOrder = _orderProduct.QUANTITY_IN_ORDER;
                 this.PackageTotal = API.getlastPrice(_orderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE* _QuantityInOrder;
@@ -61,6 +63,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     _QuantityInOrder = value;
                     PackageTotal = API.getlastPrice(_orderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE * _QuantityInOrder;
                     OnPropertyChanged("QuantityInOrder");
+                    DataContext.PackagesProducts =
+                       DataContext.PackagesProducts;
                 }
             }
         }
@@ -120,9 +124,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             try
             {
                 product.SALE_ORDER_ID = NewOrder.SALE_ORDER_ID;
-                PackagesProducts.Add(new OrderProductListItem(product));
-                _totalQuantity += product.QUANTITY_IN_ORDER;
-                _newOrderTotal += _totalQuantity * API.getlastPrice(product.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
+                PackagesProducts.Add(new OrderProductListItem(product,this));
+                TotalQuantity += product.QUANTITY_IN_ORDER;
+                TotalPrice += product.QUANTITY_IN_ORDER * API.getlastPrice(product.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
                 return true;
             }
             catch (Exception)
@@ -138,8 +142,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             if (exestedOrderProduct != null)
                 if (PackagesProducts.Remove(exestedOrderProduct))
                 {
-                    _totalQuantity -= exestedOrderProduct.OrderProduct.QUANTITY_IN_ORDER;
-                    _newOrderTotal -= _totalQuantity * API.getlastPrice(exestedOrderProduct.OrderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
+                    TotalQuantity -= exestedOrderProduct.OrderProduct.QUANTITY_IN_ORDER;
+                    TotalPrice -= product.QUANTITY_IN_ORDER * API.getlastPrice(exestedOrderProduct.OrderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
                     return true;
                 }
             return false;
@@ -206,7 +210,14 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             get { return _packagesProducts; }
             set
             {
-                _packagesProducts = value; 
+                _packagesProducts = value;
+                TotalQuantity = 0;
+                TotalPrice = 0;
+                foreach (var package in _packagesProducts)
+                {
+                    TotalQuantity += package.QuantityInOrder;
+                    TotalPrice += package.PackageTotal;
+                }
                 OnPropertyChanged("PackagesProducts");
             }
         }
@@ -217,7 +228,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _newOrderTotal = value; 
-                OnPropertyChanged("NewOrderTotal");
+                OnPropertyChanged("TotalPrice");
             }
         }
 
