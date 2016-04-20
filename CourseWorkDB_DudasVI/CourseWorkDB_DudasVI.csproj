@@ -120,6 +120,7 @@
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="MVVM\Mapping\Mapping.cs" />
+    <Compile Include="MVVM\Models\Additional\ClientListItem.cs" />
     <Compile Include="MVVM\Models\Additional\WarehouseListItem.cs" />
     <Compile Include="MVVM\Models\Additional\WarehouseProductTransaction.cs" />
     <Compile Include="MVVM\Models\Additional\OrderProductTransaction.cs" />
@@ -209,6 +210,9 @@
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Views\Rules\TextHighlightBehavior.cs" />
+    <Compile Include="Views\UserControls\Basic\ClientsCatalog.xaml.cs">
+      <DependentUpon>ClientsCatalog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Basic\ProductsCatalog.xaml.cs">
       <DependentUpon>ProductsCatalog.xaml</DependentUpon>
     </Compile>
@@ -271,6 +275,9 @@
     <Compile Include="Views\UserControls\Filters\Specialist\EditOrder.xaml.cs">
       <DependentUpon>EditOrder.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\ListItem\ClientOrderListItem.xaml.cs">
+      <DependentUpon>ClientOrderListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\ListItem\OrderListItem.xaml.cs">
       <DependentUpon>OrderListItem.xaml</DependentUpon>
     </Compile>
@@ -300,6 +307,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Filters\UserFilter.xaml.cs">
       <DependentUpon>UserFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ListItem\CustomerListElement.xaml.cs">
+      <DependentUpon>CustomerListElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\ListItem\UserListElement.xaml.cs">
       <DependentUpon>UserListElement.xaml</DependentUpon>
@@ -344,6 +354,10 @@
     <Page Include="Views\HomeWindowAdmin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Basic\ClientsCatalog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Basic\ProductsCatalog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -413,6 +427,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\UserControls\ListItem\ClientOrderListItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\ListItem\OrderListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -452,6 +470,10 @@
     <Page Include="Views\UserControls\Filters\UserFilter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ListItem\CustomerListElement.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\ListItem\UserListElement.xaml">
       <SubType>Designer</SubType>
@@ -513,7 +535,7 @@
     <Resource Include="Resources\images\sun.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\images\test.png" />
+    <Resource Include="Resources\images\user.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\images\sweet.png" />

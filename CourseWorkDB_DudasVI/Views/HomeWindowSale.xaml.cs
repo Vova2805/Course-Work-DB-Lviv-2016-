@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using AutoMapper;
+using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using MahApps.Metro.Controls;
@@ -17,28 +19,68 @@ namespace CourseWorkDB_DudasVI.Views
             var salerViewModel = Mapper.Map<SalerModel, SalerViewModel>(salerModel);
             DataContext = salerViewModel;
             InitializeComponent();
+            addHotKey();
         }
 
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
-            isopenFlyout = !isopenFlyout;
-            AdminFlyout.IsOpen = isopenFlyout;
+            AdminFlyout.IsOpen = !AdminFlyout.IsOpen;
         }
 
         private void UserFilter(object sender, RoutedEventArgs e)
         {
-            UserFilterFlyout.IsOpen = true;
+            UserFilterFlyout.IsOpen = !UserFilterFlyout.IsOpen;
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UserFilterFlyout.IsOpen = false;
+          
         }
 
         private void CustomerFilter(object sender, RoutedEventArgs e)
         {
-            CustomerFilterFlyout.IsOpen = true;
+            CustomerFilterFlyout.IsOpen = !CustomerFilterFlyout.IsOpen;
+        }
+
+        private void LogoutClick(object sender, RoutedEventArgs e)
+        {
+            var Home = new Authorization();
+            Home.Show();
+            Session.User = null;
+            Close();
+        }
+
+        private void Help(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void addHotKey()
+        {
+            var firstSettings = new RoutedCommand();
+            //firstSettings.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Alt));
+            //CommandBindings.Add(new CommandBinding(firstSettings, EditOrdersOpen));
+
+            firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.F, ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(firstSettings, CustomerFilter));
+
+            firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(firstSettings, SettingsClick));
+
+            //firstSettings = new RoutedCommand();
+            //firstSettings.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Alt));
+            //CommandBindings.Add(new CommandBinding(firstSettings, OnCheckAll));
+
+            //firstSettings = new RoutedCommand();
+            //firstSettings.InputGestures.Add(new KeyGesture(Key.U, ModifierKeys.Alt));
+            //CommandBindings.Add(new CommandBinding(firstSettings, OnUncheckAll));
+
+            firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.F1, ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(firstSettings, Help));
         }
     }
 }

@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="CourseWorkDB_DudasVI.Views.UserControls.CustomerListElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"
+             xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
+             mc:Ignorable="d">
+    <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="1,1,1,1">
+        <Border.Resources>
+            <converters:StaffImageConverter x:Key="Converter" />
+        </Border.Resources>
+        <Grid Height="auto"  Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Height="50" Width="50"
+                   Source="pack://application:,,,/Resources/images/user.png" VerticalAlignment="Center" />
+            <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Path=Client.CLIENT_NAME}" Grid.Column="0" ToolTip="Ім'я клієнта" />
+                    <TextBlock TextAlignment="Left" Text="{Binding Path=Client.CLIENT_SURNAME}" Grid.Column="2"  ToolTip="Прізвище клієнта"/>
+                </Grid>
+            </StackPanel>
+            <TextBlock FontWeight="Bold"  Grid.Row="1" Grid.Column="2"
+                       Text="{Binding Path=Client.MOBILE_PHONE}" ToolTip="Мобільний телефон" Margin="5"/>
+            <TextBlock FontWeight="Bold" Grid.Row="2" Grid.Column="2"
+                       Text="{Binding Path=Client.EMAIL}" ToolTip="Електронна адреса" />
+        </Grid>
+    </Border>
+
+</UserControl>

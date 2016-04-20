@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using CourseWorkDB_DudasVI.General;
 
 namespace ourseWorkDB_DudasVI.MVVM.ViewModels
 {
@@ -13,6 +14,11 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public string userNameSurname
+        {
+            get { return Session.User.STAFF_NAME + " " + Session.User.STAFF_SURNAME; }
         }
     }
 }

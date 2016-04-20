@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using CourseWorkDB_DudasVI.General;
+using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
@@ -10,6 +13,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         {
             #region First
 
+            List<CLIENT> temp = Session.FactoryEntities.CLIENT.ToList();
+            Clients = new List<ClientListItem>();
+            foreach (var client in temp)
+            {
+                Clients.Add(new ClientListItem(client));
+            }
+            if(Clients.Count>0)
+            SelectedClient = Clients.First();
+
             #endregion
 
             #region Second
@@ -19,19 +31,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #region Third
 
             #endregion
-        }
-
-        public static string ConvertAddress(WAREHOUSE warehouse, string number = "")
-        {
-            var address = warehouse.ADDRESS1;
-            var response = "";
-            if (address != null)
-            {
-                response = number + " " + address.COUNTRY + ", " + address.REGION + ", " + address.CITY + ", " +
-                           address.STREET + ", " +
-                           address.BUILDING_NUMBER;
-            }
-            return response;
         }
 
         public class RegionInfo
@@ -51,7 +50,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         //TabPages
 
         #region First
-
+        public List<ClientListItem> Clients;
+        public ClientListItem SelectedClient;
         #endregion
 
         #region Second

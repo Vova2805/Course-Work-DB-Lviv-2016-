@@ -65,108 +65,63 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Ім'я" />
-                            <TextBox x:Name="txtName" Grid.Row="1" Grid.Column="2" Margin="5,5,5,0"
-                                     Validation.ErrorTemplate="{x:Null}"
-                                     Text="Volodymyr" />
+                            <TextBox Grid.Row="1" Grid.Column="2" Margin="5,5,5,0"
+                                     Text="{Binding Path=Client.CLIENT_NAME,Mode=TwoWay}" />
                             <ContentPresenter Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Width="150"
-                                              Content="{Binding ElementName=txtName,Path=(Validation.Errors).CurrentItem}" />
-
-                            <!--Username of the user-->
+                                              Content="{Binding ElementName=txtName,Path=(Validation.Errors).CurrentItem}" /> 
+                            
                             <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="По-батькові" />
-                            <TextBox x:Name="txtUsername" Grid.Row="2" Grid.Column="2" Margin="5,5,5,0"
-                                     Validation.ErrorTemplate="{x:Null}"
-                                     Text="Dudas" />
+                            <TextBox  Grid.Row="2" Grid.Column="2" Margin="5,5,5,0"
+                                      Text="{Binding Path=Client.CLIENT_SURNAME,Mode=TwoWay}" />
                             <ContentPresenter Grid.Row="5" Grid.Column="2" HorizontalAlignment="Right" Width="150"
                                               Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />
                             <!--Username of the user-->
                             <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Назва компанії" />
                             <TextBox x:Name="asdas" Grid.Row="5" Grid.Column="2" Margin="5,5,5,0"
                                      Validation.ErrorTemplate="{x:Null}"
-                                     Text="Логін" />
+                                     Text="{Binding Path=Client.COMPANY_TITLE,Mode=TwoWay}" />
                             <!--<ContentPresenter Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Width="150" 
                           Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />-->
                             <!--Username of the user-->
                             <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Мобільний телефон" />
                             <TextBox x:Name="ds" Grid.Row="6" Grid.Column="2" Margin="5"
                                      Validation.ErrorTemplate="{x:Null}"
-                                     Text="Password" />
+                                     Text="{Binding Path=Client.MOBILE_PHONE,Mode=TwoWay}" />
                             <ContentPresenter Grid.Row="6" Grid.Column="2" HorizontalAlignment="Right" Width="150"
                                               Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />
                             <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Телефон компанії"
                                        VerticalAlignment="Center" />
-                            <TextBox x:Name="dsdas" Text="Password" Grid.Row="7" Margin="5" Grid.Column="2"
+                            <TextBox Text="{Binding Path=Client.COMPANY_PHONE,Mode=TwoWay}" Grid.Row="7" Margin="5" Grid.Column="2"
                                      Validation.ErrorTemplate="{x:Null}" VerticalAlignment="Center" />
 
                             <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="E-mail" VerticalAlignment="Center" />
-                            <TextBox x:Name="sd" Text="vovadudas@gmail.com" Grid.Row="4" Grid.Column="2" Margin="5"
+                            <TextBox x:Name="sd" Text="{Binding Path=Client.EMAIL,Mode=TwoWay}" Grid.Row="4" Grid.Column="2" Margin="5"
                                      Validation.ErrorTemplate="{x:Null}" VerticalAlignment="Center" />
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="Прізвище" TextWrapping="Wrap"
                                        VerticalAlignment="Center" />
-                            <TextBox x:Name="birthDate" Grid.Row="3" Text="Dudas" Grid.Column="2"
+                            <TextBox x:Name="birthDate" Grid.Row="3" Text="{Binding Path=Client.CLIENT_MIDDLE_NAME,Mode=TwoWay}" Grid.Column="2"
                                      VerticalAlignment="Center" Margin="5" Validation.ErrorTemplate="{x:Null}" />
-                            <!--SelectedDate="{Binding TransactionDate,ValidatesOnDataErrors=True}"-->
-
-                            <TextBlock Grid.Row="8" Grid.Column="0" Margin="5" Text="" VerticalAlignment="Center" />
-
                         </Grid>
                     </Expander>
                     <!--#endregion-->
                     <!--#region Second expander-->
                     <Expander Header="Адреса" IsExpanded="True">
-                        <local:AddressEditableView />
+                        <local:AddressEditableView DataContext="{Binding Path=Client.ADDRESS1,Mode=TwoWay}" />
                     </Expander>
                     <!--#endregion-->
                     <!--#region Third expander-->
-                    <Expander Header="Замовлення" IsExpanded="False">
-                        <DataGrid Grid.Row="0" Grid.Column="0" SelectedItem="{Binding SelectedTransaction}"
-                                  FontSize="14" ItemsSource="{Binding Transactions}" AutoGenerateColumns="True">
-                            <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Width="20" Binding="{Binding IsMarked}" />
-                                <DataGridTextColumn Width="Auto" Header="DATE" IsReadOnly="True"
-                                                    Binding="{Binding TransactionDate,StringFormat=\{0:dd-MMM-yyyy \}}" />
-                                <DataGridTextColumn Width="Auto" Header="AMOUNT" IsReadOnly="True"
-                                                    Binding="{Binding Amount}" />
-                                <DataGridTextColumn Width="Auto" Header="PURPOSE" IsReadOnly="True"
-                                                    Binding="{Binding PurposeType}" />
-                                <DataGridTemplateColumn Width="Auto" Header="FLOW" IsReadOnly="True">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <DockPanel>
-                                                <Path x:Name="figurePath" DockPanel.Dock="Left" Stretch="Uniform"
-                                                      Width="15" Height="15" Margin="5" RenderTransformOrigin="0.5,0.5">
-                                                    <Path.RenderTransform>
-                                                        <TransformGroup>
-                                                            <TransformGroup.Children>
-                                                                <RotateTransform Angle="3" />
-                                                                <ScaleTransform ScaleX="1" ScaleY="1" />
-                                                            </TransformGroup.Children>
-                                                        </TransformGroup>
-                                                    </Path.RenderTransform>
-                                                </Path>
-                                                <ContentPresenter Margin="0,5,5,5" Content="{Binding FlowType}" />
-                                            </DockPanel>
-                                            <!--<DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Expenditure}">
-                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource ExpenditureFigure}"/>
-                                                <Setter Property="Fill" TargetName="figurePath" Value="Red"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Income}">
-                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource IncomeFigure}"/>
-                                                <Setter Property="Fill" TargetName="figurePath" Value="Green"/>
-                                            </DataTrigger>
-                                        </DataTemplate.Triggers>-->
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTextColumn Width="*" Header="DESCRIPTION" IsReadOnly="True" />
-                                <DataGridTextColumn Width="Auto" Header="LAST MODYFIED" IsReadOnly="True"
-                                                    Binding="{Binding LastModifiedBy}" />
-                                <DataGridTextColumn Width="Auto" Header="CREATED BY" IsReadOnly="True" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-
-                    </Expander>
+                    <Expander Header="Замовлення" IsExpanded="True">
+                        <ListBox Grid.Row="1" VerticalAlignment="Stretch"
+                             SelectedItem="{Binding SelectedOrder,Mode=TwoWay}"
+                              Background="{DynamicResource AccentColorBrush}" ItemsSource="{Binding SaleOrders}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <local:ClientOrderListItem />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+            </Expander>
                     <!--#endregion-->
                 </StackPanel>
             </Grid>

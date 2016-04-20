@@ -88,7 +88,6 @@ namespace CourseWorkDB_DudasVI.Views
         {
             var Home = new Authorization();
             Home.Show();
-            Session.FactoryEntities.Dispose();
             Session.User = null;
             Close();
         }

@@ -390,4 +390,10 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github pr
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csproj.GenerateResource.Cache
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\ProductsCatalog.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\ProductsCatalog.baml
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\CustomerListElement.g.cs
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\CustomerListElement.baml
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\ClientsCatalog.g.cs
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\ClientsCatalog.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csprojResolveAssemblyReference.cache
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\ClientOrderListItem.g.cs
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\ClientOrderListItem.baml

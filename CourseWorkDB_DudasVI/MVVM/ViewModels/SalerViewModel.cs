@@ -1,4 +1,7 @@
-﻿using LiveCharts;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using CourseWorkDB_DudasVI.MVVM.Models.Additional;
+using LiveCharts;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.ViewModels
@@ -9,7 +12,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         //TabPages
 
         #region First
-
+        private ObservableCollection<ClientListItem> _Clients;
+        private ClientListItem _SelectedClient;
         #endregion
 
         #region Second
@@ -33,6 +37,26 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region Properties
+
+        public ObservableCollection<ClientListItem> Clients
+        {
+            get { return _Clients; }
+            set
+            {
+                _Clients = value; 
+                OnPropertyChanged("Clients");
+            }
+        }
+
+        public ClientListItem SelectedClient
+        {
+            get { return _SelectedClient; }
+            set
+            {
+                _SelectedClient = value; 
+                OnPropertyChanged("SelectedClient");
+            }
+        }
 
         #endregion
 

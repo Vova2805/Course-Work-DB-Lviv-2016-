@@ -825,12 +825,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("OptionsList");
             }
         }
-
-        public string userNameSurname
-        {
-            get { return Session.User.STAFF_NAME + " " + Session.User.STAFF_SURNAME; }
-        }
-
+        
         public bool ChangeProductPriceValue;
         public bool ChangeProductPricePersentage;
 
