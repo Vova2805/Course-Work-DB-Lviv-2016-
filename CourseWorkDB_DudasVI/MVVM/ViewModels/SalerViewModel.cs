@@ -26,7 +26,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region Third
-        
+        private ObservableCollection<WAREHOUSE> _WarehousesList;
+        private WAREHOUSE _SelectedWarehouse;
+        private ObservableCollection<string> _WarehousesListTitles;
+        private string _SelectedWarehouseTitle;
+        private decimal _Distance;
+        private decimal _CostPerKM;
         #endregion
 
         #region So on
@@ -123,7 +128,66 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("SelectedClientTitle");
             }
         }
-        
+
+        public WAREHOUSE SelectedWarehouse
+        {
+            get { return _SelectedWarehouse; }
+            set
+            {
+                _SelectedWarehouse = value;
+                OnPropertyChanged("SelectedWarehouse");
+            }
+        }
+
+        public string SelectedWarehouseTitle
+        {
+            get { return _SelectedWarehouseTitle; }
+            set
+            {
+                _SelectedWarehouseTitle = value;
+                OnPropertyChanged("SelectedWarehouseTitle");
+            }
+        }
+
+        public ObservableCollection<WAREHOUSE> WarehousesList
+        {
+            get { return _WarehousesList; }
+            set
+            {
+                _WarehousesList = value;
+                OnPropertyChanged("WarehousesList");
+            }
+        }
+
+        public ObservableCollection<string> WarehousesListTitles
+        {
+            get { return _WarehousesListTitles; }
+            set
+            {
+                _WarehousesListTitles = value;
+                OnPropertyChanged("WarehousesListTitles");
+            }
+        }
+
+        public decimal CostPerKm
+        {
+            get { return _CostPerKM; }
+            set
+            {
+                _CostPerKM = value; 
+                OnPropertyChanged("CostPerKm");
+            }
+        }
+
+        public decimal Distance
+        {
+            get { return _Distance; }
+            set
+            {
+                _Distance = value;
+                OnPropertyChanged("Distance");
+            }
+        }
 
         #endregion
 

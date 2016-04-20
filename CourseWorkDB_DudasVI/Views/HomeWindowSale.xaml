@@ -142,7 +142,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="4*" />
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="4*" />
                     </Grid.ColumnDefinitions>
@@ -432,155 +432,241 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
                         <UserControls:ProductsCatalog Grid.Column="0"/>
                         <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                        <Border Grid.Column="2" Margin="5">
-                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
+                        <Grid Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="4*" />
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid Grid.Row="0"> 
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="Замовник " VerticalAlignment="Center" Margin="5"
+                                <TextBlock Grid.Column="0" Text="Замовник " VerticalAlignment="Center" Margin="5"
                                            FontSize="15" />
-                                        <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
+                                <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
                                           ItemsSource="{Binding ClientsTitle}"
                                           SelectedValue="{Binding SelectedClientTitle}"
                                           IsEditable="True" />
-                                    </Grid>
-                                    <DataGrid Margin="5,5,0,0" Grid.Row="1" HorizontalAlignment="Stretch"
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <DataGrid HorizontalAlignment="Stretch" ToolTip="Замовлення"
                                   VerticalAlignment="Stretch" SelectedItem="{Binding Path=SelectedProduct}"
                                   FontSize="14" ItemsSource="{Binding Path=SelectedClient.PackagesProducts}" AutoGenerateColumns="False">
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
                                                                 Binding="{Binding Path=OrderProduct.PRODUCT_INFO.PRODUCT_TITLE}" />
-                                            <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
+                                        <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
                                                                 Binding="{Binding Path=OrderProduct.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
-                                            <DataGridTemplateColumn  Width="Auto" Header="Кількість">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate DataType="{x:Type system:Decimal}">
-                                                        <Controls:NumericUpDown Minimum="1" Width="auto"
+                                        <DataGridTemplateColumn  Width="Auto" Header="Кількість">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="{x:Type system:Decimal}">
+                                                    <Controls:NumericUpDown Minimum="1" Width="auto"
                                                             Interval="1" Value="{Binding  QuantityInOrder, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                                             BorderThickness="1"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                            <DataGridTextColumn Width="Auto" Header="Загальна вартість" IsReadOnly="True"
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Width="Auto" Header="Загальна вартість" IsReadOnly="True"
                                                                 Binding="{Binding Path=PackageTotal}" />
-                                            <DataGridTemplateColumn  Width="Auto" Header="Видалити">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <Button Width="50" Click="CustomerFilter"
+                                        <DataGridTemplateColumn  Width="Auto" Header="Видалити">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Width="50" Click="CustomerFilter"
                                                         Height="50"
                                                         VerticalAlignment="Top"
                                                         ToolTip="Видалити із замовлення" 
                                                         Style="{DynamicResource MetroCircleButtonStyle}">
-                                                            <Rectangle Width="20" Height="20">
-                                                                <Rectangle.Style>
-                                                                    <Style TargetType="{x:Type Rectangle}">
-                                                                        <Setter Property="Fill">
-                                                                            <Setter.Value>
-                                                                                <VisualBrush Stretch="Fill"
+                                                        <Rectangle Width="20" Height="20">
+                                                            <Rectangle.Style>
+                                                                <Style TargetType="{x:Type Rectangle}">
+                                                                    <Setter Property="Fill">
+                                                                        <Setter.Value>
+                                                                            <VisualBrush Stretch="Fill"
                                                                      Visual="{StaticResource appbar_delete}" />
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Style.Triggers>
-                                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                                <Setter Property="Fill">
-                                                                                    <Setter.Value>
-                                                                                        <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Fill">
+                                                                                <Setter.Value>
+                                                                                    <VisualBrush x:Name="Brush" Stretch="Fill"
                                                                              Visual="{StaticResource appbar_delete_white}" />
-                                                                                    </Setter.Value>
-                                                                                </Setter>
-                                                                            </Trigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </Rectangle.Style>
-                                                            </Rectangle>
-                                                        </Button>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                        </DataGrid.Columns>
-                                    </DataGrid>
-                                    <Border Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch"
-                                Background="{DynamicResource AccentColorBrush}">
-                                        <Grid Margin="5">
-                                            <Grid.Resources>
-                                                <!--<Converters:EmptyStringConverter x:Key="emptyStringConv"/>-->
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Setter Property="Margin" Value="5" />
-                                                    <Setter Property="Foreground" Value="{DynamicResource BlackColorBrush}" />
-                                                </Style>
-                                            </Grid.Resources>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Rectangle.Style>
+                                                        </Rectangle>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
+                                <DataGrid ToolTip="Список доставок" Grid.Row="2" FontSize="14" ItemsSource="{Binding Path=SelectedClient.DeliveryList}" AutoGenerateColumns="False">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Width="Auto" Header="Дата" IsReadOnly="True"
+                                                                Binding="{Binding Path=Delivery.DELIVERY_DATE,StringFormat=\{0:dd.MM.yyyy р.\}}" />
+                                        <DataGridTextColumn Width="*" Header="Адреса (від)" IsReadOnly="True"
+                                                                Binding="{Binding Path=DeliveryAddress.ADDRESS,Converter={StaticResource AddressConverter}}" />
+                                        <DataGridTextColumn Width="*" Header="Адреса (до)" IsReadOnly="True"
+                                                                Binding="{Binding Path=DeliveryAddress.ADDRESS1,Converter={StaticResource AddressConverter}}" />
+                                        <DataGridTextColumn Width="Auto" Header="Вартість км." IsReadOnly="True"
+                                                                Binding="{Binding Path=Delivery.COST_PER_KM}" />
+                                        <DataGridTextColumn Width="Auto" Header="Відстань (км.)" IsReadOnly="True"
+                                                                Binding="{Binding Path=DeliveryAddress.DISTANCE}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
 
-                                            <TextBlock Grid.Row="0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="2"
+                            <Border Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch"
+                                Background="{DynamicResource AccentColorBrush}">
+                                <Grid Margin="5">
+                                    <Grid.Resources>
+                                        <!--<Converters:EmptyStringConverter x:Key="emptyStringConv"/>-->
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Margin" Value="5" />
+                                            <Setter Property="Foreground" Value="{DynamicResource BlackColorBrush}" />
+                                        </Style>
+                                    </Grid.Resources>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="2"
                                                Text="Загальна інформація про замовлення :" FontSize="14" />
-                                            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Text="Дата створення :" />
-                                                <TextBlock Grid.Column="1" FontWeight="Bold" TextAlignment="Center"
+                                    <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Дата створення :" />
+                                        <TextBlock Grid.Column="1" FontWeight="Bold" TextAlignment="Center"
                                                    Text="{Binding Path=SelectedClient.NewOrder.ORDER_DATE,StringFormat=\{0:dd.MM.yyyy \}}" />
-                                            </Grid>
-                                            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Text="Кінцева дата реалізації :" />
-                                                <DatePicker Grid.Column="1"
+                                    </Grid>
+                                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Кінцева дата реалізації :" />
+                                        <DatePicker Grid.Column="1"
                                                     SelectedDate="{Binding Path=SelectedClient.NewOrder.REQUIRED_DATE,Mode=TwoWay}"
                                                     Name="RequiredDatePicker" />
-                                            </Grid>
+                                    </Grid>
 
-                                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Загальна кількість продукції :" />
-                                            <TextBlock Grid.Row="1" Grid.Column="4"  FontWeight="Bold"
+                                    <TextBlock Grid.Row="1" Grid.Column="3" Text="Загальна кількість продукції :" />
+                                    <TextBlock Grid.Row="1" Grid.Column="4"  FontWeight="Bold"
                                                Text="{Binding Path=SelectedClient.TotalQuantity}" />
-                                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Вартість замовлення :" />
-                                            <TextBlock Grid.Row="2" Grid.Column="4" FontWeight="Bold" Foreground="Green"
+                                    <TextBlock Grid.Row="2" Grid.Column="3" Text="Вартість замовлення :" />
+                                    <TextBlock Grid.Row="2" Grid.Column="4" FontWeight="Bold" Foreground="Green"
                                                Text="{Binding Path=SelectedClient.TotalPrice}" />
-                                        </Grid>
-                                    </Border>
                                 </Grid>
-                                <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" />
-                                <UserControls:ProductViewForSale Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" DataContext="{Binding SelectedProduct}"/>
-                            </Grid>
-                        </Border>
-                        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
+                            </Border>
+                        </Grid>
+                        <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" />
+                        <Grid  Grid.Column="4" Grid.Row="0" Grid.RowSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
+                            <UserControls:ProductViewForSale Grid.Row="0" DataContext="{Binding SelectedProduct}"/>
+                            <UserControls:DeliveryView Grid.Row="2"/>
+                            <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
+                                <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
+                                   LastChildFill="False">
+
+                                    <Button Width="50" Click="CustomerFilter"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Додати доставку до замовлення Alt+A" Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                        <Rectangle Width="20" Height="20">
+                                            <Rectangle.Style>
+                                                <Style TargetType="{x:Type Rectangle}">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush Stretch="Fill"
+                                                                     Visual="{StaticResource appbar_add}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Fill">
+                                                                <Setter.Value>
+                                                                    <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                             Visual="{StaticResource appbar_add_white}" />
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Rectangle.Style>
+                                        </Rectangle>
+                                    </Button>
+                                    <Button Width="50" 
+                                            Height="50"
+                                            VerticalAlignment="Top"
+                                            ToolTip="Очистити зміни у доставці" Background="{DynamicResource ProgressBrush}"
+                                            Style="{DynamicResource MetroCircleButtonStyle}">
+                                        <Rectangle Width="20" Height="20">
+                                            <Rectangle.Style>
+                                                <Style TargetType="{x:Type Rectangle}">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_delete}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Fill">
+                                                                <Setter.Value>
+                                                                    <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                                 Visual="{StaticResource appbar_delete_white}" />
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Rectangle.Style>
+                                        </Rectangle>
+                                    </Button>
+                                </DockPanel>
+                            </Border>
+
+                        </Grid>
+
+                        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
                             <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
 
@@ -702,7 +788,7 @@
                 </Grid>
             </Border>
         </TabItem>
-        <TabItem Header="Оформлення доставки">
+        <!--<TabItem Header="Оформлення доставки">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="{DynamicResource AccentColorBrush}">
                     <Grid.RowDefinitions>
@@ -780,6 +866,6 @@
                     </Border>
                 </Grid>
             </Border>
-        </TabItem>
+        </TabItem>-->
     </TabControl>
 </Controls:MetroWindow>

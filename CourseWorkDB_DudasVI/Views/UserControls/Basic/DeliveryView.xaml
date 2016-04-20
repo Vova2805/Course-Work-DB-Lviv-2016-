@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="CourseWorkDB_DudasVI.Views.UserControls.DeliveryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             xmlns:сontrols="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
+             xmlns:userControls="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border Background="GhostWhite" BorderBrush="DimGray" BorderThickness="2">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type сontrols:NumericUpDown}">
+                        <Style.Triggers>
+                            <Trigger Property="IsReadOnly"
+                                     Value="True">
+                                <Setter Property="HideUpDownButtons"
+                                        Value="True" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="5" Text="Оформити доставку" FontSize="20" />
+                    <Grid Grid.Column="0" Grid.Row="0"></Grid>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="1"
+                                Grid.RowSpan="2" Margin="5">
+                        <!--#region First expander-->
+                        <Expander Header="Від" IsExpanded="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Склад : " VerticalAlignment="Center" Margin="5"
+                                           FontSize="15" />
+                                <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
+                                          ItemsSource="{Binding WarehousesListTitles}"
+                                          SelectedValue="{Binding SelectedWarehouseTitle}"
+                                          IsEditable="True" />
+                            </Grid>
+                        </Expander>
+                        <Expander Header="До" IsExpanded="True">
+                            <userControls:AddressEditableView DataContext="{Binding Path=SelectedClient.Client.ADDRESS1}"/> 
+                        </Expander>
+                        <Expander Header="Додатково" IsExpanded="True">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Відстань : " VerticalAlignment="Center" Margin="5"
+                                           FontSize="15" />
+                                <сontrols:NumericUpDown Grid.Row="0" Grid.Column="1" Minimum="0" Width="auto" Margin="5"
+                                                            Interval="1" Value="{Binding  Distance}"
+                                                            BorderThickness="1"/>
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Вартість км. : " VerticalAlignment="Center" Margin="5"
+                                           FontSize="15" />
+                                <сontrols:NumericUpDown Grid.Row="1" Grid.Column="1" Minimum="1" Width="auto" Margin="5"
+                                                            Interval="1" Value="{Binding  CostPerKm}"
+                                                            BorderThickness="1"/>
+                            </Grid>
+                        </Expander>
+                        <!--#endregion-->
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</UserControl>

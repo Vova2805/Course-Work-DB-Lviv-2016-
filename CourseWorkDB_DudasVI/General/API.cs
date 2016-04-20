@@ -14,6 +14,18 @@ namespace CourseWorkDB_DudasVI.General
                 .FirstOrDefault(p => p.PRICE_ID == result.PRICE_ID);
         }
 
+        public static string ConvertAddress(ADDRESS address, string number = "")
+        {
+            var response = "";
+            if (address != null)
+            {
+                response = number + " " + address.COUNTRY + ", " + address.REGION + ", " + address.CITY + ", " +
+                           address.STREET + ", " +
+                           address.BUILDING_NUMBER;
+            }
+            return response;
+        }
+
         public static List<PRODUCT_PRICE> getPrice(ICollection<PRODUCT_PRICE> prices, DateTime startPeriod,
             DateTime endPeriod)
         {
@@ -63,7 +75,7 @@ namespace CourseWorkDB_DudasVI.General
 
         public static List<ORDER_PRODUCT> getPackagesInRange(DateTime from, DateTime to, List<ORDER_PRODUCT> packages)
         {
-            var res = packages.FindAll(p => p.SALE_ORDER.ORDER_DATE >= from && p.SALE_ORDER.ORDER_DATE <= to).ToList();
+            var res = packages.FindAll(p => p.SALE_ORDER.ORDER_DATE >= @from && p.SALE_ORDER.ORDER_DATE <= to).ToList();
             return res;
         }
 

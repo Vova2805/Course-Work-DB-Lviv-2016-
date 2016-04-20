@@ -57,6 +57,27 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #endregion
 
             #region Third
+
+            WarehousesList = Session.FactoryEntities.WAREHOUSE.ToList();
+            if(WarehousesList.Count>0)
+            SelectedWarehouse = WarehousesList.First();
+            WarehousesListTitles = new List<string>();
+            foreach (var warehouse in WarehousesList)
+            {
+                WarehousesListTitles.Add(API.ConvertAddress(warehouse.ADDRESS1));
+            }
+            if (WarehousesListTitles.Count > 0)
+                SelectedWarehouseTitle = WarehousesListTitles.First();
+            Distance = 0;
+            var deliveries = Session.FactoryEntities.DELIVERY.ToList();
+            deliveries.Sort(
+                 (del1, del2) =>
+                 {
+                     return del1.DELIVERY_DATE > del2.DELIVERY_DATE ? 1 : del1.DELIVERY_DATE == del2.DELIVERY_DATE ? 0 : -1;
+                 }
+                 );
+            CostPerKM = deliveries.Last().COST_PER_KM;
+
             #endregion
         }
 
@@ -90,6 +111,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         #region Third
         public List<string> ClientsTitle;
         public string SelectedClientTitle;
+        public List<WAREHOUSE> WarehousesList;
+        public WAREHOUSE SelectedWarehouse;
+        public List<string> WarehousesListTitles;
+        public string SelectedWarehouseTitle;
+        public decimal Distance;
+        public decimal CostPerKM;
         #endregion
 
         #region So on

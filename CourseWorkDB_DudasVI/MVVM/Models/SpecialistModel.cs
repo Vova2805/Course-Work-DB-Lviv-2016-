@@ -84,7 +84,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             i = 0;
             foreach (var warehouse in warehouses)
             {
-                warehousesStrings.Add(ConvertAddress(warehouse.Warehouse, ++i + "."));
+                warehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
             }
             CurrentWarehouseString = warehousesStrings.First();
             InOutComeFlow = new List<WarehouseProductTransaction>();
@@ -122,19 +122,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
             ChangedText = "";
         }
-
-        public static string ConvertAddress(WAREHOUSE warehouse, string number = "")
-        {
-            var address = warehouse.ADDRESS1;
-            var response = "";
-            if (address != null)
-            {
-                response = number + " " + address.COUNTRY + ", " + address.REGION + ", " + address.CITY + ", " +
-                           address.STREET + ", " +
-                           address.BUILDING_NUMBER;
-            }
-            return response;
-        }
+        
 
         public class RegionInfo
         {
