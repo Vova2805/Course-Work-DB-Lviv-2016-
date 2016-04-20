@@ -4,8 +4,10 @@ FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github p
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\HomeWindowSpecialist.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\HomeWindowSale.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\HomeWindowAdmin.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\EmployeeCatalog.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\ClientsCatalog.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\ProductsCatalog.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\DeliveryView.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\CustomDialogNumeric.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\AddressView.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\AddressEditableView.xaml;;
@@ -15,6 +17,7 @@ FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github p
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Charts\Sequence\ChartsSet.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\CustomerView.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\CustomElements\CustomTextBox.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\EditOrFilterProducts.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\GoodsFilter.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\CostFilter.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Specialist\EditOrder.xaml;;
@@ -32,7 +35,4 @@ FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github p
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\CustomerListElement.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\UserListElement.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\UserView.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\DeliveryView.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\EmployeeCatalog.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\EditOrFilterProducts.xaml;;
 

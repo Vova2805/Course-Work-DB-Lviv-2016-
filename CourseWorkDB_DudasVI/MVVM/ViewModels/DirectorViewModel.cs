@@ -221,7 +221,7 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
                     if (!_CurrentWarehouseString.Equals("Всі склади"))
                     {
                         var index = WarehousesStrings.IndexOf(CurrentWarehouseString);
-                        CurrentWarehouse = Warehouses.ElementAt(index);
+                        CurrentWarehouse = Warehouses.ElementAt(index-1);
                     }
                     else
                     {
