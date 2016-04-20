@@ -246,6 +246,35 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
+                            <Button Width="50" 
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    ToolTip="Перейти до оформлення замовлення Alt+P"
+                                    Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="20" Height="20">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_navigate_next}" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_navigate_next_white}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                            </Button>
                         </DockPanel>
                     </Border>
                 </Grid>
@@ -276,7 +305,7 @@
                                   FontSize="14" ItemsSource="{Binding Path=Products}" AutoGenerateColumns="False">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
-                                                                Binding="{Binding Path=ProductTitle}" />
+                                                                Binding="{Binding Path=Title}" />
                                 <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
                                                                 Binding="{Binding Path=CategoryTitle}" />
                             </DataGrid.Columns>
@@ -320,107 +349,19 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
-                        </DockPanel>
-                    </Border>
-                </Grid>
-            </Border>
-        </TabItem>
-        <TabItem Header="Нове замовлення">
-            <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
-                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="{DynamicResource AccentColorBrush}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="5*" />
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="3*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <UserControls:CustomTextBox Grid.Row="0" Margin="5" />
-                        <ListBox Grid.Row="1" SelectedItem="{Binding SelectedUser,Mode=TwoWay}"
-                                  ItemsSource="{Binding Users}"  Background="{DynamicResource AccentColorBrush}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <listItem:ProductExtendedListItem />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </Grid>
-                    <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <UserControls:CustomerEditableView Grid.Column="4" Grid.Row="0" />
-                    <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <Border Grid.Column="2" Margin="5">
-                        <DataGrid Grid.Row="0" Grid.Column="0" SelectedItem="{Binding SelectedTransaction}"
-                                  FontSize="14" ItemsSource="{Binding Transactions}" AutoGenerateColumns="False">
-                            <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Width="20" Binding="{Binding IsMarked}" />
-                                <DataGridTextColumn Width="Auto" Header="DATE" IsReadOnly="True"
-                                                    Binding="{Binding TransactionDate,StringFormat=\{0:dd-MMM-yyyy \}}" />
-                                <DataGridTextColumn Width="Auto" Header="AMOUNT" IsReadOnly="True"
-                                                    Binding="{Binding Amount}" />
-                                <DataGridTextColumn Width="Auto" Header="PURPOSE" IsReadOnly="True"
-                                                    Binding="{Binding PurposeType}" />
-                                <DataGridTemplateColumn Width="Auto" Header="FLOW" IsReadOnly="True">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <DockPanel>
-                                                <Path x:Name="figurePath" DockPanel.Dock="Left" Stretch="Uniform"
-                                                      Width="15" Height="15" Margin="5" RenderTransformOrigin="0.5,0.5">
-                                                    <Path.RenderTransform>
-                                                        <TransformGroup>
-                                                            <TransformGroup.Children>
-                                                                <RotateTransform Angle="3" />
-                                                                <ScaleTransform ScaleX="1" ScaleY="1" />
-                                                            </TransformGroup.Children>
-                                                        </TransformGroup>
-                                                    </Path.RenderTransform>
-                                                </Path>
-                                                <ContentPresenter Margin="0,5,5,5" Content="{Binding FlowType}" />
-                                            </DockPanel>
-                                            <!--<DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Expenditure}">
-                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource ExpenditureFigure}"/>
-                                                <Setter Property="Fill" TargetName="figurePath" Value="Red"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Income}">
-                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource IncomeFigure}"/>
-                                                <Setter Property="Fill" TargetName="figurePath" Value="Green"/>
-                                            </DataTrigger>
-                                        </DataTemplate.Triggers>-->
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTextColumn Width="*" Header="DESCRIPTION" IsReadOnly="True" />
-                                <DataGridTextColumn Width="Auto" Header="LAST MODYFIED" IsReadOnly="True"
-                                                    Binding="{Binding LastModifiedBy}" />
-                                <DataGridTextColumn Width="Auto" Header="CREATED BY" IsReadOnly="True" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Border>
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
-                        <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
-                                   LastChildFill="False">
-
-                            <Button Width="50" Click="CustomerFilter"
-                                        Height="50"
-                                        VerticalAlignment="Top"
-                                        ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
-                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                            <Button Width="50" 
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    ToolTip="Перейти до оформлення замовлення Alt+P"
+                                    Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20" Height="20">
                                     <Rectangle.Style>
                                         <Style TargetType="{x:Type Rectangle}">
                                             <Setter Property="Fill">
                                                 <Setter.Value>
                                                     <VisualBrush Stretch="Fill"
-                                                                     Visual="{StaticResource appbar_filter}" />
+                                                                 Visual="{StaticResource appbar_navigate_next}" />
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
@@ -428,7 +369,7 @@
                                                     <Setter Property="Fill">
                                                         <Setter.Value>
                                                             <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                             Visual="{StaticResource appbar_filter_white}" />
+                                                                         Visual="{StaticResource appbar_navigate_next_white}" />
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>
@@ -439,6 +380,155 @@
                             </Button>
                         </DockPanel>
                     </Border>
+                </Grid>
+            </Border>
+        </TabItem>
+        <TabItem Header="Нове замовлення">
+            <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="{DynamicResource AccentColorBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Замовник " VerticalAlignment="Center" Margin="5"
+                                           FontSize="15" />
+                        <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
+                                          ItemsSource="{Binding ClientsTitle}"
+                                          SelectedValue="{Binding SelectedClientTitle}"
+                                          IsEditable="True" />
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <UserControls:ProductsCatalog Grid.Column="0"/>
+                        <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                        <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                        <Border Grid.Column="2" Margin="5">
+                            <DataGrid Grid.Row="0" Grid.Column="0" SelectedItem="{Binding SelectedTransaction}"
+                                  FontSize="14" ItemsSource="{Binding Transactions}" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Width="20" Binding="{Binding IsMarked}" />
+                                    <DataGridTextColumn Width="Auto" Header="DATE" IsReadOnly="True"
+                                                    Binding="{Binding TransactionDate,StringFormat=\{0:dd-MMM-yyyy \}}" />
+                                    <DataGridTextColumn Width="Auto" Header="AMOUNT" IsReadOnly="True"
+                                                    Binding="{Binding Amount}" />
+                                    <DataGridTextColumn Width="Auto" Header="PURPOSE" IsReadOnly="True"
+                                                    Binding="{Binding PurposeType}" />
+                                    <DataGridTemplateColumn Width="Auto" Header="FLOW" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <DockPanel>
+                                                    <Path x:Name="figurePath" DockPanel.Dock="Left" Stretch="Uniform"
+                                                      Width="15" Height="15" Margin="5" RenderTransformOrigin="0.5,0.5">
+                                                        <Path.RenderTransform>
+                                                            <TransformGroup>
+                                                                <TransformGroup.Children>
+                                                                    <RotateTransform Angle="3" />
+                                                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                </TransformGroup.Children>
+                                                            </TransformGroup>
+                                                        </Path.RenderTransform>
+                                                    </Path>
+                                                    <ContentPresenter Margin="0,5,5,5" Content="{Binding FlowType}" />
+                                                </DockPanel>
+                                                <!--<DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Expenditure}">
+                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource ExpenditureFigure}"/>
+                                                <Setter Property="Fill" TargetName="figurePath" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Income}">
+                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource IncomeFigure}"/>
+                                                <Setter Property="Fill" TargetName="figurePath" Value="Green"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>-->
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Width="*" Header="DESCRIPTION" IsReadOnly="True" />
+                                    <DataGridTextColumn Width="Auto" Header="LAST MODYFIED" IsReadOnly="True"
+                                                    Binding="{Binding LastModifiedBy}" />
+                                    <DataGridTextColumn Width="Auto" Header="CREATED BY" IsReadOnly="True" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
+                            <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
+                                   LastChildFill="False">
+
+                                <Button Width="50" Click="CustomerFilter"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20" Height="20">
+                                        <Rectangle.Style>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <VisualBrush Stretch="Fill"
+                                                                     Visual="{StaticResource appbar_filter}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                             Visual="{StaticResource appbar_filter_white}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </Button>
+                                <Button Width="50"
+                                            Height="50"
+                                            VerticalAlignment="Top"
+                                            ToolTip="Повернутися назад Alt+Z"
+                                            Background="{DynamicResource ProgressBrush}"
+                                            Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20" Height="20">
+                                        <Rectangle.Style>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <VisualBrush Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_navigate_previous}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                                 Visual="{StaticResource appbar_navigate_previous_white}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </Button>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
                 </Grid>
             </Border>
         </TabItem>
@@ -478,47 +568,17 @@
                         <DataGrid Grid.Row="0" Grid.Column="0" SelectedItem="{Binding SelectedTransaction}"
                                   FontSize="14" ItemsSource="{Binding Transactions}" AutoGenerateColumns="False">
                             <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Width="20" Binding="{Binding IsMarked}" />
-                                <DataGridTextColumn Width="Auto" Header="DATE" IsReadOnly="True"
-                                                    Binding="{Binding TransactionDate,StringFormat=\{0:dd-MMM-yyyy \}}" />
-                                <DataGridTextColumn Width="Auto" Header="AMOUNT" IsReadOnly="True"
-                                                    Binding="{Binding Amount}" />
-                                <DataGridTextColumn Width="Auto" Header="PURPOSE" IsReadOnly="True"
-                                                    Binding="{Binding PurposeType}" />
-                                <DataGridTemplateColumn Width="Auto" Header="FLOW" IsReadOnly="True">
+                                <DataGridTemplateColumn Header="Age">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <DockPanel>
-                                                <Path x:Name="figurePath" DockPanel.Dock="Left" Stretch="Uniform"
-                                                      Width="15" Height="15" Margin="5" RenderTransformOrigin="0.5,0.5">
-                                                    <Path.RenderTransform>
-                                                        <TransformGroup>
-                                                            <TransformGroup.Children>
-                                                                <RotateTransform Angle="3" />
-                                                                <ScaleTransform ScaleX="1" ScaleY="1" />
-                                                            </TransformGroup.Children>
-                                                        </TransformGroup>
-                                                    </Path.RenderTransform>
-                                                </Path>
-                                                <ContentPresenter Margin="0,5,5,5" Content="{Binding FlowType}" />
-                                            </DockPanel>
-                                            <!--<DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Expenditure}">
-                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource ExpenditureFigure}"/>
-                                                <Setter Property="Fill" TargetName="figurePath" Value="Red"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Income}">
-                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource IncomeFigure}"/>
-                                                <Setter Property="Fill" TargetName="figurePath" Value="Green"/>
-                                            </DataTrigger>
-                                        </DataTemplate.Triggers>-->
+                                            <Controls:NumericUpDown Minimum="0" Width="auto"
+                                                            Interval="1"
+                                                            Value="1"
+                                                            BorderThickness="1"
+                                                            Margin="5,0,0,5" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Width="*" Header="DESCRIPTION" IsReadOnly="True" />
-                                <DataGridTextColumn Width="Auto" Header="LAST MODYFIED" IsReadOnly="True"
-                                                    Binding="{Binding LastModifiedBy}" />
-                                <DataGridTextColumn Width="Auto" Header="CREATED BY" IsReadOnly="True" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>

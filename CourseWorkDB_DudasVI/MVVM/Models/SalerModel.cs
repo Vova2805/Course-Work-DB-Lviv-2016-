@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
+using CourseWorkDB_DudasVI.Views.UserControls;
 using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
@@ -15,22 +16,28 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
             List<CLIENT> temp = Session.FactoryEntities.CLIENT.ToList();
             Clients = new List<ClientListItem>();
+            ClientsTitle = new List<string>();
             foreach (var client in temp)
             {
                 Clients.Add(new ClientListItem(client));
+                ClientsTitle.Add(Clients.Last().GeneralInfo);
             }
-            if(Clients.Count>0)
-            SelectedClient = Clients.First();
+            if (Clients.Count > 0)
+            {
+                SelectedClient = Clients.First();
+                SelectedClientTitle = ClientsTitle.First();
+            }
+            
 
             #endregion
 
             #region Second
 
             List<PRODUCT_INFO> tempProducts = Session.FactoryEntities.PRODUCT_INFO.ToList();
-            Products = new List<Product>();
+            Products = new List<ProductListElement>();
             foreach (var product in tempProducts)
             {
-                Products.Add(new Product(product));
+                Products.Add(new ProductListElement(product,this));
             }
             if (Products.Count > 0)
             {
@@ -40,7 +47,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #endregion
 
             #region Third
-
             #endregion
         }
 
@@ -67,16 +73,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
         #region Second
 
-        public List<Product> Products;
-        public Product selectedProduct;
+        public List<ProductListElement> Products;
+        public ProductListElement selectedProduct;
         #endregion
 
         #region Third
-
+        public List<string> ClientsTitle;
+        public string SelectedClientTitle;
         #endregion
 
         #region So on
-
         #endregion
 
         #region OrderFilter

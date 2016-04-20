@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using LiveCharts;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
@@ -17,12 +19,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region Second
-        private ObservableCollection<Product> _Products;
-        private Product _selectedProduct;
+        private ObservableCollection<ProductListElement> _Products;
+        private ProductListElement _selectedProduct;
         #endregion
 
         #region Third
-
+        private ObservableCollection<string> _ClientsTitle;
+        private string _SelectedClientTitle;
+        private ObservableCollection<ProductListElement> _ProductsList;
+        private ProductListElement _SelectedProduct;
         #endregion
 
         #region So on
@@ -59,7 +64,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public ObservableCollection<Product> Products
+        public ObservableCollection<ProductListElement> Products
         {
             get { return _Products; }
             set
@@ -69,7 +74,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public Product SelectedProduct
+        public ProductListElement SelectedProduct
         {
             get { return _selectedProduct; }
             set
@@ -78,6 +83,27 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("SelectedProduct");
             }
         }
+
+        public ObservableCollection<string> ClientsTitle
+        {
+            get { return _ClientsTitle; }
+            set
+            {
+                _ClientsTitle = value;
+                OnPropertyChanged("ClientsTitle");
+            }
+        }
+
+        public string SelectedClientTitle
+        {
+            get { return _SelectedClientTitle; }
+            set
+            {
+                _SelectedClientTitle = value;
+                OnPropertyChanged("SelectedClientTitle");
+            }
+        }
+        
 
         #endregion
 

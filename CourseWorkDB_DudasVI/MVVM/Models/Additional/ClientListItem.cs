@@ -10,6 +10,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private CLIENT _Client;
         private ObservableCollection<SALE_ORDER> _saleOrders;
         private SALE_ORDER _selectedOrder;
+        private SALE_ORDER _newOrder;
 
 
         public ClientListItem(CLIENT client)
@@ -23,6 +24,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
             if(SaleOrders.Count>0)
             SelectedOrder = SaleOrders.First();
+            NewOrder = new SALE_ORDER();
         }
 
         public CLIENT Client
@@ -52,6 +54,21 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _selectedOrder = value;
                 OnPropertyChanged("SelectedOrder");
+            }
+        }
+
+        public string GeneralInfo
+        {
+            get { return _Client.CLIENT_SURNAME+" "+_Client.CLIENT_NAME +" "+_Client.CLIENT_MIDDLE_NAME+" email:  "+_Client.EMAIL; }
+        }
+
+        public SALE_ORDER NewOrder
+        {
+            get { return _newOrder; }
+            set
+            {
+                _newOrder = value; 
+                OnPropertyChanged("NewOrder");
             }
         }
     }

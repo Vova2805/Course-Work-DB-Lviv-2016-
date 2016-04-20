@@ -35,7 +35,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private DateTime _FromTime;
         private ObservableCollection<string> _Labels;
         private Dictionary<string, SpecialistModel.RegionInfo> _options;
-        private List<string> _OptionsList;
+        private ObservableCollection<string> _OptionsList;
         private decimal _priceFrom;
         private decimal _priceTo;
         private ObservableCollection<OrderProductTransaction> _productPackagesList;
@@ -50,11 +50,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #region Second
 
-        private List<ProductListElement> _ProductsList;
+        private ObservableCollection<ProductListElement> _ProductsList;
         private ObservableCollection<string> _ProductsTitleList;
         private ProductListElement _SelectedProduct;
         private PRODUCT_PRICE _SelectedProductPrice;
-        private List<ProductPriceListElement> _ProductPriceList;
+        private ObservableCollection<ProductPriceListElement> _ProductPriceList;
         private double _ProductPriceValue;
         private double _ProductPricePersentage;
         private PRODUCTION_SCHEDULE _CurrentProductionSchedule;
@@ -375,14 +375,17 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         public void Update()
         {
             options = new Dictionary<string, SpecialistModel.RegionInfo>();
-            OptionsList = new List<string>();
+            OptionsList = new ObservableCollection<string>();
             var i = 0;
             foreach (var quantity in productPackagesList.First().QuantityInOrders)
             {
                 options.Add(quantity.From.ToLongDateString() + " - " + quantity.To.ToLongDateString(),
                     new SpecialistModel.RegionInfo(i++, quantity.From, quantity.To));
             }
-            OptionsList = options.Keys.ToList();
+            foreach (var option in options.Keys.ToList())
+            {
+                OptionsList.Add(option);
+            }
             if (OptionsList.Count > 0)
                 selectedOption = OptionsList.First();
             UpdateSeries();
@@ -816,7 +819,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public List<string> OptionsList
+        public ObservableCollection<string> OptionsList
         {
             get { return _OptionsList; }
             set
@@ -843,7 +846,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public List<ProductListElement> ProductsList
+        public ObservableCollection<ProductListElement> ProductsList
         {
             get { return _ProductsList; }
             set
@@ -867,7 +870,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         Session.FactoryEntities.PRODUCT_PRICE
                             .ToList()
                             .FindAll(pr => pr.PRODUCT_INFO_ID == SelectedProduct.ProductInfo.PRODUCT_INFO_ID));
-                    ProductPriceList = new List<ProductPriceListElement>();
+                    ProductPriceList = new ObservableCollection<ProductPriceListElement>();
                     foreach (var price in SelectedProduct.ProductInfo.PRODUCT_PRICE)
                     {
                         ProductPriceList.Add(new ProductPriceListElement(price));
@@ -898,7 +901,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public List<ProductPriceListElement> ProductPriceList
+        public ObservableCollection<ProductPriceListElement> ProductPriceList
         {
             get { return _ProductPriceList; }
             set

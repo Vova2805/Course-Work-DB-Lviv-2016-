@@ -16,30 +16,55 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private bool _isAdded;
         private PRODUCT_INFO _ProductInfo;
         private string _title;
-        private readonly SpecialistModel DataContextM;
-        private readonly SpecialistViewModel DataContextVM;
+        private double _productPrice;
+
+        private readonly SpecialistModel DataContextMSpecialist;
+        private readonly SpecialistViewModel DataContextVMSpecialist;
+        private readonly SalerModel DataContextMSaler;
+        private readonly SalerViewModel DataContextVMSaler;
 
 
-        private ProductListElement(PRODUCT_INFO ProductInfo)
+        private ProductListElement(PRODUCT_INFO productInfo)
         {
-            this.ProductInfo = ProductInfo;
+            this.ProductInfo = productInfo;
             isAdded = false;
-            _title = ProductInfo.PRODUCT_TITLE;
-            _categoryTitle = ProductInfo.CATEGORY.CATEGORY_TITLE;
+            _title = _ProductInfo.PRODUCT_TITLE;
+            _categoryTitle = _ProductInfo.CATEGORY.CATEGORY_TITLE;
+            this._productPrice = (double)API.getlastPrice(_ProductInfo.PRODUCT_PRICE).PRICE_VALUE;
         }
 
         public ProductListElement(PRODUCT_INFO ProductInfo, SpecialistViewModel dataContextViewModel)
             : this(ProductInfo)
         {
-            DataContextVM = dataContextViewModel;
+            DataContextVMSpecialist = dataContextViewModel;
         }
 
         public ProductListElement(PRODUCT_INFO ProductInfo, SpecialistModel dataContextModel) : this(ProductInfo)
         {
-            DataContextM = dataContextModel;
+            DataContextMSpecialist = dataContextModel;
         }
 
+        public ProductListElement(PRODUCT_INFO ProductInfo, SalerViewModel dataContextViewModel)
+           : this(ProductInfo)
+        {
+            DataContextVMSaler = dataContextViewModel;
+        }
 
+        public ProductListElement(PRODUCT_INFO ProductInfo, SalerModel dataContextModel) : this(ProductInfo)
+        {
+            DataContextMSaler = dataContextModel;
+        }
+
+        public double ProductPrice
+        {
+            get { return _productPrice; }
+            set
+            {
+                _productPrice = value;
+                OnPropertyChanged("ProductPrice");
+            }
+        }
+        
         public PRODUCT_INFO ProductInfo
         {
             get { return _ProductInfo; }
@@ -49,7 +74,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("ProductInfo");
             }
         }
-
+        
         public bool isAdded
         {
             get { return _isAdded; }
@@ -106,9 +131,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     scheduleProductInfo.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
                     scheduleProductInfo.QUANTITY_IN_SCHEDULE = 1;
                     scheduleProductInfo.PRODUCT_INFO = ProductInfo;
-                    if (DataContextVM != null)
-                        DataContextVM.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
-                    else DataContextM.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
+                    if (DataContextVMSpecialist != null)
+                        DataContextVMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
+                    else DataContextMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
                     isAdded = true;
                 }
             }
@@ -127,9 +152,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                             MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    if (DataContextVM != null)
-                        DataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
-                    else DataContextM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                    if (DataContextVMSpecialist != null)
+                        DataContextVMSpecialist.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                    else DataContextMSpecialist.CurrentWarehouse.removeScheduleProduct(ProductInfo);
                     isAdded = false;
                 }
             }

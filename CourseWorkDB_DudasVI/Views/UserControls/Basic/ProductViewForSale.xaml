@@ -77,8 +77,8 @@
                                            Margin="5,5,5,0" Validation.ErrorTemplate="{x:Null}"
                                            Text="{Binding Path=ProductInfo.CATEGORY.CATEGORY_TITLE}" />
                                 <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Ціна" />
-                                <TextBlock FontWeight="Bold" Grid.Row="6" Grid.Column="2" Margin="5,5,5,0"
-                                           Text="{Binding Path=ProductPrice,StringFormat=\{N\}}" />
+                                <TextBlock FontWeight="Bold" Grid.Row="6" Grid.Column="2" Margin="5" Text="{Binding Path=ProductPrice}"
+                                            /> <!---->
 
                                 <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="Кількість в пакеті"
                                            VerticalAlignment="Center" />

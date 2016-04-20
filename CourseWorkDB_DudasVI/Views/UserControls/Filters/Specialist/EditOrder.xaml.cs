@@ -111,14 +111,14 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
                         model.ProductsList.Clear();
                         var productprices = new List<double>();
-                        model.ProductsList = new List<ProductListElement>();
+                        model.ProductsList = new ObservableCollection<ProductListElement>();
                         foreach (var product in Session.FactoryEntities.PRODUCT_INFO.ToList())
                         {
                             model.ProductsList.Add(new ProductListElement(product, model));
                         }
                         if (!model.selectedCategory.Equals("Всі категорії"))
                         {
-                            var temp = new List<ProductListElement>();
+                            var temp = new ObservableCollection<ProductListElement>();
                             foreach (var product in model.ProductsList)
                             {
                                 if (
@@ -177,7 +177,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                     case 1:
                     {
                         var i = 0;
-                        var temp = new List<ProductListElement>();
+                        var temp = new ObservableCollection<ProductListElement>();
                         foreach (var product in model.ProductsList)
                         {
                             var price = API.getlastPrice(
@@ -230,7 +230,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                 if (!model.SelectedProductTitle.Equals("Всі продукти"))
                 {
                     var productprices = new List<double>();
-                    var temp = new List<ProductListElement>();
+                    var temp = new ObservableCollection<ProductListElement>();
                     foreach (var product in model.ProductsList)
                     {
                         if (product.ProductInfo.PRODUCT_TITLE.Equals(model.SelectedProductTitle))

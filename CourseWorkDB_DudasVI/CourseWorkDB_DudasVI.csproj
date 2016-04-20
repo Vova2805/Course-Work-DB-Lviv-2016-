@@ -122,11 +122,10 @@
     </Compile>
     <Compile Include="MVVM\Mapping\Mapping.cs" />
     <Compile Include="MVVM\Models\Additional\ClientListItem.cs" />
-    <Compile Include="MVVM\Models\Additional\Product.cs" />
     <Compile Include="MVVM\Models\Additional\WarehouseListItem.cs" />
     <Compile Include="MVVM\Models\Additional\WarehouseProductTransaction.cs" />
     <Compile Include="MVVM\Models\Additional\OrderProductTransaction.cs" />
-    <Compile Include="MVVM\Models\Additional\ProductListItem.cs" />
+    <Compile Include="MVVM\Models\Additional\ProductListElement.cs" />
     <Compile Include="MVVM\Models\Additional\ProductPriceListElement.cs" />
     <Compile Include="MVVM\Models\DirectorModel.cs" />
     <Compile Include="MVVM\Models\SalerModel.cs" />
