@@ -11,7 +11,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public STAFF SelectedEmployee;
         //public IEnumerable<CLIENT> ClientList;
         //public IEnumerable<SALE_ORDER> OrderList;
-
+        #region Second
+        public List<ClientListItem> Clients;
+        public ClientListItem SelectedClient;
+        #endregion
         #region Forth
         public List<WarehouseListItem> warehouses;
         public WarehouseListItem CurrentWarehouse;
@@ -30,6 +33,22 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         {
             EmployeeList = Session.FactoryEntities.STAFF.ToList().FindAll(s => s.POST.DEPARTMENT.DEPARTMENT_ID == 3);
             SelectedEmployee = EmployeeList.First();
+
+            List<CLIENT> temp = Session.FactoryEntities.CLIENT.ToList();
+            Clients = new List<ClientListItem>();
+            foreach (var client in temp)
+            {
+                Clients.Add(new ClientListItem(client));
+            }
+            Clients.ToList().Sort((client1, client2) =>
+            {
+                int name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME, true);
+                int surname = string.Compare(client1.Client.CLIENT_SURNAME, client2.Client.CLIENT_SURNAME, true);
+                int middle_name = string.Compare(client1.Client.CLIENT_MIDDLE_NAME, client2.Client.CLIENT_MIDDLE_NAME);
+                return surname == 0 ? name == 0 ? middle_name == 0 ? 0 : middle_name : name : surname;
+            });
+            if(Clients.Count>0)
+            SelectedClient = Clients.First();
 
             #region Third
 

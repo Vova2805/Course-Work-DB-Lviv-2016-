@@ -21,32 +21,27 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120" />
-            <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Країна" />
-        <TextBlock x:Name="txtName" FontWeight="Bold" Grid.Row="1" Grid.Column="2" Margin="5,5,5,0"
-                   Validation.ErrorTemplate="{x:Null}"
-                   Text="{Binding Path=COUNTRY}" />
+        <TextBlock x:Name="txtName" Grid.Row="1" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{x:Null}"
+                 Text="{Binding Path=COUNTRY}" />
 
         <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="Регіон" />
-        <TextBlock x:Name="txtUsername" FontWeight="Bold" Grid.Row="2" Grid.Column="2" Margin="5,5,5,0"
-                   Validation.ErrorTemplate="{x:Null}"
-                   Text="{Binding Path=REGION}" />
+        <TextBlock x:Name="txtUsername" Grid.Row="2" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{x:Null}"
+                 Text="{Binding Path=REGION}" />
 
         <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Місто" />
-        <TextBlock x:Name="asdas" FontWeight="Bold" Grid.Row="5" Grid.Column="2" Margin="5,5,5,0"
-                   Validation.ErrorTemplate="{x:Null}"
-                   Text="{Binding Path=CITY}" />
+        <TextBlock x:Name="asdas" Grid.Row="5" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{x:Null}"
+                 Text="{Binding Path=CITY}" />
 
         <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Вулиця" />
-        <TextBlock x:Name="ds" FontWeight="Bold" Grid.Row="6" Grid.Column="2" Margin="5,5,5,0"
-                   Validation.ErrorTemplate="{x:Null}"
-                   Text="{Binding Path=STREET}" />
+        <TextBlock x:Name="ds" Grid.Row="6" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{x:Null}"
+                 Text="{Binding Path=STREET}" />
 
         <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Номер будинку" VerticalAlignment="Center" />
-        <TextBlock x:Name="sd" FontWeight="Bold" Grid.Row="7" Grid.Column="2" Margin="5"
-                   Validation.ErrorTemplate="{x:Null}" Text="{Binding Path=BUILDING_NUMBER}"
-                   VerticalAlignment="Stretch" />
+        <TextBlock x:Name="sd" Grid.Row="7"
+                 Grid.Column="1" Margin="5" Validation.ErrorTemplate="{x:Null}" Text="{Binding Path=BUILDING_NUMBER}"
+                 VerticalAlignment="Stretch" />
     </Grid>
 </UserControl>

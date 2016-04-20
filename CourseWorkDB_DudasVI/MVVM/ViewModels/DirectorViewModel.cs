@@ -15,6 +15,11 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<STAFF> _EmployeeList;
         private STAFF _SelectedEmployee;
 
+        #region Second
+        private ObservableCollection<ClientListItem> _Clients;
+        private ClientListItem _SelectedClient;
+        #endregion
+
         #region Third
 
         private WarehouseListItem _CurrentWarehouse;
@@ -91,6 +96,33 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _ProductsOnWarehouse = value;
                 OnPropertyChanged("ProductsOnWarehouse");
+            }
+        }
+
+        public ObservableCollection<ClientListItem> Clients
+        {
+            get { return _Clients; }
+            set
+            {
+                _Clients = value;
+                _Clients.ToList().Sort((client1, client2) =>
+                {
+                    int name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME, true);
+                    int surname = string.Compare(client1.Client.CLIENT_SURNAME, client2.Client.CLIENT_SURNAME, true);
+                    int middle_name = string.Compare(client1.Client.CLIENT_MIDDLE_NAME, client2.Client.CLIENT_MIDDLE_NAME);
+                    return surname == 0 ? name == 0 ? middle_name == 0 ? 0 : middle_name : name : surname;
+                });
+                OnPropertyChanged("Clients");
+            }
+        }
+
+        public ClientListItem SelectedClient
+        {
+            get { return _SelectedClient; }
+            set
+            {
+                _SelectedClient = value;
+                OnPropertyChanged("SelectedClient");
             }
         }
 

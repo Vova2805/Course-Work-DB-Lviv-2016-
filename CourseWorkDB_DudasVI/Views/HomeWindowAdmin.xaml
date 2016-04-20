@@ -304,30 +304,44 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="4*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="4*" />
                     </Grid.ColumnDefinitions>
                     <UserControls:ClientsCatalog Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch"/>
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <UserControls:CustomerView Grid.Column="2" Grid.Row="0" />
+                    <UserControls:CustomerView Grid.Column="2" Grid.Row="0" DataContext="{Binding SelectedClient}"/>
                     <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <UserControls:ChartsSet Grid.Column="4" />
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" Background="Gray">
+                    <UserControls:ChartsSet Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" />
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black"  Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
-
                             <Button Width="50" Click="CustomerFilter"
-                                    Height="50"
-                                    VerticalAlignment="Top"
-                                    ToolTip="Фільтр"
-                                    Style="{DynamicResource MetroCircleButtonStyle}">
-                                <Rectangle Width="20"
-                                           Height="20">
-                                    <Rectangle.Fill>
-                                        <VisualBrush Stretch="Fill"
-                                                     Visual="{StaticResource appbar_filter}" />
-                                    </Rectangle.Fill>
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="20" Height="20">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <VisualBrush Stretch="Fill"
+                                                                     Visual="{StaticResource appbar_filter}" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                             Visual="{StaticResource appbar_filter_white}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
                                 </Rectangle>
                             </Button>
                         </DockPanel>
