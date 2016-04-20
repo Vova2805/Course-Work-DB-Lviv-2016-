@@ -49,8 +49,8 @@ namespace CourseWorkDB_DudasVI
             //thread.Start();
 
             //LoginBlock.Text = "specialist_test";
-            //LoginBlock.Text = "director_test";
-            LoginBlock.Text = "saler_test";
+            LoginBlock.Text = "director_test";
+            //LoginBlock.Text = "saler_test";
 
             PassBlock.Password = "test";
             STAFF resultUser = null;
@@ -102,10 +102,10 @@ namespace CourseWorkDB_DudasVI
                 Session.User = resultUser;
                 //var homeWindowSpecialist = new HomeWindowSpecialist();
                 //homeWindowSpecialist.Show();
-                //HomeWindowAdmin homeWindow = new HomeWindowAdmin();
-                //homeWindow.Show();
-                var homeWindowSale = new HomeWindowSale();
-                homeWindowSale.Show();
+                HomeWindowAdmin homeWindow = new HomeWindowAdmin();
+                homeWindow.Show();
+                //var homeWindowSale = new HomeWindowSale();
+                //homeWindowSale.Show();
 
                 //thread.Interrupt();
                 //Back(sender, e);

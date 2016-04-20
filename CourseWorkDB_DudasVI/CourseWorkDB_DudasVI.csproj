@@ -213,6 +213,9 @@
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Views\Rules\TextHighlightBehavior.cs" />
+    <Compile Include="Views\UserControls\Basic\EmployeeCatalog.xaml.cs">
+      <DependentUpon>EmployeeCatalog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Basic\ClientsCatalog.xaml.cs">
       <DependentUpon>ClientsCatalog.xaml</DependentUpon>
     </Compile>
@@ -271,6 +274,9 @@
     </Compile>
     <Compile Include="Views\UserControls\CustomElements\CustomTextBox.xaml.cs">
       <DependentUpon>CustomTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\Director\EditOrFilterProducts.xaml.cs">
+      <DependentUpon>EditOrFilterProducts.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Filters\GoodsFilter.xaml.cs">
       <DependentUpon>GoodsFilter.xaml</DependentUpon>
@@ -365,6 +371,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\Basic\EmployeeCatalog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\Basic\ClientsCatalog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -428,6 +438,10 @@
     <Page Include="Views\UserControls\CustomElements\CustomTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Filters\Director\EditOrFilterProducts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Filters\GoodsFilter.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -539,7 +553,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\UserControls\Filters\Director\" />
     <Folder Include="Views\UserControls\Filters\Saler\" />
   </ItemGroup>
   <ItemGroup>
