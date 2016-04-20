@@ -20,6 +20,7 @@ namespace CourseWorkDB_DudasVI.Views
             DataContext = salerViewModel;
             InitializeComponent();
             addHotKey();
+            RequiredDatePicker.DisplayDateStart = API.getTodayDate();
         }
 
 

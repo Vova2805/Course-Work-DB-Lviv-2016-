@@ -18,10 +18,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private string _title;
         private double _productPrice;
 
-        private readonly SpecialistModel DataContextMSpecialist;
-        private readonly SpecialistViewModel DataContextVMSpecialist;
-        private readonly SalerModel DataContextMSaler;
-        private readonly SalerViewModel DataContextVMSaler;
+        private SpecialistModel DataContextMSpecialist;
+        private SpecialistViewModel DataContextVMSpecialist;
+        private SalerModel DataContextMSaler;
+        private SalerViewModel DataContextVMSaler;
         private bool WorkWithOrders = false;
 
 
@@ -79,7 +79,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("ProductInfo");
             }
         }
-        
+
         public bool isAdded
         {
             get { return _isAdded; }
@@ -87,6 +87,18 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _isAdded = value;
                 OnPropertyChanged("isAdded");
+                var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+                var saleWindow = window as HomeWindowSale;
+                if (saleWindow != null && _isAdded)
+                {
+                    DataContextVMSaler = saleWindow.DataContext as SalerViewModel;
+                    if (DataContextVMSaler != null)
+                    {
+                        DataContextVMSaler.ProductsList.Remove(this);
+                        DataContextVMSaler.ProductsList = DataContextVMSaler.ProductsList;
+                        DataContextVMSaler.SelectedProduct = DataContextVMSaler.ProductsList.First();
+                    }
+                }
             }
         }
 
@@ -99,7 +111,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("CategoryTitle");
             }
         }
-
+        
         public string Title
         {
             get { return _title; }
@@ -109,7 +121,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("Title");
             }
         }
-
+       
         public ICommand AddProduct
         {
             get { return new RelayCommand<object>(AddProductFunc); }

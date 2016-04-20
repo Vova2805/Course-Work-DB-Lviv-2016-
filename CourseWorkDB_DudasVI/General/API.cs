@@ -66,5 +66,11 @@ namespace CourseWorkDB_DudasVI.General
             var res = packages.FindAll(p => p.SALE_ORDER.ORDER_DATE >= from && p.SALE_ORDER.ORDER_DATE <= to).ToList();
             return res;
         }
+
+        public static decimal getlastDeliveryCostPerKM()
+        {
+            var result = Session.FactoryEntities.DELIVERY.ToList().OrderBy(del => del.DELIVERY_DATE).Last();
+            return result.COST_PER_KM;
+        }
     }
 }

@@ -14,9 +14,88 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private ObservableCollection<SALE_ORDER> _saleOrders;
         private SALE_ORDER _selectedOrder;
         private SALE_ORDER _newOrder;
-        private ObservableCollection<ORDER_PRODUCT> _packagesProducts;
+        private ObservableCollection<OrderProductListItem> _packagesProducts;
         private int _totalQuantity = 0;
         private decimal _newOrderTotal = 0;
+        private ObservableCollection<DeliveryListItem> _deliveryList;
+        private DeliveryListItem selectedDelivery; 
+
+        public class OrderProductListItem:ViewModelBase
+        {
+            private ORDER_PRODUCT _orderProduct;
+            private int _QuantityInOrder;
+            private decimal _packageTotal;
+
+            public OrderProductListItem(ORDER_PRODUCT orderProduct)
+            {
+                _orderProduct = orderProduct;
+                QuantityInOrder = _orderProduct.QUANTITY_IN_ORDER;
+                this.PackageTotal = API.getlastPrice(_orderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE* _QuantityInOrder;
+            }
+
+            public decimal PackageTotal
+            {
+                get { return _packageTotal; }
+                set
+                {
+                    _packageTotal = value;
+                    OnPropertyChanged("PackageTotal");
+                }
+            }
+
+            public ORDER_PRODUCT OrderProduct
+            {
+                get { return _orderProduct; }
+                set
+                {
+                    _orderProduct = value;
+                    OnPropertyChanged("OrderProduct");
+                }
+            }
+
+            public int QuantityInOrder
+            {
+                get { return _QuantityInOrder; }
+                set
+                {
+                    _QuantityInOrder = value;
+                    PackageTotal = API.getlastPrice(_orderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE * _QuantityInOrder;
+                    OnPropertyChanged("QuantityInOrder");
+                }
+            }
+        }
+
+        public class DeliveryListItem:ViewModelBase
+        {
+            private DELIVERY _delivery;
+            private DELIVERY_ADDRESS _deliveryAddress;
+
+            public DeliveryListItem(DELIVERY delivery)
+            {
+                _delivery = delivery;
+                _deliveryAddress = delivery.DELIVERY_ADDRESS;
+            }
+
+            public DELIVERY Delivery
+            {
+                get { return _delivery; }
+                set
+                {
+                    _delivery = value;
+                    OnPropertyChanged("Delivery");
+                }
+            }
+
+            public DELIVERY_ADDRESS DeliveryAddress
+            {
+                get { return _deliveryAddress; }
+                set
+                {
+                    _deliveryAddress = value; 
+                    OnPropertyChanged("DeliveryAddress");
+                }
+            }
+        }
 
 
         public ClientListItem(CLIENT client)
@@ -31,7 +110,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             if(SaleOrders.Count>0)
             SelectedOrder = SaleOrders.First();
             NewOrder = new SALE_ORDER();
-            _packagesProducts = new ChartValues<ORDER_PRODUCT>();//empty
+            NewOrder.ORDER_DATE = API.getTodayDate();
+            NewOrder.REQUIRED_DATE = API.getTodayDate();
+            _packagesProducts = new ChartValues<OrderProductListItem>();//empty
         }
 
         public bool addOrderProduct(ORDER_PRODUCT product)
@@ -39,7 +120,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             try
             {
                 product.SALE_ORDER_ID = NewOrder.SALE_ORDER_ID;
-                PackagesProducts.Add(product);
+                PackagesProducts.Add(new OrderProductListItem(product));
                 _totalQuantity += product.QUANTITY_IN_ORDER;
                 _newOrderTotal += _totalQuantity * API.getlastPrice(product.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
                 return true;
@@ -52,13 +133,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 
         public bool removeOrderProduct(ORDER_PRODUCT product)
         {
-            ORDER_PRODUCT exestedOrderProduct =
-                PackagesProducts.ToList().FindAll(p => p.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID).FirstOrDefault();
+            var exestedOrderProduct =
+                PackagesProducts.ToList().FindAll(p => p.OrderProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID).FirstOrDefault();
             if (exestedOrderProduct != null)
                 if (PackagesProducts.Remove(exestedOrderProduct))
                 {
-                    _totalQuantity -= exestedOrderProduct.QUANTITY_IN_ORDER;
-                    _newOrderTotal -= _totalQuantity * API.getlastPrice(exestedOrderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
+                    _totalQuantity -= exestedOrderProduct.OrderProduct.QUANTITY_IN_ORDER;
+                    _newOrderTotal -= _totalQuantity * API.getlastPrice(exestedOrderProduct.OrderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
                     return true;
                 }
             return false;
@@ -90,6 +171,17 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _selectedOrder = value;
+                if (_selectedOrder != null)
+                {
+                    DeliveryList = new ObservableCollection<DeliveryListItem>();
+                    List<DELIVERY> tempDelivery = _selectedOrder.DELIVERY.ToList();
+                    foreach (var delivery in tempDelivery)
+                    {
+                        DeliveryList.Add(new DeliveryListItem(delivery));
+                    }
+                    if (DeliveryList.Count > 0)
+                        selectedDelivery = DeliveryList.First(); 
+                }
                 OnPropertyChanged("SelectedOrder");
             }
         }
@@ -109,7 +201,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public ObservableCollection<ORDER_PRODUCT> PackagesProducts
+        public ObservableCollection<OrderProductListItem> PackagesProducts
         {
             get { return _packagesProducts; }
             set
@@ -119,7 +211,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public decimal NewOrderTotal
+        public decimal TotalPrice
         {
             get { return _newOrderTotal; }
             set
@@ -136,6 +228,26 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _totalQuantity = value;
                 OnPropertyChanged("TotalQuantity");
+            }
+        }
+
+        public ObservableCollection<DeliveryListItem> DeliveryList
+        {
+            get { return _deliveryList; }
+            set
+            {
+                _deliveryList = value; 
+                OnPropertyChanged("DeliveryList");
+            }
+        }
+
+        public DeliveryListItem SelectedDelivery
+        {
+            get { return selectedDelivery; }
+            set
+            {
+                selectedDelivery = value;
+                OnPropertyChanged("SelectedDelivery");
             }
         }
     }

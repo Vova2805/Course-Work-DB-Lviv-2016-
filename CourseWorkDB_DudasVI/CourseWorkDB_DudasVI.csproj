@@ -102,6 +102,7 @@
     <Compile Include="Converters\AddressConverter.cs" />
     <Compile Include="Converters\HeaderTitleConverter.cs" />
     <Compile Include="Converters\ProductPriceConverter.cs" />
+    <Compile Include="Converters\VisibilityConverter.cs" />
     <Compile Include="Converters\ResultsVisibilityConverter.cs" />
     <Compile Include="Converters\StaffImageConverter.cs" />
     <Compile Include="Converters\StringToColorConverter.cs" />
@@ -325,6 +326,10 @@
     <Compile Include="WAREHOUSE.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
+    <Page Include="Styles\ListBoxStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\NewCustomDialogStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -26,6 +26,7 @@ namespace CourseWorkDB_DudasVI
         public decimal DISTANCE { get; set; }
     
         public virtual ADDRESS ADDRESS { get; set; }
+        public virtual ADDRESS ADDRESS1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DELIVERY> DELIVERY { get; set; }
     }

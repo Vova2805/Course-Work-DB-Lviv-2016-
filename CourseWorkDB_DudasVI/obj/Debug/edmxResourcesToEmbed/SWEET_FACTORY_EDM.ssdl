@@ -455,6 +455,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="R_155">
+    <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="1" />
+    <End Role="DELIVERY_ADDRESS" Type="Self.DELIVERY_ADDRESS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ADDRESS">
+        <PropertyRef Name="ADDRESS_ID" />
+      </Principal>
+      <Dependent Role="DELIVERY_ADDRESS">
+        <PropertyRef Name="DELIVERY_ADDRESS_TO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="R_18">
     <End Role="RAWSTUFF_CATEGORY" Type="Self.RAWSTUFF_CATEGORY" Multiplicity="1" />
     <End Role="RAWSTUFF_INFO" Type="Self.RAWSTUFF_INFO" Multiplicity="*" />
@@ -691,7 +703,7 @@
         <PropertyRef Name="ADDRESS_ID" />
       </Principal>
       <Dependent Role="DELIVERY_ADDRESS">
-        <PropertyRef Name="DELIVERY_ADDRESS_TO" />
+        <PropertyRef Name="DELIVERY_ADDRESS_FROM" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -803,6 +815,10 @@
     <AssociationSet Name="R_15" Association="Self.R_15">
       <End Role="RAWSTUFF" EntitySet="RAWSTUFF" />
       <End Role="RAWSTUFF_DELIVERY" EntitySet="RAWSTUFF_DELIVERY" />
+    </AssociationSet>
+    <AssociationSet Name="R_155" Association="Self.R_155">
+      <End Role="ADDRESS" EntitySet="ADDRESS" />
+      <End Role="DELIVERY_ADDRESS" EntitySet="DELIVERY_ADDRESS" />
     </AssociationSet>
     <AssociationSet Name="R_18" Association="Self.R_18">
       <End Role="RAWSTUFF_CATEGORY" EntitySet="RAWSTUFF_CATEGORY" />

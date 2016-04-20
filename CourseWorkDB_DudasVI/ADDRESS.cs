@@ -20,6 +20,7 @@ namespace CourseWorkDB_DudasVI
             this.STAFF = new HashSet<STAFF>();
             this.CLIENT = new HashSet<CLIENT>();
             this.DELIVERY_ADDRESS = new HashSet<DELIVERY_ADDRESS>();
+            this.DELIVERY_ADDRESS1 = new HashSet<DELIVERY_ADDRESS>();
             this.RELEASED_PRODUCT = new HashSet<RELEASED_PRODUCT>();
             this.WAREHOUSE = new HashSet<WAREHOUSE>();
         }
@@ -37,6 +38,8 @@ namespace CourseWorkDB_DudasVI
         public virtual ICollection<CLIENT> CLIENT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DELIVERY_ADDRESS> DELIVERY_ADDRESS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DELIVERY_ADDRESS> DELIVERY_ADDRESS1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RELEASED_PRODUCT> RELEASED_PRODUCT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
