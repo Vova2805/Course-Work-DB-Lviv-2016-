@@ -97,6 +97,7 @@
     <Compile Include="CLIENT.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Converters\AddedConverter.cs" />
     <Compile Include="Converters\PackageDescriptionConverter.cs" />
     <Compile Include="Converters\AddressConverter.cs" />
     <Compile Include="Converters\HeaderTitleConverter.cs" />

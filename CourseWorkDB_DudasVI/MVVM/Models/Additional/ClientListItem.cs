@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using CourseWorkDB_DudasVI.General;
 using LiveCharts;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
@@ -30,6 +32,36 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             SelectedOrder = SaleOrders.First();
             NewOrder = new SALE_ORDER();
             _packagesProducts = new ChartValues<ORDER_PRODUCT>();//empty
+        }
+
+        public bool addOrderProduct(ORDER_PRODUCT product)
+        {
+            try
+            {
+                product.SALE_ORDER_ID = NewOrder.SALE_ORDER_ID;
+                PackagesProducts.Add(product);
+                _totalQuantity += product.QUANTITY_IN_ORDER;
+                _newOrderTotal += _totalQuantity * API.getlastPrice(product.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool removeOrderProduct(ORDER_PRODUCT product)
+        {
+            ORDER_PRODUCT exestedOrderProduct =
+                PackagesProducts.ToList().FindAll(p => p.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID).FirstOrDefault();
+            if (exestedOrderProduct != null)
+                if (PackagesProducts.Remove(exestedOrderProduct))
+                {
+                    _totalQuantity -= exestedOrderProduct.QUANTITY_IN_ORDER;
+                    _newOrderTotal -= _totalQuantity * API.getlastPrice(exestedOrderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
+                    return true;
+                }
+            return false;
         }
 
         public CLIENT Client

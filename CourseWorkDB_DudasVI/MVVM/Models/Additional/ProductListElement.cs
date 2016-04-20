@@ -126,7 +126,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             if (!WorkWithOrders)
             {
                 var specialistWindow = window as HomeWindowSpecialist;
-                if (specialistWindow != null && DataContextMSpecialist!=null)
+                if (specialistWindow != null)
                 {
                     //TODO додати кількість
                     var result = await specialistWindow.ShowMessageAsync("Додати до плану",
@@ -148,20 +148,17 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             else
             {
                 var saleWindow = window as HomeWindowSale;
-                if (saleWindow != null && DataContextMSaler != null)
+                if (saleWindow != null)
                 {
-                    //TODO додати кількість
-                   
                         ORDER_PRODUCT orderProduct = new ORDER_PRODUCT();
-                        orderProduct.SALE_ORDER_ID =  DataContextMSaler.SelectedClient.
-                        //var scheduleProductInfo = new SCHEDULE_PRODUCT_INFO();
-                        //scheduleProductInfo.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
-                        //scheduleProductInfo.QUANTITY_IN_SCHEDULE = 1;
-                        //scheduleProductInfo.PRODUCT_INFO = ProductInfo;
-                        //if (DataContextVMSpecialist != null)
-                        //    DataContextVMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
-                        //else DataContextMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
-                        //isAdded = true;
+                        orderProduct.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
+                        orderProduct.PRODUCT_INFO = ProductInfo;
+                        orderProduct.QUANTITY_IN_ORDER = 1;
+
+                    if (DataContextVMSaler != null)
+                        DataContextVMSaler.SelectedClient.addOrderProduct(orderProduct);
+                    else DataContextMSaler.SelectedClient.addOrderProduct(orderProduct);
+                    isAdded = true;
                 }
             }
         }
@@ -200,9 +197,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                 MessageDialogStyle.AffirmativeAndNegative);
                     if (result == MessageDialogResult.Affirmative)
                     {
-                        if (DataContextVMSpecialist != null)
-                            DataContextVMSpecialist.CurrentWarehouse.removeScheduleProduct(ProductInfo);
-                        else DataContextMSpecialist.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                        
                         isAdded = false;
                     }
                 }

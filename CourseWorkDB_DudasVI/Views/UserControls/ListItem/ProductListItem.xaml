@@ -42,14 +42,16 @@
                 </i:Interaction.Behaviors>
             </TextBlock>
             <Grid Grid.Row="1" Grid.Column="4">
+                <Grid.Resources>
+                    <converters:AddedConverter x:Key="AddedConverter"/>
+                </Grid.Resources>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Width="40" Grid.Column="0" Margin="5" Command="{Binding Path=AddProduct}"
                         Height="40"
                         VerticalAlignment="Top"
-                        ToolTip="Додати до плану"
+                        ToolTip="{Binding Path=isAdded,Converter={StaticResource AddedConverter},ConverterParameter='Add'}"
                         Background="ForestGreen"
                         Style="{DynamicResource MetroCircleButtonStyle}">
                     <Rectangle Width="20" Height="20">
@@ -73,39 +75,10 @@
                                     <DataTrigger Binding="{Binding Path=isAdded}" Value="True">
                                         <Setter Property="Fill">
                                             <Setter.Value>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit}" />
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_check}" />
                                             </Setter.Value>
                                         </Setter>
                                     </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Rectangle.Style>
-                    </Rectangle>
-                </Button>
-                <Button Width="40" Grid.Column="1" Margin="5" Command="{Binding Path=RemoveProduct}"
-                        Height="40"
-                        VerticalAlignment="Top"
-                        ToolTip="Видалити із плану"
-                        Background="IndianRed"
-                        Style="{DynamicResource MetroCircleButtonStyle}" IsEnabled="{Binding Path=isAdded}">
-                    <Rectangle Width="20" Height="20">
-                        <Rectangle.Style>
-                            <Style TargetType="{x:Type Rectangle}">
-                                <Setter Property="Fill">
-                                    <Setter.Value>
-                                        <VisualBrush Stretch="Fill"
-                                                     Visual="{StaticResource appbar_cancel}" />
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Fill">
-                                            <Setter.Value>
-                                                <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                             Visual="{StaticResource appbar_cancel_white}" />
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </Rectangle.Style>
