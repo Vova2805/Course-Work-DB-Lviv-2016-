@@ -82,5 +82,10 @@ namespace CourseWorkDB_DudasVI.Views
             firstSettings.InputGestures.Add(new KeyGesture(Key.F1, ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(firstSettings, Help));
         }
+
+        private void ClearClick(object sender, RoutedEventArgs e)
+        {
+            //searchTxt.Text = "";
+        }
     }
 }

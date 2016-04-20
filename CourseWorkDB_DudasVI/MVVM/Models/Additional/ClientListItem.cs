@@ -59,7 +59,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 
         public string GeneralInfo
         {
-            get { return _Client.CLIENT_SURNAME+" "+_Client.CLIENT_NAME +" "+_Client.CLIENT_MIDDLE_NAME+" email:  "+_Client.EMAIL; }
+            get { return _Client.CLIENT_SURNAME+" "+_Client.CLIENT_NAME +" "+_Client.CLIENT_MIDDLE_NAME+" email:  "+_Client.EMAIL +" Всього замовлень : "+_saleOrders.Count; }
         }
 
         public SALE_ORDER NewOrder

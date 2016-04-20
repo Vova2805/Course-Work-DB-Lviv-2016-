@@ -281,7 +281,7 @@
             </Border>
         </TabItem>
         <!--#endregion-->
-        <TabItem Header="Каталог продуктів">
+        <!--<TabItem Header="Каталог продуктів">
             <Border BorderBrush="DodgerBlue" BorderThickness="0,2,0,0"  Background="{DynamicResource AccentColorBrush}">
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
@@ -289,9 +289,10 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="429*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="74*" />
+                        <ColumnDefinition Width="248*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
@@ -299,7 +300,41 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <UserControls:CustomTextBox Margin="5" HorizontalAlignment="Left" Width="200" />
+                        <Grid Height="Auto" Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Margin="5" HorizontalAlignment="Stretch" Height="25" FontSize="15"
+                                ToolTip="Фільтрація за назвою" Text="{Binding ChangedText}" x:Name="searchTxt" />
+                            <Button Grid.Column="1" Width="40" Click="ClearClick"
+                             Height="35"
+                             VerticalAlignment="Top"
+                             ToolTip="Стерти Alt+C" Background="Transparent">
+                                <Rectangle Width="20" Height="15">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <VisualBrush Stretch="Fill"
+                                                 Visual="{StaticResource appbar_clear_reflect_horizontal}" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                         Visual="{StaticResource appbar_clear_inverse_reflect_horizontal}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                            </Button>
+                        </Grid>
                         <DataGrid Margin="5,5,0,0" Grid.Row="1" HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch" SelectedItem="{Binding Path=SelectedProduct}"
                                   FontSize="14" ItemsSource="{Binding Path=Products}" AutoGenerateColumns="False">
@@ -316,7 +351,7 @@
                         </Border>
                     </Grid>
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" />
-                    <UserControls:ProductViewForSale Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" DataContext="{Binding SelectedProduct}"/>
+                    <UserControls:ProductViewForSale Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" DataContext="{Binding SelectedProduct}" Grid.ColumnSpan="2"/>
                     <Border Grid.Row="1" Grid.Column="0" Height="50" BorderBrush="Black" BorderThickness="0,2,0,0" Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
@@ -382,7 +417,8 @@
                     </Border>
                 </Grid>
             </Border>
-        </TabItem>
+        </TabItem>-->
+        
         <TabItem Header="Нове замовлення">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="{DynamicResource AccentColorBrush}">
@@ -390,18 +426,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Замовник " VerticalAlignment="Center" Margin="5"
-                                           FontSize="15" />
-                        <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
-                                          ItemsSource="{Binding ClientsTitle}"
-                                          SelectedValue="{Binding SelectedClientTitle}"
-                                          IsEditable="True" />
-                    </Grid>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -411,59 +435,56 @@
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="5*" />
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
                         <UserControls:ProductsCatalog Grid.Column="0"/>
                         <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                        <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                         <Border Grid.Column="2" Margin="5">
-                            <DataGrid Grid.Row="0" Grid.Column="0" SelectedItem="{Binding SelectedTransaction}"
-                                  FontSize="14" ItemsSource="{Binding Transactions}" AutoGenerateColumns="False">
-                                <DataGrid.Columns>
-                                    <DataGridCheckBoxColumn Width="20" Binding="{Binding IsMarked}" />
-                                    <DataGridTextColumn Width="Auto" Header="DATE" IsReadOnly="True"
-                                                    Binding="{Binding TransactionDate,StringFormat=\{0:dd-MMM-yyyy \}}" />
-                                    <DataGridTextColumn Width="Auto" Header="AMOUNT" IsReadOnly="True"
-                                                    Binding="{Binding Amount}" />
-                                    <DataGridTextColumn Width="Auto" Header="PURPOSE" IsReadOnly="True"
-                                                    Binding="{Binding PurposeType}" />
-                                    <DataGridTemplateColumn Width="Auto" Header="FLOW" IsReadOnly="True">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <DockPanel>
-                                                    <Path x:Name="figurePath" DockPanel.Dock="Left" Stretch="Uniform"
-                                                      Width="15" Height="15" Margin="5" RenderTransformOrigin="0.5,0.5">
-                                                        <Path.RenderTransform>
-                                                            <TransformGroup>
-                                                                <TransformGroup.Children>
-                                                                    <RotateTransform Angle="3" />
-                                                                    <ScaleTransform ScaleX="1" ScaleY="1" />
-                                                                </TransformGroup.Children>
-                                                            </TransformGroup>
-                                                        </Path.RenderTransform>
-                                                    </Path>
-                                                    <ContentPresenter Margin="0,5,5,5" Content="{Binding FlowType}" />
-                                                </DockPanel>
-                                                <!--<DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Expenditure}">
-                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource ExpenditureFigure}"/>
-                                                <Setter Property="Fill" TargetName="figurePath" Value="Red"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding FlowType}" Value="{x:Static Shared:TransactionFlowType.Income}">
-                                                <Setter Property="Data" TargetName="figurePath" Value="{StaticResource IncomeFigure}"/>
-                                                <Setter Property="Fill" TargetName="figurePath" Value="Green"/>
-                                            </DataTrigger>
-                                        </DataTemplate.Triggers>-->
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTextColumn Width="*" Header="DESCRIPTION" IsReadOnly="True" />
-                                    <DataGridTextColumn Width="Auto" Header="LAST MODYFIED" IsReadOnly="True"
-                                                    Binding="{Binding LastModifiedBy}" />
-                                    <DataGridTextColumn Width="Auto" Header="CREATED BY" IsReadOnly="True" />
-                                </DataGrid.Columns>
-                            </DataGrid>
+                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="3*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0"> 
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Замовник " VerticalAlignment="Center" Margin="5"
+                                           FontSize="15" />
+                                        <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
+                                          ItemsSource="{Binding ClientsTitle}"
+                                          SelectedValue="{Binding SelectedClientTitle}"
+                                          IsEditable="True" />
+                                    </Grid>
+                                    <DataGrid Margin="5,5,0,0" Grid.Row="1" HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch" SelectedItem="{Binding Path=SelectedProduct}"
+                                  FontSize="14" ItemsSource="{Binding Path=ProductsList}" AutoGenerateColumns="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
+                                                                Binding="{Binding Path=Title}" />
+                                            <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
+                                                                Binding="{Binding Path=CategoryTitle}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <Border Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch"
+                                Background="{DynamicResource AccentColorBrush}">
+                                        <UserControls:TotalView DockPanel.Dock="Left" HorizontalAlignment="Stretch" />
+                                    </Border>
+                                </Grid>
+                                <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" />
+                                <UserControls:ProductViewForSale Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" DataContext="{Binding SelectedProduct}"/>
+                            </Grid>
                         </Border>
                         <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
                             <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"

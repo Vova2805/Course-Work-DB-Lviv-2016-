@@ -34,14 +34,14 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #region Second
 
             List<PRODUCT_INFO> tempProducts = Session.FactoryEntities.PRODUCT_INFO.ToList();
-            Products = new List<ProductListElement>();
+            ProductsList = new List<ProductListElement>();
             foreach (var product in tempProducts)
             {
-                Products.Add(new ProductListElement(product,this));
+                ProductsList.Add(new ProductListElement(product,this));
             }
-            if (Products.Count > 0)
+            if (ProductsList.Count > 0)
             {
-                selectedProduct = Products.First();
+                selectedProduct = ProductsList.First();
             }
 
             #endregion
@@ -73,7 +73,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
         #region Second
 
-        public List<ProductListElement> Products;
+        public List<ProductListElement> ProductsList;
         public ProductListElement selectedProduct;
         #endregion
 

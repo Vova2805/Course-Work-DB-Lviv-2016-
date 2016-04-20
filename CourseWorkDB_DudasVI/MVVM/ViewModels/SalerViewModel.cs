@@ -16,18 +16,17 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #region First
         private ObservableCollection<ClientListItem> _Clients;
         private ClientListItem _SelectedClient;
+        private ObservableCollection<string> _ClientsTitle;
+        private string _SelectedClientTitle;
         #endregion
 
         #region Second
-        private ObservableCollection<ProductListElement> _Products;
+        private ObservableCollection<ProductListElement> _ProductsList;
         private ProductListElement _selectedProduct;
         #endregion
 
         #region Third
-        private ObservableCollection<string> _ClientsTitle;
-        private string _SelectedClientTitle;
-        private ObservableCollection<ProductListElement> _ProductsList;
-        private ProductListElement _SelectedProduct;
+        
         #endregion
 
         #region So on
@@ -49,7 +48,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return _Clients; }
             set
             {
-                _Clients = value; 
+                _Clients = value;
+                List<string> titles = _Clients.ToList().Select(c => c.GeneralInfo).ToList();
+                ClientsTitle = new ObservableCollection<string>();
+                foreach (var title in titles)
+                {
+                    ClientsTitle.Add(title);
+                }
+                if(SelectedClient!=null)
+                SelectedClientTitle = SelectedClient.GeneralInfo;
                 OnPropertyChanged("Clients");
             }
         }
@@ -59,18 +66,19 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return _SelectedClient; }
             set
             {
-                _SelectedClient = value; 
+                _SelectedClient = value;
+                SelectedClientTitle = _SelectedClient.GeneralInfo;
                 OnPropertyChanged("SelectedClient");
             }
         }
 
-        public ObservableCollection<ProductListElement> Products
+        public ObservableCollection<ProductListElement> ProductsList
         {
-            get { return _Products; }
+            get { return _ProductsList; }
             set
             {
-                _Products = value;
-                OnPropertyChanged("Products");
+                _ProductsList = value;
+                OnPropertyChanged("ProductsList");
             }
         }
 
@@ -100,6 +108,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _SelectedClientTitle = value;
+                if (!SelectedClient.GeneralInfo.Equals(SelectedClientTitle))
+                {
+                    SelectedClient = Clients.ToList().FindAll(c => c.GeneralInfo.Equals(SelectedClientTitle)).FirstOrDefault();
+                }
                 OnPropertyChanged("SelectedClientTitle");
             }
         }

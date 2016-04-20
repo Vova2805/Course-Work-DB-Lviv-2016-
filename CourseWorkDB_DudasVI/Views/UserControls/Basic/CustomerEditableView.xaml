@@ -72,7 +72,7 @@
                             
                             <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="По-батькові" />
                             <TextBox  Grid.Row="2" Grid.Column="2" Margin="5,5,5,0"
-                                      Text="{Binding Path=Client.CLIENT_SURNAME,Mode=TwoWay}" />
+                                      Text="{Binding Path=Client.CLIENT_MIDDLE_NAME,Mode=TwoWay}" />
                             <ContentPresenter Grid.Row="5" Grid.Column="2" HorizontalAlignment="Right" Width="150"
                                               Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />
                             <!--Username of the user-->
@@ -100,7 +100,7 @@
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="Прізвище" TextWrapping="Wrap"
                                        VerticalAlignment="Center" />
-                            <TextBox x:Name="birthDate" Grid.Row="3" Text="{Binding Path=Client.CLIENT_MIDDLE_NAME,Mode=TwoWay}" Grid.Column="2"
+                            <TextBox x:Name="birthDate" Grid.Row="3" Text="{Binding Path=Client.CLIENT_SURNAME,Mode=TwoWay}" Grid.Column="2"
                                      VerticalAlignment="Center" Margin="5" Validation.ErrorTemplate="{x:Null}" />
                         </Grid>
                     </Expander>
