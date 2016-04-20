@@ -17,7 +17,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region Second
-
+        private ObservableCollection<Product> _Products;
+        private Product _selectedProduct;
         #endregion
 
         #region Third
@@ -55,6 +56,26 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _SelectedClient = value; 
                 OnPropertyChanged("SelectedClient");
+            }
+        }
+
+        public ObservableCollection<Product> Products
+        {
+            get { return _Products; }
+            set
+            {
+                _Products = value;
+                OnPropertyChanged("Products");
+            }
+        }
+
+        public Product SelectedProduct
+        {
+            get { return _selectedProduct; }
+            set
+            {
+                _selectedProduct = value;
+                OnPropertyChanged("SelectedProduct");
             }
         }
 

@@ -10,6 +10,7 @@ FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github p
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\AddressView.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\AddressEditableView.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\CustomerEditableView.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\ProductViewForSale.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\ProductView.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Charts\Sequence\ChartsSet.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\CustomerView.xaml;;
@@ -17,6 +18,7 @@ FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github p
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\GoodsFilter.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\CostFilter.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Specialist\EditOrder.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\ClientOrderListItem.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\OrderListItem.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\ProductExtendedListItem.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\ProductListItem.xaml;;
@@ -30,5 +32,4 @@ FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github p
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\CustomerListElement.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\UserListElement.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\UserView.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\ClientOrderListItem.xaml;;
 

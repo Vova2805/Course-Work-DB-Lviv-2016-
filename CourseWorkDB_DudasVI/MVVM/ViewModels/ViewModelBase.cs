@@ -18,7 +18,7 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
 
         public string userNameSurname
         {
-            get { return Session.User.STAFF_NAME + " " + Session.User.STAFF_SURNAME; }
+            get { return Session.User.POST.POST_NAME+" "+Session.User.STAFF_NAME + " " + Session.User.STAFF_SURNAME; }
         }
     }
 }

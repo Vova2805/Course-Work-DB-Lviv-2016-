@@ -97,6 +97,7 @@
     <Compile Include="CLIENT.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Converters\PackageDescriptionConverter.cs" />
     <Compile Include="Converters\AddressConverter.cs" />
     <Compile Include="Converters\HeaderTitleConverter.cs" />
     <Compile Include="Converters\ProductPriceConverter.cs" />
@@ -121,6 +122,7 @@
     </Compile>
     <Compile Include="MVVM\Mapping\Mapping.cs" />
     <Compile Include="MVVM\Models\Additional\ClientListItem.cs" />
+    <Compile Include="MVVM\Models\Additional\Product.cs" />
     <Compile Include="MVVM\Models\Additional\WarehouseListItem.cs" />
     <Compile Include="MVVM\Models\Additional\WarehouseProductTransaction.cs" />
     <Compile Include="MVVM\Models\Additional\OrderProductTransaction.cs" />
