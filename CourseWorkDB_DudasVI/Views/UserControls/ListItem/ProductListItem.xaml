@@ -46,7 +46,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Width="40" Grid.Column="0" Margin="5" Command="{Binding Path=AddProductToPlan}"
+                <Button Width="40" Grid.Column="0" Margin="5" Command="{Binding Path=AddProduct}"
                         Height="40"
                         VerticalAlignment="Top"
                         ToolTip="Додати до плану"
@@ -82,7 +82,7 @@
                         </Rectangle.Style>
                     </Rectangle>
                 </Button>
-                <Button Width="40" Grid.Column="1" Margin="5" Command="{Binding Path=RemoveProductFromPlan}"
+                <Button Width="40" Grid.Column="1" Margin="5" Command="{Binding Path=RemoveProduct}"
                         Height="40"
                         VerticalAlignment="Top"
                         ToolTip="Видалити із плану"

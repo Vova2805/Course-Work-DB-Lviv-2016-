@@ -30,8 +30,8 @@
                         <ColumnDefinition Width="5" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Path=Client.CLIENT_NAME}" Grid.Column="0" ToolTip="Ім'я клієнта" />
-                    <TextBlock TextAlignment="Left" Text="{Binding Path=Client.CLIENT_SURNAME}" Grid.Column="2"  ToolTip="Прізвище клієнта"/>
+                    <TextBlock Text="{Binding Path=Client.CLIENT_NAME}" Grid.Column="2" ToolTip="Ім'я клієнта" />
+                    <TextBlock TextAlignment="Left" Text="{Binding Path=Client.CLIENT_SURNAME}" Grid.Column="0"  ToolTip="Прізвище клієнта"/>
                 </Grid>
             </StackPanel>
             <TextBlock FontWeight="Bold"  Grid.Row="1" Grid.Column="2"

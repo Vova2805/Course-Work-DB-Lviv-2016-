@@ -469,12 +469,14 @@
                                     </Grid>
                                     <DataGrid Margin="5,5,0,0" Grid.Row="1" HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch" SelectedItem="{Binding Path=SelectedProduct}"
-                                  FontSize="14" ItemsSource="{Binding Path=ProductsList}" AutoGenerateColumns="False">
+                                  FontSize="14" ItemsSource="{Binding Path=SelectedClient.PackagesProducts}" AutoGenerateColumns="False">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
-                                                                Binding="{Binding Path=Title}" />
+                                                                Binding="{Binding Path=PRODUCT_INFO.PRODUCT_TITLE}" />
                                             <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
-                                                                Binding="{Binding Path=CategoryTitle}" />
+                                                                Binding="{Binding Path=PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
+                                            <DataGridTextColumn Width="Auto" Header="Кількість" IsReadOnly="True"
+                                                                Binding="{Binding Path=QUANTITY_IN_ORDER}" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                     <Border Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch"

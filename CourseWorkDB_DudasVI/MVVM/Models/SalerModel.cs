@@ -20,7 +20,17 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             foreach (var client in temp)
             {
                 Clients.Add(new ClientListItem(client));
-                ClientsTitle.Add(Clients.Last().GeneralInfo);
+            }
+            Clients.ToList().Sort((client1, client2) =>
+            {
+                int name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME, true);
+                int surname = string.Compare(client1.Client.CLIENT_SURNAME, client2.Client.CLIENT_SURNAME, true);
+                int middle_name = string.Compare(client1.Client.CLIENT_MIDDLE_NAME, client2.Client.CLIENT_MIDDLE_NAME);
+                return surname == 0 ? name == 0 ? middle_name == 0 ? 0 : middle_name : name : surname;
+            });
+            foreach (var client in Clients)
+            {
+                ClientsTitle.Add(client.GeneralInfo);
             }
             if (Clients.Count > 0)
             {

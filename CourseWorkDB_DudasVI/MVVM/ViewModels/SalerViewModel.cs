@@ -49,6 +49,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _Clients = value;
+                _Clients.ToList().Sort((client1, client2) =>
+                {
+                    int name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME,true);
+                    int surname = string.Compare(client1.Client.CLIENT_SURNAME,client2.Client.CLIENT_SURNAME, true);
+                    int middle_name = string.Compare(client1.Client.CLIENT_MIDDLE_NAME,client2.Client.CLIENT_MIDDLE_NAME);
+                    return surname == 0? name == 0?middle_name==0?0:middle_name: name : surname;
+                });
                 List<string> titles = _Clients.ToList().Select(c => c.GeneralInfo).ToList();
                 ClientsTitle = new ObservableCollection<string>();
                 foreach (var title in titles)
@@ -67,6 +74,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _SelectedClient = value;
+                if(SelectedClient!=null)
                 SelectedClientTitle = _SelectedClient.GeneralInfo;
                 OnPropertyChanged("SelectedClient");
             }
@@ -108,7 +116,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _SelectedClientTitle = value;
-                if (!SelectedClient.GeneralInfo.Equals(SelectedClientTitle))
+                if (SelectedClient==null || !SelectedClient.GeneralInfo.Equals(SelectedClientTitle))
                 {
                     SelectedClient = Clients.ToList().FindAll(c => c.GeneralInfo.Equals(SelectedClientTitle)).FirstOrDefault();
                 }

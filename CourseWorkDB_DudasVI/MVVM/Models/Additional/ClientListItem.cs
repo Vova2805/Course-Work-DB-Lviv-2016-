@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using LiveCharts;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
@@ -11,6 +12,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private ObservableCollection<SALE_ORDER> _saleOrders;
         private SALE_ORDER _selectedOrder;
         private SALE_ORDER _newOrder;
+        private ObservableCollection<ORDER_PRODUCT> _packagesProducts;
+        private int _totalQuantity = 0;
+        private decimal _newOrderTotal = 0;
 
 
         public ClientListItem(CLIENT client)
@@ -25,6 +29,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             if(SaleOrders.Count>0)
             SelectedOrder = SaleOrders.First();
             NewOrder = new SALE_ORDER();
+            _packagesProducts = new ChartValues<ORDER_PRODUCT>();//empty
         }
 
         public CLIENT Client
@@ -69,6 +74,36 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _newOrder = value; 
                 OnPropertyChanged("NewOrder");
+            }
+        }
+
+        public ObservableCollection<ORDER_PRODUCT> PackagesProducts
+        {
+            get { return _packagesProducts; }
+            set
+            {
+                _packagesProducts = value; 
+                OnPropertyChanged("PackagesProducts");
+            }
+        }
+
+        public decimal NewOrderTotal
+        {
+            get { return _newOrderTotal; }
+            set
+            {
+                _newOrderTotal = value; 
+                OnPropertyChanged("NewOrderTotal");
+            }
+        }
+
+        public int TotalQuantity
+        {
+            get { return _totalQuantity; }
+            set
+            {
+                _totalQuantity = value;
+                OnPropertyChanged("TotalQuantity");
             }
         }
     }

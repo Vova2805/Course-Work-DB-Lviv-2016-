@@ -22,6 +22,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private readonly SpecialistViewModel DataContextVMSpecialist;
         private readonly SalerModel DataContextMSaler;
         private readonly SalerViewModel DataContextVMSaler;
+        private bool WorkWithOrders = false;
 
 
         private ProductListElement(PRODUCT_INFO productInfo)
@@ -37,22 +38,26 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             : this(ProductInfo)
         {
             DataContextVMSpecialist = dataContextViewModel;
+            WorkWithOrders = false;
         }
 
         public ProductListElement(PRODUCT_INFO ProductInfo, SpecialistModel dataContextModel) : this(ProductInfo)
         {
             DataContextMSpecialist = dataContextModel;
+            WorkWithOrders = false;
         }
 
         public ProductListElement(PRODUCT_INFO ProductInfo, SalerViewModel dataContextViewModel)
            : this(ProductInfo)
         {
             DataContextVMSaler = dataContextViewModel;
+            WorkWithOrders = true;
         }
 
         public ProductListElement(PRODUCT_INFO ProductInfo, SalerModel dataContextModel) : this(ProductInfo)
         {
             DataContextMSaler = dataContextModel;
+            WorkWithOrders = true;
         }
 
         public double ProductPrice
@@ -105,57 +110,101 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public ICommand AddProductToPlan
+        public ICommand AddProduct
         {
-            get { return new RelayCommand<object>(AddToSchedule); }
+            get { return new RelayCommand<object>(AddProductFunc); }
         }
 
-        public ICommand RemoveProductFromPlan
+        public ICommand RemoveProduct
         {
-            get { return new RelayCommand<object>(RemoveFromSchedule); }
+            get { return new RelayCommand<object>(RemoveProductFunc); }
         }
 
-        public async void AddToSchedule(object obj)
+        public async void AddProductFunc(object obj)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
-            var specialistWindow = window as HomeWindowSpecialist;
-            if (specialistWindow != null)
+            if (!WorkWithOrders)
             {
-                //TODO додати кількість
-                var result = await specialistWindow.ShowMessageAsync("Додати до плану",
-                    "Додати?",
-                    MessageDialogStyle.AffirmativeAndNegative);
-                if (result == MessageDialogResult.Affirmative)
+                var specialistWindow = window as HomeWindowSpecialist;
+                if (specialistWindow != null && DataContextMSpecialist!=null)
                 {
-                    var scheduleProductInfo = new SCHEDULE_PRODUCT_INFO();
-                    scheduleProductInfo.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
-                    scheduleProductInfo.QUANTITY_IN_SCHEDULE = 1;
-                    scheduleProductInfo.PRODUCT_INFO = ProductInfo;
-                    if (DataContextVMSpecialist != null)
-                        DataContextVMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
-                    else DataContextMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
-                    isAdded = true;
+                    //TODO додати кількість
+                    var result = await specialistWindow.ShowMessageAsync("Додати до плану",
+                        "Додати?",
+                        MessageDialogStyle.AffirmativeAndNegative);
+                    if (result == MessageDialogResult.Affirmative)
+                    {
+                        var scheduleProductInfo = new SCHEDULE_PRODUCT_INFO();
+                        scheduleProductInfo.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
+                        scheduleProductInfo.QUANTITY_IN_SCHEDULE = 1;
+                        scheduleProductInfo.PRODUCT_INFO = ProductInfo;
+                        if (DataContextVMSpecialist != null)
+                            DataContextVMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
+                        else DataContextMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
+                        isAdded = true;
+                    }
+                }
+            }
+            else
+            {
+                var saleWindow = window as HomeWindowSale;
+                if (saleWindow != null && DataContextMSaler != null)
+                {
+                    //TODO додати кількість
+                   
+                        ORDER_PRODUCT orderProduct = new ORDER_PRODUCT();
+                        orderProduct.SALE_ORDER_ID =  DataContextMSaler.SelectedClient.
+                        //var scheduleProductInfo = new SCHEDULE_PRODUCT_INFO();
+                        //scheduleProductInfo.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
+                        //scheduleProductInfo.QUANTITY_IN_SCHEDULE = 1;
+                        //scheduleProductInfo.PRODUCT_INFO = ProductInfo;
+                        //if (DataContextVMSpecialist != null)
+                        //    DataContextVMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
+                        //else DataContextMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
+                        //isAdded = true;
                 }
             }
         }
 
-        public async void RemoveFromSchedule(object obj)
+        public async void RemoveProductFunc(object obj)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
-            var specialistWindow = window as HomeWindowSpecialist;
-            if (specialistWindow != null)
+            if (!WorkWithOrders)
             {
-                var result =
-                    await
-                        specialistWindow.ShowMessageAsync("Видалити із плану",
-                            "Видалити?",
-                            MessageDialogStyle.AffirmativeAndNegative);
-                if (result == MessageDialogResult.Affirmative)
+                var specialistWindow = window as HomeWindowSpecialist;
+                if (specialistWindow != null)
                 {
-                    if (DataContextVMSpecialist != null)
-                        DataContextVMSpecialist.CurrentWarehouse.removeScheduleProduct(ProductInfo);
-                    else DataContextMSpecialist.CurrentWarehouse.removeScheduleProduct(ProductInfo);
-                    isAdded = false;
+                    var result =
+                        await
+                            specialistWindow.ShowMessageAsync("Видалити із плану",
+                                "Видалити?",
+                                MessageDialogStyle.AffirmativeAndNegative);
+                    if (result == MessageDialogResult.Affirmative)
+                    {
+                        if (DataContextVMSpecialist != null)
+                            DataContextVMSpecialist.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                        else DataContextMSpecialist.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                        isAdded = false;
+                    }
+                }
+            }
+            else
+            {
+                var saleWindow = window as HomeWindowSale;
+                if (saleWindow != null)
+                {
+                    var result =
+                        await
+                            saleWindow.ShowMessageAsync("Видалити із плану",
+                                "Видалити?",
+                                MessageDialogStyle.AffirmativeAndNegative);
+                    if (result == MessageDialogResult.Affirmative)
+                    {
+                        if (DataContextVMSpecialist != null)
+                            DataContextVMSpecialist.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                        else DataContextMSpecialist.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                        isAdded = false;
+                    }
                 }
             }
         }
