@@ -56,7 +56,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                         #region First
 
                         model.productPackagesList.Clear();
-                        if (model.selectedCategory.Equals("Всі категорії"))
+                        if (model.SelectedCategory.Equals("Всі категорії"))
                         {
                             var groupedPackages =
                                 Session.FactoryEntities.ORDER_PRODUCT.ToList()
@@ -81,7 +81,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                             {
                                 if (
                                     group.Value.First()
-                                        .PRODUCT_INFO.CATEGORY.CATEGORY_TITLE.Equals(model.selectedCategory))
+                                        .PRODUCT_INFO.CATEGORY.CATEGORY_TITLE.Equals(model.SelectedCategory))
                                 {
                                     model.productPackagesList.Add(new OrderProductTransaction(i++, group.Key,
                                         group.Value,
@@ -116,14 +116,14 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                         {
                             model.ProductsList.Add(new ProductListElement(product, model));
                         }
-                        if (!model.selectedCategory.Equals("Всі категорії"))
+                        if (!model.SelectedCategory.Equals("Всі категорії"))
                         {
                             var temp = new ObservableCollection<ProductListElement>();
                             foreach (var product in model.ProductsList)
                             {
                                 if (
                                     Session.FactoryEntities.CATEGORY.Find(product.ProductInfo.CATEGORY_ID)
-                                        .CATEGORY_TITLE.Equals(model.selectedCategory))
+                                        .CATEGORY_TITLE.Equals(model.SelectedCategory))
                                 {
                                     temp.Add(product);
                                     productprices.Add((double) API.getlastPrice(

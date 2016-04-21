@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
+using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
 {
@@ -80,20 +81,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #endregion
         }
 
-        public class RegionInfo
-        {
-            public RegionInfo(int index, DateTime from, DateTime to)
-            {
-                this.index = index;
-                this.from = from;
-                this.to = to;
-            }
-
-            public int index { get; set; }
-            public DateTime from { get; set; }
-            public DateTime to { get; set; }
-        }
-
         //TabPages
 
         #region First
@@ -131,7 +118,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
         public DateTime FromTime;
         public DateTime ToTime;
-        public Dictionary<string, RegionInfo> options = new Dictionary<string, RegionInfo>();
+        public Dictionary<string, CommonViewModel.RegionInfo> options = new Dictionary<string, CommonViewModel.RegionInfo>();
         public List<string> OptionsList;
         public string selectedOption;
         public bool filterByPrice = false;

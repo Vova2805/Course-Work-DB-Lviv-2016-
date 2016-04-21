@@ -132,6 +132,8 @@
     <Compile Include="MVVM\Models\DirectorModel.cs" />
     <Compile Include="MVVM\Models\SalerModel.cs" />
     <Compile Include="MVVM\Models\SpecialistModel.cs" />
+    <Compile Include="MVVM\ViewModels\ChartViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\CommonViewModel.cs" />
     <Compile Include="MVVM\ViewModels\DirectorViewModel.cs" />
     <Compile Include="MVVM\ViewModels\SettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\SalerViewModel.cs" />

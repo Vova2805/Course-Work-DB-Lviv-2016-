@@ -12,6 +12,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
     public class ProductListElement : ViewModelBase
     {
+        private readonly SpecialistModel DataContextMSpecialist;
+        private readonly SpecialistViewModel DataContextVMSpecialist;
+        private readonly bool WorkWithOrders;
         private string _categoryTitle;
         private bool _isAdded;
         private PRODUCT_INFO _ProductInfo;
@@ -20,11 +23,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 
         private DirectorModel DataContextMDirector;
         private SalerModel DataContextMSaler;
-        private readonly SpecialistModel DataContextMSpecialist;
         private DirectorViewModel DataContextVMDirector;
         private SalerViewModel DataContextVMSaler;
-        private readonly SpecialistViewModel DataContextVMSpecialist;
-        private readonly bool WorkWithOrders;
 
 
         private ProductListElement(PRODUCT_INFO productInfo)

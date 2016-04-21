@@ -47,26 +47,26 @@ namespace CourseWorkDB_DudasVI
             //        new EventHandler<RoutedEventArgs>(ChangeOpacityProgressRing), sender, e);
             //});
             //thread.Start();
-            string shoice = LoginBlock.Text;
+            var shoice = LoginBlock.Text;
             switch (shoice)
             {
                 case "1":
                 {
-                        LoginBlock.Text = "director_test";
+                    LoginBlock.Text = "director_test";
+                }
+                    break;
+                case "3":
+                {
+                    LoginBlock.Text = "specialist_test";
                 }
                     break;
                 case "2":
-                    {
-                        LoginBlock.Text = "specialist_test";
-                    }
-                    break;
-                case "3":
-                    {
-                        LoginBlock.Text = "saler_test";
-                    }
+                {
+                    LoginBlock.Text = "saler_test";
+                }
                     break;
             }
-            
+
             PassBlock.Password = "test";
             STAFF resultUser = null;
             resultUser =
@@ -118,28 +118,24 @@ namespace CourseWorkDB_DudasVI
                 switch (shoice)
                 {
                     case "1":
-                        {
-                            var homeWindow = new HomeWindowAdmin();
-                            homeWindow.Show();
-                        }
-                        break;
-                    case "2":
-                        {
-                            var homeWindowSpecialist = new HomeWindowSpecialist();
-                            homeWindowSpecialist.Show();
-                        }
+                    {
+                        var homeWindow = new HomeWindowAdmin();
+                        homeWindow.Show();
+                    }
                         break;
                     case "3":
-                        {
-                            var homeWindowSale = new HomeWindowSale();
-                            homeWindowSale.Show();
-                        }
+                    {
+                        var homeWindowSpecialist = new HomeWindowSpecialist();
+                        homeWindowSpecialist.Show();
+                    }
+                        break;
+                    case "2":
+                    {
+                        var homeWindowSale = new HomeWindowSale();
+                        homeWindowSale.Show();
+                    }
                         break;
                 }
-                
-                
-                
-
                 //thread.Interrupt();
                 //Back(sender, e);
                 Close();
@@ -154,7 +150,7 @@ namespace CourseWorkDB_DudasVI
         {
             await
                 this.ShowMessageAsync("Помилка",
-                    "Не правильний пароль чи логін. Перевірте введені дані і спробуйте знову");
+                    "Не правильний логін чи пароль. Перевірте введені дані і спробуйте знову");
             Back(null, null);
         }
 

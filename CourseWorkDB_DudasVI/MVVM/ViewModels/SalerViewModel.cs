@@ -1,11 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
-using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
-    public class SalerViewModel : ViewModelBase
+    public class SalerViewModel : CommonViewModel
     {
         public SalerViewModel()
         {
@@ -21,16 +20,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<string> _ClientsTitle;
         private string _SelectedClientTitle;
 
-        #endregion
+        //#endregion
 
-        #region Second
+        //#region Second
 
         private ObservableCollection<ProductListElement> _ProductsList;
         private ProductListElement _selectedProduct;
 
-        #endregion
+        //#endregion
 
-        #region Third
+        //#region Third
 
         private ObservableCollection<WAREHOUSE> _WarehousesList;
         private WAREHOUSE _SelectedWarehouse;
@@ -38,18 +37,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private string _SelectedWarehouseTitle;
         private decimal _Distance;
         private decimal _CostPerKM;
-
-        #endregion
-
-        #region So on
-
-        #endregion
-
-        #region Functions
-
-        #region First
-
-        #endregion
 
         #endregion
 
@@ -90,16 +77,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (SelectedClient != null)
                     SelectedClientTitle = _SelectedClient.GeneralInfo;
                 OnPropertyChanged("SelectedClient");
-            }
-        }
-
-        public ObservableCollection<ProductListElement> ProductsList
-        {
-            get { return _ProductsList; }
-            set
-            {
-                _ProductsList = value;
-                OnPropertyChanged("ProductsList");
             }
         }
 

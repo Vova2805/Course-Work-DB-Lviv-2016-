@@ -190,10 +190,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 
         public class OrderProductListItem : ViewModelBase
         {
+            private readonly ClientListItem DataContext;
             private ORDER_PRODUCT _orderProduct;
             private decimal _packageTotal;
             private int _QuantityInOrder;
-            private readonly ClientListItem DataContext;
 
             public OrderProductListItem(ORDER_PRODUCT orderProduct, ClientListItem dataContext)
             {
