@@ -12,14 +12,23 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class DirectorViewModel : ViewModelBase
     {
+        
         private ObservableCollection<STAFF> _EmployeeList;
         private STAFF _SelectedEmployee;
 
         #region Second
         private ObservableCollection<ClientListItem> _Clients;
         private ClientListItem _SelectedClient;
+        private ObservableCollection<ProductListElement> _ProductsList;
+        private ObservableCollection<string> _ProductsTitleList;
+        private ProductListElement _SelectedProduct;
+        private PRODUCT_PRICE _SelectedProductPrice;
+        private ObservableCollection<ProductPriceListElement> _ProductPriceList;
+        private double _ProductPriceValue;
+        private double _ProductPricePersentage;
+        private PRODUCTION_SCHEDULE _CurrentProductionSchedule;
+        private string _SelectedProductTitle;
         #endregion
-
         #region Third
 
         private WarehouseListItem _CurrentWarehouse;
@@ -293,7 +302,131 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        #endregion
+        public double ProductPriceValue
+        {
+            get { return _ProductPriceValue; }
+            set
+            {
+                _ProductPriceValue = value;
+                if (value != null && SelectedProductPrice != null)
+                    SelectedProductPrice.PRICE_VALUE = (decimal)_ProductPriceValue;
+                if (ChangeProductPricePersentage)
+                {
+                    ChangeProductPriceValue = false; //to avoid endless cycle
+                    ProductPricePersentage = ProductPriceValue / (double)SelectedProduct.ProductInfo.PRODUCTION_PRICE * 100;
+                }
+                OnPropertyChanged("ProductPriceValue");
+            }
+        }
+
+        public double ProductPricePersentage
+        {
+            get { return _ProductPricePersentage; }
+            set
+            {
+                _ProductPricePersentage = value;
+                if (value != null && SelectedProductPrice != null)
+                    SelectedProductPrice.PERSENTAGE_VALUE = (decimal)_ProductPricePersentage;
+                if (ChangeProductPriceValue)
+                {
+                    ChangeProductPricePersentage = false;
+                    ProductPriceValue = (double)SelectedProduct.ProductInfo.PRODUCTION_PRICE * ProductPricePersentage /
+                                        100.0;
+                }
+                OnPropertyChanged("ProductPricePersentage");
+            }
+        }
+        public bool ChangeProductPriceValue;
+        public bool ChangeProductPricePersentage;
+
+        public PRODUCT_PRICE SelectedProductPrice
+        {
+            get { return _SelectedProductPrice; }
+            set
+            {
+                _SelectedProductPrice = value;
+                ChangeProductPriceValue = false;
+                ChangeProductPricePersentage = false;
+                ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
+                ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+                OnPropertyChanged("SelectedProductPrice");
+            }
+        }
+
+        public ObservableCollection<ProductListElement> ProductsList
+        {
+            get { return _ProductsList; }
+            set
+            {
+                _ProductsList = value;
+                if (ProductsList.Count > 0)
+                    SelectedProduct = ProductsList.First();
+                OnPropertyChanged("ProductsList");
+            }
+        }
+
+        public ProductListElement SelectedProduct
+        {
+            get { return _SelectedProduct; }
+            set
+            {
+                if (value != null)
+                {
+                    _SelectedProduct = value;
+                    SelectedProductPrice = API.getlastPrice(
+                        Session.FactoryEntities.PRODUCT_PRICE
+                            .ToList()
+                            .FindAll(pr => pr.PRODUCT_INFO_ID == SelectedProduct.ProductInfo.PRODUCT_INFO_ID));
+                    ProductPriceList = new ObservableCollection<ProductPriceListElement>();
+                    foreach (var price in SelectedProduct.ProductInfo.PRODUCT_PRICE)
+                    {
+                        ProductPriceList.Add(new ProductPriceListElement(price));
+                    }
+                    OnPropertyChanged("SelectedProduct");
+                }
+            }
+        }
+
+        public ObservableCollection<ProductPriceListElement> ProductPriceList
+        {
+            get { return _ProductPriceList; }
+            set
+            {
+                _ProductPriceList = value;
+                OnPropertyChanged("ProductPriceList");
+            }
+        }
+
+        public PRODUCTION_SCHEDULE CurrentProductionSchedule
+        {
+            get { return _CurrentProductionSchedule; }
+            set
+            {
+                _CurrentProductionSchedule = value;
+                OnPropertyChanged("CurrentProductionSchedule");
+            }
+        }
+
+        public string SelectedProductTitle
+        {
+            get { return _SelectedProductTitle; }
+            set
+            {
+                _SelectedProductTitle = value;
+                OnPropertyChanged("SelectedProductTitle");
+            }
+        }
+
+        public ObservableCollection<string> ProductsTitleList
+        {
+            get { return _ProductsTitleList; }
+            set
+            {
+                _ProductsTitleList = value;
+                OnPropertyChanged("ProductsTitleList");
+            }
+        }
+       #endregion
 
 
     }

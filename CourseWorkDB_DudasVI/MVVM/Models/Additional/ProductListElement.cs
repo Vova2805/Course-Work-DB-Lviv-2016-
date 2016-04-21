@@ -18,6 +18,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private string _title;
         private double _productPrice;
 
+        private DirectorModel DataContextMDirector;
+        private DirectorViewModel DataContextVMDirector;
         private SpecialistModel DataContextMSpecialist;
         private SpecialistViewModel DataContextVMSpecialist;
         private SalerModel DataContextMSaler;
@@ -32,6 +34,18 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             _title = _ProductInfo.PRODUCT_TITLE;
             _categoryTitle = _ProductInfo.CATEGORY.CATEGORY_TITLE;
             this._productPrice = (double)API.getlastPrice(_ProductInfo.PRODUCT_PRICE).PRICE_VALUE;
+        }
+        public ProductListElement(PRODUCT_INFO ProductInfo, DirectorViewModel dataContextViewModel)
+           : this(ProductInfo)
+        {
+            DataContextVMDirector = dataContextViewModel;
+            WorkWithOrders = false;
+        }
+
+        public ProductListElement(PRODUCT_INFO ProductInfo, DirectorModel dataContextModel) : this(ProductInfo)
+        {
+            DataContextMDirector = dataContextModel;
+            WorkWithOrders = false;
         }
 
         public ProductListElement(PRODUCT_INFO ProductInfo, SpecialistViewModel dataContextViewModel)

@@ -11,10 +11,27 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public STAFF SelectedEmployee;
         //public IEnumerable<CLIENT> ClientList;
         //public IEnumerable<SALE_ORDER> OrderList;
+
+
         #region Second
         public List<ClientListItem> Clients;
         public ClientListItem SelectedClient;
         #endregion
+
+        #region Second
+
+        public List<ProductListElement> ProductsList;
+        public List<string> ProductsTitleList;
+        public string SelectedProductTitle;
+        public ProductListElement SelectedProduct;
+        public List<ProductPriceListElement> ProductPriceList;
+        public PRODUCT_PRICE SelectedProductPrice;
+        public double ProductPriceValue;
+        public double ProductPricePersentage;
+        public PRODUCTION_SCHEDULE CurrentProductionSchedule;
+
+        #endregion
+
         #region Forth
         public List<WarehouseListItem> warehouses;
         public WarehouseListItem CurrentWarehouse;
@@ -29,6 +46,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public string FlowDirection;
         public List<RELEASED_PRODUCT> ProductsOnWarehouse;
         #endregion
+
+
         public DirectorModel()
         {
             EmployeeList = Session.FactoryEntities.STAFF.ToList().FindAll(s => s.POST.DEPARTMENT.DEPARTMENT_ID == 3);
@@ -49,6 +68,30 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             });
             if(Clients.Count>0)
             SelectedClient = Clients.First();
+
+
+            #region Second
+
+            ProductsList = new List<ProductListElement>();
+            foreach (var product in Session.FactoryEntities.PRODUCT_INFO.ToList())
+            {
+                ProductsList.Add(new ProductListElement(product, this));
+            }
+            SelectedProduct = ProductsList.First();
+            SelectedProductPrice = API.getlastPrice(SelectedProduct.ProductInfo.PRODUCT_PRICE);
+            ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
+            ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+            ProductPriceList = new List<ProductPriceListElement>();
+            foreach (var price in SelectedProduct.ProductInfo.PRODUCT_PRICE.ToList())
+            {
+                ProductPriceList.Add(new ProductPriceListElement(price));
+            }
+            CurrentProductionSchedule = new PRODUCTION_SCHEDULE();
+            ProductsTitleList = ProductsList.Select(pr => pr.ProductInfo.PRODUCT_TITLE).ToList();
+            ProductsTitleList.Insert(0, "Всі продукти");
+            SelectedProductTitle = ProductsTitleList.First();
+
+            #endregion
 
             #region Third
 

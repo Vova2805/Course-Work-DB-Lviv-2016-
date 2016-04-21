@@ -18,6 +18,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class SpecialistViewModel : ViewModelBase
     {
+        public SpecialistViewModel()
+        {
+            AddPermition = true;
+        }
         #region General Charts
 
         private SeriesCollection _LineSeriesInstance;

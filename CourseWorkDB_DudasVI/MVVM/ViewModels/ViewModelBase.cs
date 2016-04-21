@@ -6,6 +6,7 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
+        #region Body
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
@@ -13,6 +14,19 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        #endregion
+
+        private bool _AddPermition;
+
+        public bool AddPermition
+        {
+            get { return _AddPermition; }
+            set
+            {
+                _AddPermition = value; 
+                OnPropertyChanged("AddPermition");
             }
         }
 

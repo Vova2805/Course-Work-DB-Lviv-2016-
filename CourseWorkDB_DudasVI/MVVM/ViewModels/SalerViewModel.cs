@@ -10,7 +10,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class SalerViewModel : ViewModelBase
     {
-
+        public SalerViewModel()
+        {
+            AddPermition = true;
+        }
         //TabPages
 
         #region First

@@ -12,6 +12,7 @@
             VerticalAlignment="Stretch" Height="Auto">
         <Border.Resources>
             <converters:ProductPriceConverter x:Key="PriceConverter" />
+            <converters:VisibilityConverter x:Key="VisibilityConverter"/>
         </Border.Resources>
         <Grid Height="Auto" Margin="5">
             <Grid.RowDefinitions>
@@ -49,7 +50,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Width="40" Grid.Column="0" Margin="5" Command="{Binding Path=AddProduct}"
-                        Height="40"
+                        Height="40" Visibility="{Binding Path=AddPermition,Converter={StaticResource VisibilityConverter}}"
                         VerticalAlignment="Top"
                         ToolTip="{Binding Path=isAdded,Converter={StaticResource AddedConverter},ConverterParameter='Add'}"
                         Background="ForestGreen"
