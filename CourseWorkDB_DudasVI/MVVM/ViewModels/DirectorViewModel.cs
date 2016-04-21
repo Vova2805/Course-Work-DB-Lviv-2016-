@@ -46,6 +46,13 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
 
         #endregion
 
+        #region So on
+        private ObservableCollection<PRODUCTION_SCHEDULE> _Schedules;
+        private PRODUCTION_SCHEDULE _SelectedProductionSchedule;
+        private ObservableCollection<SCHEDULE_PRODUCT_INFO> _schedulePackages;
+        private string _changedText;
+        #endregion
+
         #region Properties
 
         public string DateFilterString
@@ -426,7 +433,59 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("ProductsTitleList");
             }
         }
-       #endregion
+
+        public ObservableCollection<SCHEDULE_PRODUCT_INFO> SchedulePackages
+        {
+            get { return _schedulePackages; }
+            set
+            {
+                _schedulePackages = value;
+                OnPropertyChanged("SchedulePackages");
+            }
+        }
+
+        public ObservableCollection<PRODUCTION_SCHEDULE> Schedules
+        {
+            get { return _Schedules; }
+            set
+            {
+                _Schedules = value;
+                OnPropertyChanged("Schedules");
+            }
+        }
+
+        public string ChangedText
+        {
+            get { return _changedText; }
+            set
+            {
+                _changedText = value;
+                OnPropertyChanged("ChangedText");
+            }
+        }
+
+        public PRODUCTION_SCHEDULE SelectedProductionSchedule
+        {
+            get { return _SelectedProductionSchedule; }
+            set
+            {
+                _SelectedProductionSchedule = value;
+                if (_SelectedProductionSchedule != null)
+                {
+                    SchedulePackages = new ObservableCollection<SCHEDULE_PRODUCT_INFO>();
+                    var temp =
+                        Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
+                            .Where(s => s.SCHEDULE_ID == SelectedProductionSchedule.SCHEDULE_ID)
+                            .ToList();
+                    foreach (var pack in temp)
+                    {
+                        SchedulePackages.Add(pack);
+                    }
+                    OnPropertyChanged("SelectedProductionSchedule");
+                }
+            }
+        }
+        #endregion
 
 
     }

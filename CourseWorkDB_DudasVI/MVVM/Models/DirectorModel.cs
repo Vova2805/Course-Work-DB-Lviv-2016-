@@ -47,6 +47,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public List<RELEASED_PRODUCT> ProductsOnWarehouse;
         #endregion
 
+        #region So on
+        public List<PRODUCTION_SCHEDULE> Schedules;
+        public PRODUCTION_SCHEDULE SelectedProductionSchedule;
+        public List<SCHEDULE_PRODUCT_INFO> schedulePackages;
+        public string ChangedText;
+        #endregion
+
 
         public DirectorModel()
         {
@@ -135,6 +142,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                     .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
 
             #endregion
+
+            Schedules =
+                Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList()
+                    .Where(ps => ps.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID)
+                    .ToList();
+            SelectedProductionSchedule = Schedules.First();
+            schedulePackages =
+                Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
+                    .Where(pack => pack.SCHEDULE_ID == SelectedProductionSchedule.SCHEDULE_ID).ToList();
+            ChangedText = "";
         }
     }
 }
