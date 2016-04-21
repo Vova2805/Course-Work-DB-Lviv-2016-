@@ -22,6 +22,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             AddPermition = true;
         }
+
         #region General Charts
 
         private SeriesCollection _LineSeriesInstance;
@@ -347,28 +348,28 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             if (LineSeriesInstance != null)
             {
-                //LineSeriesInstance.Clear();
-                //PieSeriesInstance.Clear();
-                //BarSeriesInstance.Clear();
-                //Labels.Clear();
-                //UpdateLineSeries();
-                //UpdatePieSeries();
-                //UpdateBarSeries();
-                //switch (TabIndex)
-                //{
-                //    case 0:
-                //    {
-                //        XTitle = "Номер продукції";
-                //        YTitle = "Кількість замовлено";
-                //    }
-                //        break;
-                //    case 1:
-                //    {
-                //        XTitle = "Дата зміни ціни";
-                //        YTitle = "Значення ціни";
-                //    }
-                //        break;
-                //}
+                LineSeriesInstance.Clear();
+                PieSeriesInstance.Clear();
+                BarSeriesInstance.Clear();
+                Labels.Clear();
+                UpdateLineSeries();
+                UpdatePieSeries();
+                UpdateBarSeries();
+                switch (TabIndex)
+                {
+                    case 0:
+                        {
+                            XTitle = "Номер продукції";
+                            YTitle = "Кількість замовлено";
+                        }
+                        break;
+                    case 1:
+                        {
+                            XTitle = "Дата зміни ціни";
+                            YTitle = "Значення ціни";
+                        }
+                        break;
+                }
             }
         }
 
@@ -832,7 +833,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("OptionsList");
             }
         }
-        
+
         public bool ChangeProductPriceValue;
         public bool ChangeProductPricePersentage;
 

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using CourseWorkDB_DudasVI;
 using CourseWorkDB_DudasVI.General;
-using CourseWorkDB_DudasVI.MVVM.Models;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using LiveCharts;
 
@@ -12,11 +10,11 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class DirectorViewModel : ViewModelBase
     {
-        
         private ObservableCollection<STAFF> _EmployeeList;
         private STAFF _SelectedEmployee;
 
         #region Second
+
         private ObservableCollection<ClientListItem> _Clients;
         private ClientListItem _SelectedClient;
         private ObservableCollection<ProductListElement> _ProductsList;
@@ -28,7 +26,9 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
         private double _ProductPricePersentage;
         private PRODUCTION_SCHEDULE _CurrentProductionSchedule;
         private string _SelectedProductTitle;
+
         #endregion
+
         #region Third
 
         private WarehouseListItem _CurrentWarehouse;
@@ -47,10 +47,12 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region So on
+
         private ObservableCollection<PRODUCTION_SCHEDULE> _Schedules;
         private PRODUCTION_SCHEDULE _SelectedProductionSchedule;
         private ObservableCollection<SCHEDULE_PRODUCT_INFO> _schedulePackages;
         private string _changedText;
+
         #endregion
 
         #region Properties
@@ -123,9 +125,10 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
                 _Clients = value;
                 _Clients.ToList().Sort((client1, client2) =>
                 {
-                    int name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME, true);
-                    int surname = string.Compare(client1.Client.CLIENT_SURNAME, client2.Client.CLIENT_SURNAME, true);
-                    int middle_name = string.Compare(client1.Client.CLIENT_MIDDLE_NAME, client2.Client.CLIENT_MIDDLE_NAME);
+                    var name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME, true);
+                    var surname = string.Compare(client1.Client.CLIENT_SURNAME, client2.Client.CLIENT_SURNAME, true);
+                    var middle_name = string.Compare(client1.Client.CLIENT_MIDDLE_NAME,
+                        client2.Client.CLIENT_MIDDLE_NAME);
                     return surname == 0 ? name == 0 ? middle_name == 0 ? 0 : middle_name : name : surname;
                 });
                 OnPropertyChanged("Clients");
@@ -176,13 +179,14 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
                     _InOutComeFlow.Add(elem);
                 }
                 var times = _InOutComeFlow.Select(el => el.Date).ToList();
-                if(times.Count>0)
-                DateFilterString = times.Min().ToLongDateString() + " - " + times.Max().ToLongDateString();
+                if (times.Count > 0)
+                    DateFilterString = times.Min().ToLongDateString() + " - " + times.Max().ToLongDateString();
                 var values = _InOutComeFlow.Select(el => el.Quantity).ToList();
                 var money = _InOutComeFlow.Select(el => el.MoneyQuantity).ToList();
-                if(values.Count>0 && money.Count>0)
-                ValueRange = values.Min() + "шт. - " + values.Max() + "шт. і " + money.Min().ToString("N2") + " грн. - " +
-                             money.Max().ToString("N2") + " грн.";
+                if (values.Count > 0 && money.Count > 0)
+                    ValueRange = values.Min() + "шт. - " + values.Max() + "шт. і " + money.Min().ToString("N2") +
+                                 " грн. - " +
+                                 money.Max().ToString("N2") + " грн.";
                 var income = 0;
                 var outcome = 0;
                 double incomeMoney = 0;
@@ -226,7 +230,7 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("CurrentWarehouse");
             }
         }
-        
+
 
         public decimal Engaged
         {
@@ -269,7 +273,7 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
                     if (!_CurrentWarehouseString.Equals("Всі склади"))
                     {
                         var index = WarehousesStrings.IndexOf(CurrentWarehouseString);
-                        CurrentWarehouse = Warehouses.ElementAt(index-1);
+                        CurrentWarehouse = Warehouses.ElementAt(index - 1);
                     }
                     else
                     {
@@ -289,6 +293,7 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("WarehousesStrings");
             }
         }
+
         public ObservableCollection<STAFF> EmployeeList
         {
             get { return _EmployeeList; }
@@ -316,11 +321,11 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _ProductPriceValue = value;
                 if (value != null && SelectedProductPrice != null)
-                    SelectedProductPrice.PRICE_VALUE = (decimal)_ProductPriceValue;
+                    SelectedProductPrice.PRICE_VALUE = (decimal) _ProductPriceValue;
                 if (ChangeProductPricePersentage)
                 {
                     ChangeProductPriceValue = false; //to avoid endless cycle
-                    ProductPricePersentage = ProductPriceValue / (double)SelectedProduct.ProductInfo.PRODUCTION_PRICE * 100;
+                    ProductPricePersentage = ProductPriceValue/(double) SelectedProduct.ProductInfo.PRODUCTION_PRICE*100;
                 }
                 OnPropertyChanged("ProductPriceValue");
             }
@@ -333,16 +338,17 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _ProductPricePersentage = value;
                 if (value != null && SelectedProductPrice != null)
-                    SelectedProductPrice.PERSENTAGE_VALUE = (decimal)_ProductPricePersentage;
+                    SelectedProductPrice.PERSENTAGE_VALUE = (decimal) _ProductPricePersentage;
                 if (ChangeProductPriceValue)
                 {
                     ChangeProductPricePersentage = false;
-                    ProductPriceValue = (double)SelectedProduct.ProductInfo.PRODUCTION_PRICE * ProductPricePersentage /
+                    ProductPriceValue = (double) SelectedProduct.ProductInfo.PRODUCTION_PRICE*ProductPricePersentage/
                                         100.0;
                 }
                 OnPropertyChanged("ProductPricePersentage");
             }
         }
+
         public bool ChangeProductPriceValue;
         public bool ChangeProductPricePersentage;
 
@@ -354,8 +360,8 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
                 _SelectedProductPrice = value;
                 ChangeProductPriceValue = false;
                 ChangeProductPricePersentage = false;
-                ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
-                ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+                ProductPriceValue = (double) SelectedProductPrice.PRICE_VALUE;
+                ProductPricePersentage = (double) SelectedProductPrice.PERSENTAGE_VALUE;
                 OnPropertyChanged("SelectedProductPrice");
             }
         }
@@ -485,8 +491,7 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
                 }
             }
         }
+
         #endregion
-
-
     }
 }

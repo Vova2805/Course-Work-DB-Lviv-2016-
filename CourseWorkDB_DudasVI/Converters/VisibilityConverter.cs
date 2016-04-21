@@ -10,7 +10,7 @@ namespace CourseWorkDB_DudasVI.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             bool res;
-             Boolean.TryParse(value.ToString(), out res);
+            bool.TryParse(value.ToString(), out res);
             return res ? Visibility.Visible : Visibility.Collapsed;
         }
 

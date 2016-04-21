@@ -122,7 +122,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
             ChangedText = "";
         }
-        
+
 
         public class RegionInfo
         {

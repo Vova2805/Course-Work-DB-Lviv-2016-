@@ -68,11 +68,11 @@
                             <TextBox Grid.Row="1" Grid.Column="2" Margin="5,5,5,0"
                                      Text="{Binding Path=Client.CLIENT_NAME,Mode=TwoWay}" />
                             <ContentPresenter Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Width="150"
-                                              Content="{Binding ElementName=txtName,Path=(Validation.Errors).CurrentItem}" /> 
-                            
+                                              Content="{Binding ElementName=txtName,Path=(Validation.Errors).CurrentItem}" />
+
                             <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="По-батькові" />
-                            <TextBox  Grid.Row="2" Grid.Column="2" Margin="5,5,5,0"
-                                      Text="{Binding Path=Client.CLIENT_MIDDLE_NAME,Mode=TwoWay}" />
+                            <TextBox Grid.Row="2" Grid.Column="2" Margin="5,5,5,0"
+                                     Text="{Binding Path=Client.CLIENT_MIDDLE_NAME,Mode=TwoWay}" />
                             <ContentPresenter Grid.Row="5" Grid.Column="2" HorizontalAlignment="Right" Width="150"
                                               Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />
                             <!--Username of the user-->
@@ -91,16 +91,19 @@
                                               Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />
                             <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Телефон компанії"
                                        VerticalAlignment="Center" />
-                            <TextBox Text="{Binding Path=Client.COMPANY_PHONE,Mode=TwoWay}" Grid.Row="7" Margin="5" Grid.Column="2"
+                            <TextBox Text="{Binding Path=Client.COMPANY_PHONE,Mode=TwoWay}" Grid.Row="7" Margin="5"
+                                     Grid.Column="2"
                                      Validation.ErrorTemplate="{x:Null}" VerticalAlignment="Center" />
 
                             <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="E-mail" VerticalAlignment="Center" />
-                            <TextBox x:Name="sd" Text="{Binding Path=Client.EMAIL,Mode=TwoWay}" Grid.Row="4" Grid.Column="2" Margin="5"
+                            <TextBox x:Name="sd" Text="{Binding Path=Client.EMAIL,Mode=TwoWay}" Grid.Row="4"
+                                     Grid.Column="2" Margin="5"
                                      Validation.ErrorTemplate="{x:Null}" VerticalAlignment="Center" />
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="Прізвище" TextWrapping="Wrap"
                                        VerticalAlignment="Center" />
-                            <TextBox x:Name="birthDate" Grid.Row="3" Text="{Binding Path=Client.CLIENT_SURNAME,Mode=TwoWay}" Grid.Column="2"
+                            <TextBox x:Name="birthDate" Grid.Row="3"
+                                     Text="{Binding Path=Client.CLIENT_SURNAME,Mode=TwoWay}" Grid.Column="2"
                                      VerticalAlignment="Center" Margin="5" Validation.ErrorTemplate="{x:Null}" />
                         </Grid>
                     </Expander>
@@ -113,15 +116,15 @@
                     <!--#region Third expander-->
                     <Expander Header="Замовлення" IsExpanded="True">
                         <ListBox Grid.Row="1" VerticalAlignment="Stretch"
-                             SelectedItem="{Binding SelectedOrder,Mode=TwoWay}"
-                              Background="{DynamicResource AccentColorBrush}" ItemsSource="{Binding SaleOrders}">
+                                 SelectedItem="{Binding SelectedOrder,Mode=TwoWay}"
+                                 Background="{DynamicResource AccentColorBrush}" ItemsSource="{Binding SaleOrders}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <local:ClientOrderListItem />
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-            </Expander>
+                    </Expander>
                     <!--#endregion-->
                 </StackPanel>
             </Grid>

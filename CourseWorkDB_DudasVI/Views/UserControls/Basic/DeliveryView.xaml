@@ -38,7 +38,7 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="1" Margin="5" Text="Оформити доставку" FontSize="20" />
-                    <Grid Grid.Column="0" Grid.Row="0"></Grid>
+                    <Grid Grid.Column="0" Grid.Row="0" />
                     <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="1"
                                 Grid.RowSpan="2" Margin="5">
                         <!--#region First expander-->
@@ -57,28 +57,33 @@
                             </Grid>
                         </Expander>
                         <Expander Header="До" IsExpanded="True">
-                            <userControls:AddressEditableView DataContext="{Binding Path=SelectedClient.Client.ADDRESS1}"/> 
+                            <userControls:AddressEditableView
+                                DataContext="{Binding Path=SelectedClient.Client.ADDRESS1}" />
                         </Expander>
                         <Expander Header="Додатково" IsExpanded="True">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                    <RowDefinition />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Відстань : " VerticalAlignment="Center" Margin="5"
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Відстань : " VerticalAlignment="Center"
+                                           Margin="5"
                                            FontSize="15" />
-                                <сontrols:NumericUpDown Grid.Row="0" Grid.Column="1" Minimum="0" Width="auto" Margin="5"
-                                                            Interval="1" Value="{Binding  Distance}"
-                                                            BorderThickness="1"/>
-                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Вартість км. : " VerticalAlignment="Center" Margin="5"
+                                <сontrols:NumericUpDown Grid.Row="0" Grid.Column="1" Minimum="0" Width="auto"
+                                                        Margin="5"
+                                                        Interval="1" Value="{Binding  Distance}"
+                                                        BorderThickness="1" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Вартість км. : "
+                                           VerticalAlignment="Center" Margin="5"
                                            FontSize="15" />
-                                <сontrols:NumericUpDown Grid.Row="1" Grid.Column="1" Minimum="1" Width="auto" Margin="5"
-                                                            Interval="1" Value="{Binding  CostPerKm}"
-                                                            BorderThickness="1"/>
+                                <сontrols:NumericUpDown Grid.Row="1" Grid.Column="1" Minimum="1" Width="auto"
+                                                        Margin="5"
+                                                        Interval="1" Value="{Binding  CostPerKm}"
+                                                        BorderThickness="1" />
                             </Grid>
                         </Expander>
                         <!--#endregion-->

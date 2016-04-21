@@ -47,11 +47,26 @@ namespace CourseWorkDB_DudasVI
             //        new EventHandler<RoutedEventArgs>(ChangeOpacityProgressRing), sender, e);
             //});
             //thread.Start();
-
-            //LoginBlock.Text = "specialist_test";
-            LoginBlock.Text = "director_test";
-            //LoginBlock.Text = "saler_test";
-
+            string shoice = LoginBlock.Text;
+            switch (shoice)
+            {
+                case "1":
+                {
+                        LoginBlock.Text = "director_test";
+                }
+                    break;
+                case "2":
+                    {
+                        LoginBlock.Text = "specialist_test";
+                    }
+                    break;
+                case "3":
+                    {
+                        LoginBlock.Text = "saler_test";
+                    }
+                    break;
+            }
+            
             PassBlock.Password = "test";
             STAFF resultUser = null;
             resultUser =
@@ -100,12 +115,30 @@ namespace CourseWorkDB_DudasVI
                 //        break;
                 //}
                 Session.User = resultUser;
-                //var homeWindowSpecialist = new HomeWindowSpecialist();
-                //homeWindowSpecialist.Show();
-                HomeWindowAdmin homeWindow = new HomeWindowAdmin();
-                homeWindow.Show();
-                //var homeWindowSale = new HomeWindowSale();
-                //homeWindowSale.Show();
+                switch (shoice)
+                {
+                    case "1":
+                        {
+                            var homeWindow = new HomeWindowAdmin();
+                            homeWindow.Show();
+                        }
+                        break;
+                    case "2":
+                        {
+                            var homeWindowSpecialist = new HomeWindowSpecialist();
+                            homeWindowSpecialist.Show();
+                        }
+                        break;
+                    case "3":
+                        {
+                            var homeWindowSale = new HomeWindowSale();
+                            homeWindowSale.Show();
+                        }
+                        break;
+                }
+                
+                
+                
 
                 //thread.Interrupt();
                 //Back(sender, e);

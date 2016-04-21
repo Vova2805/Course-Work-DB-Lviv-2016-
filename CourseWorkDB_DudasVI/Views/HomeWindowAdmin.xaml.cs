@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using AutoMapper;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models;
-using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using MahApps.Metro.Controls;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
@@ -31,6 +30,7 @@ namespace CourseWorkDB_DudasVI.Views
             Session.User = null;
             Close();
         }
+
         private void Help(object sender, RoutedEventArgs e)
         {
         }
@@ -111,7 +111,6 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void RefreshDiagram(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void ProductFilterClick(object sender, RoutedEventArgs e)

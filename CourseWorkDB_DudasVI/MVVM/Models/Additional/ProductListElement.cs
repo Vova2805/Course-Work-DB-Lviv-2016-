@@ -15,28 +15,29 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private string _categoryTitle;
         private bool _isAdded;
         private PRODUCT_INFO _ProductInfo;
-        private string _title;
         private double _productPrice;
+        private string _title;
 
         private DirectorModel DataContextMDirector;
-        private DirectorViewModel DataContextVMDirector;
-        private SpecialistModel DataContextMSpecialist;
-        private SpecialistViewModel DataContextVMSpecialist;
         private SalerModel DataContextMSaler;
+        private readonly SpecialistModel DataContextMSpecialist;
+        private DirectorViewModel DataContextVMDirector;
         private SalerViewModel DataContextVMSaler;
-        private bool WorkWithOrders = false;
+        private readonly SpecialistViewModel DataContextVMSpecialist;
+        private readonly bool WorkWithOrders;
 
 
         private ProductListElement(PRODUCT_INFO productInfo)
         {
-            this.ProductInfo = productInfo;
+            ProductInfo = productInfo;
             isAdded = false;
             _title = _ProductInfo.PRODUCT_TITLE;
             _categoryTitle = _ProductInfo.CATEGORY.CATEGORY_TITLE;
-            this._productPrice = (double)API.getlastPrice(_ProductInfo.PRODUCT_PRICE).PRICE_VALUE;
+            _productPrice = (double) API.getlastPrice(_ProductInfo.PRODUCT_PRICE).PRICE_VALUE;
         }
+
         public ProductListElement(PRODUCT_INFO ProductInfo, DirectorViewModel dataContextViewModel)
-           : this(ProductInfo)
+            : this(ProductInfo)
         {
             DataContextVMDirector = dataContextViewModel;
             WorkWithOrders = false;
@@ -62,7 +63,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         }
 
         public ProductListElement(PRODUCT_INFO ProductInfo, SalerViewModel dataContextViewModel)
-           : this(ProductInfo)
+            : this(ProductInfo)
         {
             DataContextVMSaler = dataContextViewModel;
             WorkWithOrders = true;
@@ -83,7 +84,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("ProductPrice");
             }
         }
-        
+
         public PRODUCT_INFO ProductInfo
         {
             get { return _ProductInfo; }
@@ -125,7 +126,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("CategoryTitle");
             }
         }
-        
+
         public string Title
         {
             get { return _title; }
@@ -135,7 +136,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("Title");
             }
         }
-       
+
         public ICommand AddProduct
         {
             get { return new RelayCommand<object>(AddProductFunc); }
@@ -176,11 +177,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 var saleWindow = window as HomeWindowSale;
                 if (saleWindow != null)
                 {
-                        ORDER_PRODUCT orderProduct = new ORDER_PRODUCT();
-                        orderProduct.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
-                        orderProduct.PRODUCT_INFO = ProductInfo;
-                        orderProduct.QUANTITY_IN_ORDER = 1;
-                        DataContextVMSaler = saleWindow.DataContext as SalerViewModel;
+                    var orderProduct = new ORDER_PRODUCT();
+                    orderProduct.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
+                    orderProduct.PRODUCT_INFO = ProductInfo;
+                    orderProduct.QUANTITY_IN_ORDER = 1;
+                    DataContextVMSaler = saleWindow.DataContext as SalerViewModel;
                     if (DataContextVMSaler != null)
                         DataContextVMSaler.SelectedClient.addOrderProduct(orderProduct);
                     isAdded = true;
@@ -222,7 +223,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                 MessageDialogStyle.AffirmativeAndNegative);
                     if (result == MessageDialogResult.Affirmative)
                     {
-                        
                         isAdded = false;
                     }
                 }

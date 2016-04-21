@@ -16,7 +16,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0" Margin="5" HorizontalAlignment="Stretch" Height="25" FontSize="15"
-                     ToolTip="Фільтрація"  x:Name="searchTxt"
+                     ToolTip="Фільтрація" x:Name="searchTxt"
                      TextChanged="OnSearch" />
             <Button Grid.Column="1" Width="40" Click="ClearButtonClick"
                     Height="35"
@@ -47,9 +47,9 @@
             </Button>
         </Grid>
         <ListBox Grid.Row="1" VerticalAlignment="Stretch"
-                                 Background="{DynamicResource AccentColorBrush4}"
-                                 ItemsSource="{Binding  EmployeeList}"
-                                 SelectedItem="{Binding SelectedEmployee,Mode=TwoWay}">
+                 Background="{DynamicResource AccentColorBrush4}"
+                 ItemsSource="{Binding  EmployeeList}"
+                 SelectedItem="{Binding SelectedEmployee,Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <userControls:UserListElement />

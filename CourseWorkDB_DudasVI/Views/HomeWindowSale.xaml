@@ -129,7 +129,7 @@
 
     <TabControl SelectionChanged="TabControl_SelectionChanged">
         <TabControl.Resources>
-            <converters:AddressConverter x:Key="AddressConverter"/> 
+            <converters:AddressConverter x:Key="AddressConverter" />
         </TabControl.Resources>
         <!--#region Замовники і замовлення-->
         <TabItem Header="Замовники">
@@ -146,61 +146,67 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="4*" />
                     </Grid.ColumnDefinitions>
-                    <UserControls:ClientsCatalog Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch"/>
+                    <UserControls:ClientsCatalog Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" />
 
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <UserControls:CustomerEditableView Grid.Column="2" Grid.Row="0" DataContext="{Binding Path=SelectedClient}" />
+                    <UserControls:CustomerEditableView Grid.Column="2" Grid.Row="0"
+                                                       DataContext="{Binding Path=SelectedClient}" />
                     <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <Border Grid.Row="0" Grid.Column="4" Margin="5" Grid.RowSpan="2">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="3*"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="2*" />
                             </Grid.RowDefinitions>
-                            <DataGrid Grid.Row="0" FontSize="14" ItemsSource="{Binding Path=SelectedClient.SelectedOrder.ORDER_PRODUCT}" AutoGenerateColumns="False">
+                            <DataGrid Grid.Row="0" FontSize="14"
+                                      ItemsSource="{Binding Path=SelectedClient.SelectedOrder.ORDER_PRODUCT}"
+                                      AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
-                                                                Binding="{Binding Path=PRODUCT_INFO.PRODUCT_TITLE}" />
+                                                        Binding="{Binding Path=PRODUCT_INFO.PRODUCT_TITLE}" />
                                     <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
-                                                                Binding="{Binding Path=PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
+                                                        Binding="{Binding Path=PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
                                     <DataGridTextColumn Width="*" Header="Кількість" IsReadOnly="True"
-                                                                Binding="{Binding QUANTITY_IN_ORDER}" />
+                                                        Binding="{Binding QUANTITY_IN_ORDER}" />
                                 </DataGrid.Columns>
                             </DataGrid>
                             <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
-                            <DataGrid Grid.Row="2" FontSize="14" ItemsSource="{Binding Path=SelectedClient.DeliveryList}" AutoGenerateColumns="False">
+                            <DataGrid Grid.Row="2" FontSize="14"
+                                      ItemsSource="{Binding Path=SelectedClient.DeliveryList}"
+                                      AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Width="Auto" Header="Дата" IsReadOnly="True"
-                                                                Binding="{Binding Path=Delivery.DELIVERY_DATE,StringFormat=\{0:dd.MM.yyyy р.\}}" />
+                                                        Binding="{Binding Path=Delivery.DELIVERY_DATE,StringFormat=\{0:dd.MM.yyyy р.\}}" />
                                     <DataGridTextColumn Width="100" Header="Адреса (від)" IsReadOnly="True"
-                                                                Binding="{Binding Path=DeliveryAddress.ADDRESS,Converter={StaticResource AddressConverter}}" />
+                                                        Binding="{Binding Path=DeliveryAddress.ADDRESS,Converter={StaticResource AddressConverter}}" />
                                     <DataGridTextColumn Width="100" Header="Адреса (до)" IsReadOnly="True"
-                                                                Binding="{Binding Path=DeliveryAddress.ADDRESS1,Converter={StaticResource AddressConverter}}" />
+                                                        Binding="{Binding Path=DeliveryAddress.ADDRESS1,Converter={StaticResource AddressConverter}}" />
                                     <DataGridTextColumn Width="Auto" Header="Вартість км." IsReadOnly="True"
-                                                                Binding="{Binding Path=Delivery.COST_PER_KM}" />
+                                                        Binding="{Binding Path=Delivery.COST_PER_KM}" />
                                     <DataGridTextColumn Width="Auto" Header="Відстань (км.)" IsReadOnly="True"
-                                                                Binding="{Binding Path=DeliveryAddress.DISTANCE}" />
+                                                        Binding="{Binding Path=DeliveryAddress.DISTANCE}" />
                                 </DataGrid.Columns>
                             </DataGrid>
 
                         </Grid>
                     </Border>
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black"  Background="{DynamicResource AccentColorBrush}">
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" BorderThickness="0,2,0,0"
+                            BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
                             <Button Width="50" Click="CustomerFilter"
-                                        Height="50"
-                                        VerticalAlignment="Top"
-                                        ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
-                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20" Height="20">
                                     <Rectangle.Style>
                                         <Style TargetType="{x:Type Rectangle}">
                                             <Setter Property="Fill">
                                                 <Setter.Value>
                                                     <VisualBrush Stretch="Fill"
-                                                                     Visual="{StaticResource appbar_filter}" />
+                                                                 Visual="{StaticResource appbar_filter}" />
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
@@ -208,7 +214,7 @@
                                                     <Setter Property="Fill">
                                                         <Setter.Value>
                                                             <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                             Visual="{StaticResource appbar_filter_white}" />
+                                                                         Visual="{StaticResource appbar_filter_white}" />
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>
@@ -218,17 +224,17 @@
                                 </Rectangle>
                             </Button>
                             <Button Width="50" Click="CustomerFilter"
-                                        Height="50"
-                                        VerticalAlignment="Top"
-                                        ToolTip="Додати замовника Alt+N" Background="{DynamicResource ProgressBrush}"
-                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    ToolTip="Додати замовника Alt+N" Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20" Height="20">
                                     <Rectangle.Style>
                                         <Style TargetType="{x:Type Rectangle}">
                                             <Setter Property="Fill">
                                                 <Setter.Value>
                                                     <VisualBrush Stretch="Fill"
-                                                                     Visual="{StaticResource appbar_user_add}" />
+                                                                 Visual="{StaticResource appbar_user_add}" />
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
@@ -236,7 +242,7 @@
                                                     <Setter Property="Fill">
                                                         <Setter.Value>
                                                             <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                             Visual="{StaticResource appbar_user_add_white}" />
+                                                                         Visual="{StaticResource appbar_user_add_white}" />
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>
@@ -245,18 +251,18 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
-                            <Button Width="50" 
-                                            Height="50"
-                                            VerticalAlignment="Top"
-                                            ToolTip="Зберегти зміни Alt+X" Background="{DynamicResource ProgressBrush}"
-                                            Style="{DynamicResource MetroCircleButtonStyle}">
+                            <Button Width="50"
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    ToolTip="Зберегти зміни Alt+X" Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20" Height="20">
                                     <Rectangle.Style>
                                         <Style TargetType="{x:Type Rectangle}">
                                             <Setter Property="Fill">
                                                 <Setter.Value>
                                                     <VisualBrush Stretch="Fill"
-                                                                         Visual="{StaticResource appbar_save}" />
+                                                                 Visual="{StaticResource appbar_save}" />
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
@@ -264,7 +270,7 @@
                                                     <Setter Property="Fill">
                                                         <Setter.Value>
                                                             <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                                 Visual="{StaticResource appbar_save_white}" />
+                                                                         Visual="{StaticResource appbar_save_white}" />
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>
@@ -416,13 +422,14 @@
                 </Grid>
             </Border>
         </TabItem>-->
-        
+
         <TabItem Header="Нове замовлення">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
-                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="{DynamicResource AccentColorBrush}">
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                      Background="{DynamicResource AccentColorBrush}">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -436,7 +443,7 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
-                        <UserControls:ProductsCatalog Grid.Column="0"/>
+                        <UserControls:ProductsCatalog Grid.Column="0" />
                         <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                         <Grid Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch">
                             <Grid.RowDefinitions>
@@ -458,52 +465,55 @@
                             </Grid>
                             <Grid Grid.Row="1">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="3*"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="3*" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="1*" />
                                 </Grid.RowDefinitions>
                                 <DataGrid HorizontalAlignment="Stretch" ToolTip="Замовлення"
-                                  VerticalAlignment="Stretch" SelectedItem="{Binding Path=SelectedProduct}"
-                                  FontSize="14" ItemsSource="{Binding Path=SelectedClient.PackagesProducts}" AutoGenerateColumns="False">
+                                          VerticalAlignment="Stretch" SelectedItem="{Binding Path=SelectedProduct}"
+                                          FontSize="14" ItemsSource="{Binding Path=SelectedClient.PackagesProducts}"
+                                          AutoGenerateColumns="False">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
-                                                                Binding="{Binding Path=OrderProduct.PRODUCT_INFO.PRODUCT_TITLE}" />
+                                                            Binding="{Binding Path=OrderProduct.PRODUCT_INFO.PRODUCT_TITLE}" />
                                         <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
-                                                                Binding="{Binding Path=OrderProduct.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
-                                        <DataGridTemplateColumn  Width="Auto" Header="Кількість">
+                                                            Binding="{Binding Path=OrderProduct.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
+                                        <DataGridTemplateColumn Width="Auto" Header="Кількість">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate DataType="{x:Type system:Decimal}">
                                                     <Controls:NumericUpDown Minimum="1" Width="auto"
-                                                            Interval="1" Value="{Binding  QuantityInOrder, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                                                            BorderThickness="1"/>
+                                                                            Interval="1"
+                                                                            Value="{Binding  QuantityInOrder, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                                                            BorderThickness="1" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <DataGridTextColumn Width="Auto" Header="Загальна вартість" IsReadOnly="True"
-                                                                Binding="{Binding Path=PackageTotal}" />
-                                        <DataGridTemplateColumn  Width="Auto" Header="Видалити">
+                                                            Binding="{Binding Path=PackageTotal}" />
+                                        <DataGridTemplateColumn Width="Auto" Header="Видалити">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <Button Width="50" Click="CustomerFilter"
-                                                        Height="50"
-                                                        VerticalAlignment="Top"
-                                                        ToolTip="Видалити із замовлення" 
-                                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                                            Height="50"
+                                                            VerticalAlignment="Top"
+                                                            ToolTip="Видалити із замовлення"
+                                                            Style="{DynamicResource MetroCircleButtonStyle}">
                                                         <Rectangle Width="20" Height="20">
                                                             <Rectangle.Style>
                                                                 <Style TargetType="{x:Type Rectangle}">
                                                                     <Setter Property="Fill">
                                                                         <Setter.Value>
                                                                             <VisualBrush Stretch="Fill"
-                                                                     Visual="{StaticResource appbar_delete}" />
+                                                                                         Visual="{StaticResource appbar_delete}" />
                                                                         </Setter.Value>
                                                                     </Setter>
                                                                     <Style.Triggers>
                                                                         <Trigger Property="IsMouseOver" Value="True">
                                                                             <Setter Property="Fill">
                                                                                 <Setter.Value>
-                                                                                    <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                             Visual="{StaticResource appbar_delete_white}" />
+                                                                                    <VisualBrush x:Name="Brush"
+                                                                                                 Stretch="Fill"
+                                                                                                 Visual="{StaticResource appbar_delete_white}" />
                                                                                 </Setter.Value>
                                                                             </Setter>
                                                                         </Trigger>
@@ -518,24 +528,26 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
-                                <DataGrid ToolTip="Список доставок" Grid.Row="2" FontSize="14" ItemsSource="{Binding Path=SelectedClient.DeliveryList}" AutoGenerateColumns="False">
+                                <DataGrid ToolTip="Список доставок" Grid.Row="2" FontSize="14"
+                                          ItemsSource="{Binding Path=SelectedClient.DeliveryList}"
+                                          AutoGenerateColumns="False">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Width="Auto" Header="Дата" IsReadOnly="True"
-                                                                Binding="{Binding Path=Delivery.DELIVERY_DATE,StringFormat=\{0:dd.MM.yyyy р.\}}" />
+                                                            Binding="{Binding Path=Delivery.DELIVERY_DATE,StringFormat=\{0:dd.MM.yyyy р.\}}" />
                                         <DataGridTextColumn Width="*" Header="Адреса (від)" IsReadOnly="True"
-                                                                Binding="{Binding Path=DeliveryAddress.ADDRESS,Converter={StaticResource AddressConverter}}" />
+                                                            Binding="{Binding Path=DeliveryAddress.ADDRESS,Converter={StaticResource AddressConverter}}" />
                                         <DataGridTextColumn Width="*" Header="Адреса (до)" IsReadOnly="True"
-                                                                Binding="{Binding Path=DeliveryAddress.ADDRESS1,Converter={StaticResource AddressConverter}}" />
+                                                            Binding="{Binding Path=DeliveryAddress.ADDRESS1,Converter={StaticResource AddressConverter}}" />
                                         <DataGridTextColumn Width="Auto" Header="Вартість км." IsReadOnly="True"
-                                                                Binding="{Binding Path=Delivery.COST_PER_KM}" />
+                                                            Binding="{Binding Path=Delivery.COST_PER_KM}" />
                                         <DataGridTextColumn Width="Auto" Header="Відстань (км.)" IsReadOnly="True"
-                                                                Binding="{Binding Path=DeliveryAddress.DISTANCE}" />
+                                                            Binding="{Binding Path=DeliveryAddress.DISTANCE}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>
 
                             <Border Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch"
-                                Background="{DynamicResource AccentColorBrush}">
+                                    Background="{DynamicResource AccentColorBrush}">
                                 <Grid Margin="5">
                                     <Grid.Resources>
                                         <!--<Converters:EmptyStringConverter x:Key="emptyStringConv"/>-->
@@ -582,7 +594,7 @@
                                     </Grid>
 
                                     <TextBlock Grid.Row="1" Grid.Column="3" Text="Загальна кількість продукції :" />
-                                    <TextBlock Grid.Row="1" Grid.Column="4"  FontWeight="Bold"
+                                    <TextBlock Grid.Row="1" Grid.Column="4" FontWeight="Bold"
                                                Text="{Binding Path=SelectedClient.TotalQuantity}" />
                                     <TextBlock Grid.Row="2" Grid.Column="3" Text="Вартість замовлення :" />
                                     <TextBlock Grid.Row="2" Grid.Column="4" FontWeight="Bold" Foreground="Green"
@@ -590,33 +602,37 @@
                                 </Grid>
                             </Border>
                         </Grid>
-                        <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" />
-                        <Grid  Grid.Column="4" Grid.Row="0" Grid.RowSpan="2">
+                        <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" Grid.RowSpan="2"
+                                      HorizontalAlignment="Stretch" />
+                        <Grid Grid.Column="4" Grid.Row="0" Grid.RowSpan="2">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="3*"/>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="2*" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="3*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
-                            <UserControls:ProductViewForSale Grid.Row="0" DataContext="{Binding SelectedProduct}"/>
-                            <UserControls:DeliveryView Grid.Row="2"/>
-                            <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
+                            <UserControls:ProductViewForSale Grid.Row="0" DataContext="{Binding SelectedProduct}" />
+                            <UserControls:DeliveryView Grid.Row="2" />
+                            <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Height="50"
+                                    BorderThickness="0,2,0,0" BorderBrush="Black"
+                                    Background="{DynamicResource AccentColorBrush}">
                                 <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
-                                   LastChildFill="False">
+                                           LastChildFill="False">
 
                                     <Button Width="50" Click="CustomerFilter"
-                                        Height="50"
-                                        VerticalAlignment="Top"
-                                        ToolTip="Додати доставку до замовлення Alt+A" Background="{DynamicResource ProgressBrush}"
-                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                            Height="50"
+                                            VerticalAlignment="Top"
+                                            ToolTip="Додати доставку до замовлення Alt+A"
+                                            Background="{DynamicResource ProgressBrush}"
+                                            Style="{DynamicResource MetroCircleButtonStyle}">
                                         <Rectangle Width="20" Height="20">
                                             <Rectangle.Style>
                                                 <Style TargetType="{x:Type Rectangle}">
                                                     <Setter Property="Fill">
                                                         <Setter.Value>
                                                             <VisualBrush Stretch="Fill"
-                                                                     Visual="{StaticResource appbar_add}" />
+                                                                         Visual="{StaticResource appbar_add}" />
                                                         </Setter.Value>
                                                     </Setter>
                                                     <Style.Triggers>
@@ -624,7 +640,7 @@
                                                             <Setter Property="Fill">
                                                                 <Setter.Value>
                                                                     <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                             Visual="{StaticResource appbar_add_white}" />
+                                                                                 Visual="{StaticResource appbar_add_white}" />
                                                                 </Setter.Value>
                                                             </Setter>
                                                         </Trigger>
@@ -633,10 +649,11 @@
                                             </Rectangle.Style>
                                         </Rectangle>
                                     </Button>
-                                    <Button Width="50" 
+                                    <Button Width="50"
                                             Height="50"
                                             VerticalAlignment="Top"
-                                            ToolTip="Очистити зміни у доставці" Background="{DynamicResource ProgressBrush}"
+                                            ToolTip="Очистити зміни у доставці"
+                                            Background="{DynamicResource ProgressBrush}"
                                             Style="{DynamicResource MetroCircleButtonStyle}">
                                         <Rectangle Width="20" Height="20">
                                             <Rectangle.Style>
@@ -666,9 +683,10 @@
 
                         </Grid>
 
-                        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" BorderThickness="0,2,0,0" BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
+                        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" BorderThickness="0,2,0,0"
+                                BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
                             <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
-                                   LastChildFill="False">
+                                       LastChildFill="False">
 
                                 <Button Width="50" Click="CustomerFilter"
                                         Height="50"
@@ -726,18 +744,19 @@
                                         </Rectangle.Style>
                                     </Rectangle>
                                 </Button>
-                                <Button Width="50" 
-                                            Height="50"
-                                            VerticalAlignment="Top"
-                                            ToolTip="Очистити замовлення Alt+D" Background="{DynamicResource ProgressBrush}"
-                                            Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Button Width="50"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Очистити замовлення Alt+D"
+                                        Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
                                     <Rectangle Width="20" Height="20">
                                         <Rectangle.Style>
                                             <Style TargetType="{x:Type Rectangle}">
                                                 <Setter Property="Fill">
                                                     <Setter.Value>
                                                         <VisualBrush Stretch="Fill"
-                                                                         Visual="{StaticResource appbar_delete}" />
+                                                                     Visual="{StaticResource appbar_delete}" />
                                                     </Setter.Value>
                                                 </Setter>
                                                 <Style.Triggers>
@@ -745,7 +764,7 @@
                                                         <Setter Property="Fill">
                                                             <Setter.Value>
                                                                 <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                                 Visual="{StaticResource appbar_delete_white}" />
+                                                                             Visual="{StaticResource appbar_delete_white}" />
                                                             </Setter.Value>
                                                         </Setter>
                                                     </Trigger>
@@ -757,7 +776,8 @@
                                 <Button Width="50" Click="CustomerFilter"
                                         Height="50"
                                         VerticalAlignment="Top"
-                                        ToolTip="Зберегти замовлення Alt+X" Background="{DynamicResource ProgressBrush}"
+                                        ToolTip="Зберегти замовлення Alt+X"
+                                        Background="{DynamicResource ProgressBrush}"
                                         Style="{DynamicResource MetroCircleButtonStyle}">
                                     <Rectangle Width="20" Height="20">
                                         <Rectangle.Style>

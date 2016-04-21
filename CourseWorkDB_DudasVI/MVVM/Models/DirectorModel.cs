@@ -9,50 +9,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
     {
         public List<STAFF> EmployeeList;
         public STAFF SelectedEmployee;
-        //public IEnumerable<CLIENT> ClientList;
-        //public IEnumerable<SALE_ORDER> OrderList;
-
-
-        #region Second
-        public List<ClientListItem> Clients;
-        public ClientListItem SelectedClient;
-        #endregion
-
-        #region Second
-
-        public List<ProductListElement> ProductsList;
-        public List<string> ProductsTitleList;
-        public string SelectedProductTitle;
-        public ProductListElement SelectedProduct;
-        public List<ProductPriceListElement> ProductPriceList;
-        public PRODUCT_PRICE SelectedProductPrice;
-        public double ProductPriceValue;
-        public double ProductPricePersentage;
-        public PRODUCTION_SCHEDULE CurrentProductionSchedule;
-
-        #endregion
-
-        #region Forth
-        public List<WarehouseListItem> warehouses;
-        public WarehouseListItem CurrentWarehouse;
-        public decimal Engaged;
-        public List<string> warehousesStrings;
-        public string CurrentWarehouseString;
-        public List<WarehouseProductTransaction> InOutComeFlow;
-        public string DateFilterString;
-        public string ValueRange;
-        public string TotalIncome;
-        public string TotalOutcome;
-        public string FlowDirection;
-        public List<RELEASED_PRODUCT> ProductsOnWarehouse;
-        #endregion
-
-        #region So on
-        public List<PRODUCTION_SCHEDULE> Schedules;
-        public PRODUCTION_SCHEDULE SelectedProductionSchedule;
-        public List<SCHEDULE_PRODUCT_INFO> schedulePackages;
-        public string ChangedText;
-        #endregion
 
 
         public DirectorModel()
@@ -60,7 +16,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             EmployeeList = Session.FactoryEntities.STAFF.ToList().FindAll(s => s.POST.DEPARTMENT.DEPARTMENT_ID == 3);
             SelectedEmployee = EmployeeList.First();
 
-            List<CLIENT> temp = Session.FactoryEntities.CLIENT.ToList();
+            var temp = Session.FactoryEntities.CLIENT.ToList();
             Clients = new List<ClientListItem>();
             foreach (var client in temp)
             {
@@ -68,14 +24,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             }
             Clients.ToList().Sort((client1, client2) =>
             {
-                int name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME, true);
-                int surname = string.Compare(client1.Client.CLIENT_SURNAME, client2.Client.CLIENT_SURNAME, true);
-                int middle_name = string.Compare(client1.Client.CLIENT_MIDDLE_NAME, client2.Client.CLIENT_MIDDLE_NAME);
+                var name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME, true);
+                var surname = string.Compare(client1.Client.CLIENT_SURNAME, client2.Client.CLIENT_SURNAME, true);
+                var middle_name = string.Compare(client1.Client.CLIENT_MIDDLE_NAME, client2.Client.CLIENT_MIDDLE_NAME);
                 return surname == 0 ? name == 0 ? middle_name == 0 ? 0 : middle_name : name : surname;
             });
-            if(Clients.Count>0)
-            SelectedClient = Clients.First();
-
+            if (Clients.Count > 0)
+                SelectedClient = Clients.First();
 
             #region Second
 
@@ -86,8 +41,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             }
             SelectedProduct = ProductsList.First();
             SelectedProductPrice = API.getlastPrice(SelectedProduct.ProductInfo.PRODUCT_PRICE);
-            ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
-            ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+            ProductPriceValue = (double) SelectedProductPrice.PRICE_VALUE;
+            ProductPricePersentage = (double) SelectedProductPrice.PERSENTAGE_VALUE;
             ProductPriceList = new List<ProductPriceListElement>();
             foreach (var price in SelectedProduct.ProductInfo.PRODUCT_PRICE.ToList())
             {
@@ -111,12 +66,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
             CurrentWarehouse = warehouses.First();
             warehousesStrings = new List<string>();
-            int i = 0;
+            var i = 0;
             foreach (var warehouse in warehouses)
             {
                 warehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
             }
-            warehousesStrings.Insert(0,"Всі склади");
+            warehousesStrings.Insert(0, "Всі склади");
             CurrentWarehouseString = warehousesStrings.First();
             InOutComeFlow = new List<WarehouseProductTransaction>();
             var order_products =
@@ -153,5 +108,55 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                     .Where(pack => pack.SCHEDULE_ID == SelectedProductionSchedule.SCHEDULE_ID).ToList();
             ChangedText = "";
         }
+
+        //public IEnumerable<CLIENT> ClientList;
+        //public IEnumerable<SALE_ORDER> OrderList;
+
+        #region Second
+
+        public List<ClientListItem> Clients;
+        public ClientListItem SelectedClient;
+
+        #endregion
+
+        #region Second
+
+        public List<ProductListElement> ProductsList;
+        public List<string> ProductsTitleList;
+        public string SelectedProductTitle;
+        public ProductListElement SelectedProduct;
+        public List<ProductPriceListElement> ProductPriceList;
+        public PRODUCT_PRICE SelectedProductPrice;
+        public double ProductPriceValue;
+        public double ProductPricePersentage;
+        public PRODUCTION_SCHEDULE CurrentProductionSchedule;
+
+        #endregion
+
+        #region Forth
+
+        public List<WarehouseListItem> warehouses;
+        public WarehouseListItem CurrentWarehouse;
+        public decimal Engaged;
+        public List<string> warehousesStrings;
+        public string CurrentWarehouseString;
+        public List<WarehouseProductTransaction> InOutComeFlow;
+        public string DateFilterString;
+        public string ValueRange;
+        public string TotalIncome;
+        public string TotalOutcome;
+        public string FlowDirection;
+        public List<RELEASED_PRODUCT> ProductsOnWarehouse;
+
+        #endregion
+
+        #region So on
+
+        public List<PRODUCTION_SCHEDULE> Schedules;
+        public PRODUCTION_SCHEDULE SelectedProductionSchedule;
+        public List<SCHEDULE_PRODUCT_INFO> schedulePackages;
+        public string ChangedText;
+
+        #endregion
     }
 }

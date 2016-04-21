@@ -36,7 +36,6 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-          
         }
 
         private void CustomerFilter(object sender, RoutedEventArgs e)
@@ -54,7 +53,6 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void Help(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void addHotKey()

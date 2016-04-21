@@ -25,10 +25,10 @@ namespace CourseWorkDB_DudasVI.Views
 
     public partial class HomeWindowSpecialist : MetroWindow
     {
-        public SpecialistViewModel _specialistViewModel;
         private readonly List<ChartsSet> chartsSets;
         private readonly List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
         private readonly List<Flyout> flyouts;
+        public SpecialistViewModel _specialistViewModel;
 
         public HomeWindowSpecialist()
         {
@@ -214,7 +214,7 @@ namespace CourseWorkDB_DudasVI.Views
             {
                 model.TabIndex = SpecialistControl.SelectedIndex;
                 model.UpdateSeries();
-                ProductsCatalog.ClearText();
+                //ProductsCatalog.ClearText();
             }
             MouseClick(sender, null);
         }

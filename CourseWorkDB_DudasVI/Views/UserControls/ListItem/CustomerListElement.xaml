@@ -10,7 +10,7 @@
         <Border.Resources>
             <converters:StaffImageConverter x:Key="Converter" />
         </Border.Resources>
-        <Grid Height="auto"  Margin="5">
+        <Grid Height="auto" Margin="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -31,11 +31,12 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{Binding Path=Client.CLIENT_NAME}" Grid.Column="2" ToolTip="Ім'я клієнта" />
-                    <TextBlock TextAlignment="Left" Text="{Binding Path=Client.CLIENT_SURNAME}" Grid.Column="0"  ToolTip="Прізвище клієнта"/>
+                    <TextBlock TextAlignment="Left" Text="{Binding Path=Client.CLIENT_SURNAME}" Grid.Column="0"
+                               ToolTip="Прізвище клієнта" />
                 </Grid>
             </StackPanel>
-            <TextBlock FontWeight="Bold"  Grid.Row="1" Grid.Column="2"
-                       Text="{Binding Path=Client.MOBILE_PHONE}" ToolTip="Мобільний телефон" Margin="5"/>
+            <TextBlock FontWeight="Bold" Grid.Row="1" Grid.Column="2"
+                       Text="{Binding Path=Client.MOBILE_PHONE}" ToolTip="Мобільний телефон" Margin="5" />
             <TextBlock FontWeight="Bold" Grid.Row="2" Grid.Column="2"
                        Text="{Binding Path=Client.EMAIL}" ToolTip="Електронна адреса" />
         </Grid>

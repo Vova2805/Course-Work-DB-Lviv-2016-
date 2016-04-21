@@ -129,7 +129,7 @@
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
-    <TabControl Name="SpecialistControl">
+    <TabControl Name="SpecialistControl" SelectionChanged="TabControl_SelectionChanged">
         <!--#region Замовлення-->
         <TabItem Header="Замовлення">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">

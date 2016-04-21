@@ -5,15 +5,15 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
                     <Border Name="_Border"
-                                Padding="2"
-                                SnapsToDevicePixels="true">
+                            Padding="2"
+                            SnapsToDevicePixels="true">
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter TargetName="_Border" Property="Background" Value="DarkSlateGray"/>
-                            <Setter Property="Foreground" Value="Navy"/>
-                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter TargetName="_Border" Property="Background" Value="DarkSlateGray" />
+                            <Setter Property="Foreground" Value="Navy" />
+                            <Setter Property="FontWeight" Value="Bold" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
-using CourseWorkDB_DudasVI.Views.UserControls;
-using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
 {
@@ -14,7 +12,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         {
             #region First
 
-            List<CLIENT> temp = Session.FactoryEntities.CLIENT.ToList();
+            var temp = Session.FactoryEntities.CLIENT.ToList();
             Clients = new List<ClientListItem>();
             ClientsTitle = new List<string>();
             foreach (var client in temp)
@@ -23,9 +21,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             }
             Clients.ToList().Sort((client1, client2) =>
             {
-                int name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME, true);
-                int surname = string.Compare(client1.Client.CLIENT_SURNAME, client2.Client.CLIENT_SURNAME, true);
-                int middle_name = string.Compare(client1.Client.CLIENT_MIDDLE_NAME, client2.Client.CLIENT_MIDDLE_NAME);
+                var name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME, true);
+                var surname = string.Compare(client1.Client.CLIENT_SURNAME, client2.Client.CLIENT_SURNAME, true);
+                var middle_name = string.Compare(client1.Client.CLIENT_MIDDLE_NAME, client2.Client.CLIENT_MIDDLE_NAME);
                 return surname == 0 ? name == 0 ? middle_name == 0 ? 0 : middle_name : name : surname;
             });
             foreach (var client in Clients)
@@ -37,17 +35,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 SelectedClient = Clients.First();
                 SelectedClientTitle = ClientsTitle.First();
             }
-            
 
             #endregion
 
             #region Second
 
-            List<PRODUCT_INFO> tempProducts = Session.FactoryEntities.PRODUCT_INFO.ToList();
+            var tempProducts = Session.FactoryEntities.PRODUCT_INFO.ToList();
             ProductsList = new List<ProductListElement>();
             foreach (var product in tempProducts)
             {
-                ProductsList.Add(new ProductListElement(product,this));
+                ProductsList.Add(new ProductListElement(product, this));
             }
             if (ProductsList.Count > 0)
             {
@@ -59,8 +56,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             #region Third
 
             WarehousesList = Session.FactoryEntities.WAREHOUSE.ToList();
-            if(WarehousesList.Count>0)
-            SelectedWarehouse = WarehousesList.First();
+            if (WarehousesList.Count > 0)
+                SelectedWarehouse = WarehousesList.First();
             WarehousesListTitles = new List<string>();
             foreach (var warehouse in WarehousesList)
             {
@@ -71,11 +68,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             Distance = 0;
             var deliveries = Session.FactoryEntities.DELIVERY.ToList();
             deliveries.Sort(
-                 (del1, del2) =>
-                 {
-                     return del1.DELIVERY_DATE > del2.DELIVERY_DATE ? 1 : del1.DELIVERY_DATE == del2.DELIVERY_DATE ? 0 : -1;
-                 }
-                 );
+                (del1, del2) =>
+                {
+                    return del1.DELIVERY_DATE > del2.DELIVERY_DATE
+                        ? 1
+                        : del1.DELIVERY_DATE == del2.DELIVERY_DATE ? 0 : -1;
+                }
+                );
             CostPerKM = deliveries.Last().COST_PER_KM;
 
             #endregion
@@ -98,17 +97,21 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         //TabPages
 
         #region First
+
         public List<ClientListItem> Clients;
         public ClientListItem SelectedClient;
+
         #endregion
 
         #region Second
 
         public List<ProductListElement> ProductsList;
         public ProductListElement selectedProduct;
+
         #endregion
 
         #region Third
+
         public List<string> ClientsTitle;
         public string SelectedClientTitle;
         public List<WAREHOUSE> WarehousesList;
@@ -117,9 +120,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public string SelectedWarehouseTitle;
         public decimal Distance;
         public decimal CostPerKM;
+
         #endregion
 
         #region So on
+
         #endregion
 
         #region OrderFilter
