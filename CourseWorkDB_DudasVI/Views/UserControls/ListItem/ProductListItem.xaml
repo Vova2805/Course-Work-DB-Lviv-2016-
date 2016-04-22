@@ -30,7 +30,7 @@
             <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Height="50" Width="50"
                    Source="pack://application:,,,/Resources/images/sweet.png" VerticalAlignment="Center" />
             <TextBlock FontWeight="Bold" Grid.Row="0" ToolTip="Назва товару" VerticalAlignment="Center"
-                       TextWrapping="Wrap" Grid.Column="2" Name="Vova" Text="{Binding Path=Title}" Width="200">
+                       TextWrapping="Wrap" Grid.Column="2" Text="{Binding Path=Title}" Width="200">
                 <i:Interaction.Behaviors>
                     <rules:TextHighlightBehavior Text="{Binding Text, Mode=OneWayToSource}" Background="Blue" />
                 </i:Interaction.Behaviors>

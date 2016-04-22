@@ -56,7 +56,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         protected string _TotalIncome;
         protected string _TotalOutcome;
         protected string _FlowDirection;
-        protected ObservableCollection<RELEASED_PRODUCT> _ProductsOnWarehouse;
+        protected ObservableCollection<ReleasedProductListItem> _ProductsOnWarehouse;
         protected decimal _Engaged;
         protected ObservableCollection<PRODUCTION_SCHEDULE> _Schedules;
         protected PRODUCTION_SCHEDULE _SelectedProductionSchedule;
@@ -145,7 +145,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public ObservableCollection<RELEASED_PRODUCT> ProductsOnWarehouse
+        public ObservableCollection<ReleasedProductListItem> ProductsOnWarehouse
         {
             get { return _ProductsOnWarehouse; }
             set
@@ -262,7 +262,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
                 foreach (var product in tempProducts)
                 {
-                    ProductsOnWarehouse.Add(product);
+                    ProductsOnWarehouse.Add(new ReleasedProductListItem(product));
                 }
                 Engaged = _CurrentWarehouse.Warehouse.CAPACITY - _CurrentWarehouse.Warehouse.FREE_SPACE;
                 OnPropertyChanged("CurrentWarehouse");

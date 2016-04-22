@@ -87,6 +87,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             {
                 warehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
             }
+            warehousesStrings.Insert(0,"Всі склади");
             CurrentWarehouseString = warehousesStrings.First();
             InOutComeFlow = new List<WarehouseProductTransaction>();
             var order_products =
@@ -107,9 +108,14 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 {
                     return transaction1.Date > transaction2.Date ? 1 : transaction1.Date == transaction2.Date ? 0 : -1;
                 });
-            ProductsOnWarehouse =
+            var productsOnWarehouse =
                 Session.FactoryEntities.RELEASED_PRODUCT.ToList()
                     .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
+            this.ProductsOnWarehouse = new List<ReleasedProductListItem>();
+            foreach (var product in productsOnWarehouse)
+            {
+                this.ProductsOnWarehouse.Add(new ReleasedProductListItem(product));
+            }
             Schedules =
                 Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList()
                     .Where(ps => ps.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID)
@@ -164,7 +170,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public string TotalIncome;
         public string TotalOutcome;
         public string FlowDirection;
-        public List<RELEASED_PRODUCT> ProductsOnWarehouse;
+        public List<ReleasedProductListItem> ProductsOnWarehouse;
 
         #endregion
 
