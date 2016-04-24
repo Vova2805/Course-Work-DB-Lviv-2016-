@@ -613,11 +613,11 @@
                                               AutoGenerateColumns="False">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
-                                                                Binding="{Binding Path=PRODUCT_INFO.PRODUCT_TITLE}" />
+                                                                Binding="{Binding Path=ProductInfo.PRODUCT_INFO.PRODUCT_TITLE}" />
                                             <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
-                                                                Binding="{Binding Path=PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
+                                                                Binding="{Binding Path=ProductInfo.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
                                             <DataGridTextColumn Width="*" Header="Кількість" IsReadOnly="True"
-                                                                Binding="{Binding Path=QUANTITY_IN_SCHEDULE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                                Binding="{Binding Path=Quantity,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>
