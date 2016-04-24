@@ -202,7 +202,7 @@
                                         </Style>
                                     </DataGridTextColumn.CellStyle>
                                 </DataGridTextColumn>
-                                <DataGridTemplateColumn Header="Кількість необхідна">
+                                <DataGridTemplateColumn Header="Кількість необхідна" Visibility="Collapsed">
                                     <DataGridTemplateColumn.CellStyle>
                                         <Style>
                                             <Setter Property="TextBox.TextAlignment" Value="Center"/>

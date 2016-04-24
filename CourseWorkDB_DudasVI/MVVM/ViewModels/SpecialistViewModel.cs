@@ -504,7 +504,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 specialistWindow.WarehouseDataGrid.Columns[6].Visibility = ExtendedMode
                     ? Visibility.Visible
                     : Visibility.Collapsed;
-                specialistWindow.WarehouseDataGrid.Columns[3].Visibility = !ExtendedMode
+                specialistWindow.WarehouseDataGrid.Columns[3].Visibility = !ExtendedMode && isAllWarehouses
                     ? Visibility.Visible
                     : Visibility.Collapsed;
                 specialistWindow.WarehouseDataGrid.Columns[4].Visibility = ExtendedMode
