@@ -248,6 +248,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     .Where(rp => rp.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList());
                     }
                     _CurrentWarehouse = new WarehouseListItem(tempWarehouse);
+                    _CurrentWarehouseString = "Всі склади";
                 }
                 else
                 {
@@ -286,6 +287,19 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             releasedProduct.Quantity += item.QUANTITY;
                         }
                         this.ProductsOnWarehouse.Add(releasedProduct);
+                    }
+                }
+                if(CurrentWarehouseString!=null)
+                if (!_ExtendedMode && !_CurrentWarehouseString.Equals("Всі склади"))
+                {
+                    foreach (var product in _ProductsOnWarehouse)
+                    {
+                        product.IsBooked = _CurrentWarehouse.Contains(product.ReleasedProduct.PRODUCT_INFO);
+                        if (product.IsBooked)
+                        {
+                            var tempProd = _CurrentWarehouse.ContainsProductInfo(product.ReleasedProduct.PRODUCT_INFO);
+                            product.QuantityNeeded = tempProd == null ? product.Quantity : tempProd.QUANTITY_IN_SCHEDULE+ product.Quantity;
+                        }
                     }
                 }
                 Engaged = _CurrentWarehouse.Warehouse.CAPACITY - _CurrentWarehouse.Warehouse.FREE_SPACE;
