@@ -185,7 +185,7 @@
                                     </DataGridTextColumn.CellStyle>
                                 </DataGridTextColumn>
                                 <Controls:DataGridNumericUpDownColumn Header="Кількість необхідна" 
-                                                      Binding="{Binding QuantityNeeded}"
+                                                      Binding="{Binding QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       Interval="1"
                                                       Minimum="0" >
                                     <Controls:DataGridNumericUpDownColumn.CellStyle>
