@@ -7,6 +7,7 @@
              xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:rules="clr-namespace:CourseWorkDB_DudasVI.Views.Rules"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d">
     <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="1,1,1,1" HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch" Height="Auto">
@@ -42,8 +43,19 @@
                     <rules:TextHighlightBehavior Text="{Binding Text, Mode=OneWayToSource}" Background="Blue" />
                 </i:Interaction.Behaviors>
             </TextBlock>
-            <Grid Grid.Row="1" Grid.Column="4">
-                <Grid.Resources>
+            <Grid Grid.Row="1" Grid.Column="4" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition  Height="5"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock FontWeight="Bold" Grid.Row="0" Foreground="Green" HorizontalAlignment="Left"
+                           Text="{Binding Path=Quantity}"
+                           ToolTip="Кількість на складі" />
+                <controls:NumericUpDown ToolTip="Бажана кількість на складі"
+                                        Grid.Row="2" Minimum = "0" Interval = "1" Value="{Binding Path=QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!--<Grid.Resources>
                     <converters:AddedConverter x:Key="AddedConverter" />
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
@@ -85,7 +97,7 @@
                             </Style>
                         </Rectangle.Style>
                     </Rectangle>
-                </Button>
+                </Button>-->
             </Grid>
 
             <Grid Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">

@@ -45,7 +45,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             ProductsList = new List<ProductListElement>();
             foreach (var product in tempProducts)
             {
-                ProductsList.Add(new ProductListElement(product, this));
+                ProductsList.Add(new ProductListElement(product));
             }
             if (ProductsList.Count > 0)
             {

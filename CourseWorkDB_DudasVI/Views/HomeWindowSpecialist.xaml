@@ -616,8 +616,19 @@
                                                                 Binding="{Binding Path=ProductInfo.PRODUCT_INFO.PRODUCT_TITLE}" />
                                             <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
                                                                 Binding="{Binding Path=ProductInfo.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
-                                            <DataGridTextColumn Width="*" Header="Кількість" IsReadOnly="True"
-                                                                Binding="{Binding Path=Quantity,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                            <DataGridTemplateColumn Width="*" Header="Кількість" IsReadOnly="True">
+                                                <DataGridTemplateColumn.CellStyle>
+                                                    <Style>
+                                                        <Setter Property="TextBox.TextAlignment" Value="Center"/>
+                                                    </Style>
+                                                </DataGridTemplateColumn.CellStyle>
+
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Controls:NumericUpDown Minimum = "0" Interval = "1" Value="{Binding Path=Quantity,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>

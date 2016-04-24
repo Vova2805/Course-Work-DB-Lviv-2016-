@@ -297,9 +297,28 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         product.IsBooked = _CurrentWarehouse.Contains(product.ReleasedProduct.PRODUCT_INFO);
                         if (product.IsBooked)
                         {
-                            var tempProd = _CurrentWarehouse.ContainsProductInfo(product.ReleasedProduct.PRODUCT_INFO);
+                            var tempProd = _CurrentWarehouse.ContainsProductInfo(product.ReleasedProduct.PRODUCT_INFO).ProductInfo;
                             product.QuantityNeeded = tempProd == null ? product.Quantity : tempProd.QUANTITY_IN_SCHEDULE+ product.Quantity;
                         }
+                    }
+                }
+                if (ProductsList == null)
+                {
+                    ProductsList = new  ObservableCollection<ProductListElement>();
+                    var products = Session.FactoryEntities.PRODUCT_INFO.ToList();
+                    foreach (var product in products)
+                    {
+                        ProductsList.Add(new ProductListElement(product,this));
+                    }
+                }
+                foreach (var product in ProductsList)
+                {
+                    product.IsBooked = _CurrentWarehouse.Contains(product.ProductInfo);
+                    var tempProd = _CurrentWarehouse.ContainsProductInfo(product.ProductInfo);
+                    if (tempProd != null)
+                    {
+                        product.Quantity = tempProd.Quantity;
+                        product.QuantityNeeded = tempProd == null ? product.Quantity : tempProd.ProductInfo.QUANTITY_IN_SCHEDULE + product.Quantity;
                     }
                 }
                 Engaged = _CurrentWarehouse.Warehouse.CAPACITY - _CurrentWarehouse.Warehouse.FREE_SPACE;
