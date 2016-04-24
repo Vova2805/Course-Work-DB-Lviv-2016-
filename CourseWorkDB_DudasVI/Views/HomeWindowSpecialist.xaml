@@ -52,6 +52,31 @@
                     </Rectangle>
                 </StackPanel>
             </Button>
+            <Button Click="LogoutClick" ToolTip="Повідомлення Alt+M">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="15" Height="15">
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Setter Property="Fill">
+                                    <Setter.Value>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_email}" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                             Visual="{StaticResource appbar_email_white}" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                </StackPanel>
+            </Button>
             <Button Click="LogoutClick" ToolTip="Завершити роботу">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Width="15" Height="15">
@@ -77,6 +102,7 @@
                     </Rectangle>
                 </StackPanel>
             </Button>
+            
             <Button ToolTip="Довідка Alt+F1" Click="Help">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5 0 5 0"

@@ -90,6 +90,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             public DateTime to { get; set; }
         }
 
+       
+
         private ObservableCollection<string> _OptionsList;
         private decimal _priceFrom;
         private decimal _priceTo;

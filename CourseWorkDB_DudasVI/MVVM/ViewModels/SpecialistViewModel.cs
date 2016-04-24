@@ -11,24 +11,47 @@ using CourseWorkDB_DudasVI.Views;
 using LiveCharts;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class SpecialistViewModel : ChartViewModel
     {
+        public class Meil : ViewModelBase
+        {
+            private string _MeilTitle;
+            private bool _Checked;
+
+            public Meil(string meilTitle)
+            {
+                MeilTitle = meilTitle;
+            }
+
+            public bool Checked
+            {
+                get { return _Checked; }
+                set
+                {
+                    _Checked = value;
+                    OnPropertyChanged("Checked");
+                }
+            }
+
+            public string MeilTitle
+            {
+                get { return _MeilTitle; }
+                set
+                {
+                    _MeilTitle = value;
+                    OnPropertyChanged("MeilTitle");
+                }
+            }
+        }
+
         public SpecialistViewModel():base()
         {
             AddPermition = true;
-            
-
         }
-
-
-        //TabPages
-        
-
-
-
         #region Functions
 
         #region Charts

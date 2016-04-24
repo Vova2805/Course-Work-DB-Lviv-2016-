@@ -1474,7 +1474,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <Canvas x:Key="appbar_email_hardedge" x:Shared="False" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
         <Path Width="40" Height="30" Canvas.Left="18" Canvas.Top="23" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 18,23L 58,23L 58,53L 18,53L 18,23 Z M 22,49L 54,49L 54,31L 38,43L 22,31L 22,49 Z M 23,27L 38,38L 53,27L 23,27 Z "/>
     </Canvas>
-
+   
     <Canvas x:Key="appbar_email_minimal" x:Shared="False" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
         <Path Width="38" Height="26" Canvas.Left="19" Canvas.Top="25" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 19,25L 57,25L 38,38L 19,25 Z M 38,42.75L 57,30L 57,51L 19,51L 19,30L 38,42.75 Z "/>
     </Canvas>
@@ -1485,6 +1485,12 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
     <Canvas x:Key="appbar_email" x:Shared="False" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
         <Path Width="40" Height="30" Canvas.Left="18" Canvas.Top="23" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 21.5,23L 54.5,23C 56.2489,23 58,24.7511 58,26.5L 58,49.5C 58,51.2489 56.2489,53 54.5,53L 21.5,53C 19.7511,53 18,51.2489 18,49.5L 18,26.5C 18,24.7511 19.7511,23 21.5,23 Z M 22,47C 22,48.3117 22.6883,49 24,49L 52,49C 53.3117,49 54,48.3117 54,47L 54,29L 40.6563,42.6567C 39.4197,43.8933 37.4146,43.8933 36.178,42.6567L 22,29L 22,47 Z M 25,27L 36.7378,38.7381C 37.6653,39.6656 39.169,39.6656 40.0965,38.7381L 52,27L 25,27 Z "/>
+    </Canvas>
+    <Canvas x:Key="appbar_email_white" x:Shared="False" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+        <Path Width="40" Height="30" Canvas.Left="18" Canvas.Top="23" Stretch="Fill" Fill="white" Data="F1 M 21.5,23L 54.5,23C 56.2489,23 58,24.7511 58,26.5L 58,49.5C 58,51.2489 56.2489,53 54.5,53L 21.5,53C 19.7511,53 18,51.2489 18,49.5L 18,26.5C 18,24.7511 19.7511,23 21.5,23 Z M 22,47C 22,48.3117 22.6883,49 24,49L 52,49C 53.3117,49 54,48.3117 54,47L 54,29L 40.6563,42.6567C 39.4197,43.8933 37.4146,43.8933 36.178,42.6567L 22,29L 22,47 Z M 25,27L 36.7378,38.7381C 37.6653,39.6656 39.169,39.6656 40.0965,38.7381L 52,27L 25,27 Z "/>
+    </Canvas>
+    <Canvas x:Key="appbar_email_red" x:Shared="False" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+        <Path Width="40" Height="30" Canvas.Left="18" Canvas.Top="23" Stretch="Fill" Fill="red" Data="F1 M 21.5,23L 54.5,23C 56.2489,23 58,24.7511 58,26.5L 58,49.5C 58,51.2489 56.2489,53 54.5,53L 21.5,53C 19.7511,53 18,51.2489 18,49.5L 18,26.5C 18,24.7511 19.7511,23 21.5,23 Z M 22,47C 22,48.3117 22.6883,49 24,49L 52,49C 53.3117,49 54,48.3117 54,47L 54,29L 40.6563,42.6567C 39.4197,43.8933 37.4146,43.8933 36.178,42.6567L 22,29L 22,47 Z M 25,27L 36.7378,38.7381C 37.6653,39.6656 39.169,39.6656 40.0965,38.7381L 52,27L 25,27 Z "/>
     </Canvas>
 
     <Canvas x:Key="appbar_email_yahoo" x:Shared="False" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
