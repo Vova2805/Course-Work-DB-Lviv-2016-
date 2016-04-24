@@ -617,7 +617,7 @@
                                             <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
                                                                 Binding="{Binding Path=PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
                                             <DataGridTextColumn Width="*" Header="Кількість" IsReadOnly="True"
-                                                                Binding="{Binding QUANTITY_IN_SCHEDULE}" />
+                                                                Binding="{Binding Path=QUANTITY_IN_SCHEDULE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>

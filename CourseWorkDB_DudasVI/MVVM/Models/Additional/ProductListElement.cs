@@ -161,13 +161,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                         MessageDialogStyle.AffirmativeAndNegative);
                     if (result == MessageDialogResult.Affirmative)
                     {
-                        var scheduleProductInfo = new SCHEDULE_PRODUCT_INFO();
-                        scheduleProductInfo.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
-                        scheduleProductInfo.QUANTITY_IN_SCHEDULE = 1;
-                        scheduleProductInfo.PRODUCT_INFO = ProductInfo;
                         if (DataContextVMSpecialist != null)
-                            DataContextVMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
-                        else DataContextMSpecialist.CurrentWarehouse.addScheduleProduct(scheduleProductInfo);
+                            DataContextVMSpecialist.CurrentWarehouse.addScheduleProduct(ProductInfo,1);
+                        else DataContextMSpecialist.CurrentWarehouse.addScheduleProduct(ProductInfo,1);
                         isAdded = true;
                     }
                 }

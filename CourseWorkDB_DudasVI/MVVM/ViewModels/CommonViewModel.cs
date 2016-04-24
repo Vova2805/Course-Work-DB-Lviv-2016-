@@ -268,7 +268,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
                     foreach (var product in tempProducts)
                     {
-                        var releasedProduct = new ReleasedProductListItem(product);
+                        var releasedProduct = new ReleasedProductListItem(product,CurrentWarehouse);
                         releasedProduct.Quantity = product.QUANTITY;
                         this.ProductsOnWarehouse.Add(releasedProduct);
                     }
@@ -280,7 +280,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         .ToDictionary(group => group.Key, group => group.ToList());
                     foreach (var product in distinctProduct)
                     {
-                        var releasedProduct = new ReleasedProductListItem(product.Value.First());
+                        var releasedProduct = new ReleasedProductListItem(product.Value.First(), CurrentWarehouse);
                         foreach (var item in product.Value)
                         {
                             releasedProduct.Quantity += item.QUANTITY;

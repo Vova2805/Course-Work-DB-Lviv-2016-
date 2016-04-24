@@ -9,10 +9,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private int _QuantityNeeded;
         private bool _isBooked;
         private bool _isExpiring;
+        private WarehouseListItem CurrentWarehouse;
 
-        public ReleasedProductListItem(RELEASED_PRODUCT releasedProduct)
+        public ReleasedProductListItem(RELEASED_PRODUCT releasedProduct,WarehouseListItem currentWarehouseListItem)
         {
             _releasedProduct = releasedProduct;
+            this.CurrentWarehouse = currentWarehouseListItem;
             this.Quantity = 0;
         }
 
@@ -23,14 +25,17 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _QuantityNeeded = value;
                 if (_QuantityNeeded == _Quantity) IsBooked = false;
-                else
-                if (_QuantityNeeded < _Quantity)
+                else if (_QuantityNeeded < _Quantity)
                 {
                     QuantityNeeded = _Quantity;
+                    CurrentWarehouse.removeScheduleProduct(this.ReleasedProduct.PRODUCT_INFO);
                     IsBooked = false;
                 }
-                else IsBooked = true;
-                
+                else
+                {
+                    IsBooked = true;
+                    CurrentWarehouse.addScheduleProduct(this.ReleasedProduct.PRODUCT_INFO,-_Quantity+_QuantityNeeded);
+                }
                 OnPropertyChanged("QuantityNeeded");
             }
         }
