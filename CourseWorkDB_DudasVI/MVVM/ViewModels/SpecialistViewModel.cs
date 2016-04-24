@@ -17,6 +17,14 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class SpecialistViewModel : ChartViewModel
     {
+
+        #region Variables
+        //Expired period (calculation of expenses)
+        private int _Days;
+        private int _LostProducts;
+        private decimal _LostMoney;
+        #endregion
+
         public class Meil : ViewModelBase
         {
             private string _MeilTitle;
@@ -378,7 +386,67 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         public bool ChangeProductPriceValue;
         public bool ChangeProductPricePersentage;
 
-       
+        public int Days
+        {
+            get { return _Days; }
+            set
+            {
+                _Days = value;
+                DateTime ExpiredDate = API.getTodayDate();
+                ExpiredDate = ExpiredDate.AddDays(_Days);
+                LostMoney = 0;
+                LostProducts = 0;
+                if(_ProductsOnWarehouse!=null)
+                foreach (var product in _ProductsOnWarehouse)
+                {
+                    if (product.ReleasedProduct.EXPIRED_DATE <= ExpiredDate)
+                    {
+                        product.IsExpiring = true;
+                        LostProducts += product.Quantity;
+                        LostMoney += product.Quantity * API.getlastPrice(product.ReleasedProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
+                    }
+                    else
+                    {
+                            product.IsExpiring = false;
+                    }
+                }
+                OnPropertyChanged("Days");
+            }
+        }
+
+        public decimal LostMoney
+        {
+            get { return _LostMoney; }
+            set
+            {
+                _LostMoney = value;
+                OnPropertyChanged("LostMoney");
+            }
+        }
+
+        public int LostProducts
+        {
+            get { return _LostProducts; }
+            set { _LostProducts = value;
+                OnPropertyChanged("LostProducts"); }
+        }
+
+        public bool ExtendedMode
+        {
+            get { return _ExtendedMode; }
+            set
+            {
+                _ExtendedMode = value;
+                ColumnVisibilityChanged();
+                Days = _Days;
+                if (_ProductsOnWarehouse != null)
+                foreach (var product in ProductsOnWarehouse)
+                {
+                    product.IsExpiring &= _ExtendedMode;
+                }
+                OnPropertyChanged("ExtendedMode");
+            }
+        }
 
         #endregion
 
@@ -518,7 +586,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #endregion
 
-        public override void ColumnVisibilityChanged()
+        public void ColumnVisibilityChanged()
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
             var specialistWindow = window as HomeWindowSpecialist;
@@ -537,7 +605,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     ? Visibility.Visible
                     : Visibility.Collapsed;
             }
-            
+        }
+
+        public override void CurrentWarehouseChanged()
+        {
+            this.ExtendedMode = _ExtendedMode;
         }
     }
 }

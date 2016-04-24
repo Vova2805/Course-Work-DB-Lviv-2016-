@@ -53,7 +53,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         protected PRODUCTION_SCHEDULE _CurrentProductionSchedule;
         protected string _SelectedProductTitle;
         protected WarehouseListItem _CurrentWarehouse;
-        private bool _ExtendedMode;
+        protected bool _ExtendedMode;
         protected ObservableCollection<WarehouseListItem> _Warehouses;
         protected WarehouseListItem _AllWarehouses;
         protected ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
@@ -263,12 +263,14 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                    
                 }
                 ProductsOnWarehouse.Clear();
-                if (ExtendedMode)
+                if (_ExtendedMode)
                 {//not grouping
 
                     foreach (var product in tempProducts)
                     {
-                        this.ProductsOnWarehouse.Add(new ReleasedProductListItem(product));
+                        var releasedProduct = new ReleasedProductListItem(product);
+                        releasedProduct.Quantity = product.QUANTITY;
+                        this.ProductsOnWarehouse.Add(releasedProduct);
                     }
                 }
                 else
@@ -351,7 +353,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
                 OnPropertyChanged("CurrentWarehouse");
                 OnPropertyChanged("isAllWarehouses");
-                ColumnVisibilityChanged();
+                CurrentWarehouseChanged();
             }
         }
 
@@ -480,18 +482,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
 
         }
-        public bool ExtendedMode
-        {
-            get { return _ExtendedMode; }
-            set
-            {
-                _ExtendedMode = value;
-                ColumnVisibilityChanged();
-                CurrentWarehouseString = _CurrentWarehouseString;
-                OnPropertyChanged("ExtendedMode");
-            }
-        }
-
+        
         private bool ChangeProductPriceValue;
         private bool ChangeProductPricePersentage;
 
@@ -735,6 +726,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #endregion
 
-        public abstract void ColumnVisibilityChanged();
+        public abstract void CurrentWarehouseChanged();
     }
 }

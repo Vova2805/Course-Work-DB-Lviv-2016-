@@ -64,6 +64,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             ProductsTitleList = ProductsList.Select(pr => pr.ProductInfo.PRODUCT_TITLE).ToList();
             ProductsTitleList.Insert(0, "Всі продукти");
             SelectedProductTitle = ProductsTitleList.First();
+
+           
+            LostProducts = 0;
+            LostMoney = 0;
+            Days = 7;
         }
 
 
@@ -74,6 +79,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public PRODUCTION_SCHEDULE SelectedProductionSchedule;
         public List<SCHEDULE_PRODUCT_INFO> schedulePackages;
 
-       
+
+        //Expired period (calculation of expenses)
+        public int Days;
+        public int LostProducts;
+        public decimal LostMoney;
+
+
+
     }
 }

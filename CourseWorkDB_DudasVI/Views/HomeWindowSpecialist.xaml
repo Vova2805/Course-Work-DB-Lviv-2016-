@@ -170,7 +170,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="5*" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
@@ -206,6 +206,10 @@
                                         <DataTrigger Binding="{Binding IsBooked}" Value="True">
                                             <Setter Property="Background" Value="GReen"></Setter>
                                             <Setter Property="ToolTip" Value="У плані виробництва"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsExpiring}" Value="True">
+                                            <Setter Property="Background" Value="IndianRed"></Setter>
+                                            <Setter Property="ToolTip" Value="Термін придатності добігає кінця (або витік)"></Setter>
                                         </DataTrigger>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Setter Property="Foreground" Value="White"/>

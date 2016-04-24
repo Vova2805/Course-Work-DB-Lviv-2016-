@@ -62,11 +62,9 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
 
         #endregion
 
-
-
-        public override void ColumnVisibilityChanged()
+        public override void CurrentWarehouseChanged()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
     }
 }

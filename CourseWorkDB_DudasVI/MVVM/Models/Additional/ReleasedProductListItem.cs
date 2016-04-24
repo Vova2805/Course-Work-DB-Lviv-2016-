@@ -8,6 +8,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private int _Quantity;
         private int _QuantityNeeded;
         private bool _isBooked;
+        private bool _isExpiring;
 
         public ReleasedProductListItem(RELEASED_PRODUCT releasedProduct)
         {
@@ -62,6 +63,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _isBooked = value;
                 OnPropertyChanged("IsBooked");
+            }
+        }
+
+        public bool IsExpiring
+        {
+            get { return _isExpiring; }
+            set
+            {
+                _isExpiring = value;
+                OnPropertyChanged("IsExpiring");
             }
         }
     }

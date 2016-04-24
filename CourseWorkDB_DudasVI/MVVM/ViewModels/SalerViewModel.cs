@@ -90,7 +90,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-      
+       
+
 
         public ObservableCollection<string> ClientsTitle
         {
@@ -183,7 +184,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #endregion
 
-        public override void ColumnVisibilityChanged()
+        public override void CurrentWarehouseChanged()
         {
             throw new System.NotImplementedException();
         }
