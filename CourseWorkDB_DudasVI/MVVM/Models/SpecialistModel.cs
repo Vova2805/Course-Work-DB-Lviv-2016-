@@ -54,7 +54,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             ProductsTitleList = ProductsList.Select(pr => pr.ProductInfo.PRODUCT_TITLE).ToList();
             ProductsTitleList.Insert(0, "Всі продукти");
             SelectedProductTitle = ProductsTitleList.First();
-
         }
 
 
@@ -64,5 +63,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public List<PRODUCTION_SCHEDULE> Schedules;
         public PRODUCTION_SCHEDULE SelectedProductionSchedule;
         public List<SCHEDULE_PRODUCT_INFO> schedulePackages;
+
+       
     }
 }

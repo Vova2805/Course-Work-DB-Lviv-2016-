@@ -35,6 +35,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
         public List<WarehouseListItem> warehouses;
         public WarehouseListItem CurrentWarehouse;
+        public bool ExtendedMode;
         public WarehouseListItem allWarehouses;
         public decimal Engaged;
         public List<string> warehousesStrings;

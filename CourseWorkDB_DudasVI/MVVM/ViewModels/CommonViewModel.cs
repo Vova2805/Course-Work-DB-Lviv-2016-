@@ -47,6 +47,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         protected PRODUCTION_SCHEDULE _CurrentProductionSchedule;
         protected string _SelectedProductTitle;
         protected WarehouseListItem _CurrentWarehouse;
+        private bool _ExtendedMode;
         protected ObservableCollection<WarehouseListItem> _Warehouses;
         protected WarehouseListItem _AllWarehouses;
         protected ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
@@ -275,6 +276,14 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
 
                 ProductsOnWarehouse.Clear();
+                if (ExtendedMode)
+                {
+                    
+                }
+                else
+                {
+                    
+                }
                 List<RELEASED_PRODUCT> tempProducts = Session.FactoryEntities.RELEASED_PRODUCT.ToList()
                     .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
                 var distinctProduct = tempProducts.GroupBy(p => p.PRODUCT_INFO.PRODUCT_TITLE).ToDictionary(group => group.Key, group => group.ToList());
@@ -389,6 +398,17 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                         100.0;
                 }
                 OnPropertyChanged("ProductPricePersentage");
+            }
+
+        }
+        public bool ExtendedMode
+        {
+            get { return _ExtendedMode; }
+            set
+            {
+                _ExtendedMode = value;
+                ColumnVisibilityChanged();
+                OnPropertyChanged("ExtendedMode");
             }
         }
 
@@ -634,5 +654,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #endregion
+
+        public abstract void ColumnVisibilityChanged();
     }
 }

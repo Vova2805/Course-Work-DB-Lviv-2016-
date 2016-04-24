@@ -170,12 +170,16 @@
                                       IsEditable="False" />
                         </Grid>
                         <DataGrid Grid.Column="0" FrozenColumnCount="1" Grid.Row="1" FontSize="14"
-                                  ItemsSource="{Binding ProductsOnWarehouse}" AutoGenerateColumns="False">
+                                  ItemsSource="{Binding ProductsOnWarehouse}" AutoGenerateColumns="False" x:Name="WarehouseDataGrid">
+                            <DataGrid.Resources>
+                                <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+                            </DataGrid.Resources>
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsBooked}" Value="True">
                                             <Setter Property="Background" Value="GReen"></Setter>
+                                            <Setter Property="ToolTip" Value="У плані виробництва"></Setter>
                                         </DataTrigger>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Setter Property="Foreground" Value="White"/>
@@ -207,17 +211,17 @@
                                     
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Controls:NumericUpDown Minimum = "0" Interval = "1" Value="{Binding QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <Controls:NumericUpDown Minimum = "0" Interval = "1" Value="{Binding Path=QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <DataGridTextColumn Width="Auto" Header="Дата виробництва"
+                                <DataGridTextColumn Width="Auto" Header="Дата виробництва" 
                                                     Binding="{Binding Path=ReleasedProduct.PRODUCTION_DATE,StringFormat=\{0:dd-MMM-yyyy \}}"
                                                     IsReadOnly="True" />
-                                <DataGridTextColumn Width="Auto" Header="Закінчення строку" IsReadOnly="True"
+                                <DataGridTextColumn Width="Auto" Header="Закінчення строку" IsReadOnly="True" 
                                                     Binding="{Binding Path=ReleasedProduct.EXPIRED_DATE,StringFormat=\{0:dd-MMM-yyyy \}}" />
-                                <DataGridTextColumn Width="Auto" Header="Адреса виробника" IsReadOnly="True"
+                                <DataGridTextColumn Width="Auto" Header="Адреса виробника" IsReadOnly="True" 
                                                     Binding="{Binding Path=ReleasedProduct.ADDRESS,Converter={StaticResource AddressConverter}}" />
                             </DataGrid.Columns>
                         </DataGrid>

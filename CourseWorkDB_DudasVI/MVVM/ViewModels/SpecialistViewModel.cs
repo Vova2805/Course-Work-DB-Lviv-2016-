@@ -23,35 +23,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
 
         //TabPages
+        
 
-        #region First
 
-        #endregion
-
-        #region Third
-
-        //private WarehouseListItem _CurrentWarehouse;
-        //private ObservableCollection<WarehouseListItem> _warehouses;
-        //private ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
-        //private ObservableCollection<string> _warehousesStrings;
-        //private string _CurrentWarehouseString;
-        //private string _DateFilterString;
-        //private string _ValueRange;
-        //private string _TotalIncome;
-        //private string _TotalOutcome;
-        //private string _FlowDirection;
-        //private ObservableCollection<RELEASED_PRODUCT> _ProductsOnWarehouse;
-        //private decimal _Engaged;
-
-        #endregion
-
-        #region So on
-
-        //private ObservableCollection<PRODUCTION_SCHEDULE> _Schedules;
-        //private PRODUCTION_SCHEDULE _SelectedProductionSchedule;
-        //private ObservableCollection<SCHEDULE_PRODUCT_INFO> _schedulePackages;
-
-        #endregion
 
         #region Functions
 
@@ -379,6 +353,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         public bool ChangeProductPriceValue;
         public bool ChangeProductPricePersentage;
 
+       
+
         #endregion
 
         #region Commands
@@ -516,5 +492,27 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         }
 
         #endregion
+
+        public override void ColumnVisibilityChanged()
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var specialistWindow = window as HomeWindowSpecialist;
+            if (specialistWindow != null)
+            {
+                specialistWindow.WarehouseDataGrid.Columns[6].Visibility = ExtendedMode
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+                specialistWindow.WarehouseDataGrid.Columns[3].Visibility = !ExtendedMode
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+                specialistWindow.WarehouseDataGrid.Columns[4].Visibility = ExtendedMode
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+                specialistWindow.WarehouseDataGrid.Columns[5].Visibility = ExtendedMode
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+            
+        }
     }
 }
