@@ -10,6 +10,10 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<STAFF> _EmployeeList;
         private STAFF _SelectedEmployee;
 
+        public DirectorViewModel() : base()
+        {
+        }
+
         public override void UpdateBarSeries()
         {
             throw new NotImplementedException();

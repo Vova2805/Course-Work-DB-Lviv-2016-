@@ -11,7 +11,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
     {
         #region Constructor
 
-        public SettingsViewModel()
+        public SettingsViewModel() : base()
         {
             AccentColorlist = AppearanceManager.GetAccentNames();
             ThemeColorlist = AppearanceManager.GetThemeNames();

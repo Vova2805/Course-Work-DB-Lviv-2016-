@@ -16,8 +16,7 @@ namespace CourseWorkDB_DudasVI.Views
 {
     public static class ExtensionMethod
     {
-        public static bool Contains(this string source, string cont
-            , StringComparison compare)
+        public static bool Contains(this string source, string cont, StringComparison compare)
         {
             return source.IndexOf(cont, compare) >= 0;
         }
@@ -37,6 +36,7 @@ namespace CourseWorkDB_DudasVI.Views
             DataContext = _specialistViewModel;
 
             InitializeComponent();
+           
             ProductsCatalog.DataContext = _specialistViewModel;
             ProductsCatalog.init();
             chartsSets = new List<ChartsSet> {ChartsSetView, ChartsSet2};
@@ -239,6 +239,15 @@ namespace CourseWorkDB_DudasVI.Views
             {
                 numeric.Value = dataContext.SelectedProductOnWarehouse.QuantityNeeded;
                 int a = 0;
+            }
+        }
+
+        private void MetroWindow_Activated(object sender, RoutedEventArgs e)
+        {
+            var vM = this.DataContext as SpecialistViewModel;
+            if (vM != null)
+            {
+                vM.ColumnVisibilityChanged();
             }
         }
     }

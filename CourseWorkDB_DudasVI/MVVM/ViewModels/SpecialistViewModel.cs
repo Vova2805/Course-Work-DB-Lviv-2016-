@@ -16,9 +16,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class SpecialistViewModel : ChartViewModel
     {
-        public SpecialistViewModel()
+        public SpecialistViewModel():base()
         {
             AddPermition = true;
+            
+
         }
 
 

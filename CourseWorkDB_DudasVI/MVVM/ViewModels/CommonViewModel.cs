@@ -11,6 +11,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public abstract class CommonViewModel : ViewModelBase
     {
+        protected CommonViewModel()
+        {
+          
+        }
+
         private bool _AddPermition;
 
         public bool AddPermition
@@ -412,8 +417,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public bool ChangeProductPriceValue;
-        public bool ChangeProductPricePersentage;
+        private bool ChangeProductPriceValue;
+        private bool ChangeProductPricePersentage;
 
         public PRODUCT_PRICE SelectedProductPrice
         {

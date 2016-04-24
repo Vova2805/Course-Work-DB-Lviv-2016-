@@ -216,12 +216,12 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <DataGridTextColumn Width="Auto" Header="Дата виробництва" 
+                                <DataGridTextColumn Width="Auto" Header="Дата виробництва" Visibility="Collapsed"
                                                     Binding="{Binding Path=ReleasedProduct.PRODUCTION_DATE,StringFormat=\{0:dd-MMM-yyyy \}}"
                                                     IsReadOnly="True" />
-                                <DataGridTextColumn Width="Auto" Header="Закінчення строку" IsReadOnly="True" 
+                                <DataGridTextColumn Width="Auto" Header="Закінчення строку" IsReadOnly="True"  Visibility="Collapsed"
                                                     Binding="{Binding Path=ReleasedProduct.EXPIRED_DATE,StringFormat=\{0:dd-MMM-yyyy \}}" />
-                                <DataGridTextColumn Width="Auto" Header="Адреса виробника" IsReadOnly="True" 
+                                <DataGridTextColumn Width="Auto" Header="Адреса виробника" IsReadOnly="True"  Visibility="Collapsed"
                                                     Binding="{Binding Path=ReleasedProduct.ADDRESS,Converter={StaticResource AddressConverter}}" />
                             </DataGrid.Columns>
                         </DataGrid>

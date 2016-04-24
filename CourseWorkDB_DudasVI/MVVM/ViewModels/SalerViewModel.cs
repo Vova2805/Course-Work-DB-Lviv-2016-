@@ -6,7 +6,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class SalerViewModel : CommonViewModel
     {
-        public SalerViewModel()
+        public SalerViewModel() : base()
         {
             AddPermition = true;
         }
