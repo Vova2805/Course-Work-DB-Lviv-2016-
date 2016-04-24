@@ -5,12 +5,14 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
     public class ReleasedProductListItem:ViewModelBase
     {
         private RELEASED_PRODUCT _releasedProduct;
+        private int _Quantity;
         private int _QuantityNeeded;
+        private bool _isBooked;
 
         public ReleasedProductListItem(RELEASED_PRODUCT releasedProduct)
         {
             _releasedProduct = releasedProduct;
-            this.QuantityNeeded = releasedProduct.QUANTITY;
+            this.Quantity = 0;
         }
 
         public int QuantityNeeded
@@ -19,8 +21,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _QuantityNeeded = value;
-                if (_QuantityNeeded < _releasedProduct.QUANTITY)
-                    QuantityNeeded = ReleasedProduct.QUANTITY;
+                if (_QuantityNeeded == _Quantity) IsBooked = false;
+                else
+                if (_QuantityNeeded < _Quantity)
+                {
+                    QuantityNeeded = _Quantity;
+                    IsBooked = false;
+                }
+                else IsBooked = true;
+                
                 OnPropertyChanged("QuantityNeeded");
             }
         }
@@ -35,5 +44,25 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
+        public int Quantity
+        {
+            get { return _Quantity; }
+            set
+            {
+                _Quantity = value;
+                this.QuantityNeeded = _Quantity;
+                OnPropertyChanged("Quantity");
+            }
+        }
+
+        public bool IsBooked
+        {
+            get { return _isBooked; }
+            set
+            {
+                _isBooked = value;
+                OnPropertyChanged("IsBooked");
+            }
+        }
     }
 }

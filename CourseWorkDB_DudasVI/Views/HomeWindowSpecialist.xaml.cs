@@ -230,5 +230,16 @@ namespace CourseWorkDB_DudasVI.Views
         }
 
         #endregion
+
+        private void UIElement_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var numeric = sender as NumericUpDown;
+            var dataContext = this.DataContext as SpecialistViewModel;
+            if (numeric != null && dataContext!=null)
+            {
+                numeric.Value = dataContext.SelectedProductOnWarehouse.QuantityNeeded;
+                int a = 0;
+            }
+        }
     }
 }

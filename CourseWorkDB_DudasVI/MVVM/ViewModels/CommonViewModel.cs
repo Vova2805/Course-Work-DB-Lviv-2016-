@@ -48,6 +48,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         protected string _SelectedProductTitle;
         protected WarehouseListItem _CurrentWarehouse;
         protected ObservableCollection<WarehouseListItem> _Warehouses;
+        protected WarehouseListItem _AllWarehouses;
         protected ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
         protected ObservableCollection<string> _WarehousesStrings;
         protected string _CurrentWarehouseString;
@@ -57,6 +58,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         protected string _TotalOutcome;
         protected string _FlowDirection;
         protected ObservableCollection<ReleasedProductListItem> _ProductsOnWarehouse;
+        protected ReleasedProductListItem _SelectedProductOnWarehouse;
         protected decimal _Engaged;
         protected ObservableCollection<PRODUCTION_SCHEDULE> _Schedules;
         protected PRODUCTION_SCHEDULE _SelectedProductionSchedule;
@@ -151,7 +153,19 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _ProductsOnWarehouse = value;
+                if (_ProductsOnWarehouse.Count > 0)
+                    SelectedProductOnWarehouse = _ProductsOnWarehouse.First();
                 OnPropertyChanged("ProductsOnWarehouse");
+            }
+        }
+
+        public ReleasedProductListItem SelectedProductOnWarehouse
+        {
+            get { return _SelectedProductOnWarehouse; }
+            set
+            {
+                _SelectedProductOnWarehouse = value;
+                OnPropertyChanged("SelectedProductOnWarehouse");
             }
         }
 
@@ -188,6 +202,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return _CurrentWarehouse; }
             set
             {
+               
+
                 _CurrentWarehouse = value;
                 InOutComeFlow = new ChartValues<WarehouseProductTransaction>();
                 var temp = new List<WarehouseProductTransaction>();
@@ -257,12 +273,20 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     if (direct) FlowDirection = " Вхідний";
                     else FlowDirection = " Вихідний";
                 }
+
                 ProductsOnWarehouse.Clear();
-                var tempProducts = Session.FactoryEntities.RELEASED_PRODUCT.ToList()
+                List<RELEASED_PRODUCT> tempProducts = Session.FactoryEntities.RELEASED_PRODUCT.ToList()
                     .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
-                foreach (var product in tempProducts)
+                var distinctProduct = tempProducts.GroupBy(p => p.PRODUCT_INFO.PRODUCT_TITLE).ToDictionary(group => group.Key, group => group.ToList());
+
+                foreach (var product in distinctProduct)
                 {
-                    ProductsOnWarehouse.Add(new ReleasedProductListItem(product));
+                    var releasedProduct = new ReleasedProductListItem(product.Value.First());
+                    foreach (var item in product.Value)
+                    {
+                        releasedProduct.Quantity += item.QUANTITY;
+                    }
+                    this.ProductsOnWarehouse.Add(releasedProduct);
                 }
                 Engaged = _CurrentWarehouse.Warehouse.CAPACITY - _CurrentWarehouse.Warehouse.FREE_SPACE;
                 OnPropertyChanged("CurrentWarehouse");

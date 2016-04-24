@@ -155,6 +155,7 @@
     <Compile Include="MVVM\Models\Additional\ProductListElement.cs" />
     <Compile Include="MVVM\Models\Additional\ProductPriceListElement.cs" />
     <Compile Include="MVVM\Models\DirectorModel.cs" />
+    <Compile Include="MVVM\Models\GeneralModel.cs" />
     <Compile Include="MVVM\Models\SalerModel.cs" />
     <Compile Include="MVVM\Models\SpecialistModel.cs" />
     <Compile Include="MVVM\ViewModels\ChartViewModel.cs" />

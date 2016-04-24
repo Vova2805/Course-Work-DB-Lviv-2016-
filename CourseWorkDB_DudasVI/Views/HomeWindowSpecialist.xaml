@@ -171,6 +171,20 @@
                         </Grid>
                         <DataGrid Grid.Column="0" FrozenColumnCount="1" Grid.Row="1" FontSize="14"
                                   ItemsSource="{Binding ProductsOnWarehouse}" AutoGenerateColumns="False">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsBooked}" Value="True">
+                                            <Setter Property="Background" Value="GReen"></Setter>
+                                        </DataTrigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                                
+                            </DataGrid.RowStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
                                                     Binding="{Binding Path=ReleasedProduct.PRODUCT_INFO.PRODUCT_TITLE}" />
@@ -184,17 +198,21 @@
                                         </Style>
                                     </DataGridTextColumn.CellStyle>
                                 </DataGridTextColumn>
-                                <Controls:DataGridNumericUpDownColumn Header="Кількість необхідна" 
-                                                      Binding="{Binding QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      Interval="1"
-                                                      Minimum="0" >
-                                    <Controls:DataGridNumericUpDownColumn.CellStyle>
+                                <DataGridTemplateColumn Header="Кількість необхідна">
+                                    <DataGridTemplateColumn.CellStyle>
                                         <Style>
-                                            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+                                            <Setter Property="TextBox.TextAlignment" Value="Center"/>
                                         </Style>
-                                    </Controls:DataGridNumericUpDownColumn.CellStyle>
-                                </Controls:DataGridNumericUpDownColumn >
-                                    <DataGridTextColumn Width="Auto" Header="Дата виробництва"
+                                    </DataGridTemplateColumn.CellStyle>
+                                    
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Controls:NumericUpDown Minimum = "0" Interval = "1" Value="{Binding QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTextColumn Width="Auto" Header="Дата виробництва"
                                                     Binding="{Binding Path=ReleasedProduct.PRODUCTION_DATE,StringFormat=\{0:dd-MMM-yyyy \}}"
                                                     IsReadOnly="True" />
                                 <DataGridTextColumn Width="Auto" Header="Закінчення строку" IsReadOnly="True"
@@ -1390,7 +1408,7 @@
             </Border>
         </TabItem>
         <!--#endregion-->
-       
+
 
     </TabControl>
 </Controls:MetroWindow>
