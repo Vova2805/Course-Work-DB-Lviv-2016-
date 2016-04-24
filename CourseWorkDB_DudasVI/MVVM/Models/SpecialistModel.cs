@@ -27,20 +27,30 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 productPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value, Session.User));
             }
             CurrentProductionSchedule = new PRODUCTION_SCHEDULE();
-
-            Schedules =
-                Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList()
-                    .Where(ps => ps.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID)
-                    .ToList();
-            SelectedProductionSchedule = Schedules.First();
-            schedulePackages =
-                Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
-                    .Where(pack => pack.SCHEDULE_ID == SelectedProductionSchedule.SCHEDULE_ID).ToList();
             ProductsList = new List<ProductListElement>();
             foreach (var product in Session.FactoryEntities.PRODUCT_INFO.ToList())
             {
                 ProductsList.Add(new ProductListElement(product, this));
             }
+
+            warehouses = new List<WarehouseListItem>();
+            var tempWarehouses = Session.FactoryEntities.WAREHOUSE.ToList().Where(w=>w.STAFF_ID == Session.User.STAFF_ID);
+            foreach (var warehouse in tempWarehouses)
+            {
+                warehouses.Add(new WarehouseListItem(warehouse));
+            }
+
+            CurrentWarehouse = warehouses.First();
+            warehousesStrings = new List<string>();
+             i = 0;
+            foreach (var warehouse in warehouses)
+            {
+                warehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
+            }
+            warehousesStrings.Insert(0, "Всі склади");
+            CurrentWarehouseString = warehousesStrings.First();
+
+
             SelectedProduct = ProductsList.First();
             SelectedProductPrice = API.getlastPrice(SelectedProduct.ProductInfo.PRODUCT_PRICE);
             ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;

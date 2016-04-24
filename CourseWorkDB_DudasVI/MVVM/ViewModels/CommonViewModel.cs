@@ -376,10 +376,32 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public ObservableCollection<WarehouseListItem> Warehouses
         {
-            get { return _Warehouses; }
+            get
+            {
+                if (_Warehouses == null)
+                    Warehouses = null;
+                return _Warehouses;
+            }
             set
             {
                 _Warehouses = value;
+                if (_Warehouses == null)
+                {
+                    _Warehouses = new ObservableCollection<WarehouseListItem>();
+                    var tempWarehouses = Session.FactoryEntities.WAREHOUSE.ToList().Where(w => w.STAFF_ID == Session.User.STAFF_ID);
+                foreach (var warehouse in tempWarehouses)
+                {
+                        _Warehouses.Add(new WarehouseListItem(warehouse));
+                }
+                WarehousesStrings = new ObservableCollection<string>();
+                int i = 0;
+                foreach (var warehouse in _Warehouses)
+                {
+                    WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
+                }
+                WarehousesStrings.Insert(0, "Всі склади");
+                CurrentWarehouseString = _WarehousesStrings.First();
+                }
                 OnPropertyChanged("Warehouses");
             }
         }
@@ -390,7 +412,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _CurrentWarehouseString = value;
-                if (WarehousesStrings != null)
+                if (_CurrentWarehouseString != null)
                 {
                     if (!_CurrentWarehouseString.Equals("Всі склади"))
                     {
@@ -401,6 +423,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     {
                         CurrentWarehouse = null;
                     }
+                }
+                else
+                {
+                    _CurrentWarehouseString = "Всі склади";
                 }
                 OnPropertyChanged("CurrentWarehouseString");
             }
