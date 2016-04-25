@@ -114,7 +114,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _QuantityNeeded = value;
-                if (_QuantityNeeded == _Quantity) IsBooked = false;
+                if (_QuantityNeeded == _Quantity)
+                {
+                    IsBooked = false;
+                    if (dataContextVM == null) initialiseDataContextVM();
+                    dataContextVM.CurrentWarehouse.removeScheduleProduct(this.ProductInfo);
+                }
                 else if (_QuantityNeeded < _Quantity)
                 {
                     _QuantityNeeded = _Quantity;
