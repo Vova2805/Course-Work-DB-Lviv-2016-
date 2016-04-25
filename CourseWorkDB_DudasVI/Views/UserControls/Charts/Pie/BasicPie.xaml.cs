@@ -10,7 +10,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Pie
     /// </summary>
     public partial class BasicPie
     {
-        public BasicPie(ViewModelBase dataContext)
+        public BasicPie(ViewModelBaseInside dataContext)
         {
             InitializeComponent();
 

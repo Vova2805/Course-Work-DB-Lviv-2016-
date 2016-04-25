@@ -2,26 +2,24 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.Resources;
 using CourseWorkDB_DudasVI.Views.UserControls;
 using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
 using LiveCharts;
-using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Practices.ServiceLocation;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
-    public abstract class CommonViewModel : ViewModelBase
+    public abstract class CommonViewModel : ViewModelBaseInside
     {
+        private bool _AddPermition;
+
         #region Dialog
+
         static CommonViewModel()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
@@ -29,14 +27,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             SimpleIoc.Default.Register<IDialogCoordinator, DialogCoordinator>();
             SimpleIoc.Default.Register<DialogViewModel>();
         }
+
         #endregion
 
-        protected CommonViewModel():base()
+        protected CommonViewModel()
         {
             CurrentWarehouse = _CurrentWarehouse;
         }
-
-        private bool _AddPermition;
 
         public bool AddPermition
         {
@@ -54,6 +51,40 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 return Session.User.POST.POST_NAME + " " + Session.User.STAFF_NAME + " " + Session.User.STAFF_SURNAME;
             }
+        }
+
+        public abstract void CurrentWarehouseChanged();
+
+        public void UpdateView()
+        {
+            var temProductsOnWarehouse = new ObservableCollection<ReleasedProductListItem>();
+            if (_ExtendedMode)
+            {
+//not grouping
+
+                foreach (var product in tempProducts)
+                {
+                    var releasedProduct = new ReleasedProductListItem(product, CurrentWarehouse);
+                    releasedProduct.Quantity = product.QUANTITY;
+                    temProductsOnWarehouse.Add(releasedProduct);
+                }
+            }
+            else
+            {
+                //grouping by title and sum quantity
+                distinctProduct = tempProducts.GroupBy(p => p.PRODUCT_INFO.PRODUCT_TITLE)
+                    .ToDictionary(group => group.Key, group => group.ToList());
+                foreach (var product in distinctProduct)
+                {
+                    var releasedProduct = new ReleasedProductListItem(product.Value.First(), CurrentWarehouse);
+                    foreach (var item in product.Value)
+                    {
+                        releasedProduct.Quantity += item.QUANTITY;
+                    }
+                    temProductsOnWarehouse.Add(releasedProduct);
+                }
+            }
+            ProductsOnWarehouse = temProductsOnWarehouse;
         }
 
         #region Common
@@ -108,7 +139,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             public DateTime from { get; set; }
             public DateTime to { get; set; }
         }
-        
+
         private ObservableCollection<string> _OptionsList;
         private decimal _priceFrom;
         private decimal _priceTo;
@@ -181,10 +212,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 _ProductsOnWarehouse = value;
                 if (_ProductsOnWarehouse.Count > 0)
                 {
-                     SelectedProductOnWarehouse = _ProductsOnWarehouse.First();
-                     CurrentWarehouse.ItemsQuantity = _ProductsOnWarehouse.Count; 
+                    SelectedProductOnWarehouse = _ProductsOnWarehouse.First();
+                    CurrentWarehouse.ItemsQuantity = _ProductsOnWarehouse.Count;
                 }
-                  
+
                 OnPropertyChanged("ProductsOnWarehouse");
             }
         }
@@ -231,8 +262,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             get { return !CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES); }
         }
-        List<RELEASED_PRODUCT> tempProducts = new List<RELEASED_PRODUCT>();
-        Dictionary<string, List<RELEASED_PRODUCT>> distinctProduct = new Dictionary<string, List<RELEASED_PRODUCT>>();
+
+        private List<RELEASED_PRODUCT> tempProducts = new List<RELEASED_PRODUCT>();
+
+        private Dictionary<string, List<RELEASED_PRODUCT>> distinctProduct =
+            new Dictionary<string, List<RELEASED_PRODUCT>>();
 
         public WarehouseListItem CurrentWarehouse
         {
@@ -242,36 +276,36 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 _CurrentWarehouse = value;
 
                 InOutComeFlow = new ChartValues<WarehouseProductTransaction>();
-                List<WarehouseProductTransaction> temp = new List<WarehouseProductTransaction>();
+                var temp = new List<WarehouseProductTransaction>();
 
-                List<ORDER_PRODUCT> order_products = new List<ORDER_PRODUCT>();
-                List<SCHEDULE_PRODUCT_INFO> scheduleProductInfos = new List<SCHEDULE_PRODUCT_INFO>();
+                var order_products = new List<ORDER_PRODUCT>();
+                var scheduleProductInfos = new List<SCHEDULE_PRODUCT_INFO>();
                 tempProducts = new List<RELEASED_PRODUCT>();
                 distinctProduct = new Dictionary<string, List<RELEASED_PRODUCT>>();
                 Schedules = new ObservableCollection<PRODUCTION_SCHEDULE>();
                 Engaged = 0;
                 var tempSchedules = new List<PRODUCTION_SCHEDULE>();
-                if (_CurrentWarehouse == null)//Get info about all warehouses
+                if (_CurrentWarehouse == null) //Get info about all warehouses
                 {
-                    WAREHOUSE tempWarehouse = new WAREHOUSE();
+                    var tempWarehouse = new WAREHOUSE();
                     tempWarehouse.CAPACITY = 0;
                     tempWarehouse.FREE_SPACE = 0;
                     foreach (var warehouse in Warehouses)
                     {
                         tempWarehouse.CAPACITY += warehouse.Warehouse.CAPACITY;
-                        tempWarehouse.FREE_SPACE+= warehouse.Warehouse.FREE_SPACE;
+                        tempWarehouse.FREE_SPACE += warehouse.Warehouse.FREE_SPACE;
                         order_products.AddRange(Session.FactoryEntities.ORDER_PRODUCT.ToList()
-                       .Where(op => op.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList());
+                            .Where(op => op.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList());
 
                         scheduleProductInfos.AddRange(Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
-                        .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID)
-                        .ToList());
+                            .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID)
+                            .ToList());
                         tempSchedules.AddRange(
                             Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList().
-                            Where(ps=>ps.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList()
+                                Where(ps => ps.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList()
                             );
                         tempProducts.AddRange(Session.FactoryEntities.RELEASED_PRODUCT.ToList()
-                    .Where(rp => rp.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList());
+                            .Where(rp => rp.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList());
                     }
                     _CurrentWarehouse = new WarehouseListItem(tempWarehouse);
                     _CurrentWarehouseString = ResourceClass.ALL_WAREHOUSES;
@@ -279,19 +313,18 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 else
                 {
                     order_products =
-                    Session.FactoryEntities.ORDER_PRODUCT.ToList()
-                        .Where(op => op.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
+                        Session.FactoryEntities.ORDER_PRODUCT.ToList()
+                            .Where(op => op.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
                     scheduleProductInfos = Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
                         .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID)
                         .ToList();
                     tempSchedules.AddRange(
                         Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList().
-                        Where(ps => ps.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList()
+                            Where(ps => ps.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList()
                         );
 
                     tempProducts = Session.FactoryEntities.RELEASED_PRODUCT.ToList()
-                    .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
-                   
+                        .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
                 }
                 foreach (var schedule in tempSchedules)
                 {
@@ -302,24 +335,28 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     SelectedProductionSchedule = _Schedules.First();
                 }
                 UpdateView();
-                
-                if (CurrentWarehouseString!=null)
-                if (!_ExtendedMode && !_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
-                {
-                    foreach (var product in _ProductsOnWarehouse)
+
+                if (CurrentWarehouseString != null)
+                    if (!_ExtendedMode && !_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                     {
-                        product.IsBooked = _CurrentWarehouse.Contains(product.ReleasedProduct.PRODUCT_INFO);
-                        if (product.IsBooked)
+                        foreach (var product in _ProductsOnWarehouse)
                         {
-                            var tempProd = _CurrentWarehouse.ContainsProductInfo(product.ReleasedProduct.PRODUCT_INFO).ProductInfo;
-                            product.QuantityNeeded = tempProd == null ? product.Quantity : tempProd.QUANTITY_IN_SCHEDULE+ product.Quantity;
+                            product.IsBooked = _CurrentWarehouse.Contains(product.ReleasedProduct.PRODUCT_INFO);
+                            if (product.IsBooked)
+                            {
+                                var tempProd =
+                                    _CurrentWarehouse.ContainsProductInfo(product.ReleasedProduct.PRODUCT_INFO)
+                                        .ProductInfo;
+                                product.QuantityNeeded = tempProd == null
+                                    ? product.Quantity
+                                    : tempProd.QUANTITY_IN_SCHEDULE + product.Quantity;
+                            }
                         }
                     }
-                }
-                
-               
+
+
                 Engaged = _CurrentWarehouse.Warehouse.CAPACITY - _CurrentWarehouse.Warehouse.FREE_SPACE;
-                CurrentWarehouse.ItemsQuantity = this.ProductsOnWarehouse.Count;
+                CurrentWarehouse.ItemsQuantity = ProductsOnWarehouse.Count;
 
                 foreach (var package in order_products)
                 {
@@ -389,7 +426,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         }
 
 
-
         public decimal Engaged
         {
             get { return _Engaged; }
@@ -424,19 +460,20 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (_Warehouses == null)
                 {
                     _Warehouses = new ObservableCollection<WarehouseListItem>();
-                    var tempWarehouses = Session.FactoryEntities.WAREHOUSE.ToList().Where(w => w.STAFF_ID == Session.User.STAFF_ID);
-                foreach (var warehouse in tempWarehouses)
-                {
+                    var tempWarehouses =
+                        Session.FactoryEntities.WAREHOUSE.ToList().Where(w => w.STAFF_ID == Session.User.STAFF_ID);
+                    foreach (var warehouse in tempWarehouses)
+                    {
                         _Warehouses.Add(new WarehouseListItem(warehouse));
-                }
-                WarehousesStrings = new ObservableCollection<string>();
-                int i = 0;
-                foreach (var warehouse in _Warehouses)
-                {
-                    WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
-                }
-                WarehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
-                CurrentWarehouseString = _WarehousesStrings.First();
+                    }
+                    WarehousesStrings = new ObservableCollection<string>();
+                    var i = 0;
+                    foreach (var warehouse in _Warehouses)
+                    {
+                        WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
+                    }
+                    WarehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
+                    CurrentWarehouseString = _WarehousesStrings.First();
                 }
                 OnPropertyChanged("Warehouses");
             }
@@ -480,11 +517,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 {
                     WarehousesStringsWithoutAll.Add(valueString);
                 }
-                if(WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES)) WarehousesStringsWithoutAll.RemoveAt(0);
+                if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES)) WarehousesStringsWithoutAll.RemoveAt(0);
                 OnPropertyChanged("WarehousesStrings");
             }
         }
 
+        public bool ChangeProductPriceValue;
+        public bool ChangeProductPricePersentage;
 
         public double ProductPriceValue
         {
@@ -519,11 +558,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
                 OnPropertyChanged("ProductPricePersentage");
             }
-
         }
-        
-        private bool ChangeProductPriceValue;
-        private bool ChangeProductPricePersentage;
+
 
         public PRODUCT_PRICE SelectedProductPrice
         {
@@ -535,8 +571,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 {
                     ChangeProductPriceValue = false;
                     ChangeProductPricePersentage = false;
-                    ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
-                    ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+                    ProductPriceValue = (double) SelectedProductPrice.PRICE_VALUE;
+                    ProductPricePersentage = (double) SelectedProductPrice.PERSENTAGE_VALUE;
                 }
                 OnPropertyChanged("SelectedProductPrice");
             }
@@ -579,19 +615,19 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
                 if (ProductsList.Count > 0)
                     SelectedProduct = ProductsList.First();
-                if(!_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
-                foreach (var product in ProductsList)
-                {
-                    product.IsBooked = _CurrentWarehouse.Contains(product.ProductInfo);
-                    var tempProd =
-                        this.ProductsOnWarehouse.ToList()
-                            .Find(pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID);
-                    if (tempProd != null)
+                if (!_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
+                    foreach (var product in ProductsList)
                     {
-                        product.Quantity = tempProd.Quantity;
-                        product.QuantityNeeded = tempProd.QuantityNeeded;
+                        product.IsBooked = _CurrentWarehouse.Contains(product.ProductInfo);
+                        var tempProd =
+                            ProductsOnWarehouse.ToList()
+                                .Find(pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID);
+                        if (tempProd != null)
+                        {
+                            product.Quantity = tempProd.Quantity;
+                            product.QuantityNeeded = tempProd.QuantityNeeded;
+                        }
                     }
-                }
                 OnPropertyChanged("ProductsList");
             }
         }
@@ -615,8 +651,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     }
                     ChangeProductPricePersentage = false;
                     ChangeProductPriceValue = false;
-                    ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
-                    ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+                    ProductPriceValue = (double) SelectedProductPrice.PRICE_VALUE;
+                    ProductPricePersentage = (double) SelectedProductPrice.PERSENTAGE_VALUE;
                     OnPropertyChanged("SelectedProduct");
                 }
             }
@@ -819,53 +855,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region Commands
-       
-        #endregion
 
         #endregion
 
-        public abstract void CurrentWarehouseChanged();
-
-        public void UpdateView()
-        {
-            var temProductsOnWarehouse = new ObservableCollection<ReleasedProductListItem>();
-            if (_ExtendedMode)
-            {//not grouping
-
-                foreach (var product in tempProducts)
-                {
-                    var releasedProduct = new ReleasedProductListItem(product, CurrentWarehouse);
-                    releasedProduct.Quantity = product.QUANTITY;
-                    temProductsOnWarehouse.Add(releasedProduct);
-                }
-            }
-            else
-            {
-                //grouping by title and sum quantity
-                distinctProduct = tempProducts.GroupBy(p => p.PRODUCT_INFO.PRODUCT_TITLE)
-                    .ToDictionary(group => group.Key, group => group.ToList());
-                foreach (var product in distinctProduct)
-                {
-                    var releasedProduct = new ReleasedProductListItem(product.Value.First(), CurrentWarehouse);
-                    foreach (var item in product.Value)
-                    {
-                        releasedProduct.Quantity += item.QUANTITY;
-                    }
-                    temProductsOnWarehouse.Add(releasedProduct);
-                }
-            }
-            this.ProductsOnWarehouse = temProductsOnWarehouse;
-        }
+        #endregion
 
         #region Dialog
-        private DialogViewModel _Dialog = ServiceLocator.Current.GetInstance<DialogViewModel>();
-        public DialogViewModel Dialog
-        {
-            get
-            {
-                return _Dialog;
-            }
-        }
+
+        public DialogViewModel Dialog { get; } = ServiceLocator.Current.GetInstance<DialogViewModel>();
+
         #endregion
     }
 }

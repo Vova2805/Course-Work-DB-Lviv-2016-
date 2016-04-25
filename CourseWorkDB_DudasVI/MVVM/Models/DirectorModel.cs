@@ -5,9 +5,19 @@ using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
 {
-    public class DirectorModel:GeneralModel
+    public class DirectorModel : GeneralModel
     {
-        public DirectorModel():base()
+        public List<ClientListItem> Clients;
+        public PRODUCTION_SCHEDULE CurrentProductionSchedule;
+
+        public List<STAFF> EmployeeList;
+        public List<SCHEDULE_PRODUCT_INFO> schedulePackages;
+        public List<PRODUCTION_SCHEDULE> Schedules;
+        public ClientListItem SelectedClient;
+        public STAFF SelectedEmployee;
+        public PRODUCTION_SCHEDULE SelectedProductionSchedule;
+
+        public DirectorModel()
         {
             EmployeeList = Session.FactoryEntities.STAFF.ToList().FindAll(s => s.POST.DEPARTMENT.DEPARTMENT_ID == 3);
             SelectedEmployee = EmployeeList.First();
@@ -31,7 +41,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             ProductsList = new List<ProductListElement>();
             foreach (var product in Session.FactoryEntities.PRODUCT_INFO.ToList())
             {
-                ProductsList.Add(new ProductListElement(product,this));
+                ProductsList.Add(new ProductListElement(product, this));
             }
             SelectedProduct = ProductsList.First();
             SelectedProductPrice = API.getlastPrice(SelectedProduct.ProductInfo.PRODUCT_PRICE);
@@ -56,14 +66,5 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
                     .Where(pack => pack.SCHEDULE_ID == SelectedProductionSchedule.SCHEDULE_ID).ToList();
         }
-
-        public List<STAFF> EmployeeList;
-        public STAFF SelectedEmployee;
-        public List<ClientListItem> Clients;
-        public ClientListItem SelectedClient;
-        public PRODUCTION_SCHEDULE CurrentProductionSchedule;
-        public List<PRODUCTION_SCHEDULE> Schedules;
-        public PRODUCTION_SCHEDULE SelectedProductionSchedule;
-        public List<SCHEDULE_PRODUCT_INFO> schedulePackages;
     }
 }

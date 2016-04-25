@@ -10,56 +10,58 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 {
     public class GeneralModel
     {
-
         public SeriesCollection BarSeriesInstance;
-        public SeriesCollection LineSeriesInstance;
-        public SeriesCollection PieSeriesInstance;
-        public int tabIndex;
-
-        public DateTime FromTime;
-        public DateTime ToTime;
-        public Dictionary<string, CommonViewModel.RegionInfo> options = new Dictionary<string, CommonViewModel.RegionInfo>();
-        public List<string> OptionsList;
-        public string selectedOption;
-        public bool filterByPrice = false;
-        public List<string> Labels;
-        public string xTitle;
-        public string yTitle;
+        public List<string> CategoriesList;
 
 
         public string ChangedText;
-        public List<string> CategoriesList;
-        public decimal priceFrom;
-        public decimal priceTo;
-        public string selectedCategory;
-
-        public List<WarehouseListItem> warehouses;
         public WarehouseListItem CurrentWarehouse;
-        public bool ExtendedMode;
-        public decimal Engaged;
-        public List<string> warehousesStrings;
         public string CurrentWarehouseString;
-        public List<WarehouseProductTransaction> InOutComeFlow;
-        public List<ReleasedProductListItem> ProductsOnWarehouse;
-        public ReleasedProductListItem SelectedProductOnWarehouse;
-        public List<PRODUCTION_SCHEDULE> Schedules;
-        public PRODUCTION_SCHEDULE SelectedProductionSchedule;
         public string DateFilterString;
-        public string ValueRange;
-        public string TotalIncome;
-        public string TotalOutcome;
+        public decimal Engaged;
+        public bool ExtendedMode;
+        public bool filterByPrice = false;
         public string FlowDirection;
 
-        public List<ProductListElement> ProductsList;
-        public List<string> ProductsTitleList;
-        public string SelectedProductTitle;
-        public ProductListElement SelectedProduct;
-        public List<ProductPriceListElement> ProductPriceList;
-        public PRODUCT_PRICE SelectedProductPrice;
-        public double ProductPriceValue;
-        public double ProductPricePersentage;
+        public DateTime FromTime;
+        public List<WarehouseProductTransaction> InOutComeFlow;
+        public List<string> Labels;
+        public SeriesCollection LineSeriesInstance;
+
+        public Dictionary<string, CommonViewModel.RegionInfo> options =
+            new Dictionary<string, CommonViewModel.RegionInfo>();
+
+        public List<string> OptionsList;
+        public SeriesCollection PieSeriesInstance;
+        public decimal priceFrom;
+        public decimal priceTo;
 
         public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
+        public List<ProductPriceListElement> ProductPriceList;
+        public double ProductPricePersentage;
+        public double ProductPriceValue;
+
+        public List<ProductListElement> ProductsList;
+        public List<ReleasedProductListItem> ProductsOnWarehouse;
+        public List<string> ProductsTitleList;
+        public List<PRODUCTION_SCHEDULE> Schedules;
+        public string selectedCategory;
+        public string selectedOption;
+        public ProductListElement SelectedProduct;
+        public PRODUCTION_SCHEDULE SelectedProductionSchedule;
+        public ReleasedProductListItem SelectedProductOnWarehouse;
+        public PRODUCT_PRICE SelectedProductPrice;
+        public string SelectedProductTitle;
+        public int tabIndex;
+        public string TotalIncome;
+        public string TotalOutcome;
+        public DateTime ToTime;
+        public string ValueRange;
+
+        public List<WarehouseListItem> warehouses;
+        public List<string> warehousesStrings;
+        public string xTitle;
+        public string yTitle;
 
         public GeneralModel()
         {
@@ -85,13 +87,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             var tempWarehouses = Session.FactoryEntities.WAREHOUSE.ToList();
             foreach (var warehouse in tempWarehouses)
             {
-                this.warehouses.Add(new WarehouseListItem(warehouse));
+                warehouses.Add(new WarehouseListItem(warehouse));
             }
             foreach (var warehouse in warehouses)
             {
                 Schedules.AddRange(
                     Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList().
-                    Where(ps => ps.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList()
+                        Where(ps => ps.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList()
                     );
             }
             if (Schedules.Count > 0)
@@ -100,9 +102,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             }
 
             var groupedPackages =
-               Session.FactoryEntities.ORDER_PRODUCT.ToList()
-                   .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
-                   .ToDictionary(group => group.Key, group => group.ToList());
+                Session.FactoryEntities.ORDER_PRODUCT.ToList()
+                    .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
+                    .ToDictionary(group => group.Key, group => group.ToList());
             var i = 0;
             foreach (var group in groupedPackages)
             {

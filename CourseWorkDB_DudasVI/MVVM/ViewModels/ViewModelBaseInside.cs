@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using CourseWorkDB_DudasVI;
-using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace ourseWorkDB_DudasVI.MVVM.ViewModels
 {
-    public abstract class ViewModelBase : INotifyPropertyChanged
+    public abstract class ViewModelBaseInside : INotifyPropertyChanged
     {
         #region Body
 
@@ -21,6 +18,5 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
         }
 
         #endregion
-        
     }
 }

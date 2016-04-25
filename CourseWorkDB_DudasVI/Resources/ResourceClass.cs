@@ -2,6 +2,6 @@
 {
     public static class ResourceClass
     {
-         public static string ALL_WAREHOUSES = "Всі склади";
+        public static string ALL_WAREHOUSES = "Всі склади";
     }
 }

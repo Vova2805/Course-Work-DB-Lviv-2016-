@@ -7,7 +7,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
 {
     public partial class BasicBar
     {
-        public BasicBar(ViewModelBase dataContext)
+        public BasicBar(ViewModelBaseInside dataContext)
         {
             InitializeComponent();
             DataContext = dataContext;

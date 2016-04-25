@@ -19,6 +19,8 @@ namespace CourseWorkDB_DudasVI.Views
     public partial class HomeWindowAdmin : MetroWindow
     {
         private static bool isopenFlyout;
+        private readonly List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
+        private readonly List<Flyout> flyouts;
 
         public HomeWindowAdmin()
         {
@@ -27,7 +29,7 @@ namespace CourseWorkDB_DudasVI.Views
             var directorViewModel = Mapper.Map<DirectorModel, DirectorViewModel>(directorModel);
             DataContext = directorViewModel;
 
-            flyouts = new List<Flyout> { AdminFlyout };
+            flyouts = new List<Flyout> {AdminFlyout};
             addHotKey();
         }
 
@@ -137,7 +139,7 @@ namespace CourseWorkDB_DudasVI.Views
         {
             DirectorEditOrders.IsOpen = !DirectorEditOrders.IsOpen;
         }
-        private readonly List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
+
         public void addColumns()
         {
             foreach (var col in columns)
@@ -146,26 +148,26 @@ namespace CourseWorkDB_DudasVI.Views
             }
             columns.Clear();
             var i = 0;
-            var dataContext = this.DataContext as ChartViewModel;
-            if(dataContext!=null)
-            foreach (var quantity in dataContext.productPackagesList.First().QuantityInOrders)
-            {
-                var column = new DataGridTextColumn();
-                column.Header = quantity.From.ToLongDateString() + " \n " + quantity.To.ToLongDateString();
-                column.Binding = new Binding("QuantityInOrders[" + i + "].Quantity");
-                var style = new Style(typeof(DataGridCell));
-                style.Setters.Add(new Setter
+            var dataContext = DataContext as ChartViewModel;
+            if (dataContext != null)
+                foreach (var quantity in dataContext.productPackagesList.First().QuantityInOrders)
                 {
-                    Property = HorizontalAlignmentProperty,
-                    Value = HorizontalAlignment.Center
-                });
-                column.CellStyle = style;
-                OrdersGrid.Columns.Add(column);
-                columns.Add(column);
-                i++;
-            }
+                    var column = new DataGridTextColumn();
+                    column.Header = quantity.From.ToLongDateString() + " \n " + quantity.To.ToLongDateString();
+                    column.Binding = new Binding("QuantityInOrders[" + i + "].Quantity");
+                    var style = new Style(typeof (DataGridCell));
+                    style.Setters.Add(new Setter
+                    {
+                        Property = HorizontalAlignmentProperty,
+                        Value = HorizontalAlignment.Center
+                    });
+                    column.CellStyle = style;
+                    OrdersGrid.Columns.Add(column);
+                    columns.Add(column);
+                    i++;
+                }
         }
-        private  List<Flyout> flyouts;
+
         private void MouseClick(object sender, MouseButtonEventArgs e)
         {
             if (flyouts != null)

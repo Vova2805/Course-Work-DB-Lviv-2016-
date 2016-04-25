@@ -6,7 +6,7 @@ using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
-    public class OrderProductTransaction : ViewModelBase
+    public class OrderProductTransaction : ViewModelBaseInside
     {
         private bool _isChecked = true;
         public int _Number;
@@ -34,7 +34,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         }
 
 
-        public class QuantityInOrder : ViewModelBase
+        public class QuantityInOrder : ViewModelBaseInside
         {
             private DateTime _From;
             private int _Quantity;

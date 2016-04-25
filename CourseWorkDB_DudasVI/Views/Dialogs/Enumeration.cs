@@ -13,6 +13,6 @@
         Ok = 0,
         Yes,
         No,
-        Cancel,
+        Cancel
     }
 }

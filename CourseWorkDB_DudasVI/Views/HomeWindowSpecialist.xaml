@@ -103,7 +103,7 @@
                     </Rectangle>
                 </StackPanel>
             </Button>
-            
+
             <Button ToolTip="Довідка Alt+F1" Click="Help">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5 0 5 0"
@@ -146,7 +146,7 @@
             <Controls:Flyout Header="Фільтр руху товарів" Position="Right" Name="GoodsFilterFlyout" Theme="Accent">
                 <UserControls:CostFilter />
             </Controls:Flyout>
-           
+
             <Controls:Flyout Header="Фільтрувати продукти" Position="Right" Name="SpecialistProductFilter"
                              Theme="Accent">
                 <UserControls:EditOrderOrProduct />
@@ -194,52 +194,55 @@
                                       IsEditable="False" />
                         </Grid>
                         <DataGrid Grid.Column="0" FrozenColumnCount="1" Grid.Row="1" FontSize="14"
-                                  ItemsSource="{Binding ProductsOnWarehouse}" AutoGenerateColumns="False" x:Name="WarehouseDataGrid">
+                                  ItemsSource="{Binding ProductsOnWarehouse}" AutoGenerateColumns="False"
+                                  x:Name="WarehouseDataGrid">
                             <DataGrid.Resources>
-                                <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+                                <converters:VisibilityConverter x:Key="VisibilityConverter" />
                             </DataGrid.Resources>
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsBooked}" Value="True">
-                                            <Setter Property="Background" Value="GReen"></Setter>
-                                            <Setter Property="ToolTip" Value="У плані виробництва"></Setter>
+                                            <Setter Property="Background" Value="GReen" />
+                                            <Setter Property="ToolTip" Value="У плані виробництва" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding IsExpiring}" Value="True">
-                                            <Setter Property="Background" Value="IndianRed"></Setter>
-                                            <Setter Property="ToolTip" Value="Термін придатності добігає кінця (або витік)"></Setter>
+                                            <Setter Property="Background" Value="IndianRed" />
+                                            <Setter Property="ToolTip"
+                                                    Value="Термін придатності добігає кінця (або витік)" />
                                         </DataTrigger>
                                         <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Foreground" Value="White"/>
-                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush}" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
-                                
+
                             </DataGrid.RowStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
                                                     Binding="{Binding Path=ReleasedProduct.PRODUCT_INFO.PRODUCT_TITLE}" />
                                 <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
                                                     Binding="{Binding Path=ReleasedProduct.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
-                                <DataGridTextColumn  Width="Auto" Header="Кількість наявна" IsReadOnly="True"
-                                                    Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}" >
+                                <DataGridTextColumn Width="Auto" Header="Кількість наявна" IsReadOnly="True"
+                                                    Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}">
                                     <DataGridTextColumn.CellStyle>
                                         <Style>
-                                            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+                                            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center" />
                                         </Style>
                                     </DataGridTextColumn.CellStyle>
                                 </DataGridTextColumn>
                                 <DataGridTemplateColumn Header="Кількість необхідна" Visibility="Collapsed">
                                     <DataGridTemplateColumn.CellStyle>
                                         <Style>
-                                            <Setter Property="TextBox.TextAlignment" Value="Center"/>
+                                            <Setter Property="TextBox.TextAlignment" Value="Center" />
                                         </Style>
                                     </DataGridTemplateColumn.CellStyle>
-                                    
+
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Controls:NumericUpDown Minimum = "0" Interval = "1" Value="{Binding Path=QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <Controls:NumericUpDown Minimum="0" Interval="1"
+                                                                    Value="{Binding Path=QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -247,9 +250,11 @@
                                 <DataGridTextColumn Width="Auto" Header="Дата виробництва" Visibility="Collapsed"
                                                     Binding="{Binding Path=ReleasedProduct.PRODUCTION_DATE,StringFormat=\{0:dd-MMM-yyyy \}}"
                                                     IsReadOnly="True" />
-                                <DataGridTextColumn Width="Auto" Header="Закінчення строку" IsReadOnly="True"  Visibility="Collapsed"
+                                <DataGridTextColumn Width="Auto" Header="Закінчення строку" IsReadOnly="True"
+                                                    Visibility="Collapsed"
                                                     Binding="{Binding Path=ReleasedProduct.EXPIRED_DATE,StringFormat=\{0:dd-MMM-yyyy \}}" />
-                                <DataGridTextColumn Width="Auto" Header="Адреса виробника" IsReadOnly="True"  Visibility="Collapsed"
+                                <DataGridTextColumn Width="Auto" Header="Адреса виробника" IsReadOnly="True"
+                                                    Visibility="Collapsed"
                                                     Binding="{Binding Path=ReleasedProduct.ADDRESS,Converter={StaticResource AddressConverter}}" />
                             </DataGrid.Columns>
                         </DataGrid>
@@ -617,13 +622,14 @@
                                             <DataGridTemplateColumn Width="Auto" Header="Кількість" IsReadOnly="True">
                                                 <DataGridTemplateColumn.CellStyle>
                                                     <Style>
-                                                        <Setter Property="TextBox.TextAlignment" Value="Center"/>
+                                                        <Setter Property="TextBox.TextAlignment" Value="Center" />
                                                     </Style>
                                                 </DataGridTemplateColumn.CellStyle>
 
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Controls:NumericUpDown Minimum = "0" Interval = "1" Value="{Binding Path=Quantity,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                        <Controls:NumericUpDown Minimum="0" Interval="1"
+                                                                                Value="{Binding Path=Quantity,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
@@ -631,26 +637,27 @@
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <Button Width="30" Command="{Binding Path=RemoveScheduleItem}"
-                                                            Height="30"
-                                                            VerticalAlignment="Top"
-                                                            ToolTip="Видалити із плану"
-                                                            Style="{DynamicResource MetroCircleButtonStyle}">
+                                                                Height="30"
+                                                                VerticalAlignment="Top"
+                                                                ToolTip="Видалити із плану"
+                                                                Style="{DynamicResource MetroCircleButtonStyle}">
                                                             <Rectangle Width="15" Height="15">
                                                                 <Rectangle.Style>
                                                                     <Style TargetType="{x:Type Rectangle}">
                                                                         <Setter Property="Fill">
                                                                             <Setter.Value>
                                                                                 <VisualBrush Stretch="Fill"
-                                                                                         Visual="{StaticResource appbar_delete}" />
+                                                                                             Visual="{StaticResource appbar_delete}" />
                                                                             </Setter.Value>
                                                                         </Setter>
                                                                         <Style.Triggers>
-                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Trigger Property="IsMouseOver"
+                                                                                     Value="True">
                                                                                 <Setter Property="Fill">
                                                                                     <Setter.Value>
                                                                                         <VisualBrush x:Name="Brush"
-                                                                                                 Stretch="Fill"
-                                                                                                 Visual="{StaticResource appbar_delete_white}" />
+                                                                                                     Stretch="Fill"
+                                                                                                     Visual="{StaticResource appbar_delete_white}" />
                                                                                     </Setter.Value>
                                                                                 </Setter>
                                                                             </Trigger>
@@ -855,7 +862,7 @@
             </TabControl>
         </TabItem>
         <!-- #endregion-->
-       
+
         <!--#region Товари-->
         <TabItem Header="Каталог товарів">
 
@@ -1034,19 +1041,21 @@
                                                                     <Setter Property="Fill">
                                                                         <Setter.Value>
                                                                             <VisualBrush Stretch="Fill"
-                                                                         Visual="{StaticResource appbar_arrow_left_green}" />
+                                                                                         Visual="{StaticResource appbar_arrow_left_green}" />
                                                                         </Setter.Value>
                                                                     </Setter>
-                                                                    <Setter Property="ToolTip" Value="Завезено до складу"/>
+                                                                    <Setter Property="ToolTip"
+                                                                            Value="Завезено до складу" />
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding FlowType}" Value="False">
                                                                     <Setter Property="Fill">
                                                                         <Setter.Value>
                                                                             <VisualBrush Stretch="Fill"
-                                                                         Visual="{StaticResource appbar_arrow_right_red}" />
+                                                                                         Visual="{StaticResource appbar_arrow_right_red}" />
                                                                         </Setter.Value>
-                                                                       </Setter>
-                                                                    <Setter Property="ToolTip" Value="Реалізовано (продано)"/>
+                                                                    </Setter>
+                                                                    <Setter Property="ToolTip"
+                                                                            Value="Реалізовано (продано)" />
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>

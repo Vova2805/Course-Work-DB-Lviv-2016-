@@ -7,11 +7,11 @@ using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
-    public class SettingsViewModel : ViewModelBase
+    public class SettingsViewModel : ViewModelBaseInside
     {
         #region Constructor
 
-        public SettingsViewModel() : base()
+        public SettingsViewModel()
         {
             AccentColorlist = AppearanceManager.GetAccentNames();
             ThemeColorlist = AppearanceManager.GetThemeNames();

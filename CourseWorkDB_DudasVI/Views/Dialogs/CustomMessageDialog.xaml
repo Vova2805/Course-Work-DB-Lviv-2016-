@@ -12,18 +12,18 @@
     <dialogs:CustomDialog.Content>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1">
                 <TextBlock Text="Custom Dialog!"
-                       TextAlignment="Center" />
+                           TextAlignment="Center" />
                 <TextBox Text="{Binding DialogMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     metro:TextBoxHelper.Watermark="Add Message Here" />
+                         metro:TextBoxHelper.Watermark="Add Message Here" />
                 <Button Command="{Binding SendMessageCommand}"
-                Content="Send Message"
-                DockPanel.Dock="Top" />
+                        Content="Send Message"
+                        DockPanel.Dock="Top" />
             </StackPanel>
         </Grid>
     </dialogs:CustomDialog.Content>

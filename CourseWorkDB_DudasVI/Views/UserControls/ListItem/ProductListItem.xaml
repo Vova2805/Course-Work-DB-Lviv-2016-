@@ -15,12 +15,12 @@
             <Style TargetType="{x:Type Border}">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding IsBooked}" Value="True">
-                        <Setter Property="Background" Value="LightGreen"></Setter>
-                        <Setter Property="ToolTip" Value="У плані виробництва"></Setter>
+                        <Setter Property="Background" Value="LightGreen" />
+                        <Setter Property="ToolTip" Value="У плані виробництва" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding IsBooked}" Value="False">
-                        <Setter Property="Background" Value="White"></Setter>
-                        <Setter Property="ToolTip" Value=""></Setter>
+                        <Setter Property="Background" Value="White" />
+                        <Setter Property="ToolTip" Value="" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -52,22 +52,24 @@
             </TextBlock>
             <TextBlock FontWeight="Bold" Grid.Row="1" Grid.Column="2" ToolTip="Назва категорії"
                        VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"
-                       Text="{Binding Path=CategoryTitle}" >
+                       Text="{Binding Path=CategoryTitle}">
                 <i:Interaction.Behaviors>
                     <rules:TextHighlightBehavior Text="{Binding ChangedText, Mode=OneWayToSource}" Background="Blue" />
                 </i:Interaction.Behaviors>
             </TextBlock>
-            <Grid Grid.Row="1" Grid.Column="4" Margin="5" Visibility="{Binding Path=IsNumbersVisible,Converter={StaticResource VisibilityConverter}}">
+            <Grid Grid.Row="1" Grid.Column="4" Margin="5"
+                  Visibility="{Binding Path=IsNumbersVisible,Converter={StaticResource VisibilityConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition  Height="5"/>
+                    <RowDefinition Height="5" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <TextBlock FontWeight="Bold" Grid.Row="0" Foreground="Green" HorizontalAlignment="Left"
                            Text="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"
-                           ToolTip="Кількість на складі" TextAlignment="Center"/>
+                           ToolTip="Кількість на складі" TextAlignment="Center" />
                 <controls:NumericUpDown ToolTip="Бажана кількість на складі"
-                                        Grid.Row="2" Minimum = "0" Interval = "1" Value="{Binding Path=QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        Grid.Row="2" Minimum="0" Interval="1"
+                                        Value="{Binding Path=QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!--<Grid.Resources>
                     <converters:AddedConverter x:Key="AddedConverter" />

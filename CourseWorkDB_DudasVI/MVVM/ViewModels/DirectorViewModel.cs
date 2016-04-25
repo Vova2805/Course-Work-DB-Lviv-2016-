@@ -21,10 +21,6 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<STAFF> _EmployeeList;
         private STAFF _SelectedEmployee;
 
-        public DirectorViewModel() : base()
-        {
-        }
-
         public override void UpdateBarSeries()
         {
             #region First
@@ -168,6 +164,11 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
             //}
         }
 
+        public override void CurrentWarehouseChanged()
+        {
+            throw new NotImplementedException();
+        }
+
         #region Second
 
         #endregion
@@ -197,6 +198,7 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region Commands
+
         public ICommand ChangeCommand
         {
             get { return new RelayCommand<string>(DoChange); }
@@ -209,52 +211,52 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
             switch (parameter)
             {
                 case "Add":
+                {
+                    if (options.ContainsKey(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString()))
                     {
-                        if (options.ContainsKey(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString()))
+                        if (window != null)
                         {
-                            if (window != null)
-                            {
-                                window.ShowMessageAsync("Не можливо додати", "Ви уже обрали даний термін. Спробуйте інший");
-                            }
+                            window.ShowMessageAsync("Не можливо додати", "Ви уже обрали даний термін. Спробуйте інший");
                         }
-                        else
+                    }
+                    else
+                    {
+                        foreach (var pr in productPackagesList)
                         {
-                            foreach (var pr in productPackagesList)
+                            pr.QuantityInOrders.Add(new OrderProductTransaction.QuantityInOrder(FromTime, ToTime, pr));
+                        }
+                        if (window != null)
+                        {
+                            var adminWindow = window as HomeWindowAdmin;
+                            if (adminWindow != null)
                             {
-                                pr.QuantityInOrders.Add(new OrderProductTransaction.QuantityInOrder(FromTime, ToTime, pr));
-                            }
-                            if (window != null)
-                            {
-                                var adminWindow = window as HomeWindowAdmin;
-                                if (adminWindow != null)
-                                {
-                                    adminWindow.addColumns();
-                                    Update();
-                                }
+                                adminWindow.addColumns();
+                                Update();
                             }
                         }
                     }
+                }
                     break;
                 case "Remove":
+                {
+                    if (selectedOption != null)
                     {
-                        if (selectedOption != null)
+                        var res = options[selectedOption];
+                        foreach (var pr in productPackagesList)
                         {
-                            var res = options[selectedOption];
-                            foreach (var pr in productPackagesList)
+                            pr.QuantityInOrders.RemoveAt(res.index);
+                        }
+                        if (window != null)
+                        {
+                            var adminWindow = window as HomeWindowAdmin;
+                            if (adminWindow != null)
                             {
-                                pr.QuantityInOrders.RemoveAt(res.index);
-                            }
-                            if (window != null)
-                            {
-                                var adminWindow = window as HomeWindowAdmin;
-                                if (adminWindow != null)
-                                {
-                                    adminWindow.addColumns();
-                                    Update();
-                                }
+                                adminWindow.addColumns();
+                                Update();
                             }
                         }
                     }
+                }
                     break;
             }
         }
@@ -291,11 +293,7 @@ namespace ourseWorkDB_DudasVI.MVVM.ViewModels
             }
             UpdateSeries();
         }
-        #endregion
 
-        public override void CurrentWarehouseChanged()
-        {
-            throw new System.NotImplementedException();
-        }
+        #endregion
     }
 }

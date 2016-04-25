@@ -92,15 +92,15 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <сontrols:NumericUpDown Minimum="0" Width="auto" Grid.Column="0" Interval="1"
-                                                            Value="{Binding Path=ProductPriceValue,Mode=TwoWay}"
+                                                            Value="{Binding Path=ProductPriceValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                             BorderThickness="1" Margin="5,0,0,5"
-                                                            ValueChanged="PriceChanged" />
+                                                            PreviewMouseDown="PriceChanged"/>
                                     <TextBlock Grid.Column="1" Text=" грн" VerticalAlignment="Center" />
                                     <сontrols:NumericUpDown Minimum="0" Width="auto" Grid.Column="0" Grid.Row="1"
                                                             Interval="1"
-                                                            Value="{Binding Path=ProductPricePersentage,Mode=TwoWay}"
+                                                            Value="{Binding Path=ProductPricePersentage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                             BorderThickness="1"
-                                                            Margin="5,0,0,5" ValueChanged="PriceChanged" />
+                                                            Margin="5,0,0,5" PreviewMouseDown="PriceChanged" />
                                     <TextBlock Grid.Column="1" Grid.Row="1" Text=" % націнки"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Left" />

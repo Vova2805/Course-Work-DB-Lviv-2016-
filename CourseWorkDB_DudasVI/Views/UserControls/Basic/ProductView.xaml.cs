@@ -13,8 +13,8 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         {
             InitializeComponent();
         }
-
-        private void PriceChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        
+        private void PriceChanged(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var model = DataContext as SpecialistViewModel;
             if (model != null)

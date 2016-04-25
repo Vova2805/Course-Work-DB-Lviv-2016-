@@ -2,20 +2,20 @@
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
-    public class ReleasedProductListItem:ViewModelBase
+    public class ReleasedProductListItem : ViewModelBaseInside
     {
-        private RELEASED_PRODUCT _releasedProduct;
-        private int _Quantity;
-        private int _QuantityNeeded;
         private bool _isBooked;
         private bool _isExpiring;
-        private WarehouseListItem CurrentWarehouse;
+        private int _Quantity;
+        private int _QuantityNeeded;
+        private RELEASED_PRODUCT _releasedProduct;
+        private readonly WarehouseListItem CurrentWarehouse;
 
-        public ReleasedProductListItem(RELEASED_PRODUCT releasedProduct,WarehouseListItem currentWarehouseListItem)
+        public ReleasedProductListItem(RELEASED_PRODUCT releasedProduct, WarehouseListItem currentWarehouseListItem)
         {
             _releasedProduct = releasedProduct;
-            this.CurrentWarehouse = currentWarehouseListItem;
-            this.Quantity = 0;
+            CurrentWarehouse = currentWarehouseListItem;
+            Quantity = 0;
         }
 
         public int QuantityNeeded
@@ -28,13 +28,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 else if (_QuantityNeeded < _Quantity)
                 {
                     QuantityNeeded = _Quantity;
-                    CurrentWarehouse.removeScheduleProduct(this.ReleasedProduct.PRODUCT_INFO);
+                    CurrentWarehouse.removeScheduleProduct(ReleasedProduct.PRODUCT_INFO);
                     IsBooked = false;
                 }
                 else
                 {
                     IsBooked = true;
-                    CurrentWarehouse.addScheduleProduct(this.ReleasedProduct.PRODUCT_INFO,-_Quantity+_QuantityNeeded);
+                    CurrentWarehouse.addScheduleProduct(ReleasedProduct.PRODUCT_INFO, -_Quantity + _QuantityNeeded);
                 }
                 OnPropertyChanged("QuantityNeeded");
             }
@@ -56,7 +56,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _Quantity = value;
-                this.QuantityNeeded = _Quantity;
+                QuantityNeeded = _Quantity;
                 OnPropertyChanged("Quantity");
             }
         }

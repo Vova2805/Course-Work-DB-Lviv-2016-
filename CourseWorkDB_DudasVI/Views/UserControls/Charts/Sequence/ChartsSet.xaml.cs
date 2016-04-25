@@ -18,7 +18,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         public void init()
         {
-            ExamplesMapper.Initialize(this, DataContext as ViewModelBase);
+            ExamplesMapper.Initialize(this, DataContext as ViewModelBaseInside);
         }
 
         #region NavigationButtons

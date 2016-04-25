@@ -10,20 +10,20 @@ using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
-    public class ProductListElement : ViewModelBase
+    public class ProductListElement : ViewModelBaseInside
     {
         private readonly bool WorkWithOrders;
         private string _categoryTitle;
-        private int _Quantity;
-        private int _QuantityNeeded;
         private bool _isBooked;
+        private bool _isNumbersVisible;
         private PRODUCT_INFO _ProductInfo;
         private double _productPrice;
+        private int _Quantity;
+        private int _QuantityNeeded;
         private string _title;
-        private bool _isNumbersVisible;
+        private GeneralModel dataContextM;
 
         private CommonViewModel dataContextVM;
-        private GeneralModel dataContextM;
 
 
         private ProductListElement(PRODUCT_INFO productInfo)
@@ -77,8 +77,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _isNumbersVisible = value;
                 if (dataContextVM == null) initialiseDataContextVM();
-                if (dataContextVM != null)
-                    IsBooked = dataContextVM.CurrentWarehouse.Contains(this.ProductInfo) && _isNumbersVisible;
+                if (dataContextVM != null && dataContextVM.CurrentWarehouse!=null)
+                    IsBooked = dataContextVM.CurrentWarehouse.Contains(ProductInfo) && _isNumbersVisible;
                 else IsBooked = _isBooked && _isNumbersVisible;
                 OnPropertyChanged("IsNumbersVisible");
             }
@@ -118,8 +118,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         public int Quantity
         {
             get { return _Quantity; }
-            set { _Quantity = value;
-                this.QuantityNeeded = _Quantity;
+            set
+            {
+                _Quantity = value;
+                QuantityNeeded = _Quantity;
                 OnPropertyChanged("Quantity");
             }
         }
@@ -134,32 +136,22 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 {
                     IsBooked = false;
                     if (dataContextVM == null) initialiseDataContextVM();
-                    dataContextVM.CurrentWarehouse.removeScheduleProduct(this.ProductInfo);
+                    dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
                 }
                 else if (_QuantityNeeded < _Quantity)
                 {
                     _QuantityNeeded = _Quantity;
                     if (dataContextVM == null) initialiseDataContextVM();
-                    dataContextVM.CurrentWarehouse.removeScheduleProduct(this.ProductInfo);
+                    dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
                     IsBooked = false;
                 }
                 else
                 {
                     IsBooked = true;
                     if (dataContextVM == null) initialiseDataContextVM();
-                    dataContextVM.CurrentWarehouse.addScheduleProduct(this.ProductInfo, -_Quantity + _QuantityNeeded);
+                    dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo, -_Quantity + _QuantityNeeded);
                 }
                 OnPropertyChanged("QuantityNeeded");
-            }
-        }
-
-        private void initialiseDataContextVM()
-        {
-            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
-            var specialistWindow = window as HomeWindowSpecialist;
-            if (specialistWindow != null)
-            {
-                dataContextVM = specialistWindow.DataContext as CommonViewModel;
             }
         }
 
@@ -193,6 +185,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             get { return new RelayCommand<object>(RemoveProductFunc); }
         }
 
+        private void initialiseDataContextVM()
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var specialistWindow = window as HomeWindowSpecialist;
+            if (specialistWindow != null)
+            {
+                dataContextVM = specialistWindow.DataContext as CommonViewModel;
+            }
+        }
+
         public async void AddProductFunc(object obj)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
@@ -208,7 +210,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     if (result == MessageDialogResult.Affirmative)
                     {
                         if (dataContextVM != null)
-                            dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo,1);
+                            dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo, 1);
                         //isAdded = true;
                     }
                 }

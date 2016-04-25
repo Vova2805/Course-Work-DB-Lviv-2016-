@@ -4,7 +4,7 @@ using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
-    public class WarehouseProductTransaction : ViewModelBase
+    public class WarehouseProductTransaction : ViewModelBaseInside
     {
         private string _category;
         private DateTime _date;

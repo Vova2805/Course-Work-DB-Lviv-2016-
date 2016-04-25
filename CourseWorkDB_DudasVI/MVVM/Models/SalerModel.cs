@@ -7,7 +7,7 @@ using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
 {
-    public class SalerModel:GeneralModel
+    public class SalerModel : GeneralModel
     {
         public SalerModel()
         {
@@ -118,7 +118,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
         public DateTime FromTime;
         public DateTime ToTime;
-        public Dictionary<string, CommonViewModel.RegionInfo> options = new Dictionary<string, CommonViewModel.RegionInfo>();
+
+        public Dictionary<string, CommonViewModel.RegionInfo> options =
+            new Dictionary<string, CommonViewModel.RegionInfo>();
+
         public List<string> OptionsList;
         public string selectedOption;
         public bool filterByPrice = false;

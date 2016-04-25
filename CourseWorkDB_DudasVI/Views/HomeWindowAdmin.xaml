@@ -139,10 +139,10 @@
             </Controls:Flyout>
             <Controls:Flyout Header="Фільтрувати" Position="Right" Name="FilterProductFlow"
                              Theme="Accent">
-            <Controls:Flyout Header="Редагувати і фільтрувати" Position="Right" Name="DirectorEditOrders"
-                             Theme="Accent">
+                <Controls:Flyout Header="Редагувати і фільтрувати" Position="Right" Name="DirectorEditOrders"
+                                 Theme="Accent">
                     <UserControls:EditOrderOrProduct />
-             </Controls:Flyout>
+                </Controls:Flyout>
             </Controls:Flyout>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>

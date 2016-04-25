@@ -4,7 +4,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls.Charts.Line
 {
     public partial class BasicLine
     {
-        public BasicLine(ViewModelBase dataContext)
+        public BasicLine(ViewModelBaseInside dataContext)
         {
             InitializeComponent();
             DataContext = dataContext;

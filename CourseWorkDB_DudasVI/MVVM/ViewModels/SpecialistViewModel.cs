@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -17,18 +16,41 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class SpecialistViewModel : ChartViewModel
     {
-
-        #region Variables
-        //Expired period (calculation of expenses)
-        private int _Days;
-        private int _LostProducts;
-        private decimal _LostMoney;
-        #endregion
-
-        public class Meil : ViewModelBase
+        public SpecialistViewModel()
         {
-            private string _MeilTitle;
+            AddPermition = true;
+        }
+
+        public void ColumnVisibilityChanged()
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var specialistWindow = window as HomeWindowSpecialist;
+            if (specialistWindow != null)
+            {
+                specialistWindow.WarehouseDataGrid.Columns[6].Visibility = ExtendedMode
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+                specialistWindow.WarehouseDataGrid.Columns[3].Visibility = !ExtendedMode && isAllWarehouses
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+                specialistWindow.WarehouseDataGrid.Columns[4].Visibility = ExtendedMode
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+                specialistWindow.WarehouseDataGrid.Columns[5].Visibility = ExtendedMode
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+        }
+
+        public override void CurrentWarehouseChanged()
+        {
+            ExtendedMode = _ExtendedMode;
+        }
+
+        public class Meil : ViewModelBaseInside
+        {
             private bool _Checked;
+            private string _MeilTitle;
 
             public Meil(string meilTitle)
             {
@@ -56,10 +78,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public SpecialistViewModel():base()
-        {
-            AddPermition = true;
-        }
+        #region Variables
+
+        //Expired period (calculation of expenses)
+        private int _Days;
+        private int _LostProducts;
+        private decimal _LostMoney;
+
+        #endregion
+
         #region Functions
 
         #region Charts
@@ -70,7 +97,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 case 0:
                 {
-                  
                 }
                     break;
                 case 1:
@@ -156,7 +182,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 case 0:
                 {
-                   
                 }
                     break;
                 case 1:
@@ -238,21 +263,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         }
 
         #endregion
-
-        #region First
-
-      
-
-      
-
-        #endregion
+        
 
         #endregion
 
         #region Properties
-
-        public bool ChangeProductPriceValue;
-        public bool ChangeProductPricePersentage;
 
         public int Days
         {
@@ -260,24 +275,26 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _Days = value;
-                DateTime ExpiredDate = API.getTodayDate();
+                var ExpiredDate = API.getTodayDate();
                 ExpiredDate = ExpiredDate.AddDays(_Days);
                 LostMoney = 0;
                 LostProducts = 0;
-                if(_ProductsOnWarehouse!=null)
-                foreach (var product in _ProductsOnWarehouse)
-                {
-                    if (product.ReleasedProduct.EXPIRED_DATE <= ExpiredDate)
+                if (_ProductsOnWarehouse != null)
+                    foreach (var product in _ProductsOnWarehouse)
                     {
-                        product.IsExpiring = true;
-                        LostProducts += product.Quantity;
-                        LostMoney += product.Quantity * API.getlastPrice(product.ReleasedProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
-                    }
-                    else
-                    {
+                        if (product.ReleasedProduct.EXPIRED_DATE <= ExpiredDate)
+                        {
+                            product.IsExpiring = true;
+                            LostProducts += product.Quantity;
+                            LostMoney += product.Quantity*
+                                         API.getlastPrice(product.ReleasedProduct.PRODUCT_INFO.PRODUCT_PRICE)
+                                             .PRICE_VALUE;
+                        }
+                        else
+                        {
                             product.IsExpiring = false;
+                        }
                     }
-                }
                 OnPropertyChanged("Days");
             }
         }
@@ -295,8 +312,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         public int LostProducts
         {
             get { return _LostProducts; }
-            set { _LostProducts = value;
-                OnPropertyChanged("LostProducts"); }
+            set
+            {
+                _LostProducts = value;
+                OnPropertyChanged("LostProducts");
+            }
         }
 
         public bool ExtendedMode
@@ -309,10 +329,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 UpdateView();
                 Days = _Days;
                 if (_ProductsOnWarehouse != null)
-                foreach (var product in ProductsOnWarehouse)
-                {
-                    product.IsExpiring &= _ExtendedMode;
-                }
+                    foreach (var product in ProductsOnWarehouse)
+                    {
+                        product.IsExpiring &= _ExtendedMode;
+                    }
                 OnPropertyChanged("ExtendedMode");
             }
         }
@@ -320,8 +340,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region Commands
-
-        
 
         public ICommand CanselPriceChanges
         {
@@ -337,7 +355,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             get { return new RelayCommand<object>(CloneSchedule); }
         }
-
 
 
         public void CanselChanges(object obj)
@@ -411,7 +428,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 else
                 {
                     CurrentWarehouse.addScheduleProduct(selectedSchedule_Package.PRODUCT_INFO,
-                    selectedSchedule_Package.QUANTITY_IN_SCHEDULE);
+                        selectedSchedule_Package.QUANTITY_IN_SCHEDULE);
                 }
             }
             if (specialistWindow != null)
@@ -419,7 +436,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 await specialistWindow.ShowMessageAsync("Зміни внесено",
                     "Усі зміни в поточний план виробництва успішно внесено.");
             }
-
         }
 
         private void UpdateDb()
@@ -437,31 +453,5 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         }
 
         #endregion
-
-        public void ColumnVisibilityChanged()
-        {
-            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
-            var specialistWindow = window as HomeWindowSpecialist;
-            if (specialistWindow != null)
-            {
-                specialistWindow.WarehouseDataGrid.Columns[6].Visibility = ExtendedMode
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-                specialistWindow.WarehouseDataGrid.Columns[3].Visibility = !ExtendedMode && isAllWarehouses
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-                specialistWindow.WarehouseDataGrid.Columns[4].Visibility = ExtendedMode
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-                specialistWindow.WarehouseDataGrid.Columns[5].Visibility = ExtendedMode
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-            }
-        }
-
-        public override void CurrentWarehouseChanged()
-        {
-            this.ExtendedMode = _ExtendedMode;
-        }
     }
 }

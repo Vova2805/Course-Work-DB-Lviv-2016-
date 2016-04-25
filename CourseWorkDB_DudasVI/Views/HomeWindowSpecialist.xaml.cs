@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using AutoMapper;
 using CourseWorkDB_DudasVI.General;
@@ -36,7 +35,7 @@ namespace CourseWorkDB_DudasVI.Views
             DataContext = _specialistViewModel;
 
             InitializeComponent();
-           
+
             ProductsCatalog.DataContext = _specialistViewModel;
             ProductsCatalog.init();
             chartsSets = new List<ChartsSet> {ChartsSet2};
@@ -94,12 +93,23 @@ namespace CourseWorkDB_DudasVI.Views
         {
         }
 
+        private void InnerTabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (InnerControl.SelectedIndex == 1 && SpecialistControl.SelectedIndex == 1)
+            {
+                var dataContext = DataContext as CommonViewModel;
+                if (dataContext != null && dataContext.CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
+                {
+                    dataContext.CurrentWarehouseString = dataContext.WarehousesStringsWithoutAll.First();
+                }
+            }
+        }
+
         #region Func
 
         private void Help(object sender, RoutedEventArgs e)
         {
         }
-
 
 
         private void RefreshDiagram(object sender, RoutedEventArgs e)
@@ -170,7 +180,6 @@ namespace CourseWorkDB_DudasVI.Views
             {
                 case 0:
                 {
-                    
                 }
                     break;
                 case 1:
@@ -189,9 +198,10 @@ namespace CourseWorkDB_DudasVI.Views
                 model.TabIndex = SpecialistControl.SelectedIndex;
                 model.UpdateSeries();
                 //ProductsCatalog.ClearText();
-                if (SpecialistControl.SelectedIndex == 1 && InnerControl.SelectedIndex == 1 && model.CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
+                if (SpecialistControl.SelectedIndex == 1 && InnerControl.SelectedIndex == 1 &&
+                    model.CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                     InnerTabControlSelectionChanged(sender, e);
-                bool visibility = true;
+                var visibility = true;
                 if (SpecialistControl.SelectedIndex == 2)
                 {
                     visibility = false;
@@ -202,7 +212,6 @@ namespace CourseWorkDB_DudasVI.Views
                 }
             }
             MouseClick(sender, null);
-           
         }
 
 
@@ -216,17 +225,5 @@ namespace CourseWorkDB_DudasVI.Views
         }
 
         #endregion
-
-        private void InnerTabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (InnerControl.SelectedIndex == 1 && SpecialistControl.SelectedIndex == 1 )
-            {
-                var dataContext = this.DataContext as CommonViewModel;
-                if (dataContext != null && dataContext.CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
-                {
-                   dataContext.CurrentWarehouseString = dataContext.WarehousesStringsWithoutAll.First();
-                }
-            }
-        }
     }
 }

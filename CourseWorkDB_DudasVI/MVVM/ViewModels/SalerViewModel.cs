@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 
@@ -6,9 +7,14 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class SalerViewModel : CommonViewModel
     {
-        public SalerViewModel() : base()
+        public SalerViewModel()
         {
             AddPermition = true;
+        }
+
+        public override void CurrentWarehouseChanged()
+        {
+            throw new NotImplementedException();
         }
 
         //TabPages
@@ -89,8 +95,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("SelectedProduct");
             }
         }
-
-       
 
 
         public ObservableCollection<string> ClientsTitle
@@ -183,10 +187,5 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #region Commands
 
         #endregion
-
-        public override void CurrentWarehouseChanged()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

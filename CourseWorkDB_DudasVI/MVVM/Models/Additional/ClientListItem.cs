@@ -7,7 +7,7 @@ using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
-    public class ClientListItem : ViewModelBase
+    public class ClientListItem : ViewModelBaseInside
     {
         private CLIENT _Client;
         private ObservableCollection<DeliveryListItem> _deliveryList;
@@ -188,7 +188,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             return false;
         }
 
-        public class OrderProductListItem : ViewModelBase
+        public class OrderProductListItem : ViewModelBaseInside
         {
             private readonly ClientListItem DataContext;
             private ORDER_PRODUCT _orderProduct;
@@ -238,7 +238,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public class DeliveryListItem : ViewModelBase
+        public class DeliveryListItem : ViewModelBaseInside
         {
             private DELIVERY _delivery;
             private DELIVERY_ADDRESS _deliveryAddress;

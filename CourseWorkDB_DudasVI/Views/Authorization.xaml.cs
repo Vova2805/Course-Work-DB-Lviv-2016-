@@ -125,14 +125,14 @@ namespace CourseWorkDB_DudasVI
                         break;
                     case "3":
                     {
-                         Session.CurrentMetroWindow = new HomeWindowSpecialist();
-                         Session.CurrentMetroWindow.Show();
+                        Session.CurrentMetroWindow = new HomeWindowSpecialist();
+                        Session.CurrentMetroWindow.Show();
                     }
                         break;
                     case "2":
                     {
-                         Session.CurrentMetroWindow = new HomeWindowSale();
-                         Session.CurrentMetroWindow.Show();
+                        Session.CurrentMetroWindow = new HomeWindowSale();
+                        Session.CurrentMetroWindow.Show();
                     }
                         break;
                 }
