@@ -86,10 +86,5 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
 
         public List<STAFF> EmployeeList;
         public STAFF SelectedEmployee;
-
-        public GeneralModel()
-        {
-           
-        }
     }
 }

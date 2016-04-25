@@ -113,21 +113,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 SelectedProduct = ProductsList.First();
             }
-
-            WarehousesList = new ObservableCollection<WAREHOUSE>();
-            foreach (var warehouse in Session.FactoryEntities.WAREHOUSE.ToList())
-            {
-                WarehousesList.Add(warehouse);
-            }
-            if (WarehousesList.Count > 0)
-                SelectedWarehouse = WarehousesList.First();
-            WarehousesListTitles = new ObservableCollection<string>();
-            foreach (var warehouse in WarehousesList)
-            {
-                WarehousesListTitles.Add(API.ConvertAddress(warehouse.ADDRESS1));
-            }
-            if (WarehousesListTitles.Count > 0)
-                SelectedWarehouseTitle = WarehousesListTitles.First();
+           
             Distance = 0;
             var deliveries = Session.FactoryEntities.DELIVERY.ToList();
             deliveries.Sort(
@@ -157,11 +143,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
             if (!IsSaler)
                 WarehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
-
-
-
             CurrentWarehouseString = WarehousesStrings.First();
-
+            WarehousesStringsWithoutAll = new ObservableCollection<string>();
+            foreach (var title in _warehousesStrings)
+            {
+                if (!title.Equals(ResourceClass.ALL_WAREHOUSES))
+                    WarehousesStringsWithoutAll.Add(title);
+            }
             var groupedPackages =
                 Session.FactoryEntities.ORDER_PRODUCT.ToList()
                     .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
@@ -262,10 +250,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<string> _clientsTitle;
         private string _selectedClientTitle;
         private ProductListElement _selectedProduct;
-
-        private ObservableCollection<WAREHOUSE> _warehousesList;
         private WAREHOUSE _selectedWarehouse;
-        private ObservableCollection<string> _warehousesListTitles;
         private string _selectedWarehouseTitle;
         private decimal _distance;
         private decimal _costPerKm;
@@ -317,18 +302,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region Properties
-
-
-
-        public ObservableCollection<WAREHOUSE> WarehousesList
-        {
-            get { return _warehousesList; }
-            set
-            {
-                _warehousesList = value;
-                OnPropertyChanged("WarehousesList");
-            }
-        }
 
         public WAREHOUSE SelectedWarehouse
         {
@@ -385,16 +358,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _dateFilterString = value;
                 OnPropertyChanged("DateFilterString");
-            }
-        }
-
-        public ObservableCollection<string> WarehousesListTitles
-        {
-            get { return _warehousesListTitles; }
-            set
-            {
-                _warehousesListTitles = value;
-                OnPropertyChanged("WarehousesListTitles");
             }
         }
 
@@ -836,7 +799,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     WarehousesStringsWithoutAll = new ObservableCollection<string>();
                     foreach (var valueString in WarehousesStrings)
                     {
-                    WarehousesStringsWithoutAll.Add(valueString);
+                        WarehousesStringsWithoutAll.Add(valueString);
                     }
                     if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES)) WarehousesStringsWithoutAll.RemoveAt(0);
                 }
