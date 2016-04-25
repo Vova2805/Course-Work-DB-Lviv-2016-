@@ -52,12 +52,12 @@
             </TextBlock>
             <TextBlock FontWeight="Bold" Grid.Row="1" Grid.Column="2" ToolTip="Назва категорії"
                        VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"
-                       Text="{Binding Path=CategoryTitle}" Name="Vova1">
+                       Text="{Binding Path=CategoryTitle}" >
                 <i:Interaction.Behaviors>
                     <rules:TextHighlightBehavior Text="{Binding ChangedText, Mode=OneWayToSource}" Background="Blue" />
                 </i:Interaction.Behaviors>
             </TextBlock>
-            <Grid Grid.Row="1" Grid.Column="4" Margin="5">
+            <Grid Grid.Row="1" Grid.Column="4" Margin="5" Visibility="{Binding Path=IsNumbersVisible,Converter={StaticResource VisibilityConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition  Height="5"/>

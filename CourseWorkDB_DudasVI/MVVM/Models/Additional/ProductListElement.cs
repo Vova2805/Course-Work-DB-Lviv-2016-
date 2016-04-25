@@ -20,6 +20,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private PRODUCT_INFO _ProductInfo;
         private double _productPrice;
         private string _title;
+        private bool _isNumbersVisible;
 
         private CommonViewModel dataContextVM;
         private GeneralModel dataContextM;
@@ -28,6 +29,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private ProductListElement(PRODUCT_INFO productInfo)
         {
             ProductInfo = productInfo;
+            IsNumbersVisible = true;
             //isAdded = false;
             _title = _ProductInfo.PRODUCT_TITLE;
             _categoryTitle = _ProductInfo.CATEGORY.CATEGORY_TITLE;
@@ -65,6 +67,20 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _ProductInfo = value;
                 OnPropertyChanged("ProductInfo");
+            }
+        }
+
+        public bool IsNumbersVisible
+        {
+            get { return _isNumbersVisible; }
+            set
+            {
+                _isNumbersVisible = value;
+                if (dataContextVM == null) initialiseDataContextVM();
+                if (dataContextVM != null)
+                    IsBooked = dataContextVM.CurrentWarehouse.Contains(this.ProductInfo) && _isNumbersVisible;
+                else IsBooked = _isBooked && _isNumbersVisible;
+                OnPropertyChanged("IsNumbersVisible");
             }
         }
 

@@ -191,6 +191,15 @@ namespace CourseWorkDB_DudasVI.Views
                 //ProductsCatalog.ClearText();
                 if (SpecialistControl.SelectedIndex == 1 && InnerControl.SelectedIndex == 1 && model.CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                     InnerTabControlSelectionChanged(sender, e);
+                bool visibility = true;
+                if (SpecialistControl.SelectedIndex == 2)
+                {
+                    visibility = false;
+                }
+                foreach (var product in model.ProductsList)
+                {
+                    product.IsNumbersVisible = visibility;
+                }
             }
             MouseClick(sender, null);
            
@@ -215,7 +224,7 @@ namespace CourseWorkDB_DudasVI.Views
                 var dataContext = this.DataContext as CommonViewModel;
                 if (dataContext != null && dataContext.CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                 {
-                        dataContext.CurrentWarehouseString = dataContext.WarehousesStringsWithoutAll.First();
+                   dataContext.CurrentWarehouseString = dataContext.WarehousesStringsWithoutAll.First();
                 }
             }
         }
