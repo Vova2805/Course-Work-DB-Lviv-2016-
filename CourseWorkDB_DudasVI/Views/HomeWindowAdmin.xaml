@@ -26,7 +26,9 @@
                     Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+
     </Controls:MetroWindow.Resources>
+
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Controls:WindowCommands>
@@ -137,7 +139,10 @@
             </Controls:Flyout>
             <Controls:Flyout Header="Фільтрувати" Position="Right" Name="FilterProductFlow"
                              Theme="Accent">
-                <UserControls:EditOrFilterProducts />
+            <Controls:Flyout Header="Редагувати і фільтрувати" Position="Right" Name="DirectorEditOrders"
+                             Theme="Accent">
+                    <UserControls:EditOrderOrProduct />
+             </Controls:Flyout>
             </Controls:Flyout>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
@@ -848,5 +853,223 @@
                 </Grid>
             </Border>
         </TabItem>
+        <!--#region Замовлення-->
+        <TabItem Header="Замовлення">
+            <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
+                                Background="{DynamicResource GrayBrush2}" />
+                        <DataGrid FrozenColumnCount="2" Name="OrdersGrid" Grid.Row="0" Grid.Column="0" FontSize="14"
+                                  ItemsSource="{Binding Path=productPackagesList}" AutoGenerateColumns="False"
+                                  CanUserResizeColumns="True" MouseDown="MouseClick">
+                            <DataGrid.Columns>
+                                <DataGridCheckBoxColumn Width="20" Binding="{Binding Path=isChecked, Mode=TwoWay}"
+                                                        Header="Відображати" />
+                                <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
+                                                    Binding="{Binding Path=ProductTitle}" />
+                                <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
+                                                    Binding="{Binding Path=packagesTotal.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
+                                <DataGridTextColumn Width="Auto" Header="Ціна" IsReadOnly="True"
+                                                    Binding="{Binding Path=productPrice,StringFormat=\{0:N\}}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="50"
+                                Background="{DynamicResource AccentColorBrush}">
+                            <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
+                                       LastChildFill="False">
+                                <Button Width="50" Click="EditOrdersOpen"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20" Height="20">
+                                        <Rectangle.Style>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <VisualBrush Stretch="Fill"
+                                                                     Visual="{StaticResource appbar_filter}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                             Visual="{StaticResource appbar_filter_white}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </Button>
+                                <Button Width="50" Click="EditOrdersOpen"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Редагувати Alt+E" Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20" Height="20">
+                                        <Rectangle.Style>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <VisualBrush Stretch="Fill"
+                                                                     Visual="{StaticResource appbar_edit}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                             Visual="{StaticResource appbar_edit_white}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </Button>
+                                <Button Width="50" Click="OnCheckAll"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Позначити всі Alt+C" Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20" Height="20">
+                                        <Rectangle.Style>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <VisualBrush Stretch="Fill"
+                                                                     Visual="{StaticResource appbar_checkmark}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                             Visual="{StaticResource appbar_checkmark_white}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </Button>
+                                <Button Width="50" Click="OnUncheckAll"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Зняти відмітки Alt+U" Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20" Height="20">
+                                        <Rectangle.Style>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <VisualBrush Stretch="Fill"
+                                                                     Visual="{StaticResource appbar_checkmark_thick_unchecked}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                             Visual="{StaticResource appbar_checkmark_thick_unchecked_white}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </Button>
+                                <Button Width="50" Click="OnUncheckAll"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Перейти до плану виробництва Alt+P"
+                                        Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20" Height="20">
+                                        <Rectangle.Style>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <VisualBrush Stretch="Fill"
+                                                                     Visual="{StaticResource appbar_navigate_next}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                             Visual="{StaticResource appbar_navigate_next_white}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </Button>
+                                <Button Width="50" Click="RefreshDiagram"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Оновити графік Alt+R" Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20" Height="20">
+                                        <Rectangle.Style>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <VisualBrush Stretch="Fill"
+                                                                     Visual="{StaticResource appbar_refresh}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                             Visual="{StaticResource appbar_refresh_white}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </Button>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+
+                    <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
+                    <UserControls:ChartsSet Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch"
+                                            x:Name="ChartsSetView" />
+                </Grid>
+            </Border>
+        </TabItem>
+        <!--#endregion Товари-->
     </TabControl>
 </Controls:MetroWindow>

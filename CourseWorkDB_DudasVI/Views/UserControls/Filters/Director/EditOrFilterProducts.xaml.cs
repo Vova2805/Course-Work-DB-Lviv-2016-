@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
+using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls
 {
@@ -46,7 +47,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         private void CategorySelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var model = DataContext as SpecialistViewModel;
+            var model = DataContext as DirectorViewModel;
             if (model != null)
             {
                 switch (model.TabIndex)
@@ -150,7 +151,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         private void FilterByPrice(object sender, RoutedEventArgs e)
         {
-            var model = DataContext as SpecialistViewModel;
+            var model = DataContext as DirectorViewModel;
             if (model != null && model.FilterByPrice)
             {
                 switch (model.TabIndex)
@@ -223,7 +224,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         private void ProductSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var model = DataContext as SpecialistViewModel;
+            var model = DataContext as DirectorViewModel;
             if (model != null && model.FilterByPrice)
             {
                 CategorySelectionChanged(sender, e);

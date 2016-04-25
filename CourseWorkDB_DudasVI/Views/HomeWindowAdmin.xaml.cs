@@ -1,8 +1,13 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using AutoMapper;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models;
+using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using MahApps.Metro.Controls;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
@@ -21,6 +26,16 @@ namespace CourseWorkDB_DudasVI.Views
             var directorModel = new DirectorModel();
             var directorViewModel = Mapper.Map<DirectorModel, DirectorViewModel>(directorModel);
             DataContext = directorViewModel;
+
+            flyouts = new List<Flyout> { AdminFlyout };
+            addHotKey();
+        }
+
+        private void addHotKey()
+        {
+            //var firstSettings = new RoutedCommand();
+            //firstSettings.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Alt));
+            //CommandBindings.Add(new CommandBinding(firstSettings, EditOrdersOpen));
         }
 
         private void LogoutClick(object sender, RoutedEventArgs e)
@@ -116,6 +131,48 @@ namespace CourseWorkDB_DudasVI.Views
         private void ProductFilterClick(object sender, RoutedEventArgs e)
         {
             FilterProductFlow.IsOpen = !FilterProductFlow.IsOpen;
+        }
+
+        private void EditOrdersOpen(object sender, RoutedEventArgs e)
+        {
+            DirectorEditOrders.IsOpen = !DirectorEditOrders.IsOpen;
+        }
+        private readonly List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
+        public void addColumns()
+        {
+            foreach (var col in columns)
+            {
+                OrdersGrid.Columns.Remove(col);
+            }
+            columns.Clear();
+            var i = 0;
+            var dataContext = this.DataContext as ChartViewModel;
+            if(dataContext!=null)
+            foreach (var quantity in dataContext.productPackagesList.First().QuantityInOrders)
+            {
+                var column = new DataGridTextColumn();
+                column.Header = quantity.From.ToLongDateString() + " \n " + quantity.To.ToLongDateString();
+                column.Binding = new Binding("QuantityInOrders[" + i + "].Quantity");
+                var style = new Style(typeof(DataGridCell));
+                style.Setters.Add(new Setter
+                {
+                    Property = HorizontalAlignmentProperty,
+                    Value = HorizontalAlignment.Center
+                });
+                column.CellStyle = style;
+                OrdersGrid.Columns.Add(column);
+                columns.Add(column);
+                i++;
+            }
+        }
+        private  List<Flyout> flyouts;
+        private void MouseClick(object sender, MouseButtonEventArgs e)
+        {
+            if (flyouts != null)
+                foreach (var flyout in flyouts)
+                {
+                    flyout.IsOpen = false;
+                }
         }
     }
 }

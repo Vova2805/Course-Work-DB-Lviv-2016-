@@ -59,6 +59,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public double ProductPriceValue;
         public double ProductPricePersentage;
 
+        public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
+
         public GeneralModel()
         {
             CategoriesList = Session.FactoryEntities.CATEGORY.ToList().Select(c => c.CATEGORY_TITLE).ToList();
@@ -95,6 +97,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             if (Schedules.Count > 0)
             {
                 SelectedProductionSchedule = Schedules.First();
+            }
+
+            var groupedPackages =
+               Session.FactoryEntities.ORDER_PRODUCT.ToList()
+                   .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
+                   .ToDictionary(group => group.Key, group => group.ToList());
+            var i = 0;
+            foreach (var group in groupedPackages)
+            {
+                productPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value, Session.User));
             }
         }
     }

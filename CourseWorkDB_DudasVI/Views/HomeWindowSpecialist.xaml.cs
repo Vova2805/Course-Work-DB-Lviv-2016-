@@ -26,7 +26,6 @@ namespace CourseWorkDB_DudasVI.Views
     public partial class HomeWindowSpecialist : MetroWindow
     {
         private readonly List<ChartsSet> chartsSets;
-        private readonly List<DataGridTextColumn> columns = new List<DataGridTextColumn>();
         private readonly List<Flyout> flyouts;
         public SpecialistViewModel _specialistViewModel;
 
@@ -40,15 +39,13 @@ namespace CourseWorkDB_DudasVI.Views
            
             ProductsCatalog.DataContext = _specialistViewModel;
             ProductsCatalog.init();
-            chartsSets = new List<ChartsSet> {ChartsSetView, ChartsSet2};
+            chartsSets = new List<ChartsSet> {ChartsSet2};
             foreach (var chart in chartsSets)
             {
                 chart.DataContext = _specialistViewModel;
                 chart.init();
             }
-
-            addColumns();
-            flyouts = new List<Flyout> {AdminFlyout, SpecialistEditOrders};
+            flyouts = new List<Flyout> {AdminFlyout};
             addHotKey();
 
             RequiredDatePicker.DisplayDateStart = API.getTodayDate();
@@ -103,31 +100,7 @@ namespace CourseWorkDB_DudasVI.Views
         {
         }
 
-        public void addColumns()
-        {
-            foreach (var col in columns)
-            {
-                OrdersGrid.Columns.Remove(col);
-            }
-            columns.Clear();
-            var i = 0;
-            foreach (var quantity in _specialistViewModel.productPackagesList.First().QuantityInOrders)
-            {
-                var column = new DataGridTextColumn();
-                column.Header = quantity.From.ToLongDateString() + " \n " + quantity.To.ToLongDateString();
-                column.Binding = new Binding("QuantityInOrders[" + i + "].Quantity");
-                var style = new Style(typeof (DataGridCell));
-                style.Setters.Add(new Setter
-                {
-                    Property = HorizontalAlignmentProperty,
-                    Value = HorizontalAlignment.Center
-                });
-                column.CellStyle = style;
-                OrdersGrid.Columns.Add(column);
-                columns.Add(column);
-                i++;
-            }
-        }
+
 
         private void RefreshDiagram(object sender, RoutedEventArgs e)
         {
@@ -197,7 +170,7 @@ namespace CourseWorkDB_DudasVI.Views
             {
                 case 0:
                 {
-                    SpecialistEditOrders.IsOpen = !SpecialistEditOrders.IsOpen;
+                    
                 }
                     break;
                 case 1:
