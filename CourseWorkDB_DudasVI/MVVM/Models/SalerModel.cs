@@ -4,6 +4,7 @@ using System.Linq;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
+using CourseWorkDB_DudasVI.Resources;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
 {
@@ -12,7 +13,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public SalerModel()
         {
             #region First
-
+            isSaler = true;
             var temp = Session.FactoryEntities.CLIENT.ToList();
             Clients = new List<ClientListItem>();
             ClientsTitle = new List<string>();
@@ -77,7 +78,33 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 }
                 );
             CostPerKM = deliveries.Last().COST_PER_KM;
-            isSaler = true;
+           
+            warehouses = new List<WarehouseListItem>();
+            var tempWarehouses =
+                Session.FactoryEntities.WAREHOUSE.ToList();
+            foreach (var warehouse in tempWarehouses)
+            {
+                warehouses.Add(new WarehouseListItem(warehouse));
+            }
+            if (warehouses.Count > 0)
+                CurrentWarehouse = warehouses.First();
+            warehousesStrings = new List<string>();
+            var i = 0;
+            foreach (var warehouse in warehouses)
+            {
+                warehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
+            }
+            CurrentWarehouseString = warehousesStrings.First();
+
+            var groupedPackages =
+                Session.FactoryEntities.ORDER_PRODUCT.ToList()
+                    .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
+                    .ToDictionary(group => group.Key, group => group.ToList());
+            i = 0;
+            foreach (var group in groupedPackages)
+            {
+                productPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value, Session.User));
+            }
 
             #endregion
         }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
+using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using LiveCharts;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
@@ -132,13 +134,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _packagesProducts = value;
-                TotalQuantity = 0;
-                TotalPrice = 0;
-                foreach (var package in _packagesProducts)
-                {
-                    TotalQuantity += package.QuantityInOrder;
-                    TotalPrice += package.PackageTotal;
-                }
+                UpdateTotals();
                 OnPropertyChanged("PackagesProducts");
             }
         }
@@ -183,13 +179,22 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public bool addOrderProduct(ORDER_PRODUCT product)
+        public bool addOrderProduct(PRODUCT_INFO product,int quantity)
         {
             try
             {
-                PackagesProducts.Add(new OrderProductListItem(product, this));
-                TotalQuantity += product.QUANTITY_IN_ORDER;
-                TotalPrice += product.QUANTITY_IN_ORDER*API.getlastPrice(product.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
+                var existed = PackagesProducts.ToList().Find(pr=>pr.OrderProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID);
+                if (existed != null)
+                {
+                    existed.QuantityInOrder = quantity;
+                }
+                else
+                {
+                    var orderProduct = InitializeOrder(product);
+                    PackagesProducts.Add(new OrderProductListItem(orderProduct, quantity, this));
+                }
+                UpdateTotals();
+                PackagesProducts = _packagesProducts;
                 return true;
             }
             catch (Exception)
@@ -197,20 +202,33 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 return false;
             }
         }
-
-        public bool removeOrderProduct(ORDER_PRODUCT product)
+        private void UpdateTotals()
         {
-            var exestedOrderProduct =
-                PackagesProducts.ToList()
-                    .FindAll(p => p.OrderProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID)
-                    .FirstOrDefault();
-            if (exestedOrderProduct != null)
-                if (PackagesProducts.Remove(exestedOrderProduct))
+            TotalQuantity = 0;
+            TotalPrice = 0;
+            foreach (var product in PackagesProducts)
+            {
+                TotalQuantity += product.QuantityInOrder;
+                TotalPrice += product.PackageTotal;
+            }
+        }
+
+        private ORDER_PRODUCT InitializeOrder(PRODUCT_INFO product)
+        {
+            var orderProduct = new ORDER_PRODUCT();
+            orderProduct.PRODUCT_INFO_ID = product.PRODUCT_INFO_ID;
+            orderProduct.PRODUCT_INFO = product;
+            return orderProduct;
+        }
+
+        public bool removeOrderProduct(PRODUCT_INFO product)
+        {
+            var existedOrderProduct = PackagesProducts.ToList()
+                .Find(p => p.OrderProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID);
+            if (existedOrderProduct != null)
+                if (PackagesProducts.Remove(existedOrderProduct))
                 {
-                    TotalQuantity -= exestedOrderProduct.OrderProduct.QUANTITY_IN_ORDER;
-                    TotalPrice -= product.QUANTITY_IN_ORDER*
-                                  API.getlastPrice(exestedOrderProduct.OrderProduct.PRODUCT_INFO.PRODUCT_PRICE)
-                                      .PRICE_VALUE;
+                    UpdateTotals();
                     return true;
                 }
             return false;
@@ -223,11 +241,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             private decimal _packageTotal;
             private int _QuantityInOrder;
 
-            public OrderProductListItem(ORDER_PRODUCT orderProduct, ClientListItem dataContext)
+            public OrderProductListItem(ORDER_PRODUCT orderProduct,int quantity, ClientListItem dataContext)
             {
                 DataContext = dataContext;
                 _orderProduct = orderProduct;
-                QuantityInOrder = _orderProduct.QUANTITY_IN_ORDER;
+                QuantityInOrder = quantity;
                 PackageTotal = API.getlastPrice(_orderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE*_QuantityInOrder;
             }
 
@@ -257,12 +275,22 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 set
                 {
                     _QuantityInOrder = value;
-                    PackageTotal = API.getlastPrice(_orderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE*
-                                   _QuantityInOrder;
+                    PackageTotal = API.getlastPrice(_orderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE*_QuantityInOrder;
+                    _orderProduct.QUANTITY_IN_ORDER = _QuantityInOrder;
                     OnPropertyChanged("QuantityInOrder");
                     DataContext.PackagesProducts =
                         DataContext.PackagesProducts;
                 }
+            }
+
+            public ICommand RemoveProductFromOrder
+            {
+                get { return new RelayCommand<object>(RemoveProductFromOrderFunc); }
+            }
+
+            private void RemoveProductFromOrderFunc(object obj)
+            {
+                this._QuantityInOrder = 0;//remove product from order
             }
         }
 
@@ -297,5 +325,18 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 }
             }
         }
+
+        #region Funcs
+
+        public bool Contains(PRODUCT_INFO product)
+        {
+            return PackagesProducts.ToList().Find(pr => pr.OrderProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID) != null;
+        }
+
+        public OrderProductListItem ContainsOrderProduct(PRODUCT_INFO product)
+        {
+            return PackagesProducts.ToList().Find(pr => pr.OrderProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID);
+        }
+        #endregion
     }
 }

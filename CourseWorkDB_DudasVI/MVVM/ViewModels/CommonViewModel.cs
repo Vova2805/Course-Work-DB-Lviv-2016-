@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.Resources;
+using CourseWorkDB_DudasVI.Views;
 using CourseWorkDB_DudasVI.Views.UserControls;
 using GalaSoft.MvvmLight.Ioc;
 using LiveCharts;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Practices.ServiceLocation;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
@@ -223,7 +226,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public bool IsSaler
         {
-            get { return _IsSaler; }
+            get
+            {
+                IsSaler = Session.userType.Equals(UserType.Saler);
+                return _IsSaler;
+            }
             set
             {
                 _IsSaler = value;
@@ -472,7 +479,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 {
                     _Warehouses = new ObservableCollection<WarehouseListItem>();
                     var tempWarehouses =
-                        Session.FactoryEntities.WAREHOUSE.ToList().Where(w => w.STAFF_ID == Session.User.STAFF_ID);
+                        Session.FactoryEntities.WAREHOUSE.ToList();
+                    if (!IsSaler)
+                    {
+                        tempWarehouses = tempWarehouses.ToList().Where(w => w.STAFF_ID == Session.User.STAFF_ID).ToList();
+                    }
                     foreach (var warehouse in tempWarehouses)
                     {
                         _Warehouses.Add(new WarehouseListItem(warehouse));
@@ -483,7 +494,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     {
                         WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
                     }
-                    WarehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
+                    if (!IsSaler)
+                        WarehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
                     CurrentWarehouseString = _WarehousesStrings.First();
                 }
                 OnPropertyChanged("Warehouses");
@@ -501,7 +513,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     if (!_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                     {
                         var index = WarehousesStrings.IndexOf(CurrentWarehouseString);
-                        if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES)) index--;
+                        if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES) && index >0) index--;
                         CurrentWarehouse = Warehouses.ElementAt(index);
                     }
                     else
@@ -523,12 +535,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _WarehousesStrings = value;
-                WarehousesStringsWithoutAll = new ObservableCollection<string>();
-                foreach (var valueString in WarehousesStrings)
+                if (!IsSaler)
                 {
+                    WarehousesStringsWithoutAll = new ObservableCollection<string>();
+                    foreach (var valueString in WarehousesStrings)
+                    {
                     WarehousesStringsWithoutAll.Add(valueString);
+                    }
+                    if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES)) WarehousesStringsWithoutAll.RemoveAt(0);
                 }
-                if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES)) WarehousesStringsWithoutAll.RemoveAt(0);
+                
                 OnPropertyChanged("WarehousesStrings");
             }
         }
@@ -610,7 +626,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     foreach (var product in products)
                     {
                         _ProductsList.Add(new ProductListElement(product, this));
-                        _ProductsList.Last().IsSaler = !this.IsSaler;
+                        _ProductsList.Last().IsntSaler = !this.IsSaler;
                     }
                     if (_ProductsList.Count > 0)
                         SelectedProduct = _ProductsList.First();
@@ -627,7 +643,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
                 if (ProductsList.Count > 0)
                     SelectedProduct = ProductsList.First();
-                if (!_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
+                if (!IsSaler && !_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                     foreach (var product in ProductsList)
                     {
                         product.IsBooked = _CurrentWarehouse.Contains(product.ProductInfo);
@@ -640,6 +656,24 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             product.QuantityNeeded = tempProd.QuantityNeeded;
                         }
                     }
+                else
+                if (IsSaler)
+                {
+                    if(SelectedClient!=null)
+                    foreach (var product in ProductsList)
+                    {
+                        product.IsBooked = SelectedClient.Contains(product.ProductInfo); 
+                        var tempProdOrder = SelectedClient.ContainsOrderProduct(product.ProductInfo);
+                        var tempProdWarehouse =
+                           ProductsOnWarehouse.ToList()
+                               .Find(pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID);
+                        if (tempProdOrder != null)
+                        {
+                            product.Quantity = tempProdWarehouse!=null? tempProdWarehouse.Quantity:0;
+                            product.QuantityNeeded = tempProdOrder.QuantityInOrder;
+                        }
+                    }
+                }
                 OnPropertyChanged("ProductsList");
             }
         }

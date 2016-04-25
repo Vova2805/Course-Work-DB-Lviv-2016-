@@ -4,6 +4,7 @@ using System.Linq;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
+using CourseWorkDB_DudasVI.Resources;
 using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
@@ -85,33 +86,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             selectedOption = OptionsList.First();
             Labels = new List<string>();
             Schedules = new List<PRODUCTION_SCHEDULE>();
-            warehouses = new List<WarehouseListItem>();
-            var tempWarehouses = Session.FactoryEntities.WAREHOUSE.ToList();
-            foreach (var warehouse in tempWarehouses)
-            {
-                warehouses.Add(new WarehouseListItem(warehouse));
-            }
-            foreach (var warehouse in warehouses)
-            {
-                Schedules.AddRange(
-                    Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList().
-                        Where(ps => ps.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList()
-                    );
-            }
-            if (Schedules.Count > 0)
-            {
-                SelectedProductionSchedule = Schedules.First();
-            }
 
-            var groupedPackages =
-                Session.FactoryEntities.ORDER_PRODUCT.ToList()
-                    .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
-                    .ToDictionary(group => group.Key, group => group.ToList());
-            var i = 0;
-            foreach (var group in groupedPackages)
-            {
-                productPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value, Session.User));
-            }
+      
         }
     }
 }

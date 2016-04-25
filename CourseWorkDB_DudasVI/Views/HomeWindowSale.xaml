@@ -482,7 +482,7 @@
                                 </Grid.RowDefinitions>
                                 <DataGrid HorizontalAlignment="Stretch" ToolTip="Замовлення"
                                           VerticalAlignment="Stretch" SelectedItem="{Binding Path=SelectedProduct}"
-                                          FontSize="14" ItemsSource="{Binding Path=SelectedClient..PackagesProducts}"
+                                          FontSize="14" ItemsSource="{Binding Path=SelectedClient.PackagesProducts}"
                                           AutoGenerateColumns="False">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
@@ -504,7 +504,7 @@
                                         <DataGridTemplateColumn Width="Auto" Header="Видалити">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Button Width="50" Click="CustomerFilter"
+                                                    <Button Width="50" Command="{Binding RemoveProductFromOrder}"
                                                             Height="50"
                                                             VerticalAlignment="Top"
                                                             ToolTip="Видалити із замовлення"

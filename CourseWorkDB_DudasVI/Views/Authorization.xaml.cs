@@ -115,24 +115,28 @@ namespace CourseWorkDB_DudasVI
                 //        break;
                 //}
                 Session.User = resultUser;
+                MetroWindow currentMetroWindow = null;
                 switch (shoice)
                 {
                     case "1":
                     {
-                        Session.CurrentMetroWindow = new HomeWindowAdmin();
-                        Session.CurrentMetroWindow.Show();
+                        Session.userType = UserType.Director;
+                        currentMetroWindow = new HomeWindowAdmin();
+                        currentMetroWindow.Show();
                     }
                         break;
                     case "3":
                     {
-                        Session.CurrentMetroWindow = new HomeWindowSpecialist();
-                        Session.CurrentMetroWindow.Show();
+                        Session.userType = UserType.Specialist;
+                        currentMetroWindow = new HomeWindowSpecialist();
+                        currentMetroWindow.Show();
                     }
                         break;
                     case "2":
                     {
-                        Session.CurrentMetroWindow = new HomeWindowSale();
-                        Session.CurrentMetroWindow.Show();
+                        Session.userType = UserType.Saler;
+                        currentMetroWindow = new HomeWindowSale();
+                        currentMetroWindow.Show();
                     }
                         break;
                 }

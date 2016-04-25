@@ -21,7 +21,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private int _Quantity;
         private int _QuantityNeeded;
         private string _title;
-        private bool isSaler;
+        private bool _isntSaler;
         private GeneralModel dataContextM;
 
         private CommonViewModel dataContextVM;
@@ -116,13 +116,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public bool IsSaler
+        public bool IsntSaler
         {
-            get { return isSaler; }
+            get { return _isntSaler; }
             set
             {
-                isSaler = value;
-                OnPropertyChanged("IsSaler");
+                _isntSaler = value;
+                OnPropertyChanged("IsntSaler");
             }
         }
 
@@ -132,7 +132,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _Quantity = value;
-                QuantityNeeded = _Quantity;
+                if (dataContextVM == null) initialiseDataContextVM();
+                if (dataContextVM is SpecialistViewModel)
+                {
+                    QuantityNeeded = _Quantity;
+                }
+                else if (dataContextVM is SalerViewModel)
+                {
+                    QuantityNeeded = 0;
+                }
                 OnPropertyChanged("Quantity");
             }
         }
@@ -143,47 +151,52 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _QuantityNeeded = value;
-                if (_QuantityNeeded == _Quantity)
-                {
-                    IsBooked = false;
-                    if (dataContextVM == null) initialiseDataContextVM();
-                    if (dataContextVM is SpecialistViewModel)
+                    if (_QuantityNeeded == _Quantity)
                     {
-                        dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                        if (dataContextVM == null) initialiseDataContextVM();
+                        if (dataContextVM is SpecialistViewModel)
+                        {
+                            IsBooked = false;
+                            dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                        }
+                        else if (dataContextVM is SalerViewModel)
+                        {
+                            //TODO show warning
+                            if(Quantity!=0)
+                            IsBooked = true;
+                        }
                     }
-                    else if (dataContextVM is SalerViewModel)
+                    else if (_QuantityNeeded < _Quantity)
+                    {
+                        if (dataContextVM == null) initialiseDataContextVM();
+                        if (dataContextVM is SpecialistViewModel)
+                        {
+                            _QuantityNeeded = _Quantity;
+                            dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                            IsBooked = false;
+                        }
+                        else if (dataContextVM is SalerViewModel)
+                        {
+                            dataContextVM = dataContextVM as SalerViewModel;
+                            dataContextVM.SelectedClient.addOrderProduct(ProductInfo, _QuantityNeeded);
+                            IsBooked = true;
+                        }
+                    }
+                    else //>=
                     {
                         
+                        if (dataContextVM == null) initialiseDataContextVM();
+                        if (dataContextVM is SpecialistViewModel)
+                        {
+                            IsBooked = true;
+                            dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo, -_Quantity + _QuantityNeeded);
+                        }
+                        else if (dataContextVM is SalerViewModel)
+                        {
+                            QuantityNeeded = _Quantity;
+                        }
                     }
-                }
-                else if (_QuantityNeeded < _Quantity)
-                {
-                    _QuantityNeeded = _Quantity;
-                    if (dataContextVM == null) initialiseDataContextVM();
-                    if (dataContextVM is SpecialistViewModel)
-                    {
-                        dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
-                    }
-                    else if (dataContextVM is SalerViewModel)
-                    {
-
-                    }
-                    IsBooked = false;
-                }
-                else
-                {
-                    IsBooked = true;
-                    if (dataContextVM == null) initialiseDataContextVM();
-                    if (dataContextVM is SpecialistViewModel)
-                    {
-                        dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo, -_Quantity + _QuantityNeeded);
-                    }
-                    else if (dataContextVM is SalerViewModel)
-                    {
-
-                    }
-                    
-                }
+                
                 OnPropertyChanged("QuantityNeeded");
             }
         }
@@ -207,17 +220,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("Title");
             }
         }
-
-        public ICommand AddProduct
-        {
-            get { return new RelayCommand<object>(AddProductFunc); }
-        }
-
-        public ICommand RemoveProduct
-        {
-            get { return new RelayCommand<object>(RemoveProductFunc); }
-        }
-
+        
         private void initialiseDataContextVM()
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
@@ -230,82 +233,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             if (salerWindow != null)
             {
                 dataContextVM = salerWindow.DataContext as SalerViewModel;
-            }
-        }
-
-        public async void AddProductFunc(object obj)
-        {
-            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
-            if (!WorkWithOrders)
-            {
-                var specialistWindow = window as HomeWindowSpecialist;
-                if (specialistWindow != null)
-                {
-                    //TODO додати кількість
-                    var result = await specialistWindow.ShowMessageAsync("Додати до плану",
-                        "Додати?",
-                        MessageDialogStyle.AffirmativeAndNegative);
-                    if (result == MessageDialogResult.Affirmative)
-                    {
-                        if (dataContextVM != null)
-                            dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo, 1);
-                        //isAdded = true;
-                    }
-                }
-            }
-            else
-            {
-                var saleWindow = window as HomeWindowSale;
-                if (saleWindow != null)
-                {
-                    var orderProduct = new ORDER_PRODUCT();
-                    orderProduct.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
-                    orderProduct.PRODUCT_INFO = ProductInfo;
-                    orderProduct.QUANTITY_IN_ORDER = 1;
-                    dataContextVM = saleWindow.DataContext as SalerViewModel;
-                    if (dataContextVM != null)
-                        dataContextVM.SelectedClient.addOrderProduct(orderProduct);
-                    //isAdded = true;
-                }
-            }
-        }
-
-        public async void RemoveProductFunc(object obj)
-        {
-            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
-            if (!WorkWithOrders)
-            {
-                var specialistWindow = window as HomeWindowSpecialist;
-                if (specialistWindow != null)
-                {
-                    var result =
-                        await
-                            specialistWindow.ShowMessageAsync("Видалити із плану",
-                                "Видалити?",
-                                MessageDialogStyle.AffirmativeAndNegative);
-                    if (result == MessageDialogResult.Affirmative)
-                    {
-                        if (dataContextVM != null)
-                            dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
-                        //isAdded = false;
-                    }
-                }
-            }
-            else
-            {
-                var saleWindow = window as HomeWindowSale;
-                if (saleWindow != null)
-                {
-                    var result =
-                        await
-                            saleWindow.ShowMessageAsync("Видалити із плану",
-                                "Видалити?",
-                                MessageDialogStyle.AffirmativeAndNegative);
-                    if (result == MessageDialogResult.Affirmative)
-                    {
-                        //isAdded = false;
-                    }
-                }
             }
         }
     }

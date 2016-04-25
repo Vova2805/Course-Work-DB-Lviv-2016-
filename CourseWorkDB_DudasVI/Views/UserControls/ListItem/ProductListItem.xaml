@@ -125,7 +125,7 @@
                 <TextBlock FontWeight="Bold" Grid.Column="0" Foreground="Green" HorizontalAlignment="Left"
                            Text="{Binding Path=ProductInfo.PRODUCT_INFO_ID, Converter={StaticResource PriceConverter},ConverterParameter='$'}"
                            ToolTip="Остання встановлена ціна" />
-                <TextBlock FontWeight="Bold" Grid.Column="2" Foreground="Green" HorizontalAlignment="Left" Visibility="{Binding Path=IsSaler,Converter={StaticResource VisibilityConverter}}"
+                <TextBlock FontWeight="Bold" Grid.Column="2" Foreground="Green" HorizontalAlignment="Left" Visibility="{Binding Path=IsntSaler,Converter={StaticResource VisibilityConverter}}"
                            Text="{Binding Path=ProductInfo.PRODUCT_INFO_ID, Converter={StaticResource PriceConverter},ConverterParameter='%'}"
                            ToolTip="У відсотках від вартості виробництва" />
             </Grid>
