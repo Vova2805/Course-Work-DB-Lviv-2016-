@@ -89,9 +89,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             public DateTime from { get; set; }
             public DateTime to { get; set; }
         }
-
-       
-
+        
         private ObservableCollection<string> _OptionsList;
         private decimal _priceFrom;
         private decimal _priceTo;
@@ -302,25 +300,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         }
                     }
                 }
-                if (ProductsList == null)
-                {
-                    ProductsList = new  ObservableCollection<ProductListElement>();
-                    var products = Session.FactoryEntities.PRODUCT_INFO.ToList();
-                    foreach (var product in products)
-                    {
-                        ProductsList.Add(new ProductListElement(product,this));
-                    }
-                }
-                foreach (var product in ProductsList)
-                {
-                    product.IsBooked = _CurrentWarehouse.Contains(product.ProductInfo);
-                    var tempProd = _CurrentWarehouse.ContainsProductInfo(product.ProductInfo);
-                    if (tempProd != null)
-                    {
-                        product.Quantity = tempProd.Quantity;
-                        product.QuantityNeeded = tempProd == null ? product.Quantity : tempProd.ProductInfo.QUANTITY_IN_SCHEDULE + product.Quantity;
-                    }
-                }
+                
+               
                 Engaged = _CurrentWarehouse.Warehouse.CAPACITY - _CurrentWarehouse.Warehouse.FREE_SPACE;
                 CurrentWarehouse.ItemsQuantity = this.ProductsOnWarehouse.Count;
 
@@ -541,6 +522,19 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 _ProductsList = value;
                 if (ProductsList.Count > 0)
                     SelectedProduct = ProductsList.First();
+                if (ProductsList != null)
+                foreach (var product in ProductsList)
+                {
+                    product.IsBooked = _CurrentWarehouse.Contains(product.ProductInfo);
+                    var tempProd =
+                        this.ProductsOnWarehouse.ToList()
+                            .Find(pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID);
+                    if (tempProd != null)
+                    {
+                        product.Quantity = tempProd.Quantity;
+                        product.QuantityNeeded = tempProd.QuantityNeeded;
+                    }
+                }
                 OnPropertyChanged("ProductsList");
             }
         }

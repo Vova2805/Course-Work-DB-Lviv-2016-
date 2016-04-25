@@ -11,6 +11,16 @@
              mc:Ignorable="d">
     <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="1,1,1,1" HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch" Height="Auto">
+        <Border.Style>
+            <Style TargetType="{x:Type Border}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsBooked}" Value="True">
+                        <Setter Property="Background" Value="LightGreen"></Setter>
+                        <Setter Property="ToolTip" Value="У плані виробництва"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
         <Border.Resources>
             <converters:ProductPriceConverter x:Key="PriceConverter" />
             <converters:VisibilityConverter x:Key="VisibilityConverter" />
@@ -50,8 +60,8 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <TextBlock FontWeight="Bold" Grid.Row="0" Foreground="Green" HorizontalAlignment="Left"
-                           Text="{Binding Path=Quantity}"
-                           ToolTip="Кількість на складі" />
+                           Text="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"
+                           ToolTip="Кількість на складі" TextAlignment="Center"/>
                 <controls:NumericUpDown ToolTip="Бажана кількість на складі"
                                         Grid.Row="2" Minimum = "0" Interval = "1" Value="{Binding Path=QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
