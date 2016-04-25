@@ -63,6 +63,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public string xTitle;
         public string yTitle;
 
+        public bool isSaler;
+
         public GeneralModel()
         {
             CategoriesList = Session.FactoryEntities.CATEGORY.ToList().Select(c => c.CATEGORY_TITLE).ToList();

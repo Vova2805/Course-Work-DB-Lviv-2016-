@@ -121,6 +121,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         protected PRODUCTION_SCHEDULE _SelectedProductionSchedule;
         protected ObservableCollection<SCHEDULE_PRODUCT_INFO> _SchedulePackages;
         protected string _ChangedText;
+        protected bool _IsSaler;
 
         private DateTime _FromTime;
 
@@ -217,6 +218,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
 
                 OnPropertyChanged("ProductsOnWarehouse");
+            }
+        }
+
+        public bool IsSaler
+        {
+            get { return _IsSaler; }
+            set
+            {
+                _IsSaler = value;
+                OnPropertyChanged("IsSaler");
             }
         }
 
@@ -599,6 +610,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     foreach (var product in products)
                     {
                         _ProductsList.Add(new ProductListElement(product, this));
+                        _ProductsList.Last().IsSaler = !this.IsSaler;
                     }
                     if (_ProductsList.Count > 0)
                         SelectedProduct = _ProductsList.First();

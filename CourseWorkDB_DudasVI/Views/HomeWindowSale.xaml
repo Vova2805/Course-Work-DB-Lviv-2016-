@@ -431,6 +431,17 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Склад" VerticalAlignment="Center" Margin="5" FontSize="15" />
+                        <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
+                                      ItemsSource="{Binding WarehousesStrings, Mode=TwoWay}"
+                                      SelectedValue="{Binding Path=CurrentWarehouseString,Mode=TwoWay}"
+                                      IsEditable="False" />
+                    </Grid>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -439,7 +450,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
@@ -471,7 +482,7 @@
                                 </Grid.RowDefinitions>
                                 <DataGrid HorizontalAlignment="Stretch" ToolTip="Замовлення"
                                           VerticalAlignment="Stretch" SelectedItem="{Binding Path=SelectedProduct}"
-                                          FontSize="14" ItemsSource="{Binding Path=SelectedClient.PackagesProducts}"
+                                          FontSize="14" ItemsSource="{Binding Path=SelectedClient..PackagesProducts}"
                                           AutoGenerateColumns="False">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
@@ -529,7 +540,7 @@
                                 </DataGrid>
                                 <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
                                 <DataGrid ToolTip="Список доставок" Grid.Row="2" FontSize="14"
-                                          ItemsSource="{Binding Path=SelectedClient.DeliveryList}"
+                                          ItemsSource="{Binding Path=SelectedClient.NewOrder.NewOrderDeliveries}"
                                           AutoGenerateColumns="False">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Width="Auto" Header="Дата" IsReadOnly="True"

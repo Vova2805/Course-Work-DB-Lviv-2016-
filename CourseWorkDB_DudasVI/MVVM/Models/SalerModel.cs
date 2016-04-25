@@ -77,6 +77,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 }
                 );
             CostPerKM = deliveries.Last().COST_PER_KM;
+            isSaler = true;
 
             #endregion
         }

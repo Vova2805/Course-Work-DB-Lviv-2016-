@@ -11,15 +11,32 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
     {
         private CLIENT _Client;
         private ObservableCollection<DeliveryListItem> _deliveryList;
-        private SALE_ORDER _newOrder;
+        private NewOrderItem _newOrder;
         private decimal _newOrderTotal;
         private ObservableCollection<OrderProductListItem> _packagesProducts;
         private ObservableCollection<SALE_ORDER> _saleOrders;
         private SALE_ORDER _selectedOrder;
         private int _totalQuantity;
         private DeliveryListItem selectedDelivery;
+        private ObservableCollection<DeliveryListItem> _newOrderDeliveries;
 
-
+        public class NewOrderItem:ViewModelBaseInside
+        {
+            private SALE_ORDER _saleOrder;
+            public NewOrderItem(SALE_ORDER saleOrder)
+            {
+                _saleOrder = saleOrder;            }
+            public SALE_ORDER SaleOrder
+            {
+                get { return _saleOrder; }
+                set
+                {
+                    _saleOrder = value;
+                    OnPropertyChanged("SaleOrder");
+                }
+            }
+        }
+        
         public ClientListItem(CLIENT client)
         {
             Client = client;
@@ -31,10 +48,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
             if (SaleOrders.Count > 0)
                 SelectedOrder = SaleOrders.First();
-            NewOrder = new SALE_ORDER();
-            NewOrder.ORDER_DATE = API.getTodayDate();
-            NewOrder.REQUIRED_DATE = API.getTodayDate();
+            var newOrder = new SALE_ORDER();
+            newOrder.ORDER_DATE = API.getTodayDate();
+            newOrder.REQUIRED_DATE = API.getTodayDate();
+            NewOrder = new NewOrderItem(newOrder);
             _packagesProducts = new ChartValues<OrderProductListItem>(); //empty
+            NewOrderDeliveries = new ObservableCollection<DeliveryListItem>();
         }
 
         public CLIENT Client
@@ -44,6 +63,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _Client = value;
                 OnPropertyChanged("Client");
+            }
+        }
+
+        public ObservableCollection<DeliveryListItem> NewOrderDeliveries
+        {
+            get { return _newOrderDeliveries; }
+            set
+            {
+                _newOrderDeliveries = value;
+                OnPropertyChanged("NewOrderDeliveries");
             }
         }
 
@@ -87,7 +116,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public SALE_ORDER NewOrder
+        public NewOrderItem NewOrder
         {
             get { return _newOrder; }
             set
@@ -158,7 +187,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         {
             try
             {
-                product.SALE_ORDER_ID = NewOrder.SALE_ORDER_ID;
                 PackagesProducts.Add(new OrderProductListItem(product, this));
                 TotalQuantity += product.QUANTITY_IN_ORDER;
                 TotalPrice += product.QUANTITY_IN_ORDER*API.getlastPrice(product.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;

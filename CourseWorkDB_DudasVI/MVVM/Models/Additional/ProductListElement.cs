@@ -21,6 +21,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private int _Quantity;
         private int _QuantityNeeded;
         private string _title;
+        private bool isSaler;
         private GeneralModel dataContextM;
 
         private CommonViewModel dataContextVM;
@@ -115,6 +116,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
+        public bool IsSaler
+        {
+            get { return isSaler; }
+            set
+            {
+                isSaler = value;
+                OnPropertyChanged("IsSaler");
+            }
+        }
+
         public int Quantity
         {
             get { return _Quantity; }
@@ -136,20 +147,42 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 {
                     IsBooked = false;
                     if (dataContextVM == null) initialiseDataContextVM();
-                    dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                    if (dataContextVM is SpecialistViewModel)
+                    {
+                        dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                    }
+                    else if (dataContextVM is SalerViewModel)
+                    {
+                        
+                    }
                 }
                 else if (_QuantityNeeded < _Quantity)
                 {
                     _QuantityNeeded = _Quantity;
                     if (dataContextVM == null) initialiseDataContextVM();
-                    dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                    if (dataContextVM is SpecialistViewModel)
+                    {
+                        dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                    }
+                    else if (dataContextVM is SalerViewModel)
+                    {
+
+                    }
                     IsBooked = false;
                 }
                 else
                 {
                     IsBooked = true;
                     if (dataContextVM == null) initialiseDataContextVM();
-                    dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo, -_Quantity + _QuantityNeeded);
+                    if (dataContextVM is SpecialistViewModel)
+                    {
+                        dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo, -_Quantity + _QuantityNeeded);
+                    }
+                    else if (dataContextVM is SalerViewModel)
+                    {
+
+                    }
+                    
                 }
                 OnPropertyChanged("QuantityNeeded");
             }
@@ -192,6 +225,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             if (specialistWindow != null)
             {
                 dataContextVM = specialistWindow.DataContext as CommonViewModel;
+            }
+            var salerWindow = window as HomeWindowSale;
+            if (salerWindow != null)
+            {
+                dataContextVM = salerWindow.DataContext as SalerViewModel;
             }
         }
 

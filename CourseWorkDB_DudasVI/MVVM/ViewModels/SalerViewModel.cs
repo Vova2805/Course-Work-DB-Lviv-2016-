@@ -13,8 +13,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         }
 
         public override void CurrentWarehouseChanged()
-        {
-            throw new NotImplementedException();
+        {   
         }
 
         //TabPages
