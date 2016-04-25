@@ -3,9 +3,9 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace CourseWorkDB_DudasVI.Views.Dialogs
 {
-    public partial class DialogView 
+    public partial class MessageDialog 
     {
-        public DialogView()
+        public MessageDialog()
         {
             InitializeComponent();
         }

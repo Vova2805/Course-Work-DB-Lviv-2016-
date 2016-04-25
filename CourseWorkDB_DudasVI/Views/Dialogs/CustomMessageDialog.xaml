@@ -5,35 +5,30 @@
                       xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      d:DesignHeight="300"
+                      DataContext="{Binding Dialog}"
                       mc:Ignorable="d">
+
     <dialogs:CustomDialog.Content>
-
-        <StackPanel>
-
-            <TextBlock Text="Custom Dialog!"
-
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="Custom Dialog!"
                        TextAlignment="Center" />
-
-            <TextBox Text="{Binding DialogMessage,
-
-                                    Mode=TwoWay,
-
-                                    UpdateSourceTrigger=PropertyChanged}"
-
+                <TextBox Text="{Binding DialogMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      metro:TextBoxHelper.Watermark="Add Message Here" />
-
-        </StackPanel>
-
+                <Button Command="{Binding SendMessageCommand}"
+                Content="Send Message"
+                DockPanel.Dock="Top" />
+            </StackPanel>
+        </Grid>
     </dialogs:CustomDialog.Content>
 
-    <dialogs:CustomDialog.DialogBottom>
-
-        <Button Command="{Binding SendMessageCommand}"
-
-                Content="Send Message"
-
-                DockPanel.Dock="Top" />
-
-    </dialogs:CustomDialog.DialogBottom>
+    <!--<dialogs:CustomDialog.DialogBottom>
+    </dialogs:CustomDialog.DialogBottom>-->
 
 </dialogs:CustomDialog>

@@ -29,15 +29,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             SimpleIoc.Default.Register<IDialogCoordinator, DialogCoordinator>();
             SimpleIoc.Default.Register<DialogViewModel>();
         }
-
-        private DialogViewModel _Dialog = ServiceLocator.Current.GetInstance<DialogViewModel>();
-        public DialogViewModel Dialog
-        {
-            get
-            {
-                return _Dialog;
-            }
-        }
         #endregion
 
         protected CommonViewModel():base()
@@ -867,7 +858,14 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         }
 
         #region Dialog
-       
+        private DialogViewModel _Dialog = ServiceLocator.Current.GetInstance<DialogViewModel>();
+        public DialogViewModel Dialog
+        {
+            get
+            {
+                return _Dialog;
+            }
+        }
         #endregion
     }
 }

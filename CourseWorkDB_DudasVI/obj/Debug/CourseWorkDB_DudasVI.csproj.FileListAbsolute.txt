@@ -46,16 +46,13 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github pr
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Styles\ListBoxStyle.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Styles\NewCustomDialogStyle.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Resources\Icons.baml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\Dialogs\CustomDialog.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\TotalWarehouseView.baml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\Test.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Bar\BasicBar.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Line\BasicLine.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Charts\Pie\BasicPie.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\TotalView.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\Authorization.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Resources\Icons.g.cs
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\Dialogs\CustomDialog.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\HomeWindowSpecialist.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\HomeWindowSale.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\HomeWindowAdmin.g.cs
@@ -64,7 +61,6 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github pr
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\ProductsCatalog.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\DeliveryView.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\TotalWarehouseView.g.cs
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\Test.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\CustomDialogNumeric.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\AddressView.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\AddressEditableView.g.cs
@@ -143,5 +139,5 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github pr
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.exe
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.pdb
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\CourseWorkDB_DudasVI.csprojResolveAssemblyReference.cache
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\Dialogs\MessageDialog.baml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\Dialogs\MessageDialog.g.cs
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\Dialogs\CustomMessageDialog.baml
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\Dialogs\CustomMessageDialog.g.cs

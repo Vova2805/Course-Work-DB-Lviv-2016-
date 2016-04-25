@@ -8,14 +8,14 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
     public class DialogViewModel : GalaSoft.MvvmLight.ViewModelBase
     {
         private readonly IDialogCoordinator _dialogCoordinator;
-        private BaseMetroDialog _dialogView = new DialogView();
+        private BaseMetroDialog _dialogView = new Dialogs.MessageDialog();
         public DialogViewModel(IDialogCoordinator dialogCoordinator)
         {
             _dialogCoordinator = dialogCoordinator;
-            Messenger.Default.Register<string>(this, ProcessMessage);
+            Messenger.Default.Register<string>(this, HideDialog);
         }
 
-        public void changeDialog(BaseMetroDialog dialog)
+        public void ChangeDialog(BaseMetroDialog dialog)
         {
             this._dialogView = dialog;
         }
@@ -78,12 +78,10 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             await _dialogCoordinator.ShowMetroDialogAsync(this, _dialogView);
         }
         
-        private async void ProcessMessage(string messageContents)
+        private async void HideDialog(string messageContents)
         {
             DialogResult = messageContents;
             await _dialogCoordinator.HideMetroDialogAsync(this, _dialogView);
         }
-
-       
     }
 }

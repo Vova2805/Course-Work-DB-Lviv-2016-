@@ -263,7 +263,6 @@
                     <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50"
                             Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right">
-                            <UserControls:Test/>
                             <Button Width="50" Click="EditOrdersOpen"
                                     Height="50"
                                     VerticalAlignment="Top"
