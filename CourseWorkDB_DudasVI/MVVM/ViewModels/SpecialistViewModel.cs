@@ -306,6 +306,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _ExtendedMode = value;
                 ColumnVisibilityChanged();
+                UpdateView();
                 Days = _Days;
                 if (_ProductsOnWarehouse != null)
                 foreach (var product in ProductsOnWarehouse)
@@ -332,7 +333,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return new RelayCommand<object>(SubmitChanges); }
         }
 
-        
+        public ICommand CloneScheduleToCurrent
+        {
+            get { return new RelayCommand<object>(CloneSchedule); }
+        }
+
+
 
         public void CanselChanges(object obj)
         {
@@ -379,6 +385,42 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
+        public async void CloneSchedule(object obj)
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var specialistWindow = window as HomeWindowSpecialist;
+            foreach (var selectedSchedule_Package in SchedulePackages)
+            {
+                var existed = CurrentWarehouse.ContainsProductInfo(selectedSchedule_Package.PRODUCT_INFO);
+                if (existed != null && existed.Quantity != selectedSchedule_Package.QUANTITY_IN_SCHEDULE)
+                {
+                    if (specialistWindow != null)
+                    {
+                        var result = await specialistWindow.ShowMessageAsync("Змінити кількість?",
+                            "У плані вже наявний продукт : " + existed.ProductInfo.PRODUCT_INFO.PRODUCT_TITLE +
+                            "\nКількості : " + existed.Quantity +
+                            ".\nБажаєте змінити кількість на " + selectedSchedule_Package.QUANTITY_IN_SCHEDULE + " ?",
+                            MessageDialogStyle.AffirmativeAndNegative);
+                        if (result == MessageDialogResult.Affirmative)
+                        {
+                            CurrentWarehouse.addScheduleProduct(selectedSchedule_Package.PRODUCT_INFO,
+                                selectedSchedule_Package.QUANTITY_IN_SCHEDULE);
+                        }
+                    }
+                }
+                else
+                {
+                    CurrentWarehouse.addScheduleProduct(selectedSchedule_Package.PRODUCT_INFO,
+                    selectedSchedule_Package.QUANTITY_IN_SCHEDULE);
+                }
+            }
+            if (specialistWindow != null)
+            {
+                await specialistWindow.ShowMessageAsync("Зміни внесено",
+                    "Усі зміни в поточний план виробництва успішно внесено.");
+            }
+
+        }
 
         private void UpdateDb()
         {

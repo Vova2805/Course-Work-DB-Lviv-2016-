@@ -1,4 +1,6 @@
-﻿namespace CourseWorkDB_DudasVI.General
+﻿using MahApps.Metro.Controls;
+
+namespace CourseWorkDB_DudasVI.General
 {
     public class Session
     {
@@ -9,5 +11,6 @@
 
         public static STAFF User { get; set; }
         public static SWEET_FACTORYEntities FactoryEntities { get; private set; }
+        public static MetroWindow CurrentMetroWindow { get; set; }
     }
 }

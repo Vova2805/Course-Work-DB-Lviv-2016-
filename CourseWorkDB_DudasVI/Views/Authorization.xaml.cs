@@ -119,20 +119,20 @@ namespace CourseWorkDB_DudasVI
                 {
                     case "1":
                     {
-                        var homeWindow = new HomeWindowAdmin();
-                        homeWindow.Show();
+                        Session.CurrentMetroWindow = new HomeWindowAdmin();
+                        Session.CurrentMetroWindow.Show();
                     }
                         break;
                     case "3":
                     {
-                        var homeWindowSpecialist = new HomeWindowSpecialist();
-                        homeWindowSpecialist.Show();
+                         Session.CurrentMetroWindow = new HomeWindowSpecialist();
+                         Session.CurrentMetroWindow.Show();
                     }
                         break;
                     case "2":
                     {
-                        var homeWindowSale = new HomeWindowSale();
-                        homeWindowSale.Show();
+                         Session.CurrentMetroWindow = new HomeWindowSale();
+                         Session.CurrentMetroWindow.Show();
                     }
                         break;
                 }

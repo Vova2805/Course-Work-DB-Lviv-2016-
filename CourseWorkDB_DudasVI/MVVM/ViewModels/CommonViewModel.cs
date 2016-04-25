@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.Resources;
+using CourseWorkDB_DudasVI.Views.UserControls;
+using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
 using LiveCharts;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Practices.ServiceLocation;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.ViewModels
@@ -163,7 +170,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _ProductsOnWarehouse = value;
                 if (_ProductsOnWarehouse.Count > 0)
-                    SelectedProductOnWarehouse = _ProductsOnWarehouse.First();
+                {
+                     SelectedProductOnWarehouse = _ProductsOnWarehouse.First();
+                     CurrentWarehouse.ItemsQuantity = _ProductsOnWarehouse.Count; 
+                }
+                  
                 OnPropertyChanged("ProductsOnWarehouse");
             }
         }
@@ -210,6 +221,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             get { return !CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES); }
         }
+        List<RELEASED_PRODUCT> tempProducts = new List<RELEASED_PRODUCT>();
+        Dictionary<string, List<RELEASED_PRODUCT>> distinctProduct = new Dictionary<string, List<RELEASED_PRODUCT>>();
 
         public WarehouseListItem CurrentWarehouse
         {
@@ -223,8 +236,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
                 List<ORDER_PRODUCT> order_products = new List<ORDER_PRODUCT>();
                 List<SCHEDULE_PRODUCT_INFO> scheduleProductInfos = new List<SCHEDULE_PRODUCT_INFO>();
-                List<RELEASED_PRODUCT> tempProducts = new List<RELEASED_PRODUCT>();
-                Dictionary<string,List<RELEASED_PRODUCT>> distinctProduct = new Dictionary<string, List<RELEASED_PRODUCT>>();
+                tempProducts = new List<RELEASED_PRODUCT>();
+                distinctProduct = new Dictionary<string, List<RELEASED_PRODUCT>>();
                 Schedules = new ObservableCollection<PRODUCTION_SCHEDULE>();
                 Engaged = 0;
                 var tempSchedules = new List<PRODUCTION_SCHEDULE>();
@@ -278,33 +291,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 {
                     SelectedProductionSchedule = _Schedules.First();
                 }
-                ProductsOnWarehouse = new ObservableCollection<ReleasedProductListItem>();
-                if (_ExtendedMode)
-                {//not grouping
-
-                    foreach (var product in tempProducts)
-                    {
-                        var releasedProduct = new ReleasedProductListItem(product,CurrentWarehouse);
-                        releasedProduct.Quantity = product.QUANTITY;
-                        this.ProductsOnWarehouse.Add(releasedProduct);
-                    }
-                }
-                else
-                {
-                    //grouping by title and sum quantity
-                    distinctProduct = tempProducts.GroupBy(p => p.PRODUCT_INFO.PRODUCT_TITLE)
-                        .ToDictionary(group => group.Key, group => group.ToList());
-                    foreach (var product in distinctProduct)
-                    {
-                        var releasedProduct = new ReleasedProductListItem(product.Value.First(), CurrentWarehouse);
-                        foreach (var item in product.Value)
-                        {
-                            releasedProduct.Quantity += item.QUANTITY;
-                        }
-                        this.ProductsOnWarehouse.Add(releasedProduct);
-                    }
-                }
-                if(CurrentWarehouseString!=null)
+                UpdateView();
+                
+                if (CurrentWarehouseString!=null)
                 if (!_ExtendedMode && !_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                 {
                     foreach (var product in _ProductsOnWarehouse)
@@ -388,6 +377,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 CurrentWarehouseChanged();
             }
         }
+
 
 
         public decimal Engaged
@@ -825,5 +815,40 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         public abstract void CurrentWarehouseChanged();
+
+        public void UpdateView()
+        {
+            var temProductsOnWarehouse = new ObservableCollection<ReleasedProductListItem>();
+            if (_ExtendedMode)
+            {//not grouping
+
+                foreach (var product in tempProducts)
+                {
+                    var releasedProduct = new ReleasedProductListItem(product, CurrentWarehouse);
+                    releasedProduct.Quantity = product.QUANTITY;
+                    temProductsOnWarehouse.Add(releasedProduct);
+                }
+            }
+            else
+            {
+                //grouping by title and sum quantity
+                distinctProduct = tempProducts.GroupBy(p => p.PRODUCT_INFO.PRODUCT_TITLE)
+                    .ToDictionary(group => group.Key, group => group.ToList());
+                foreach (var product in distinctProduct)
+                {
+                    var releasedProduct = new ReleasedProductListItem(product.Value.First(), CurrentWarehouse);
+                    foreach (var item in product.Value)
+                    {
+                        releasedProduct.Quantity += item.QUANTITY;
+                    }
+                    temProductsOnWarehouse.Add(releasedProduct);
+                }
+            }
+            this.ProductsOnWarehouse = temProductsOnWarehouse;
+        }
+
+        #region Dialog
+       
+        #endregion
     }
 }
