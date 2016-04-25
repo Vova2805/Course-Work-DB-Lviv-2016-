@@ -21,10 +21,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private double _productPrice;
         private string _title;
 
-        private CommonViewModel DataContext;
+        private CommonViewModel dataContextVM;
+        private GeneralModel dataContextM;
 
 
-        public ProductListElement(PRODUCT_INFO productInfo)
+        private ProductListElement(PRODUCT_INFO productInfo)
         {
             ProductInfo = productInfo;
             //isAdded = false;
@@ -36,7 +37,14 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         public ProductListElement(PRODUCT_INFO ProductInfo, CommonViewModel dataContextViewModel)
             : this(ProductInfo)
         {
-            DataContext = dataContextViewModel;
+            dataContextVM = dataContextViewModel;
+            WorkWithOrders = false;
+        }
+
+        public ProductListElement(PRODUCT_INFO ProductInfo, GeneralModel dataContextModel)
+            : this(ProductInfo)
+        {
+            dataContextM = dataContextModel;
             WorkWithOrders = false;
         }
 
@@ -109,18 +117,28 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 if (_QuantityNeeded == _Quantity) IsBooked = false;
                 else if (_QuantityNeeded < _Quantity)
                 {
-                    QuantityNeeded = _Quantity;
-                    if(DataContext != null)
-                        DataContext.CurrentWarehouse.removeScheduleProduct(this.ProductInfo);
+                    _QuantityNeeded = _Quantity;
+                    if (dataContextVM == null) initialiseDataContextVM();
+                    dataContextVM.CurrentWarehouse.removeScheduleProduct(this.ProductInfo);
                     IsBooked = false;
                 }
                 else
                 {
                     IsBooked = true;
-                    if (DataContext != null)
-                        DataContext.CurrentWarehouse.addScheduleProduct(this.ProductInfo, -_Quantity + _QuantityNeeded);
+                    if (dataContextVM == null) initialiseDataContextVM();
+                    dataContextVM.CurrentWarehouse.addScheduleProduct(this.ProductInfo, -_Quantity + _QuantityNeeded);
                 }
                 OnPropertyChanged("QuantityNeeded");
+            }
+        }
+
+        private void initialiseDataContextVM()
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var specialistWindow = window as HomeWindowSpecialist;
+            if (specialistWindow != null)
+            {
+                dataContextVM = specialistWindow.DataContext as CommonViewModel;
             }
         }
 
@@ -168,8 +186,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                         MessageDialogStyle.AffirmativeAndNegative);
                     if (result == MessageDialogResult.Affirmative)
                     {
-                        if (DataContext != null)
-                            DataContext.CurrentWarehouse.addScheduleProduct(ProductInfo,1);
+                        if (dataContextVM != null)
+                            dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo,1);
                         //isAdded = true;
                     }
                 }
@@ -183,9 +201,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     orderProduct.PRODUCT_INFO_ID = ProductInfo.PRODUCT_INFO_ID;
                     orderProduct.PRODUCT_INFO = ProductInfo;
                     orderProduct.QUANTITY_IN_ORDER = 1;
-                    DataContext = saleWindow.DataContext as SalerViewModel;
-                    if (DataContext != null)
-                        DataContext.SelectedClient.addOrderProduct(orderProduct);
+                    dataContextVM = saleWindow.DataContext as SalerViewModel;
+                    if (dataContextVM != null)
+                        dataContextVM.SelectedClient.addOrderProduct(orderProduct);
                     //isAdded = true;
                 }
             }
@@ -206,8 +224,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                 MessageDialogStyle.AffirmativeAndNegative);
                     if (result == MessageDialogResult.Affirmative)
                     {
-                        if (DataContext != null)
-                            DataContext.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                        if (dataContextVM != null)
+                            dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
                         //isAdded = false;
                     }
                 }

@@ -9,7 +9,7 @@
              xmlns:rules="clr-namespace:CourseWorkDB_DudasVI.Views.Rules"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d">
-    <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="1,1,1,1" HorizontalAlignment="Stretch"
+    <Border BorderBrush="DodgerBlue" BorderThickness="1,1,1,1" HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch" Height="Auto">
         <Border.Style>
             <Style TargetType="{x:Type Border}">
@@ -17,6 +17,10 @@
                     <DataTrigger Binding="{Binding IsBooked}" Value="True">
                         <Setter Property="Background" Value="LightGreen"></Setter>
                         <Setter Property="ToolTip" Value="У плані виробництва"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsBooked}" Value="False">
+                        <Setter Property="Background" Value="White"></Setter>
+                        <Setter Property="ToolTip" Value=""></Setter>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

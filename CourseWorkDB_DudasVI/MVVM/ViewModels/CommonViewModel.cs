@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Documents;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
+using CourseWorkDB_DudasVI.Resources;
 using LiveCharts;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
@@ -14,7 +15,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
     {
         protected CommonViewModel():base()
         {
-          
+            CurrentWarehouse = _CurrentWarehouse;
         }
 
         private bool _AddPermition;
@@ -58,6 +59,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         protected WarehouseListItem _AllWarehouses;
         protected ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
         protected ObservableCollection<string> _WarehousesStrings;
+        protected ObservableCollection<string> _WarehousesStringsWithoutAll;
         protected string _CurrentWarehouseString;
         protected string _DateFilterString;
         protected string _ValueRange;
@@ -206,7 +208,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public bool isAllWarehouses
         {
-            get { return !CurrentWarehouseString.Equals("Всі склади"); }
+            get { return !CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES); }
         }
 
         public WarehouseListItem CurrentWarehouse
@@ -246,7 +248,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     .Where(rp => rp.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList());
                     }
                     _CurrentWarehouse = new WarehouseListItem(tempWarehouse);
-                    _CurrentWarehouseString = "Всі склади";
+                    _CurrentWarehouseString = ResourceClass.ALL_WAREHOUSES;
                 }
                 else
                 {
@@ -261,7 +263,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
                    
                 }
-                ProductsOnWarehouse.Clear();
+                ProductsOnWarehouse = new ObservableCollection<ReleasedProductListItem>();
                 if (_ExtendedMode)
                 {//not grouping
 
@@ -288,7 +290,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     }
                 }
                 if(CurrentWarehouseString!=null)
-                if (!_ExtendedMode && !_CurrentWarehouseString.Equals("Всі склади"))
+                if (!_ExtendedMode && !_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                 {
                     foreach (var product in _ProductsOnWarehouse)
                     {
@@ -417,7 +419,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 {
                     WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
                 }
-                WarehousesStrings.Insert(0, "Всі склади");
+                WarehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
                 CurrentWarehouseString = _WarehousesStrings.First();
                 }
                 OnPropertyChanged("Warehouses");
@@ -432,10 +434,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 _CurrentWarehouseString = value;
                 if (_CurrentWarehouseString != null)
                 {
-                    if (!_CurrentWarehouseString.Equals("Всі склади"))
+                    if (!_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                     {
                         var index = WarehousesStrings.IndexOf(CurrentWarehouseString);
-                        CurrentWarehouse = Warehouses.ElementAt(index - 1);
+                        if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES)) index--;
+                        CurrentWarehouse = Warehouses.ElementAt(index);
                     }
                     else
                     {
@@ -444,7 +447,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
                 else
                 {
-                    _CurrentWarehouseString = "Всі склади";
+                    _CurrentWarehouseString = ResourceClass.ALL_WAREHOUSES;
                 }
                 OnPropertyChanged("CurrentWarehouseString");
             }
@@ -456,6 +459,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _WarehousesStrings = value;
+                WarehousesStringsWithoutAll = new ObservableCollection<string>();
+                foreach (var valueString in WarehousesStrings)
+                {
+                    WarehousesStringsWithoutAll.Add(valueString);
+                }
+                if(WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES)) WarehousesStringsWithoutAll.RemoveAt(0);
                 OnPropertyChanged("WarehousesStrings");
             }
         }
@@ -506,23 +515,48 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _SelectedProductPrice = value;
-                ChangeProductPriceValue = false;
-                ChangeProductPricePersentage = false;
-                ProductPriceValue = (double) SelectedProductPrice.PRICE_VALUE;
-                ProductPricePersentage = (double) SelectedProductPrice.PERSENTAGE_VALUE;
+                if (_SelectedProductPrice != null)
+                {
+                    ChangeProductPriceValue = false;
+                    ChangeProductPricePersentage = false;
+                    ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
+                    ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+                }
                 OnPropertyChanged("SelectedProductPrice");
             }
         }
 
         public ObservableCollection<ProductListElement> ProductsList
         {
-            get { return _ProductsList; }
+            get
+            {
+                if (_ProductsList == null)
+                {
+                    _ProductsList = new ObservableCollection<ProductListElement>();
+                    var products = Session.FactoryEntities.PRODUCT_INFO.ToList();
+                    foreach (var product in products)
+                    {
+                        _ProductsList.Add(new ProductListElement(product, this));
+                    }
+                    if (_ProductsList.Count > 0)
+                        SelectedProduct = _ProductsList.First();
+
+                    ProductsTitleList = new ObservableCollection<string>();
+                    foreach (var title in _ProductsList.Select(pr => pr.ProductInfo.PRODUCT_TITLE).ToList())
+                    {
+                        ProductsTitleList.Add(title);
+                    }
+                    ProductsTitleList.Insert(0, "Всі продукти");
+                    SelectedProductTitle = ProductsTitleList.First();
+                    ProductsList = _ProductsList;
+                }
+                return _ProductsList;
+            }
             set
             {
                 _ProductsList = value;
                 if (ProductsList.Count > 0)
                     SelectedProduct = ProductsList.First();
-                if (ProductsList != null)
                 foreach (var product in ProductsList)
                 {
                     product.IsBooked = _CurrentWarehouse.Contains(product.ProductInfo);
@@ -556,6 +590,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     {
                         ProductPriceList.Add(new ProductPriceListElement(price));
                     }
+                    ChangeProductPricePersentage = false;
+                    ChangeProductPriceValue = false;
+                    ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
+                    ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
                     OnPropertyChanged("SelectedProduct");
                 }
             }
@@ -628,6 +666,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _ChangedText = value;
                 OnPropertyChanged("ChangedText");
+            }
+        }
+
+        public ObservableCollection<string> WarehousesStringsWithoutAll
+        {
+            get { return _WarehousesStringsWithoutAll; }
+            set
+            {
+                _WarehousesStringsWithoutAll = value;
+                OnPropertyChanged("WarehousesStringsWithoutAll");
             }
         }
 

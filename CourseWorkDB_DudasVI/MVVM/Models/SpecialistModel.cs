@@ -4,15 +4,13 @@ using System.Linq;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
+using CourseWorkDB_DudasVI.Resources;
 using LiveCharts;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
 {
     public class SpecialistModel:GeneralModel
     {
-       
-
-
         public SpecialistModel():base()
         {
 
@@ -27,11 +25,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
                 productPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value, Session.User));
             }
             CurrentProductionSchedule = new PRODUCTION_SCHEDULE();
-            ProductsList = new List<ProductListElement>();
-            foreach (var product in Session.FactoryEntities.PRODUCT_INFO.ToList())
-            {
-                ProductsList.Add(new ProductListElement(product));
-            }
+           
 
             warehouses = new List<WarehouseListItem>();
             var tempWarehouses = Session.FactoryEntities.WAREHOUSE.ToList().Where(w=>w.STAFF_ID == Session.User.STAFF_ID);
@@ -47,10 +41,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             {
                 warehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
             }
-            warehousesStrings.Insert(0, "Всі склади");
+            warehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
             CurrentWarehouseString = warehousesStrings.First();
 
 
+            ProductsList = new List<ProductListElement>();
+            foreach (var product in Session.FactoryEntities.PRODUCT_INFO.ToList())
+            {
+                ProductsList.Add(new ProductListElement(product,this));
+            }
             SelectedProduct = ProductsList.First();
             SelectedProductPrice = API.getlastPrice(SelectedProduct.ProductInfo.PRODUCT_PRICE);
             ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;

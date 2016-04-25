@@ -7,7 +7,7 @@ using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models
 {
-    public class SalerModel
+    public class SalerModel:GeneralModel
     {
         public SalerModel()
         {
@@ -45,7 +45,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             ProductsList = new List<ProductListElement>();
             foreach (var product in tempProducts)
             {
-                ProductsList.Add(new ProductListElement(product));
+                ProductsList.Add(new ProductListElement(product, this));
             }
             if (ProductsList.Count > 0)
             {

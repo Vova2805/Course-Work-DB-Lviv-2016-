@@ -393,7 +393,7 @@
         <!-- #endregion-->
         <!--#region Плани виробництва-->
         <TabItem Header="Плани виробництва">
-            <TabControl>
+            <TabControl SelectionChanged="InnerTabControlSelectionChanged" Name="InnerControl">
                 <TabItem Header="Історія">
                     <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
                         <Grid HorizontalAlignment="Stretch">
@@ -590,7 +590,7 @@
                                     <TextBlock Grid.Column="0" Text="Склад " VerticalAlignment="Center" Margin="5"
                                                FontSize="15" />
                                     <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
-                                              ItemsSource="{Binding WarehousesStrings, Mode=TwoWay}"
+                                              ItemsSource="{Binding WarehousesStringsWithoutAll, Mode=TwoWay}"
                                               SelectedValue="{Binding Path=CurrentWarehouseString,Mode=TwoWay}"
                                               IsEditable="False" />
                                 </Grid>

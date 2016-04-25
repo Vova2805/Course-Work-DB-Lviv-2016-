@@ -210,6 +210,7 @@
     <Compile Include="REQURIED_RAWSTUFF.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Resources\ResourceClass.cs" />
     <Compile Include="SALARY.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>

@@ -9,6 +9,7 @@ using AutoMapper;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
+using CourseWorkDB_DudasVI.Resources;
 using CourseWorkDB_DudasVI.Views.UserControls;
 using MahApps.Metro.Controls;
 
@@ -215,8 +216,11 @@ namespace CourseWorkDB_DudasVI.Views
                 model.TabIndex = SpecialistControl.SelectedIndex;
                 model.UpdateSeries();
                 //ProductsCatalog.ClearText();
+                if (SpecialistControl.SelectedIndex == 1 && InnerControl.SelectedIndex == 1 && model.CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
+                    InnerTabControlSelectionChanged(sender, e);
             }
             MouseClick(sender, null);
+           
         }
 
 
@@ -230,5 +234,17 @@ namespace CourseWorkDB_DudasVI.Views
         }
 
         #endregion
-       }
+
+        private void InnerTabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (InnerControl.SelectedIndex == 1 && SpecialistControl.SelectedIndex == 1 )
+            {
+                var dataContext = this.DataContext as CommonViewModel;
+                if (dataContext != null && dataContext.CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
+                {
+                        dataContext.CurrentWarehouseString = dataContext.WarehousesStringsWithoutAll.First();
+                }
+            }
+        }
+    }
 }
