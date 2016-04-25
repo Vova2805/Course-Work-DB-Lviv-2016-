@@ -225,7 +225,7 @@
                                 <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
                                                     Binding="{Binding Path=ReleasedProduct.PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
                                 <DataGridTextColumn  Width="Auto" Header="Кількість наявна" IsReadOnly="True"
-                                                    Binding="{Binding Path=ReleasedProduct.QUANTITY}" >
+                                                    Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}" >
                                     <DataGridTextColumn.CellStyle>
                                         <Style>
                                             <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>

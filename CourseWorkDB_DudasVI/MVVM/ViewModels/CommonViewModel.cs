@@ -367,6 +367,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     if (direct) FlowDirection = " Вхідний";
                     else FlowDirection = " Вихідний";
                 }
+                ProductsList = null;
                 OnPropertyChanged("CurrentWarehouse");
                 OnPropertyChanged("isAllWarehouses");
                 CurrentWarehouseChanged();
@@ -532,6 +533,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 if (_ProductsList == null)
                 {
+                    //make new Product list
+                    ProductsList = null;
+                }
+                return _ProductsList;
+            }
+            set
+            {
+                _ProductsList = value;
+                if (_ProductsList == null)
+                {
                     _ProductsList = new ObservableCollection<ProductListElement>();
                     var products = Session.FactoryEntities.PRODUCT_INFO.ToList();
                     foreach (var product in products)
@@ -550,13 +561,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     SelectedProductTitle = ProductsTitleList.First();
                     ProductsList = _ProductsList;
                 }
-                return _ProductsList;
-            }
-            set
-            {
-                _ProductsList = value;
+
                 if (ProductsList.Count > 0)
                     SelectedProduct = ProductsList.First();
+                if(!_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                 foreach (var product in ProductsList)
                 {
                     product.IsBooked = _CurrentWarehouse.Contains(product.ProductInfo);
