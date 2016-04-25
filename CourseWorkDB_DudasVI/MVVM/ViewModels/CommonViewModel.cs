@@ -861,8 +861,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region Dialog
+        private DialogViewModel _Dialog = ServiceLocator.Current.GetInstance<DialogViewModel>();
 
-        public DialogViewModel Dialog { get; } = ServiceLocator.Current.GetInstance<DialogViewModel>();
+        public DialogViewModel Dialog
+        {
+            get
+            {
+                return _Dialog;
+            }
+        }
+
 
         #endregion
     }

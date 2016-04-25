@@ -7,6 +7,7 @@ using System.Windows.Media;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.Views;
+using CourseWorkDB_DudasVI.Views.Dialogs;
 using LiveCharts;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -84,7 +85,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private int _Days;
         private int _LostProducts;
         private decimal _LostMoney;
-
+        
         #endregion
 
         #region Functions
@@ -413,12 +414,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 {
                     if (specialistWindow != null)
                     {
-                        var result = await specialistWindow.ShowMessageAsync("Змінити кількість?",
-                            "У плані вже наявний продукт : " + existed.ProductInfo.PRODUCT_INFO.PRODUCT_TITLE +
+                        Dialog.Initialize("Змінити кількість?", "У плані вже наявний продукт : " + existed.ProductInfo.PRODUCT_INFO.PRODUCT_TITLE +
                             "\nКількості : " + existed.Quantity +
-                            ".\nБажаєте змінити кількість на " + selectedSchedule_Package.QUANTITY_IN_SCHEDULE + " ?",
-                            MessageDialogStyle.AffirmativeAndNegative);
-                        if (result == MessageDialogResult.Affirmative)
+                            ".\nБажаєте змінити кількість на " + selectedSchedule_Package.QUANTITY_IN_SCHEDULE + " ?");
+                        if(!Dialog.ForAll)
+                        Dialog.ShowDialog();
+                        if (Dialog.DialogResult == DialogResponse.Yes)
                         {
                             CurrentWarehouse.addScheduleProduct(selectedSchedule_Package.PRODUCT_INFO,
                                 selectedSchedule_Package.QUANTITY_IN_SCHEDULE);

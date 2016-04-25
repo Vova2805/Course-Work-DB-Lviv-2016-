@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using CourseWorkDB_DudasVI.Views.Dialogs;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using MahApps.Metro.Controls.Dialogs;
@@ -9,20 +10,28 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
     public class DialogViewModel : ViewModelBase
     {
         private readonly IDialogCoordinator _dialogCoordinator;
-
+        private string _dialogTitle;
         private string _dialogMessage;
-
-        private string _dialogResult;
+        private Dialogs.DialogResponse _dialogResult;
         private BaseMetroDialog _dialogView = new MessageDialog();
 
         private RelayCommand _sendMessageCommand;
-
+        private RelayCommand<string> _hideDialogCommand;
         private RelayCommand _showDialogCommand;
 
         public DialogViewModel(IDialogCoordinator dialogCoordinator)
         {
             _dialogCoordinator = dialogCoordinator;
-            Messenger.Default.Register<string>(this, HideDialog);
+            //Messenger.Default.Register<object>(this, HideDialog);
+            _dialogView.DataContext = this;
+        }
+
+        public void Initialize( string dialogTitle, string dialogMessage)
+        {
+            _dialogTitle = dialogTitle;
+            _dialogMessage = dialogMessage;
+
+            _dialogView.DataContext = this;
         }
 
         public string DialogMessage
@@ -39,16 +48,33 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             }
         }
 
-        public string DialogResult
+        public string DialogTitle
+        {
+            get { return _dialogTitle; }
+            set
+            {
+                _dialogTitle = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public Dialogs.DialogResponse DialogResult
         {
             get { return _dialogResult; }
             set
             {
-                if (_dialogResult == value)
-                {
-                    return;
-                }
                 _dialogResult = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _ForAll;
+        public bool ForAll
+        {
+            get { return _ForAll; }
+            set
+            {
+                _ForAll = value;
                 RaisePropertyChanged();
             }
         }
@@ -62,6 +88,10 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         {
             get { return _showDialogCommand ?? (_showDialogCommand = new RelayCommand(ShowDialog)); }
         }
+        public RelayCommand<string> HideDialogCommand
+        {
+            get { return _hideDialogCommand ?? (_hideDialogCommand = new RelayCommand<string>(HideDialog)); }
+        }
 
         public void ChangeDialog(BaseMetroDialog dialog)
         {
@@ -73,14 +103,19 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             Messenger.Default.Send(DialogMessage);
         }
 
-        private async void ShowDialog()
+        public async void ShowDialog()
         {
             await _dialogCoordinator.ShowMetroDialogAsync(this, _dialogView);
         }
 
-        private async void HideDialog(string messageContents)
+        public async void HideDialog(string Parameter)
         {
-            DialogResult = messageContents;
+            switch (Parameter)
+            {
+                case "Yes": this.DialogResult = DialogResponse.Yes;break;
+                case "No": this.DialogResult = DialogResponse.No; break;
+                case "Cancel": this.DialogResult = DialogResponse.Cancel; break;
+            }
             await _dialogCoordinator.HideMetroDialogAsync(this, _dialogView);
         }
     }
