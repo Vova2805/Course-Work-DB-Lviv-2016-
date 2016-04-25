@@ -22,7 +22,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public class CommonViewModel : ViewModelBaseInside
     {
-
         public class RegionInfo
         {
             public RegionInfo(int index, DateTime from, DateTime to)
@@ -68,7 +67,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             ToTime = API.getTodayDate();
             Options = new Dictionary<string, RegionInfo>();
             Options.Add(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString(),
-                new CommonViewModel.RegionInfo(0, FromTime, ToTime));
+                new RegionInfo(0, FromTime, ToTime));
             OptionsList = new ObservableCollection<string>();
             foreach (var option in Options.Keys.ToList())
             {
@@ -113,7 +112,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 SelectedProduct = ProductsList.First();
             }
-           
+
             Distance = 0;
             var deliveries = Session.FactoryEntities.DELIVERY.ToList();
             deliveries.Sort(
@@ -162,8 +161,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
 
             SelectedProductPrice = API.getlastPrice(SelectedProduct.ProductInfo.PRODUCT_PRICE);
-            ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
-            ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+            ProductPriceValue = (double) SelectedProductPrice.PRICE_VALUE;
+            ProductPricePersentage = (double) SelectedProductPrice.PERSENTAGE_VALUE;
             ProductPriceList = new ObservableCollection<ProductPriceListElement>();
             foreach (var price in SelectedProduct.ProductInfo.PRODUCT_PRICE.ToList())
             {
@@ -183,7 +182,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             Days = 7;
 
             EmployeeList = new ObservableCollection<STAFF>();
-            foreach (var employee in Session.FactoryEntities.STAFF.ToList().FindAll(s => s.POST.DEPARTMENT.DEPARTMENT_ID == 3))
+            foreach (
+                var employee in
+                    Session.FactoryEntities.STAFF.ToList().FindAll(s => s.POST.DEPARTMENT.DEPARTMENT_ID == 3))
             {
                 EmployeeList.Add(employee);
             }
@@ -192,12 +193,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #endregion
 
-
-
         #region Common
 
-
         #region Variables
+
         private ObservableCollection<string> _categoriesList;
         private ObservableCollection<SCHEDULE_PRODUCT_INFO> _schedulePackages;
 
@@ -236,7 +235,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private Dictionary<string, RegionInfo> _options;
 
 
-
         private ObservableCollection<string> _optionsList;
         private decimal _priceFrom;
         private decimal _priceTo;
@@ -262,7 +260,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private string _yTitle;
         private int _tabIndex;
         private ObservableCollection<OrderProductTransaction> _productPackagesList;
-        
+
         public void CurrentWarehouseChanged()
         {
             ExtendedMode = _extendedMode;
@@ -272,7 +270,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             var temProductsOnWarehouse = new ObservableCollection<ReleasedProductListItem>();
             if (_extendedMode)
-            {//not grouping
+            {
+//not grouping
 
                 foreach (var product in tempProducts)
                 {
@@ -318,7 +317,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return _selectedWarehouseTitle; }
             set
             {
-                _selectedWarehouseTitle = value; 
+                _selectedWarehouseTitle = value;
                 OnPropertyChanged("SelectedWarehouseTitle");
             }
         }
@@ -440,6 +439,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("SelectedProductOnWarehouse");
             }
         }
+
         public ClientListItem SelectedClient
         {
             get { return _selectedClient; }
@@ -448,23 +448,21 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 _selectedClient = value;
                 if (SelectedClient != null)
                 {
-                    SelectedClientTitle = _selectedClient.GeneralInfo; 
+                    SelectedClientTitle = _selectedClient.GeneralInfo;
                 }
                 else
                 {
-                    if(SelectedClientTitle!=null)
-                   _selectedClient =
-                        Clients.ToList().FindAll(c => c.GeneralInfo.Equals(SelectedClientTitle)).FirstOrDefault();
+                    if (SelectedClientTitle != null)
+                        _selectedClient =
+                            Clients.ToList().FindAll(c => c.GeneralInfo.Equals(SelectedClientTitle)).FirstOrDefault();
                 }
                 OnPropertyChanged("SelectedClient");
             }
         }
+
         public string SelectedClientTitle
         {
-            get
-            {
-                return _selectedClientTitle;
-            }
+            get { return _selectedClientTitle; }
             set
             {
                 _selectedClientTitle = value;
@@ -512,7 +510,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     return surname == 0 ? name == 0 ? middle_name == 0 ? 0 : middle_name : name : surname;
                 });
                 var titles = _clients.ToList().Select(c => c.GeneralInfo).ToList();
-                
+
                 ClientsTitle = new ObservableCollection<string>();
                 foreach (var title in titles)
                 {
@@ -741,7 +739,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         Session.FactoryEntities.WAREHOUSE.ToList();
                     if (!IsSaler)
                     {
-                        tempWarehouses = tempWarehouses.ToList().Where(w => w.STAFF_ID == Session.User.STAFF_ID).ToList();
+                        tempWarehouses =
+                            tempWarehouses.ToList().Where(w => w.STAFF_ID == Session.User.STAFF_ID).ToList();
                     }
                     foreach (var warehouse in tempWarehouses)
                     {
@@ -772,7 +771,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     if (!_currentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                     {
                         var index = WarehousesStrings.IndexOf(CurrentWarehouseString);
-                        if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES) && index >0) index--;
+                        if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES) && index > 0) index--;
                         CurrentWarehouse = Warehouses.ElementAt(index);
                     }
                     else
@@ -801,9 +800,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     {
                         WarehousesStringsWithoutAll.Add(valueString);
                     }
-                    if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES)) WarehousesStringsWithoutAll.RemoveAt(0);
+                    if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES))
+                        WarehousesStringsWithoutAll.RemoveAt(0);
                 }
-                
+
                 OnPropertyChanged("WarehousesStrings");
             }
         }
@@ -885,7 +885,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     foreach (var product in products)
                     {
                         _productsList.Add(new ProductListElement(product, this));
-                        _productsList.Last().IsntSaler = !this.IsSaler;
+                        _productsList.Last().IsntSaler = !IsSaler;
                     }
                     if (_productsList.Count > 0)
                         SelectedProduct = _productsList.First();
@@ -895,45 +895,46 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     {
                         ProductsTitleList.Add(title);
                     }
-                    if(!IsSaler)
-                    ProductsTitleList.Insert(0, "Всі продукти");
+                    if (!IsSaler)
+                        ProductsTitleList.Insert(0, "Всі продукти");
                     SelectedProductTitle = ProductsTitleList.First();
                 }
 
                 if (ProductsList.Count > 0)
                     SelectedProduct = ProductsList.First();
-                if(_currentWarehouseString!=null)
-                if (!IsSaler && !_currentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
-                    foreach (var product in ProductsList)
-                    {
-                        product.IsBooked = _currentWarehouse.Contains(product.ProductInfo);
-                        var tempProd =
-                            ProductsOnWarehouse.ToList()
-                                .Find(pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID);
-                        if (tempProd != null)
+                if (_currentWarehouseString != null)
+                    if (!IsSaler && !_currentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
+                        foreach (var product in ProductsList)
                         {
-                            product.Quantity = tempProd.Quantity;
-                            product.QuantityNeeded = tempProd.QuantityNeeded;
+                            product.IsBooked = _currentWarehouse.Contains(product.ProductInfo);
+                            var tempProd =
+                                ProductsOnWarehouse.ToList()
+                                    .Find(
+                                        pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID);
+                            if (tempProd != null)
+                            {
+                                product.Quantity = tempProd.Quantity;
+                                product.QuantityNeeded = tempProd.QuantityNeeded;
+                            }
+                        }
+                    else if (IsSaler)
+                    {
+                        if (SelectedClient == null) SelectedClient = null;
+                        foreach (var product in ProductsList)
+                        {
+                            product.IsBooked = SelectedClient.Contains(product.ProductInfo);
+                            var tempProdOrder = SelectedClient.ContainsOrderProduct(product.ProductInfo);
+                            var tempProdWarehouse =
+                                ProductsOnWarehouse.ToList()
+                                    .Find(
+                                        pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID);
+                            if (tempProdOrder != null)
+                            {
+                                product.Quantity = tempProdWarehouse != null ? tempProdWarehouse.Quantity : 0;
+                                product.QuantityNeeded = tempProdOrder.QuantityInOrder;
+                            }
                         }
                     }
-                else
-                if (IsSaler)
-                {
-                    if (SelectedClient == null) SelectedClient = null;
-                    foreach (var product in ProductsList)
-                    {
-                        product.IsBooked = SelectedClient.Contains(product.ProductInfo); 
-                        var tempProdOrder = SelectedClient.ContainsOrderProduct(product.ProductInfo);
-                        var tempProdWarehouse =
-                           ProductsOnWarehouse.ToList()
-                               .Find(pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID);
-                        if (tempProdOrder != null)
-                        {
-                            product.Quantity = tempProdWarehouse!=null? tempProdWarehouse.Quantity:0;
-                            product.QuantityNeeded = tempProdOrder.QuantityInOrder;
-                        }
-                    }
-                }
                 OnPropertyChanged("ProductsList");
             }
         }
@@ -1098,7 +1099,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("priceTo");
             }
         }
-        
+
         public DateTime FromTime
         {
             get { return _fromTime; }
@@ -1178,21 +1179,14 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #region Dialog
-        private DialogViewModel _Dialog = ServiceLocator.Current.GetInstance<DialogViewModel>();
 
-        public DialogViewModel Dialog
-        {
-            get
-            {
-                return _Dialog;
-            }
-        }
+        public DialogViewModel Dialog { get; } = ServiceLocator.Current.GetInstance<DialogViewModel>();
+
         #endregion
 
         #region ChartViewModel
-        #region General Charts
 
-       
+        #region General Charts
 
         #endregion
 
@@ -1276,7 +1270,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         {
                             product.IsExpiring = true;
                             LostProducts += product.Quantity;
-                            LostMoney += product.Quantity *
+                            LostMoney += product.Quantity*
                                          API.getlastPrice(product.ReleasedProduct.PRODUCT_INFO.PRODUCT_PRICE)
                                              .PRICE_VALUE;
                         }
@@ -1351,7 +1345,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #region Specialist
 
-
         public void ColumnVisibilityChanged()
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
@@ -1422,39 +1415,39 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             switch (TabIndex)
             {
                 case 0:
-                    {
-                    }
+                {
+                }
                     break;
                 case 1:
+                {
+                    #region Second
+
+                    for (var i = 0; i < 2; i++)
                     {
-                        #region Second
-
-                        for (var i = 0; i < 2; i++)
+                        var seriePrice = new List<double>();
+                        foreach (var price in ProductPriceList)
                         {
-                            var seriePrice = new List<double>();
-                            foreach (var price in ProductPriceList)
+                            if (i == 0)
+                                seriePrice.Add((double) price.ProductPrice.PRICE_VALUE);
+                            else
                             {
-                                if (i == 0)
-                                    seriePrice.Add((double)price.ProductPrice.PRICE_VALUE);
-                                else
-                                {
-                                    seriePrice.Add((double)price.ProductPrice.PERSENTAGE_VALUE);
-                                }
-                                Labels.Add(price.ProductPrice.CHANGED_DATE.ToString("g"));
+                                seriePrice.Add((double) price.ProductPrice.PERSENTAGE_VALUE);
                             }
-                            var chartValues = new ChartValues<double>();
-                            chartValues.AddRange(seriePrice);
-                            var newSerie = new LineSeries
-                            {
-                                Title = i == 0 ? "У валюті" : "У відсотках",
-                                Values = chartValues,
-                                PointRadius = 3
-                            };
-                            LineSeriesInstance.Add(newSerie);
+                            Labels.Add(price.ProductPrice.CHANGED_DATE.ToString("g"));
                         }
-
-                        #endregion
+                        var chartValues = new ChartValues<double>();
+                        chartValues.AddRange(seriePrice);
+                        var newSerie = new LineSeries
+                        {
+                            Title = i == 0 ? "У валюті" : "У відсотках",
+                            Values = chartValues,
+                            PointRadius = 3
+                        };
+                        LineSeriesInstance.Add(newSerie);
                     }
+
+                    #endregion
+                }
                     break;
             }
         }
@@ -1464,40 +1457,40 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             switch (TabIndex)
             {
                 case 0:
-                    {
-                    }
+                {
+                }
                     break;
                 case 1:
+                {
+                    #region Second
+
+                    foreach (var price in ProductPriceList)
                     {
-                        #region Second
-
-                        foreach (var price in ProductPriceList)
+                        var serieQuantity = new List<double>();
+                        for (var i = 0; i < 2; i++)
                         {
-                            var serieQuantity = new List<double>();
-                            for (var i = 0; i < 2; i++)
+                            if (i == 1)
                             {
-                                if (i == 1)
-                                {
-                                    serieQuantity.Add((double)price.ProductPrice.PRICE_VALUE);
-                                }
-                                else
-                                {
-                                    serieQuantity.Add((double)price.ProductPrice.PERSENTAGE_VALUE);
-                                }
+                                serieQuantity.Add((double) price.ProductPrice.PRICE_VALUE);
                             }
-                            var pieValues = new ChartValues<double>();
-                            pieValues.AddRange(serieQuantity);
-                            var newPSerie = new PieSeries
+                            else
                             {
-                                Title = price.ProductPrice.CHANGED_DATE.ToLongDateString(),
-                                Values = pieValues
-                            };
-                            PieSeriesInstance.Add(newPSerie);
-                            Labels.Add(price.ProductPrice.CHANGED_DATE.ToLongDateString());
+                                serieQuantity.Add((double) price.ProductPrice.PERSENTAGE_VALUE);
+                            }
                         }
-
-                        #endregion
+                        var pieValues = new ChartValues<double>();
+                        pieValues.AddRange(serieQuantity);
+                        var newPSerie = new PieSeries
+                        {
+                            Title = price.ProductPrice.CHANGED_DATE.ToLongDateString(),
+                            Values = pieValues
+                        };
+                        PieSeriesInstance.Add(newPSerie);
+                        Labels.Add(price.ProductPrice.CHANGED_DATE.ToLongDateString());
                     }
+
+                    #endregion
+                }
                     break;
             }
         }
@@ -1507,51 +1500,51 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             switch (TabIndex)
             {
                 case 0:
-                    {
-                    }
+                {
+                }
                     break;
                 case 1:
+                {
+                    #region Second
+
+                    var lineChartValues = new List<double>();
+                    for (var i = 0; i < 2; i++)
                     {
-                        #region Second
-
-                        var lineChartValues = new List<double>();
-                        for (var i = 0; i < 2; i++)
+                        var serieQuantity = new List<double>();
+                        foreach (var price in ProductPriceList)
                         {
-                            var serieQuantity = new List<double>();
-                            foreach (var price in ProductPriceList)
+                            if (i == 0)
                             {
-                                if (i == 0)
-                                {
-                                    serieQuantity.Add((double)price.ProductPrice.PRICE_VALUE);
-                                }
-                                else
-                                {
-                                    serieQuantity.Add((double)price.ProductPrice.PERSENTAGE_VALUE);
-                                    lineChartValues.Add(100);
-                                }
+                                serieQuantity.Add((double) price.ProductPrice.PRICE_VALUE);
                             }
-                            var chartValues = new ChartValues<double>();
-                            chartValues.AddRange(serieQuantity);
-                            var newSerie = new BarSeries
+                            else
                             {
-                                Title = i == 0 ? "У валюті (грн.)" : "У відсотках %",
-                                Values = chartValues
-                            };
-                            BarSeriesInstance.Add(newSerie);
+                                serieQuantity.Add((double) price.ProductPrice.PERSENTAGE_VALUE);
+                                lineChartValues.Add(100);
+                            }
                         }
-
-                        var chartLineValues = new ChartValues<double>();
-                        chartLineValues.AddRange(lineChartValues);
-                        var newLineSerie = new LineSeries
+                        var chartValues = new ChartValues<double>();
+                        chartValues.AddRange(serieQuantity);
+                        var newSerie = new BarSeries
                         {
-                            Title = "Лінія безбитковості",
-                            Values = chartLineValues,
-                            PointRadius = 3,
-                            Fill = new SolidColorBrush(Colors.Transparent),
-                            Stroke = new SolidColorBrush(Colors.DarkRed)
+                            Title = i == 0 ? "У валюті (грн.)" : "У відсотках %",
+                            Values = chartValues
                         };
-                        BarSeriesInstance.Add(newLineSerie);
+                        BarSeriesInstance.Add(newSerie);
                     }
+
+                    var chartLineValues = new ChartValues<double>();
+                    chartLineValues.AddRange(lineChartValues);
+                    var newLineSerie = new LineSeries
+                    {
+                        Title = "Лінія безбитковості",
+                        Values = chartLineValues,
+                        PointRadius = 3,
+                        Fill = new SolidColorBrush(Colors.Transparent),
+                        Stroke = new SolidColorBrush(Colors.DarkRed)
+                    };
+                    BarSeriesInstance.Add(newLineSerie);
+                }
 
                     #endregion
 
@@ -1590,12 +1583,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #endregion
 
-
         #endregion
 
         #region Properties
-
-        
 
         #endregion
 
@@ -1673,7 +1663,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 {
                     if (specialistWindow != null)
                     {
-                        Dialog.Initialize("Змінити кількість?", "У плані вже наявний продукт : " + existed.ProductInfo.PRODUCT_INFO.PRODUCT_TITLE +
+                        Dialog.Initialize("Змінити кількість?",
+                            "У плані вже наявний продукт : " + existed.ProductInfo.PRODUCT_INFO.PRODUCT_TITLE +
                             "\nКількості : " + existed.Quantity +
                             ".\nБажаєте змінити кількість на " + selectedSchedule_Package.QUANTITY_IN_SCHEDULE + " ?");
                         if (!Dialog.ForAll)
@@ -1711,20 +1702,21 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     ProductsList.FirstOrDefault(
                         pr => pr.ProductInfo.PRODUCT_INFO_ID == SelectedProduct.ProductInfo.PRODUCT_INFO_ID);
         }
+
         #endregion
+
         #endregion
 
         #region Director
+
         private ObservableCollection<STAFF> _EmployeeList;
         private STAFF _SelectedEmployee;
-
 
         #region Second
 
         #endregion
 
         #region Properties
-
 
         #endregion
 
@@ -1734,7 +1726,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             get { return new RelayCommand<string>(DoChange); }
         }
-        
+
         public void DoChange(string parameter)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
@@ -1742,52 +1734,52 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             switch (parameter)
             {
                 case "Add":
+                {
+                    if (Options.ContainsKey(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString()))
                     {
-                        if (Options.ContainsKey(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString()))
+                        if (window != null)
                         {
-                            if (window != null)
-                            {
-                                window.ShowMessageAsync("Не можливо додати", "Ви уже обрали даний термін. Спробуйте інший");
-                            }
+                            window.ShowMessageAsync("Не можливо додати", "Ви уже обрали даний термін. Спробуйте інший");
                         }
-                        else
+                    }
+                    else
+                    {
+                        foreach (var pr in ProductPackagesList)
                         {
-                            foreach (var pr in ProductPackagesList)
+                            pr.QuantityInOrders.Add(new OrderProductTransaction.QuantityInOrder(FromTime, ToTime, pr));
+                        }
+                        if (window != null)
+                        {
+                            var adminWindow = window as HomeWindowAdmin;
+                            if (adminWindow != null)
                             {
-                                pr.QuantityInOrders.Add(new OrderProductTransaction.QuantityInOrder(FromTime, ToTime, pr));
-                            }
-                            if (window != null)
-                            {
-                                var adminWindow = window as HomeWindowAdmin;
-                                if (adminWindow != null)
-                                {
-                                    adminWindow.addColumns();
-                                    Update();
-                                }
+                                adminWindow.addColumns();
+                                Update();
                             }
                         }
                     }
+                }
                     break;
                 case "Remove":
+                {
+                    if (SelectedOption != null)
                     {
-                        if (SelectedOption != null)
+                        var res = Options[SelectedOption];
+                        foreach (var pr in ProductPackagesList)
                         {
-                            var res = Options[SelectedOption];
-                            foreach (var pr in ProductPackagesList)
+                            pr.QuantityInOrders.RemoveAt(res.index);
+                        }
+                        if (window != null)
+                        {
+                            var adminWindow = window as HomeWindowAdmin;
+                            if (adminWindow != null)
                             {
-                                pr.QuantityInOrders.RemoveAt(res.index);
-                            }
-                            if (window != null)
-                            {
-                                var adminWindow = window as HomeWindowAdmin;
-                                if (adminWindow != null)
-                                {
-                                    adminWindow.addColumns();
-                                    Update();
-                                }
+                                adminWindow.addColumns();
+                                Update();
                             }
                         }
                     }
+                }
                     break;
             }
         }
@@ -1826,7 +1818,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         }
 
         #endregion
+
         #endregion
+
         #endregion
     }
 }

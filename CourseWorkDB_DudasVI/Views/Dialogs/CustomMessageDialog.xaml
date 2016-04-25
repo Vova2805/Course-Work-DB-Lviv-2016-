@@ -17,26 +17,27 @@
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="5"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="5"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="5"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Text="{Binding Path=DialogTitle}" Grid.Row="0"
                            TextAlignment="Center" />
                 <TextBlock Text="{Binding DialogMessage}"
-                         metro:TextBoxHelper.Watermark="Add Message Here" Grid.Row="2" />
-                <CheckBox Grid.Row="4" IsChecked="{Binding ForAll,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Content="Застосувати для всіх" FontWeight="Bold" Margin="5"/>
+                           metro:TextBoxHelper.Watermark="Add Message Here" Grid.Row="2" />
+                <CheckBox Grid.Row="4" IsChecked="{Binding ForAll,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                          Content="Застосувати для всіх" FontWeight="Bold" Margin="5" />
                 <StackPanel Orientation="Horizontal" Grid.Row="6" HorizontalAlignment="Right">
                     <Button Command="{Binding HideDialogCommand}" CommandParameter="Yes"
-                        Content="Так" Width="150"
-                        DockPanel.Dock="Top"  Margin="5"/>
+                            Content="Так" Width="150"
+                            DockPanel.Dock="Top" Margin="5" />
                     <Button Command="{Binding HideDialogCommand}" CommandParameter="No"
-                        Content="Ні"  Width="150"
-                        DockPanel.Dock="Top"  Margin="5"/>
+                            Content="Ні" Width="150"
+                            DockPanel.Dock="Top" Margin="5" />
                     <!--<Button Command="{Binding SendMessageCommand}" CommandParameter="Cancel"
                         Content="Відміна"  Width="150"
                         DockPanel.Dock="Top"  Margin="5"/>-->

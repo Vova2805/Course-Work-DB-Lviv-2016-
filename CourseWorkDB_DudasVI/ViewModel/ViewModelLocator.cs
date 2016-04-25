@@ -12,10 +12,6 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
-
 namespace CourseWorkDB_DudasVI.ViewModel
 {
-   
 }

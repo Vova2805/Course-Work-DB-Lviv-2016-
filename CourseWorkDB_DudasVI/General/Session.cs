@@ -1,6 +1,4 @@
-﻿using MahApps.Metro.Controls;
-
-namespace CourseWorkDB_DudasVI.General
+﻿namespace CourseWorkDB_DudasVI.General
 {
     public enum UserType
     {
@@ -8,6 +6,7 @@ namespace CourseWorkDB_DudasVI.General
         Saler,
         Specialist
     }
+
     public class Session
     {
         static Session()

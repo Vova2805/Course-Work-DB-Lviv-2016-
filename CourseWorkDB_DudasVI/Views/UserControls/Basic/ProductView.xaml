@@ -94,7 +94,7 @@
                                     <сontrols:NumericUpDown Minimum="0" Width="auto" Grid.Column="0" Interval="1"
                                                             Value="{Binding Path=ProductPriceValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                             BorderThickness="1" Margin="5,0,0,5"
-                                                            PreviewMouseDown="PriceChanged"/>
+                                                            PreviewMouseDown="PriceChanged" />
                                     <TextBlock Grid.Column="1" Text=" грн" VerticalAlignment="Center" />
                                     <сontrols:NumericUpDown Minimum="0" Width="auto" Grid.Column="0" Grid.Row="1"
                                                             Interval="1"

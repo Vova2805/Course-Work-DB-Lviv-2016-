@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
-using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using LiveCharts;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
@@ -14,31 +13,14 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private CLIENT _Client;
         private ObservableCollection<DeliveryListItem> _deliveryList;
         private NewOrderItem _newOrder;
+        private ObservableCollection<DeliveryListItem> _newOrderDeliveries;
         private decimal _newOrderTotal;
         private ObservableCollection<OrderProductListItem> _packagesProducts;
         private ObservableCollection<SALE_ORDER> _saleOrders;
         private SALE_ORDER _selectedOrder;
         private int _totalQuantity;
         private DeliveryListItem selectedDelivery;
-        private ObservableCollection<DeliveryListItem> _newOrderDeliveries;
 
-        public class NewOrderItem:ViewModelBaseInside
-        {
-            private SALE_ORDER _saleOrder;
-            public NewOrderItem(SALE_ORDER saleOrder)
-            {
-                _saleOrder = saleOrder;            }
-            public SALE_ORDER SaleOrder
-            {
-                get { return _saleOrder; }
-                set
-                {
-                    _saleOrder = value;
-                    OnPropertyChanged("SaleOrder");
-                }
-            }
-        }
-        
         public ClientListItem(CLIENT client)
         {
             Client = client;
@@ -179,11 +161,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public bool addOrderProduct(PRODUCT_INFO product,int quantity)
+        public bool addOrderProduct(PRODUCT_INFO product, int quantity)
         {
             try
             {
-                var existed = PackagesProducts.ToList().Find(pr=>pr.OrderProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID);
+                var existed =
+                    PackagesProducts.ToList().Find(pr => pr.OrderProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID);
                 if (existed != null)
                 {
                     existed.QuantityInOrder = quantity;
@@ -202,6 +185,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 return false;
             }
         }
+
         private void UpdateTotals()
         {
             TotalQuantity = 0;
@@ -234,6 +218,26 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             return false;
         }
 
+        public class NewOrderItem : ViewModelBaseInside
+        {
+            private SALE_ORDER _saleOrder;
+
+            public NewOrderItem(SALE_ORDER saleOrder)
+            {
+                _saleOrder = saleOrder;
+            }
+
+            public SALE_ORDER SaleOrder
+            {
+                get { return _saleOrder; }
+                set
+                {
+                    _saleOrder = value;
+                    OnPropertyChanged("SaleOrder");
+                }
+            }
+        }
+
         public class OrderProductListItem : ViewModelBaseInside
         {
             private readonly ClientListItem DataContext;
@@ -241,7 +245,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             private decimal _packageTotal;
             private int _QuantityInOrder;
 
-            public OrderProductListItem(ORDER_PRODUCT orderProduct,int quantity, ClientListItem dataContext)
+            public OrderProductListItem(ORDER_PRODUCT orderProduct, int quantity, ClientListItem dataContext)
             {
                 DataContext = dataContext;
                 _orderProduct = orderProduct;
@@ -275,7 +279,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 set
                 {
                     _QuantityInOrder = value;
-                    PackageTotal = API.getlastPrice(_orderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE*_QuantityInOrder;
+                    PackageTotal = API.getlastPrice(_orderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE*
+                                   _QuantityInOrder;
                     _orderProduct.QUANTITY_IN_ORDER = _QuantityInOrder;
                     OnPropertyChanged("QuantityInOrder");
                     DataContext.PackagesProducts =
@@ -290,7 +295,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 
             private void RemoveProductFromOrderFunc(object obj)
             {
-                this._QuantityInOrder = 0;//remove product from order
+                _QuantityInOrder = 0; //remove product from order
             }
         }
 
@@ -330,13 +335,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 
         public bool Contains(PRODUCT_INFO product)
         {
-            return PackagesProducts.ToList().Find(pr => pr.OrderProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID) != null;
+            return PackagesProducts.ToList().Find(pr => pr.OrderProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID) !=
+                   null;
         }
 
         public OrderProductListItem ContainsOrderProduct(PRODUCT_INFO product)
         {
             return PackagesProducts.ToList().Find(pr => pr.OrderProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID);
         }
+
         #endregion
     }
 }

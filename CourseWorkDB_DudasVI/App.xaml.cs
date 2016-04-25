@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using CourseWorkDB_DudasVI.MVVM.Mapping;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI
@@ -10,7 +9,6 @@ namespace CourseWorkDB_DudasVI
 
         public App()
         {
-            Mapping.Create();
             settingsViewModel = new SettingsViewModel();
         }
     }

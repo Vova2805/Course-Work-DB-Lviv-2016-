@@ -438,9 +438,9 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Склад" VerticalAlignment="Center" Margin="5" FontSize="15" />
                         <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
-                                      ItemsSource="{Binding WarehousesStrings, Mode=TwoWay}"
-                                      SelectedValue="{Binding Path=CurrentWarehouseString,Mode=TwoWay}"
-                                      IsEditable="False" />
+                                  ItemsSource="{Binding WarehousesStrings, Mode=TwoWay}"
+                                  SelectedValue="{Binding Path=CurrentWarehouseString,Mode=TwoWay}"
+                                  IsEditable="False" />
                     </Grid>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>

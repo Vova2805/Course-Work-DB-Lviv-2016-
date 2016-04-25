@@ -4,12 +4,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
     public class ReleasedProductListItem : ViewModelBaseInside
     {
+        private readonly WarehouseListItem CurrentWarehouse;
         private bool _isBooked;
         private bool _isExpiring;
         private int _Quantity;
         private int _QuantityNeeded;
         private RELEASED_PRODUCT _releasedProduct;
-        private readonly WarehouseListItem CurrentWarehouse;
 
         public ReleasedProductListItem(RELEASED_PRODUCT releasedProduct, WarehouseListItem currentWarehouseListItem)
         {

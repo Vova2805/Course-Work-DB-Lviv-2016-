@@ -170,7 +170,6 @@
     <Compile Include="INGREDIENTS.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="MVVM\Models\Mapping\Mapping.cs" />
     <Compile Include="MVVM\Models\Additional\ClientListItem.cs" />
     <Compile Include="MVVM\Models\Additional\ReleasedProductListItem.cs" />
     <Compile Include="MVVM\Models\Additional\WarehouseListItem.cs" />
@@ -178,7 +177,6 @@
     <Compile Include="MVVM\Models\Additional\OrderProductTransaction.cs" />
     <Compile Include="MVVM\Models\Additional\ProductListElement.cs" />
     <Compile Include="MVVM\Models\Additional\ProductPriceListElement.cs" />
-    <Compile Include="MVVM\Models\GeneralModel.cs" />
     <Compile Include="MVVM\ViewModels\CommonViewModel.cs" />
     <Compile Include="MVVM\ViewModels\SettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelBaseInside.cs" />
@@ -610,6 +608,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DATA\" />
+    <Folder Include="MVVM\Models\Mapping\" />
     <Folder Include="Views\UserControls\Filters\Saler\" />
   </ItemGroup>
   <ItemGroup>

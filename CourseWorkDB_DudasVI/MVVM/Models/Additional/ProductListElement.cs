@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using CourseWorkDB_DudasVI.Views;
 using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
@@ -16,14 +13,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private readonly bool WorkWithOrders;
         private string _categoryTitle;
         private bool _isBooked;
+        private bool _isntSaler;
         private bool _isNumbersVisible;
         private PRODUCT_INFO _ProductInfo;
         private double _productPrice;
         private int _Quantity;
         private int _QuantityNeeded;
         private string _title;
-        private bool _isntSaler;
-        private GeneralModel dataContextM;
 
         private CommonViewModel dataContextVM;
 
@@ -42,13 +38,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             : this(ProductInfo)
         {
             dataContextVM = dataContextViewModel;
-            WorkWithOrders = false;
-        }
-
-        public ProductListElement(PRODUCT_INFO ProductInfo, GeneralModel dataContextModel)
-            : this(ProductInfo)
-        {
-            dataContextM = dataContextModel;
             WorkWithOrders = false;
         }
 
@@ -79,7 +68,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _isNumbersVisible = value;
                 if (dataContextVM == null) initialiseDataContextVM();
-                if (dataContextVM != null && dataContextVM.CurrentWarehouse!=null)
+                if (dataContextVM != null && dataContextVM.CurrentWarehouse != null)
                     IsBooked = dataContextVM.CurrentWarehouse.Contains(ProductInfo) && _isNumbersVisible;
                 else IsBooked = _isBooked && _isNumbersVisible;
                 OnPropertyChanged("IsNumbersVisible");
@@ -151,51 +140,50 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _QuantityNeeded = value;
-                    if (_QuantityNeeded == _Quantity)
+                if (_QuantityNeeded == _Quantity)
+                {
+                    if (dataContextVM == null) initialiseDataContextVM();
+                    if (Session.userType == UserType.Specialist)
                     {
-                        if (dataContextVM == null) initialiseDataContextVM();
-                        if (Session.userType == UserType.Specialist)
-                        {
-                            IsBooked = false;
-                            dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
-                        }
-                        else if (Session.userType == UserType.Saler)
-                        {
-                            //TODO show warning
-                            if(Quantity!=0)
-                            IsBooked = true;
-                        }
+                        IsBooked = false;
+                        dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
                     }
-                    else if (_QuantityNeeded < _Quantity)
+                    else if (Session.userType == UserType.Saler)
                     {
-                        if (dataContextVM == null) initialiseDataContextVM();
-                        if (Session.userType == UserType.Specialist)
-                        {
-                            _QuantityNeeded = _Quantity;
-                            dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
-                            IsBooked = false;
-                        }
-                        else if (Session.userType == UserType.Saler)
-                        {
-                            dataContextVM.SelectedClient.addOrderProduct(ProductInfo, _QuantityNeeded);
+                        //TODO show warning
+                        if (Quantity != 0)
                             IsBooked = true;
-                        }
                     }
-                    else //>=
+                }
+                else if (_QuantityNeeded < _Quantity)
+                {
+                    if (dataContextVM == null) initialiseDataContextVM();
+                    if (Session.userType == UserType.Specialist)
                     {
-                        
-                        if (dataContextVM == null) initialiseDataContextVM();
-                        if (Session.userType == UserType.Specialist)
-                        {
-                            IsBooked = true;
-                            dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo, -_Quantity + _QuantityNeeded);
-                        }
-                        else if (Session.userType == UserType.Saler)
-                        {
-                            QuantityNeeded = _Quantity;
-                        }
+                        _QuantityNeeded = _Quantity;
+                        dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
+                        IsBooked = false;
                     }
-                
+                    else if (Session.userType == UserType.Saler)
+                    {
+                        dataContextVM.SelectedClient.addOrderProduct(ProductInfo, _QuantityNeeded);
+                        IsBooked = true;
+                    }
+                }
+                else //>=
+                {
+                    if (dataContextVM == null) initialiseDataContextVM();
+                    if (Session.userType == UserType.Specialist)
+                    {
+                        IsBooked = true;
+                        dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo, -_Quantity + _QuantityNeeded);
+                    }
+                    else if (Session.userType == UserType.Saler)
+                    {
+                        QuantityNeeded = _Quantity;
+                    }
+                }
+
                 OnPropertyChanged("QuantityNeeded");
             }
         }
@@ -219,7 +207,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("Title");
             }
         }
-        
+
         private void initialiseDataContextVM()
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();

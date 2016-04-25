@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls
@@ -10,8 +10,8 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         {
             InitializeComponent();
         }
-        
-        private void PriceChanged(object sender, System.Windows.Input.MouseButtonEventArgs e)
+
+        private void PriceChanged(object sender, MouseButtonEventArgs e)
         {
             var model = DataContext as CommonViewModel;
             if (model != null)
