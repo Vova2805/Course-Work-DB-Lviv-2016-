@@ -74,8 +74,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         //TabPages
         public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
         public PRODUCTION_SCHEDULE CurrentProductionSchedule;
-        public List<PRODUCTION_SCHEDULE> Schedules;
-        public PRODUCTION_SCHEDULE SelectedProductionSchedule;
+        
+       
         public List<SCHEDULE_PRODUCT_INFO> schedulePackages;
 
 

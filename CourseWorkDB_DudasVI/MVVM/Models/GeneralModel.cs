@@ -36,13 +36,14 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public List<WarehouseListItem> warehouses;
         public WarehouseListItem CurrentWarehouse;
         public bool ExtendedMode;
-        public WarehouseListItem allWarehouses;
         public decimal Engaged;
         public List<string> warehousesStrings;
         public string CurrentWarehouseString;
         public List<WarehouseProductTransaction> InOutComeFlow;
         public List<ReleasedProductListItem> ProductsOnWarehouse;
         public ReleasedProductListItem SelectedProductOnWarehouse;
+        public List<PRODUCTION_SCHEDULE> Schedules;
+        public PRODUCTION_SCHEDULE SelectedProductionSchedule;
         public string DateFilterString;
         public string ValueRange;
         public string TotalIncome;
@@ -77,6 +78,24 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
             OptionsList = options.Keys.ToList();
             selectedOption = OptionsList.First();
             Labels = new List<string>();
+            Schedules = new List<PRODUCTION_SCHEDULE>();
+            warehouses = new List<WarehouseListItem>();
+            var tempWarehouses = Session.FactoryEntities.WAREHOUSE.ToList();
+            foreach (var warehouse in tempWarehouses)
+            {
+                this.warehouses.Add(new WarehouseListItem(warehouse));
+            }
+            foreach (var warehouse in warehouses)
+            {
+                Schedules.AddRange(
+                    Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList().
+                    Where(ps => ps.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList()
+                    );
+            }
+            if (Schedules.Count > 0)
+            {
+                SelectedProductionSchedule = Schedules.First();
+            }
         }
     }
 }

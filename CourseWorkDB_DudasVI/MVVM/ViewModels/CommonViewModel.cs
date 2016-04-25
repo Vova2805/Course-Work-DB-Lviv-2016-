@@ -56,7 +56,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         protected WarehouseListItem _CurrentWarehouse;
         protected bool _ExtendedMode;
         protected ObservableCollection<WarehouseListItem> _Warehouses;
-        protected WarehouseListItem _AllWarehouses;
         protected ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
         protected ObservableCollection<string> _WarehousesStrings;
         protected ObservableCollection<string> _WarehousesStringsWithoutAll;
@@ -225,9 +224,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 List<SCHEDULE_PRODUCT_INFO> scheduleProductInfos = new List<SCHEDULE_PRODUCT_INFO>();
                 List<RELEASED_PRODUCT> tempProducts = new List<RELEASED_PRODUCT>();
                 Dictionary<string,List<RELEASED_PRODUCT>> distinctProduct = new Dictionary<string, List<RELEASED_PRODUCT>>();
+                Schedules = new ObservableCollection<PRODUCTION_SCHEDULE>();
                 Engaged = 0;
-                
-
+                var tempSchedules = new List<PRODUCTION_SCHEDULE>();
                 if (_CurrentWarehouse == null)//Get info about all warehouses
                 {
                     WAREHOUSE tempWarehouse = new WAREHOUSE();
@@ -243,7 +242,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         scheduleProductInfos.AddRange(Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
                         .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID)
                         .ToList());
-
+                        tempSchedules.AddRange(
+                            Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList().
+                            Where(ps=>ps.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList()
+                            );
                         tempProducts.AddRange(Session.FactoryEntities.RELEASED_PRODUCT.ToList()
                     .Where(rp => rp.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList());
                     }
@@ -258,10 +260,22 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     scheduleProductInfos = Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
                         .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID)
                         .ToList();
+                    tempSchedules.AddRange(
+                        Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList().
+                        Where(ps => ps.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList()
+                        );
 
                     tempProducts = Session.FactoryEntities.RELEASED_PRODUCT.ToList()
                     .Where(rp => rp.WAREHOUSE_ID == CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
                    
+                }
+                foreach (var schedule in tempSchedules)
+                {
+                    Schedules.Add(schedule);
+                }
+                if (Schedules.Count > 0)
+                {
+                    SelectedProductionSchedule = _Schedules.First();
                 }
                 ProductsOnWarehouse = new ObservableCollection<ReleasedProductListItem>();
                 if (_ExtendedMode)

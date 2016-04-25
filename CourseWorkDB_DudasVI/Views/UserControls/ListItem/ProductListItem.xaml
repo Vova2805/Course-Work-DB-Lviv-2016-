@@ -47,14 +47,14 @@
             <TextBlock FontWeight="Bold" Grid.Row="0" ToolTip="Назва товару" VerticalAlignment="Center"
                        TextWrapping="Wrap" Grid.Column="2" Text="{Binding Path=Title}" Width="200">
                 <i:Interaction.Behaviors>
-                    <rules:TextHighlightBehavior Text="{Binding Text, Mode=OneWayToSource}" Background="Blue" />
+                    <rules:TextHighlightBehavior Text="{Binding ChangedText, Mode=OneWayToSource}" Background="Blue" />
                 </i:Interaction.Behaviors>
             </TextBlock>
             <TextBlock FontWeight="Bold" Grid.Row="1" Grid.Column="2" ToolTip="Назва категорії"
                        VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"
                        Text="{Binding Path=CategoryTitle}" Name="Vova1">
                 <i:Interaction.Behaviors>
-                    <rules:TextHighlightBehavior Text="{Binding Text, Mode=OneWayToSource}" Background="Blue" />
+                    <rules:TextHighlightBehavior Text="{Binding ChangedText, Mode=OneWayToSource}" Background="Blue" />
                 </i:Interaction.Behaviors>
             </TextBlock>
             <Grid Grid.Row="1" Grid.Column="4" Margin="5">
