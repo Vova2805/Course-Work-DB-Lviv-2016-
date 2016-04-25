@@ -267,12 +267,14 @@
     </Compile>
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\Dialogs\Enumeration.cs" />
+    <Compile Include="Views\Dialogs\MessageDialog.xaml.cs">
+      <DependentUpon>MessageDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\CustomDialog.xaml.cs">
       <DependentUpon>CustomDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dialogs\DialogViewModel .cs" />
-    <Compile Include="Views\Dialogs\MainViewModel.cs" />
-    <Compile Include="Views\Dialogs\ViewModelLocator.cs" />
+    <Compile Include="Views\Dialogs\DialogViewModel.cs" />
     <Compile Include="Views\Rules\TextHighlightBehavior.cs" />
     <Compile Include="Views\UserControls\Basic\EmployeeCatalog.xaml.cs">
       <DependentUpon>EmployeeCatalog.xaml</DependentUpon>
@@ -420,6 +422,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Dialogs\MessageDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -21,32 +21,33 @@
 
     <dialogs:CustomDialog.Content>
 
-        <StackPanel>
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1">
 
-            <TextBlock Text="Custom Dialog!"
+                <TextBlock Text="Custom Dialog!"
 
                        TextAlignment="Center" />
 
-            <TextBox Text="{Binding DialogMessage,
-
-                                    Mode=TwoWay,
-
-                                    UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Text="{Binding DialogMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 
                      metro:TextBoxHelper.Watermark="Add Message Here" />
-
-        </StackPanel>
-
-    </dialogs:CustomDialog.Content>
-
-    <dialogs:CustomDialog.DialogBottom>
-
-        <Button Command="{Binding SendMessageCommand}"
+                <Button Command="{Binding SendMessageCommand}"
 
                 Content="Send Message"
 
                 DockPanel.Dock="Top" />
+            </StackPanel>
+        </Grid>
 
-    </dialogs:CustomDialog.DialogBottom>
+    </dialogs:CustomDialog.Content>
+
+    <!--<dialogs:CustomDialog.DialogBottom>
+    </dialogs:CustomDialog.DialogBottom>-->
 
 </dialogs:CustomDialog>

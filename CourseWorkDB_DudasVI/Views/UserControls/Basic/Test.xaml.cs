@@ -9,8 +9,6 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         public Test()
         {
             InitializeComponent();
-            this.DataContext = new ViewModelLocator().Main;
         }
-        
     }
 }

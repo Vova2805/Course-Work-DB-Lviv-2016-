@@ -21,6 +21,25 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
     public abstract class CommonViewModel : ViewModelBase
     {
+        #region Dialog
+        static CommonViewModel()
+        {
+            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+            SimpleIoc.Default.Register<DialogViewModel>();
+            SimpleIoc.Default.Register<IDialogCoordinator, DialogCoordinator>();
+            SimpleIoc.Default.Register<DialogViewModel>();
+        }
+
+        private DialogViewModel _Dialog = ServiceLocator.Current.GetInstance<DialogViewModel>();
+        public DialogViewModel Dialog
+        {
+            get
+            {
+                return _Dialog;
+            }
+        }
+        #endregion
+
         protected CommonViewModel():base()
         {
             CurrentWarehouse = _CurrentWarehouse;

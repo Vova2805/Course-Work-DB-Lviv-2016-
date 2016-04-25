@@ -7,22 +7,23 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                    Width="300"
-
+                   DataContext="{Binding Dialog}"
                    dialogs:DialogParticipation.Register="{Binding}"
-
                    Height="300"
                    mc:Ignorable="d ignore">
 
-    <StackPanel>
-
-        <Button Command="{Binding ShowDialogCommand}"
-
-                Content="Open Custom Dialog" />
-
-        <Label Content="Response from dialog below:" />
-
-        <TextBlock Text="{Binding DialogResult}" />
-
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1">
+            <Button Command="{Binding ShowDialogCommand}" Content="Open Custom Dialog" />
+            <Label Content="Response from dialog below:" />
+            <TextBlock Text="{Binding DialogResult}" />
+        </StackPanel>
+    </Grid>
+    
 
     </UserControl>
