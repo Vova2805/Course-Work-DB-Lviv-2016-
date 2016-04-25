@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.Resources;
 using CourseWorkDB_DudasVI.Views;
+using CourseWorkDB_DudasVI.Views.Dialogs;
 using CourseWorkDB_DudasVI.Views.UserControls;
 using GalaSoft.MvvmLight.Ioc;
 using LiveCharts;
@@ -17,9 +20,22 @@ using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 {
-    public abstract class CommonViewModel : ViewModelBaseInside
+    public class CommonViewModel : ViewModelBaseInside
     {
-        private bool _AddPermition;
+
+        public class RegionInfo
+        {
+            public RegionInfo(int index, DateTime from, DateTime to)
+            {
+                this.index = index;
+                this.from = from;
+                this.to = to;
+            }
+
+            public int index { get; set; }
+            public DateTime from { get; set; }
+            public DateTime to { get; set; }
+        }
 
         #region Dialog
 
@@ -31,39 +47,247 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             SimpleIoc.Default.Register<DialogViewModel>();
         }
 
+        public CommonViewModel()
+        {
+            IsSaler = Session.userType == UserType.Saler;
+            CategoriesList = new ObservableCollection<string>();
+            foreach (var category in Session.FactoryEntities.CATEGORY.ToList().Select(c => c.CATEGORY_TITLE).ToList())
+            {
+                CategoriesList.Add(category);
+            }
+            CategoriesList.Insert(0, "Всі категорії");
+            PriceFrom = Session.FactoryEntities.PRODUCT_PRICE.ToList().Min(p => p.PRICE_VALUE);
+            PriceTo = Session.FactoryEntities.PRODUCT_PRICE.ToList().Max(p => p.PRICE_VALUE);
+            SelectedCategory = CategoriesList.First();
+            ChangedText = "";
+            LineSeriesInstance = new SeriesCollection();
+            PieSeriesInstance = new SeriesCollection();
+            BarSeriesInstance = new SeriesCollection();
+
+            FromTime = API.getLastPlanDate(Session.User);
+            ToTime = API.getTodayDate();
+            Options = new Dictionary<string, RegionInfo>();
+            Options.Add(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString(),
+                new CommonViewModel.RegionInfo(0, FromTime, ToTime));
+            OptionsList = new ObservableCollection<string>();
+            foreach (var option in Options.Keys.ToList())
+            {
+                OptionsList.Add(option);
+            }
+            SelectedOption = OptionsList.First();
+            Labels = new ObservableCollection<string>();
+            Schedules = new ObservableCollection<PRODUCTION_SCHEDULE>();
+
+
+            var temp = Session.FactoryEntities.CLIENT.ToList();
+            Clients = new ObservableCollection<ClientListItem>();
+            ClientsTitle = new ObservableCollection<string>();
+            foreach (var client in temp)
+            {
+                Clients.Add(new ClientListItem(client));
+            }
+            Clients.ToList().Sort((client1, client2) =>
+            {
+                var name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME, true);
+                var surname = string.Compare(client1.Client.CLIENT_SURNAME, client2.Client.CLIENT_SURNAME, true);
+                var middleName = string.Compare(client1.Client.CLIENT_MIDDLE_NAME, client2.Client.CLIENT_MIDDLE_NAME);
+                return surname == 0 ? name == 0 ? middleName == 0 ? 0 : middleName : name : surname;
+            });
+            foreach (var client in Clients)
+            {
+                ClientsTitle.Add(client.GeneralInfo);
+            }
+            if (Clients.Count > 0)
+            {
+                SelectedClient = Clients.First();
+                SelectedClientTitle = ClientsTitle.First();
+            }
+
+            var tempProducts = Session.FactoryEntities.PRODUCT_INFO.ToList();
+            ProductsList = new ObservableCollection<ProductListElement>();
+            foreach (var product in tempProducts)
+            {
+                ProductsList.Add(new ProductListElement(product, this));
+            }
+            if (ProductsList.Count > 0)
+            {
+                SelectedProduct = ProductsList.First();
+            }
+
+            WarehousesList = new ObservableCollection<WAREHOUSE>();
+            foreach (var warehouse in Session.FactoryEntities.WAREHOUSE.ToList())
+            {
+                WarehousesList.Add(warehouse);
+            }
+            if (WarehousesList.Count > 0)
+                SelectedWarehouse = WarehousesList.First();
+            WarehousesListTitles = new ObservableCollection<string>();
+            foreach (var warehouse in WarehousesList)
+            {
+                WarehousesListTitles.Add(API.ConvertAddress(warehouse.ADDRESS1));
+            }
+            if (WarehousesListTitles.Count > 0)
+                SelectedWarehouseTitle = WarehousesListTitles.First();
+            Distance = 0;
+            var deliveries = Session.FactoryEntities.DELIVERY.ToList();
+            deliveries.Sort(
+                (del1, del2) =>
+                {
+                    return del1.DELIVERY_DATE > del2.DELIVERY_DATE
+                        ? 1
+                        : del1.DELIVERY_DATE == del2.DELIVERY_DATE ? 0 : -1;
+                }
+                );
+            CostPerKm = deliveries.Last().COST_PER_KM;
+
+            Warehouses = new ObservableCollection<WarehouseListItem>();
+            var tempWarehouses =
+                Session.FactoryEntities.WAREHOUSE.ToList();
+            foreach (var warehouse in tempWarehouses)
+            {
+                Warehouses.Add(new WarehouseListItem(warehouse));
+            }
+            if (Warehouses.Count > 0)
+                CurrentWarehouse = Warehouses.First();
+            WarehousesStrings = new ObservableCollection<string>();
+            var i = 0;
+            foreach (var warehouse in Warehouses)
+            {
+                WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
+            }
+            if (!IsSaler)
+                WarehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
+
+
+
+            CurrentWarehouseString = WarehousesStrings.First();
+
+            var groupedPackages =
+                Session.FactoryEntities.ORDER_PRODUCT.ToList()
+                    .GroupBy(pr => pr.PRODUCT_INFO.PRODUCT_TITLE)
+                    .ToDictionary(group => group.Key, group => group.ToList());
+            i = 0;
+            ProductPackagesList = new ObservableCollection<OrderProductTransaction>();
+            foreach (var group in groupedPackages)
+            {
+                ProductPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value, Session.User));
+            }
+
+            SelectedProductPrice = API.getlastPrice(SelectedProduct.ProductInfo.PRODUCT_PRICE);
+            ProductPriceValue = (double)SelectedProductPrice.PRICE_VALUE;
+            ProductPricePersentage = (double)SelectedProductPrice.PERSENTAGE_VALUE;
+            ProductPriceList = new ObservableCollection<ProductPriceListElement>();
+            foreach (var price in SelectedProduct.ProductInfo.PRODUCT_PRICE.ToList())
+            {
+                ProductPriceList.Add(new ProductPriceListElement(price));
+            }
+
+            ProductsTitleList = new ObservableCollection<string>();
+            foreach (var productTitle in ProductsList.Select(pr => pr.ProductInfo.PRODUCT_TITLE).ToList())
+            {
+                ProductsTitleList.Add(productTitle);
+            }
+            ProductsTitleList.Insert(0, "Всі продукти");
+            SelectedProductTitle = ProductsTitleList.First();
+            CurrentProductionSchedule = new PRODUCTION_SCHEDULE();
+            LostProducts = 0;
+            LostMoney = 0;
+            Days = 7;
+
+            EmployeeList = new ObservableCollection<STAFF>();
+            foreach (var employee in Session.FactoryEntities.STAFF.ToList().FindAll(s => s.POST.DEPARTMENT.DEPARTMENT_ID == 3))
+            {
+                EmployeeList.Add(employee);
+            }
+            SelectedEmployee = EmployeeList.First();
+        }
+
         #endregion
 
-        protected CommonViewModel()
-        {
-            CurrentWarehouse = _CurrentWarehouse;
-        }
 
-        public bool AddPermition
-        {
-            get { return _AddPermition; }
-            set
-            {
-                _AddPermition = value;
-                OnPropertyChanged("AddPermition");
-            }
-        }
 
-        public string userNameSurname
-        {
-            get
-            {
-                return Session.User.POST.POST_NAME + " " + Session.User.STAFF_NAME + " " + Session.User.STAFF_SURNAME;
-            }
-        }
+        #region Common
 
-        public abstract void CurrentWarehouseChanged();
+
+        #region Variables
+        private ObservableCollection<string> _categoriesList;
+        private ObservableCollection<SCHEDULE_PRODUCT_INFO> _schedulePackages;
+
+        private ObservableCollection<ClientListItem> _clients;
+        private ClientListItem _selectedClient;
+        private ObservableCollection<ProductListElement> _productsList;
+        private ObservableCollection<string> _productsTitleList;
+        private PRODUCT_PRICE _selectedProductPrice;
+        private ObservableCollection<ProductPriceListElement> _productPriceList;
+        private double _productPriceValue;
+        private double _productPricePersentage;
+        private PRODUCTION_SCHEDULE _currentProductionSchedule;
+        private string _selectedProductTitle;
+        private WarehouseListItem _currentWarehouse;
+        private bool _extendedMode;
+        private ObservableCollection<WarehouseListItem> _warehouses;
+        private ObservableCollection<WarehouseProductTransaction> _inOutComeFlow;
+        private ObservableCollection<string> _warehousesStrings;
+        private ObservableCollection<string> _warehousesStringsWithoutAll;
+        private string _currentWarehouseString;
+        private string _dateFilterString;
+        private string _valueRange;
+        private string _totalIncome;
+        private string _totalOutcome;
+        private string _flowDirection;
+        private ObservableCollection<ReleasedProductListItem> _productsOnWarehouse;
+        private ReleasedProductListItem _selectedProductOnWarehouse;
+        private decimal _engaged;
+        private ObservableCollection<PRODUCTION_SCHEDULE> _schedules;
+        private PRODUCTION_SCHEDULE _selectedProductionSchedule;
+        private string _changedText;
+        private bool _isSaler;
+
+        private DateTime _fromTime;
+
+        private Dictionary<string, RegionInfo> _options;
+
+
+
+        private ObservableCollection<string> _optionsList;
+        private decimal _priceFrom;
+        private decimal _priceTo;
+
+        private string _selectedCategory;
+        private string _selectedOption;
+        private DateTime _toTime;
+
+        private bool _filterByPrice;
+
+        private ObservableCollection<string> _clientsTitle;
+        private string _selectedClientTitle;
+        private ProductListElement _selectedProduct;
+
+        private ObservableCollection<WAREHOUSE> _warehousesList;
+        private WAREHOUSE _selectedWarehouse;
+        private ObservableCollection<string> _warehousesListTitles;
+        private string _selectedWarehouseTitle;
+        private decimal _distance;
+        private decimal _costPerKm;
+        private SeriesCollection _lineSeriesInstance;
+        private SeriesCollection _pieSeriesInstance;
+        private SeriesCollection _barSeriesInstance;
+        private ObservableCollection<string> _labels;
+        private string _xTitle;
+        private string _yTitle;
+        private int _tabIndex;
+        private ObservableCollection<OrderProductTransaction> _productPackagesList;
+        
+        public void CurrentWarehouseChanged()
+        {
+            ExtendedMode = _extendedMode;
+        }
 
         public void UpdateView()
         {
             var temProductsOnWarehouse = new ObservableCollection<ReleasedProductListItem>();
-            if (_ExtendedMode)
-            {
-//not grouping
+            if (_extendedMode)
+            {//not grouping
 
                 foreach (var product in tempProducts)
                 {
@@ -90,134 +314,140 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             ProductsOnWarehouse = temProductsOnWarehouse;
         }
 
-        #region Common
-
-        #region Variables
-
-        protected ObservableCollection<ClientListItem> _Clients;
-        protected ClientListItem _SelectedClient;
-        protected ObservableCollection<ProductListElement> _ProductsList;
-        protected ObservableCollection<string> _ProductsTitleList;
-        protected ProductListElement _SelectedProduct;
-        protected PRODUCT_PRICE _SelectedProductPrice;
-        protected ObservableCollection<ProductPriceListElement> _ProductPriceList;
-        protected double _ProductPriceValue;
-        protected double _ProductPricePersentage;
-        protected PRODUCTION_SCHEDULE _CurrentProductionSchedule;
-        protected string _SelectedProductTitle;
-        protected WarehouseListItem _CurrentWarehouse;
-        protected bool _ExtendedMode;
-        protected ObservableCollection<WarehouseListItem> _Warehouses;
-        protected ObservableCollection<WarehouseProductTransaction> _InOutComeFlow;
-        protected ObservableCollection<string> _WarehousesStrings;
-        protected ObservableCollection<string> _WarehousesStringsWithoutAll;
-        protected string _CurrentWarehouseString;
-        protected string _DateFilterString;
-        protected string _ValueRange;
-        protected string _TotalIncome;
-        protected string _TotalOutcome;
-        protected string _FlowDirection;
-        protected ObservableCollection<ReleasedProductListItem> _ProductsOnWarehouse;
-        protected ReleasedProductListItem _SelectedProductOnWarehouse;
-        protected decimal _Engaged;
-        protected ObservableCollection<PRODUCTION_SCHEDULE> _Schedules;
-        protected PRODUCTION_SCHEDULE _SelectedProductionSchedule;
-        protected ObservableCollection<SCHEDULE_PRODUCT_INFO> _SchedulePackages;
-        protected string _ChangedText;
-        protected bool _IsSaler;
-
-        private DateTime _FromTime;
-
-        private Dictionary<string, RegionInfo> _options;
-
-        public class RegionInfo
-        {
-            public RegionInfo(int index, DateTime from, DateTime to)
-            {
-                this.index = index;
-                this.from = from;
-                this.to = to;
-            }
-
-            public int index { get; set; }
-            public DateTime from { get; set; }
-            public DateTime to { get; set; }
-        }
-
-        private ObservableCollection<string> _OptionsList;
-        private decimal _priceFrom;
-        private decimal _priceTo;
-
-        private string _selectedCategory;
-        private string _selectedOption;
-        private DateTime _ToTime;
-
-        private bool filterByPrice;
-
         #endregion
 
         #region Properties
 
-        public string DateFilterString
+
+
+        public ObservableCollection<WAREHOUSE> WarehousesList
         {
-            get { return _DateFilterString; }
+            get { return _warehousesList; }
             set
             {
-                _DateFilterString = value;
+                _warehousesList = value;
+                OnPropertyChanged("WarehousesList");
+            }
+        }
+
+        public WAREHOUSE SelectedWarehouse
+        {
+            get { return _selectedWarehouse; }
+            set
+            {
+                _selectedWarehouse = value;
+                OnPropertyChanged("SelectedWarehouse");
+            }
+        }
+
+        public string SelectedWarehouseTitle
+        {
+            get { return _selectedWarehouseTitle; }
+            set
+            {
+                _selectedWarehouseTitle = value; 
+                OnPropertyChanged("SelectedWarehouseTitle");
+            }
+        }
+
+        public string userNameSurname
+        {
+            get
+            {
+                return Session.User.POST.POST_NAME + " " + Session.User.STAFF_NAME + " " + Session.User.STAFF_SURNAME;
+            }
+        }
+
+        public string XTitle
+        {
+            get { return _xTitle; }
+            set
+            {
+                _xTitle = value;
+                OnPropertyChanged("XTitle");
+            }
+        }
+
+        public string YTitle
+        {
+            get { return _yTitle; }
+            set
+            {
+                _yTitle = value;
+                OnPropertyChanged("YTitle");
+            }
+        }
+
+        public string DateFilterString
+        {
+            get { return _dateFilterString; }
+            set
+            {
+                _dateFilterString = value;
                 OnPropertyChanged("DateFilterString");
+            }
+        }
+
+        public ObservableCollection<string> WarehousesListTitles
+        {
+            get { return _warehousesListTitles; }
+            set
+            {
+                _warehousesListTitles = value;
+                OnPropertyChanged("WarehousesListTitles");
             }
         }
 
         public string FlowDirection
         {
-            get { return _FlowDirection; }
+            get { return _flowDirection; }
             set
             {
-                _FlowDirection = value;
+                _flowDirection = value;
                 OnPropertyChanged("FlowDirection");
             }
         }
 
         public string TotalIncome
         {
-            get { return _TotalIncome; }
+            get { return _totalIncome; }
             set
             {
-                _TotalIncome = value;
+                _totalIncome = value;
                 OnPropertyChanged("TotalIncome");
             }
         }
 
         public string TotalOutcome
         {
-            get { return _TotalOutcome; }
+            get { return _totalOutcome; }
             set
             {
-                _TotalOutcome = value;
+                _totalOutcome = value;
                 OnPropertyChanged("TotalOutcome");
             }
         }
 
         public string ValueRange
         {
-            get { return _ValueRange; }
+            get { return _valueRange; }
             set
             {
-                _ValueRange = value;
+                _valueRange = value;
                 OnPropertyChanged("ValueRange");
             }
         }
 
         public ObservableCollection<ReleasedProductListItem> ProductsOnWarehouse
         {
-            get { return _ProductsOnWarehouse; }
+            get { return _productsOnWarehouse; }
             set
             {
-                _ProductsOnWarehouse = value;
-                if (_ProductsOnWarehouse.Count > 0)
+                _productsOnWarehouse = value;
+                if (_productsOnWarehouse.Count > 0)
                 {
-                    SelectedProductOnWarehouse = _ProductsOnWarehouse.First();
-                    CurrentWarehouse.ItemsQuantity = _ProductsOnWarehouse.Count;
+                    SelectedProductOnWarehouse = _productsOnWarehouse.First();
+                    CurrentWarehouse.ItemsQuantity = _productsOnWarehouse.Count;
                 }
 
                 OnPropertyChanged("ProductsOnWarehouse");
@@ -229,32 +459,88 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get
             {
                 IsSaler = Session.userType.Equals(UserType.Saler);
-                return _IsSaler;
+                return _isSaler;
             }
             set
             {
-                _IsSaler = value;
+                _isSaler = value;
                 OnPropertyChanged("IsSaler");
             }
         }
 
         public ReleasedProductListItem SelectedProductOnWarehouse
         {
-            get { return _SelectedProductOnWarehouse; }
+            get { return _selectedProductOnWarehouse; }
             set
             {
-                _SelectedProductOnWarehouse = value;
+                _selectedProductOnWarehouse = value;
                 OnPropertyChanged("SelectedProductOnWarehouse");
+            }
+        }
+        public ClientListItem SelectedClient
+        {
+            get { return _selectedClient; }
+            set
+            {
+                _selectedClient = value;
+                if (SelectedClient != null)
+                {
+                    SelectedClientTitle = _selectedClient.GeneralInfo; 
+                }
+                else
+                {
+                    if(SelectedClientTitle!=null)
+                   _selectedClient =
+                        Clients.ToList().FindAll(c => c.GeneralInfo.Equals(SelectedClientTitle)).FirstOrDefault();
+                }
+                OnPropertyChanged("SelectedClient");
+            }
+        }
+        public string SelectedClientTitle
+        {
+            get
+            {
+                return _selectedClientTitle;
+            }
+            set
+            {
+                _selectedClientTitle = value;
+                if (SelectedClient == null || !SelectedClient.GeneralInfo.Equals(SelectedClientTitle))
+                {
+                    SelectedClient =
+                        Clients.ToList().FindAll(c => c.GeneralInfo.Equals(SelectedClientTitle)).FirstOrDefault();
+                }
+                OnPropertyChanged("SelectedClientTitle");
+            }
+        }
+
+        public decimal CostPerKm
+        {
+            get { return _costPerKm; }
+            set
+            {
+                _costPerKm = value;
+                OnPropertyChanged("CostPerKm");
+            }
+        }
+
+        public decimal Distance
+        {
+            get { return _distance; }
+            set
+            {
+                _distance = value;
+                OnPropertyChanged("Distance");
             }
         }
 
         public ObservableCollection<ClientListItem> Clients
         {
-            get { return _Clients; }
+            get { return _clients; }
             set
             {
-                _Clients = value;
-                _Clients.ToList().Sort((client1, client2) =>
+                _clients = value;
+                _clients.ToList().Sort((client1, client2) =>
                 {
                     var name = string.Compare(client1.Client.CLIENT_NAME, client2.Client.CLIENT_NAME, true);
                     var surname = string.Compare(client1.Client.CLIENT_SURNAME, client2.Client.CLIENT_SURNAME, true);
@@ -262,17 +548,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         client2.Client.CLIENT_MIDDLE_NAME);
                     return surname == 0 ? name == 0 ? middle_name == 0 ? 0 : middle_name : name : surname;
                 });
+                var titles = _clients.ToList().Select(c => c.GeneralInfo).ToList();
+                
+                ClientsTitle = new ObservableCollection<string>();
+                foreach (var title in titles)
+                {
+                    ClientsTitle.Add(title);
+                }
+                if (SelectedClient != null)
+                    SelectedClientTitle = SelectedClient.GeneralInfo;
                 OnPropertyChanged("Clients");
-            }
-        }
-
-        public ClientListItem SelectedClient
-        {
-            get { return _SelectedClient; }
-            set
-            {
-                _SelectedClient = value;
-                OnPropertyChanged("SelectedClient");
             }
         }
 
@@ -288,10 +573,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public WarehouseListItem CurrentWarehouse
         {
-            get { return _CurrentWarehouse; }
+            get { return _currentWarehouse; }
             set
             {
-                _CurrentWarehouse = value;
+                _currentWarehouse = value;
 
                 InOutComeFlow = new ChartValues<WarehouseProductTransaction>();
                 var temp = new List<WarehouseProductTransaction>();
@@ -303,7 +588,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 Schedules = new ObservableCollection<PRODUCTION_SCHEDULE>();
                 Engaged = 0;
                 var tempSchedules = new List<PRODUCTION_SCHEDULE>();
-                if (_CurrentWarehouse == null) //Get info about all warehouses
+                if (_currentWarehouse == null) //Get info about all warehouses
                 {
                     var tempWarehouse = new WAREHOUSE();
                     tempWarehouse.CAPACITY = 0;
@@ -325,20 +610,20 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         tempProducts.AddRange(Session.FactoryEntities.RELEASED_PRODUCT.ToList()
                             .Where(rp => rp.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList());
                     }
-                    _CurrentWarehouse = new WarehouseListItem(tempWarehouse);
-                    _CurrentWarehouseString = ResourceClass.ALL_WAREHOUSES;
+                    _currentWarehouse = new WarehouseListItem(tempWarehouse);
+                    _currentWarehouseString = ResourceClass.ALL_WAREHOUSES;
                 }
                 else
                 {
                     order_products =
                         Session.FactoryEntities.ORDER_PRODUCT.ToList()
-                            .Where(op => op.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
+                            .Where(op => op.WAREHOUSE_ID == _currentWarehouse.Warehouse.WAREHOUSE_ID).ToList();
                     scheduleProductInfos = Session.FactoryEntities.SCHEDULE_PRODUCT_INFO.ToList()
-                        .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID)
+                        .Where(psi => psi.PRODUCTION_SCHEDULE.WAREHOUSE_ID == _currentWarehouse.Warehouse.WAREHOUSE_ID)
                         .ToList();
                     tempSchedules.AddRange(
                         Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList().
-                            Where(ps => ps.WAREHOUSE_ID == _CurrentWarehouse.Warehouse.WAREHOUSE_ID).ToList()
+                            Where(ps => ps.WAREHOUSE_ID == _currentWarehouse.Warehouse.WAREHOUSE_ID).ToList()
                         );
 
                     tempProducts = Session.FactoryEntities.RELEASED_PRODUCT.ToList()
@@ -350,20 +635,20 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
                 if (Schedules.Count > 0)
                 {
-                    SelectedProductionSchedule = _Schedules.First();
+                    SelectedProductionSchedule = _schedules.First();
                 }
                 UpdateView();
 
                 if (CurrentWarehouseString != null)
-                    if (!_ExtendedMode && !_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
+                    if (!_extendedMode && !_currentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                     {
-                        foreach (var product in _ProductsOnWarehouse)
+                        foreach (var product in _productsOnWarehouse)
                         {
-                            product.IsBooked = _CurrentWarehouse.Contains(product.ReleasedProduct.PRODUCT_INFO);
+                            product.IsBooked = _currentWarehouse.Contains(product.ReleasedProduct.PRODUCT_INFO);
                             if (product.IsBooked)
                             {
                                 var tempProd =
-                                    _CurrentWarehouse.ContainsProductInfo(product.ReleasedProduct.PRODUCT_INFO)
+                                    _currentWarehouse.ContainsProductInfo(product.ReleasedProduct.PRODUCT_INFO)
                                         .ProductInfo;
                                 product.QuantityNeeded = tempProd == null
                                     ? product.Quantity
@@ -373,7 +658,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     }
 
 
-                Engaged = _CurrentWarehouse.Warehouse.CAPACITY - _CurrentWarehouse.Warehouse.FREE_SPACE;
+                Engaged = _currentWarehouse.Warehouse.CAPACITY - _currentWarehouse.Warehouse.FREE_SPACE;
                 CurrentWarehouse.ItemsQuantity = ProductsOnWarehouse.Count;
 
                 foreach (var package in order_products)
@@ -393,13 +678,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     });
                 foreach (var elem in temp)
                 {
-                    _InOutComeFlow.Add(elem);
+                    _inOutComeFlow.Add(elem);
                 }
-                var times = _InOutComeFlow.Select(el => el.Date).ToList();
+                var times = _inOutComeFlow.Select(el => el.Date).ToList();
                 if (times.Count > 0)
                     DateFilterString = times.Min().ToLongDateString() + " - " + times.Max().ToLongDateString();
-                var values = _InOutComeFlow.Select(el => el.Quantity).ToList();
-                var money = _InOutComeFlow.Select(el => el.MoneyQuantity).ToList();
+                var values = _inOutComeFlow.Select(el => el.Quantity).ToList();
+                var money = _inOutComeFlow.Select(el => el.MoneyQuantity).ToList();
                 if (values.Count > 0 && money.Count > 0)
                     ValueRange = values.Min() + "шт. - " + values.Max() + "шт. і " + money.Min().ToString("N2") +
                                  " грн. - " +
@@ -410,7 +695,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 double outcomeMoney = 0;
                 var direct = true;
                 var reverse = true;
-                foreach (var element in _InOutComeFlow)
+                foreach (var element in _inOutComeFlow)
                 {
                     if (element.FlowType)
                     {
@@ -436,30 +721,41 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     if (direct) FlowDirection = " Вхідний";
                     else FlowDirection = " Вихідний";
                 }
-                ProductsList = null;
+                if (ProductsList == null)
+                    ProductsList = null;
+                else ProductsList = _productsList;
                 OnPropertyChanged("CurrentWarehouse");
                 OnPropertyChanged("isAllWarehouses");
                 CurrentWarehouseChanged();
             }
         }
 
+        public ObservableCollection<string> CategoriesList
+        {
+            get { return _categoriesList; }
+            set
+            {
+                _categoriesList = value;
+                OnPropertyChanged("CategoriesList");
+            }
+        }
 
         public decimal Engaged
         {
-            get { return _Engaged; }
+            get { return _engaged; }
             set
             {
-                _Engaged = value;
+                _engaged = value;
                 OnPropertyChanged("Engaged");
             }
         }
 
         public ObservableCollection<WarehouseProductTransaction> InOutComeFlow
         {
-            get { return _InOutComeFlow; }
+            get { return _inOutComeFlow; }
             set
             {
-                _InOutComeFlow = value;
+                _inOutComeFlow = value;
                 OnPropertyChanged("InOutComeFlow");
             }
         }
@@ -468,16 +764,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             get
             {
-                if (_Warehouses == null)
+                if (_warehouses == null)
                     Warehouses = null;
-                return _Warehouses;
+                return _warehouses;
             }
             set
             {
-                _Warehouses = value;
-                if (_Warehouses == null)
+                _warehouses = value;
+                if (_warehouses == null)
                 {
-                    _Warehouses = new ObservableCollection<WarehouseListItem>();
+                    _warehouses = new ObservableCollection<WarehouseListItem>();
                     var tempWarehouses =
                         Session.FactoryEntities.WAREHOUSE.ToList();
                     if (!IsSaler)
@@ -486,17 +782,17 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     }
                     foreach (var warehouse in tempWarehouses)
                     {
-                        _Warehouses.Add(new WarehouseListItem(warehouse));
+                        _warehouses.Add(new WarehouseListItem(warehouse));
                     }
                     WarehousesStrings = new ObservableCollection<string>();
                     var i = 0;
-                    foreach (var warehouse in _Warehouses)
+                    foreach (var warehouse in _warehouses)
                     {
                         WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
                     }
                     if (!IsSaler)
                         WarehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
-                    CurrentWarehouseString = _WarehousesStrings.First();
+                    CurrentWarehouseString = _warehousesStrings.First();
                 }
                 OnPropertyChanged("Warehouses");
             }
@@ -504,13 +800,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public string CurrentWarehouseString
         {
-            get { return _CurrentWarehouseString; }
+            get { return _currentWarehouseString; }
             set
             {
-                _CurrentWarehouseString = value;
-                if (_CurrentWarehouseString != null)
+                _currentWarehouseString = value;
+                if (_currentWarehouseString != null)
                 {
-                    if (!_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
+                    if (!_currentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                     {
                         var index = WarehousesStrings.IndexOf(CurrentWarehouseString);
                         if (WarehousesStrings.Contains(ResourceClass.ALL_WAREHOUSES) && index >0) index--;
@@ -523,7 +819,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
                 else
                 {
-                    _CurrentWarehouseString = ResourceClass.ALL_WAREHOUSES;
+                    _currentWarehouseString = ResourceClass.ALL_WAREHOUSES;
                 }
                 OnPropertyChanged("CurrentWarehouseString");
             }
@@ -531,10 +827,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public ObservableCollection<string> WarehousesStrings
         {
-            get { return _WarehousesStrings; }
+            get { return _warehousesStrings; }
             set
             {
-                _WarehousesStrings = value;
+                _warehousesStrings = value;
                 if (!IsSaler)
                 {
                     WarehousesStringsWithoutAll = new ObservableCollection<string>();
@@ -554,12 +850,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public double ProductPriceValue
         {
-            get { return _ProductPriceValue; }
+            get { return _productPriceValue; }
             set
             {
-                _ProductPriceValue = value;
+                _productPriceValue = value;
                 if (value != null && SelectedProductPrice != null)
-                    SelectedProductPrice.PRICE_VALUE = (decimal) _ProductPriceValue;
+                    SelectedProductPrice.PRICE_VALUE = (decimal) _productPriceValue;
                 if (ChangeProductPricePersentage)
                 {
                     ChangeProductPriceValue = false; //to avoid endless cycle
@@ -571,12 +867,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public double ProductPricePersentage
         {
-            get { return _ProductPricePersentage; }
+            get { return _productPricePersentage; }
             set
             {
-                _ProductPricePersentage = value;
+                _productPricePersentage = value;
                 if (value != null && SelectedProductPrice != null)
-                    SelectedProductPrice.PERSENTAGE_VALUE = (decimal) _ProductPricePersentage;
+                    SelectedProductPrice.PERSENTAGE_VALUE = (decimal) _productPricePersentage;
                 if (ChangeProductPriceValue)
                 {
                     ChangeProductPricePersentage = false;
@@ -590,11 +886,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public PRODUCT_PRICE SelectedProductPrice
         {
-            get { return _SelectedProductPrice; }
+            get { return _selectedProductPrice; }
             set
             {
-                _SelectedProductPrice = value;
-                if (_SelectedProductPrice != null)
+                _selectedProductPrice = value;
+                if (_selectedProductPrice != null)
                 {
                     ChangeProductPriceValue = false;
                     ChangeProductPricePersentage = false;
@@ -609,44 +905,45 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             get
             {
-                if (_ProductsList == null)
+                if (_productsList == null)
                 {
                     //make new Product list
                     ProductsList = null;
                 }
-                return _ProductsList;
+                return _productsList;
             }
             set
             {
-                _ProductsList = value;
-                if (_ProductsList == null)
+                _productsList = value;
+                if (_productsList == null)
                 {
-                    _ProductsList = new ObservableCollection<ProductListElement>();
+                    _productsList = new ObservableCollection<ProductListElement>();
                     var products = Session.FactoryEntities.PRODUCT_INFO.ToList();
                     foreach (var product in products)
                     {
-                        _ProductsList.Add(new ProductListElement(product, this));
-                        _ProductsList.Last().IsntSaler = !this.IsSaler;
+                        _productsList.Add(new ProductListElement(product, this));
+                        _productsList.Last().IsntSaler = !this.IsSaler;
                     }
-                    if (_ProductsList.Count > 0)
-                        SelectedProduct = _ProductsList.First();
+                    if (_productsList.Count > 0)
+                        SelectedProduct = _productsList.First();
 
                     ProductsTitleList = new ObservableCollection<string>();
-                    foreach (var title in _ProductsList.Select(pr => pr.ProductInfo.PRODUCT_TITLE).ToList())
+                    foreach (var title in _productsList.Select(pr => pr.ProductInfo.PRODUCT_TITLE).ToList())
                     {
                         ProductsTitleList.Add(title);
                     }
+                    if(!IsSaler)
                     ProductsTitleList.Insert(0, "Всі продукти");
                     SelectedProductTitle = ProductsTitleList.First();
-                    ProductsList = _ProductsList;
                 }
 
                 if (ProductsList.Count > 0)
                     SelectedProduct = ProductsList.First();
-                if (!IsSaler && !_CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
+                if(_currentWarehouseString!=null)
+                if (!IsSaler && !_currentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                     foreach (var product in ProductsList)
                     {
-                        product.IsBooked = _CurrentWarehouse.Contains(product.ProductInfo);
+                        product.IsBooked = _currentWarehouse.Contains(product.ProductInfo);
                         var tempProd =
                             ProductsOnWarehouse.ToList()
                                 .Find(pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID);
@@ -659,7 +956,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 else
                 if (IsSaler)
                 {
-                    if(SelectedClient!=null)
+                    if (SelectedClient == null) SelectedClient = null;
                     foreach (var product in ProductsList)
                     {
                         product.IsBooked = SelectedClient.Contains(product.ProductInfo); 
@@ -680,12 +977,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public ProductListElement SelectedProduct
         {
-            get { return _SelectedProduct; }
+            get { return _selectedProduct; }
             set
             {
                 if (value != null)
                 {
-                    _SelectedProduct = value;
+                    _selectedProduct = value;
                     SelectedProductPrice = API.getlastPrice(
                         Session.FactoryEntities.PRODUCT_PRICE
                             .ToList()
@@ -704,93 +1001,105 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public ObservableCollection<ProductPriceListElement> ProductPriceList
+        public ObservableCollection<string> ClientsTitle
         {
-            get { return _ProductPriceList; }
+            get { return _clientsTitle; }
             set
             {
-                _ProductPriceList = value;
+                _clientsTitle = value;
+                if (_clientsTitle.Count > 0)
+                    SelectedClientTitle = _clientsTitle.First();
+                OnPropertyChanged("ClientsTitle");
+            }
+        }
+
+        public ObservableCollection<ProductPriceListElement> ProductPriceList
+        {
+            get { return _productPriceList; }
+            set
+            {
+                _productPriceList = value;
                 OnPropertyChanged("ProductPriceList");
             }
         }
 
         public PRODUCTION_SCHEDULE CurrentProductionSchedule
         {
-            get { return _CurrentProductionSchedule; }
+            get { return _currentProductionSchedule; }
             set
             {
-                _CurrentProductionSchedule = value;
+                _currentProductionSchedule = value;
                 OnPropertyChanged("CurrentProductionSchedule");
             }
         }
 
         public string SelectedProductTitle
         {
-            get { return _SelectedProductTitle; }
+            get { return _selectedProductTitle; }
             set
             {
-                _SelectedProductTitle = value;
+                _selectedProductTitle = value;
                 OnPropertyChanged("SelectedProductTitle");
             }
         }
 
         public ObservableCollection<string> ProductsTitleList
         {
-            get { return _ProductsTitleList; }
+            get { return _productsTitleList; }
             set
             {
-                _ProductsTitleList = value;
+                _productsTitleList = value;
                 OnPropertyChanged("ProductsTitleList");
             }
         }
 
         public ObservableCollection<SCHEDULE_PRODUCT_INFO> SchedulePackages
         {
-            get { return _SchedulePackages; }
+            get { return _schedulePackages; }
             set
             {
-                _SchedulePackages = value;
+                _schedulePackages = value;
                 OnPropertyChanged("SchedulePackages");
             }
         }
 
         public ObservableCollection<PRODUCTION_SCHEDULE> Schedules
         {
-            get { return _Schedules; }
+            get { return _schedules; }
             set
             {
-                _Schedules = value;
+                _schedules = value;
                 OnPropertyChanged("Schedules");
             }
         }
 
         public string ChangedText
         {
-            get { return _ChangedText; }
+            get { return _changedText; }
             set
             {
-                _ChangedText = value;
+                _changedText = value;
                 OnPropertyChanged("ChangedText");
             }
         }
 
         public ObservableCollection<string> WarehousesStringsWithoutAll
         {
-            get { return _WarehousesStringsWithoutAll; }
+            get { return _warehousesStringsWithoutAll; }
             set
             {
-                _WarehousesStringsWithoutAll = value;
+                _warehousesStringsWithoutAll = value;
                 OnPropertyChanged("WarehousesStringsWithoutAll");
             }
         }
 
         public PRODUCTION_SCHEDULE SelectedProductionSchedule
         {
-            get { return _SelectedProductionSchedule; }
+            get { return _selectedProductionSchedule; }
             set
             {
-                _SelectedProductionSchedule = value;
-                if (_SelectedProductionSchedule != null)
+                _selectedProductionSchedule = value;
+                if (_selectedProductionSchedule != null)
                 {
                     SchedulePackages = new ObservableCollection<SCHEDULE_PRODUCT_INFO>();
                     var temp =
@@ -807,7 +1116,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         }
 
 
-        public decimal priceFrom
+        public decimal PriceFrom
         {
             get { return _priceFrom; }
             set
@@ -817,7 +1126,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public decimal priceTo
+        public decimal PriceTo
         {
             get { return _priceTo; }
             set
@@ -826,29 +1135,28 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("priceTo");
             }
         }
-
-
+        
         public DateTime FromTime
         {
-            get { return _FromTime; }
+            get { return _fromTime; }
             set
             {
-                _FromTime = value;
+                _fromTime = value;
                 OnPropertyChanged("FromTime");
             }
         }
 
         public DateTime ToTime
         {
-            get { return _ToTime; }
+            get { return _toTime; }
             set
             {
-                _ToTime = value;
+                _toTime = value;
                 OnPropertyChanged("ToTime");
             }
         }
 
-        public Dictionary<string, RegionInfo> options
+        public Dictionary<string, RegionInfo> Options
         {
             get { return _options; }
             set
@@ -858,7 +1166,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public string selectedOption
+        public string SelectedOption
         {
             get { return _selectedOption; }
             set
@@ -870,10 +1178,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public ObservableCollection<string> OptionsList
         {
-            get { return _OptionsList; }
+            get { return _optionsList; }
             set
             {
-                _OptionsList = value;
+                _optionsList = value;
                 OnPropertyChanged("OptionsList");
             }
         }
@@ -890,10 +1198,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public bool FilterByPrice
         {
-            get { return filterByPrice; }
+            get { return _filterByPrice; }
             set
             {
-                filterByPrice = value;
+                _filterByPrice = value;
                 OnPropertyChanged("FilterByPrice");
             }
         }
@@ -916,8 +1224,646 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 return _Dialog;
             }
         }
+        #endregion
+
+        #region ChartViewModel
+        #region General Charts
+
+       
+
+        #endregion
+
+        #region Properties
+
+        public int TabIndex
+        {
+            get { return _tabIndex; }
+            set
+            {
+                _tabIndex = value;
+                OnPropertyChanged("TabIndex");
+            }
+        }
+
+        public SeriesCollection LineSeriesInstance
+        {
+            get { return _lineSeriesInstance; }
+            set
+            {
+                _lineSeriesInstance = value;
+                OnPropertyChanged("LineSeriesInstance");
+            }
+        }
+
+        public SeriesCollection PieSeriesInstance
+        {
+            get { return _pieSeriesInstance; }
+            set
+            {
+                _pieSeriesInstance = value;
+                OnPropertyChanged("PieSeriesInstance");
+            }
+        }
+
+        public SeriesCollection BarSeriesInstance
+        {
+            get { return _barSeriesInstance; }
+            set
+            {
+                _barSeriesInstance = value;
+                OnPropertyChanged("BarSeriesInstance");
+            }
+        }
+
+        public ObservableCollection<string> Labels
+        {
+            get { return _labels; }
+            set
+            {
+                _labels = value;
+                OnPropertyChanged("Labels");
+            }
+        }
+
+        public ObservableCollection<OrderProductTransaction> ProductPackagesList
+        {
+            get { return _productPackagesList; }
+            set
+            {
+                _productPackagesList = value;
+                UpdateSeries();
+                OnPropertyChanged("productPackagesList");
+            }
+        }
+
+        public int Days
+        {
+            get { return _Days; }
+            set
+            {
+                _Days = value;
+                var ExpiredDate = API.getTodayDate();
+                ExpiredDate = ExpiredDate.AddDays(_Days);
+                LostMoney = 0;
+                LostProducts = 0;
+                if (_productsOnWarehouse != null)
+                    foreach (var product in _productsOnWarehouse)
+                    {
+                        if (product.ReleasedProduct.EXPIRED_DATE <= ExpiredDate)
+                        {
+                            product.IsExpiring = true;
+                            LostProducts += product.Quantity;
+                            LostMoney += product.Quantity *
+                                         API.getlastPrice(product.ReleasedProduct.PRODUCT_INFO.PRODUCT_PRICE)
+                                             .PRICE_VALUE;
+                        }
+                        else
+                        {
+                            product.IsExpiring = false;
+                        }
+                    }
+                OnPropertyChanged("Days");
+            }
+        }
+
+        public decimal LostMoney
+        {
+            get { return _LostMoney; }
+            set
+            {
+                _LostMoney = value;
+                OnPropertyChanged("LostMoney");
+            }
+        }
+
+        public int LostProducts
+        {
+            get { return _LostProducts; }
+            set
+            {
+                _LostProducts = value;
+                OnPropertyChanged("LostProducts");
+            }
+        }
+
+        public bool ExtendedMode
+        {
+            get { return _extendedMode; }
+            set
+            {
+                _extendedMode = value;
+                ColumnVisibilityChanged();
+                UpdateView();
+                Days = _Days;
+                if (_productsOnWarehouse != null)
+                    foreach (var product in ProductsOnWarehouse)
+                    {
+                        product.IsExpiring &= _extendedMode;
+                    }
+                OnPropertyChanged("ExtendedMode");
+            }
+        }
+
+        public ObservableCollection<STAFF> EmployeeList
+        {
+            get { return _EmployeeList; }
+            set
+            {
+                _EmployeeList = value;
+                OnPropertyChanged("EmployeeList");
+            }
+        }
+
+        public STAFF SelectedEmployee
+        {
+            get { return _SelectedEmployee; }
+            set
+            {
+                _SelectedEmployee = value;
+                OnPropertyChanged("SelectedEmployee");
+            }
+        }
+
+        #endregion
+
+        #region Specialist
 
 
+        public void ColumnVisibilityChanged()
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var specialistWindow = window as HomeWindowSpecialist;
+            if (specialistWindow != null)
+            {
+                specialistWindow.WarehouseDataGrid.Columns[6].Visibility = ExtendedMode
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+                specialistWindow.WarehouseDataGrid.Columns[3].Visibility = !ExtendedMode && isAllWarehouses
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+                specialistWindow.WarehouseDataGrid.Columns[4].Visibility = ExtendedMode
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+                specialistWindow.WarehouseDataGrid.Columns[5].Visibility = ExtendedMode
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+        }
+
+        public class Meil : ViewModelBaseInside
+        {
+            private bool _Checked;
+            private string _MeilTitle;
+
+            public Meil(string meilTitle)
+            {
+                MeilTitle = meilTitle;
+            }
+
+            public bool Checked
+            {
+                get { return _Checked; }
+                set
+                {
+                    _Checked = value;
+                    OnPropertyChanged("Checked");
+                }
+            }
+
+            public string MeilTitle
+            {
+                get { return _MeilTitle; }
+                set
+                {
+                    _MeilTitle = value;
+                    OnPropertyChanged("MeilTitle");
+                }
+            }
+        }
+
+        #region Variables
+
+        //Expired period (calculation of expenses)
+        private int _Days;
+        private int _LostProducts;
+        private decimal _LostMoney;
+
+        #endregion
+
+        #region Functions
+
+        #region Charts
+
+        public void UpdateLineSeries()
+        {
+            switch (TabIndex)
+            {
+                case 0:
+                    {
+                    }
+                    break;
+                case 1:
+                    {
+                        #region Second
+
+                        for (var i = 0; i < 2; i++)
+                        {
+                            var seriePrice = new List<double>();
+                            foreach (var price in ProductPriceList)
+                            {
+                                if (i == 0)
+                                    seriePrice.Add((double)price.ProductPrice.PRICE_VALUE);
+                                else
+                                {
+                                    seriePrice.Add((double)price.ProductPrice.PERSENTAGE_VALUE);
+                                }
+                                Labels.Add(price.ProductPrice.CHANGED_DATE.ToString("g"));
+                            }
+                            var chartValues = new ChartValues<double>();
+                            chartValues.AddRange(seriePrice);
+                            var newSerie = new LineSeries
+                            {
+                                Title = i == 0 ? "У валюті" : "У відсотках",
+                                Values = chartValues,
+                                PointRadius = 3
+                            };
+                            LineSeriesInstance.Add(newSerie);
+                        }
+
+                        #endregion
+                    }
+                    break;
+            }
+        }
+
+        public void UpdatePieSeries()
+        {
+            switch (TabIndex)
+            {
+                case 0:
+                    {
+                    }
+                    break;
+                case 1:
+                    {
+                        #region Second
+
+                        foreach (var price in ProductPriceList)
+                        {
+                            var serieQuantity = new List<double>();
+                            for (var i = 0; i < 2; i++)
+                            {
+                                if (i == 1)
+                                {
+                                    serieQuantity.Add((double)price.ProductPrice.PRICE_VALUE);
+                                }
+                                else
+                                {
+                                    serieQuantity.Add((double)price.ProductPrice.PERSENTAGE_VALUE);
+                                }
+                            }
+                            var pieValues = new ChartValues<double>();
+                            pieValues.AddRange(serieQuantity);
+                            var newPSerie = new PieSeries
+                            {
+                                Title = price.ProductPrice.CHANGED_DATE.ToLongDateString(),
+                                Values = pieValues
+                            };
+                            PieSeriesInstance.Add(newPSerie);
+                            Labels.Add(price.ProductPrice.CHANGED_DATE.ToLongDateString());
+                        }
+
+                        #endregion
+                    }
+                    break;
+            }
+        }
+
+        public void UpdateBarSeries()
+        {
+            switch (TabIndex)
+            {
+                case 0:
+                    {
+                    }
+                    break;
+                case 1:
+                    {
+                        #region Second
+
+                        var lineChartValues = new List<double>();
+                        for (var i = 0; i < 2; i++)
+                        {
+                            var serieQuantity = new List<double>();
+                            foreach (var price in ProductPriceList)
+                            {
+                                if (i == 0)
+                                {
+                                    serieQuantity.Add((double)price.ProductPrice.PRICE_VALUE);
+                                }
+                                else
+                                {
+                                    serieQuantity.Add((double)price.ProductPrice.PERSENTAGE_VALUE);
+                                    lineChartValues.Add(100);
+                                }
+                            }
+                            var chartValues = new ChartValues<double>();
+                            chartValues.AddRange(serieQuantity);
+                            var newSerie = new BarSeries
+                            {
+                                Title = i == 0 ? "У валюті (грн.)" : "У відсотках %",
+                                Values = chartValues
+                            };
+                            BarSeriesInstance.Add(newSerie);
+                        }
+
+                        var chartLineValues = new ChartValues<double>();
+                        chartLineValues.AddRange(lineChartValues);
+                        var newLineSerie = new LineSeries
+                        {
+                            Title = "Лінія безбитковості",
+                            Values = chartLineValues,
+                            PointRadius = 3,
+                            Fill = new SolidColorBrush(Colors.Transparent),
+                            Stroke = new SolidColorBrush(Colors.DarkRed)
+                        };
+                        BarSeriesInstance.Add(newLineSerie);
+                    }
+
+                    #endregion
+
+                    break;
+            }
+        }
+
+        public void UpdateSeries()
+        {
+            if (LineSeriesInstance != null)
+            {
+                //LineSeriesInstance.Clear();
+                //PieSeriesInstance.Clear();
+                //BarSeriesInstance.Clear();
+                //Labels.Clear();
+                //UpdateLineSeries();
+                //UpdatePieSeries();
+                //UpdateBarSeries();
+                //switch (TabIndex)
+                //{
+                //    case 0:
+                //        {
+                //            XTitle = "Номер продукції";
+                //            YTitle = "Кількість замовлено";
+                //        }
+                //        break;
+                //    case 1:
+                //        {
+                //            XTitle = "Дата зміни ціни";
+                //            YTitle = "Значення ціни";
+                //        }
+                //        break;
+                //}
+            }
+        }
+
+        #endregion
+
+
+        #endregion
+
+        #region Properties
+
+        
+
+        #endregion
+
+        #region Commands
+
+        public ICommand CanselPriceChanges
+        {
+            get { return new RelayCommand<object>(CanselChanges); }
+        }
+
+        public ICommand SubmitPriceChanges
+        {
+            get { return new RelayCommand<object>(SubmitChanges); }
+        }
+
+        public ICommand CloneScheduleToCurrent
+        {
+            get { return new RelayCommand<object>(CloneSchedule); }
+        }
+
+
+        public void CanselChanges(object obj)
+        {
+            SelectedProductPrice = API.getlastPrice(SelectedProduct.ProductInfo.PRODUCT_PRICE);
+        }
+
+        public async void SubmitChanges(object obj)
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var specialistWindow = window as HomeWindowSpecialist;
+            if (specialistWindow != null)
+            {
+                var result =
+                    await
+                        specialistWindow.ShowMessageAsync("Попередження",
+                            "Ви дійсно хочете підтвердити зміни?\nСкасувати цю дію буде не можливо.",
+                            MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    using (var dbContextTransaction = Session.FactoryEntities.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            var selected = Session.FactoryEntities.PRODUCT_PRICE;
+                            SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
+                            SelectedProductPrice.PRICE_ID =
+                                Session.FactoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
+                            SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
+                            selected.Add(SelectedProductPrice);
+                            Session.FactoryEntities.SaveChanges();
+                            dbContextTransaction.Commit();
+                            await specialistWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
+                            UpdateDb();
+                        }
+                        catch (Exception e)
+                        {
+                            dbContextTransaction.Rollback();
+                            await
+                                specialistWindow.ShowMessageAsync("Невдача",
+                                    "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                        }
+                    }
+                }
+            }
+        }
+
+        public async void CloneSchedule(object obj)
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var specialistWindow = window as HomeWindowSpecialist;
+            foreach (var selectedSchedule_Package in SchedulePackages)
+            {
+                var existed = CurrentWarehouse.ContainsProductInfo(selectedSchedule_Package.PRODUCT_INFO);
+                if (existed != null && existed.Quantity != selectedSchedule_Package.QUANTITY_IN_SCHEDULE)
+                {
+                    if (specialistWindow != null)
+                    {
+                        Dialog.Initialize("Змінити кількість?", "У плані вже наявний продукт : " + existed.ProductInfo.PRODUCT_INFO.PRODUCT_TITLE +
+                            "\nКількості : " + existed.Quantity +
+                            ".\nБажаєте змінити кількість на " + selectedSchedule_Package.QUANTITY_IN_SCHEDULE + " ?");
+                        if (!Dialog.ForAll)
+                            Dialog.ShowDialog();
+                        if (Dialog.DialogResult == DialogResponse.Yes)
+                        {
+                            CurrentWarehouse.addScheduleProduct(selectedSchedule_Package.PRODUCT_INFO,
+                                selectedSchedule_Package.QUANTITY_IN_SCHEDULE);
+                        }
+                    }
+                }
+                else
+                {
+                    CurrentWarehouse.addScheduleProduct(selectedSchedule_Package.PRODUCT_INFO,
+                        selectedSchedule_Package.QUANTITY_IN_SCHEDULE);
+                }
+            }
+            if (specialistWindow != null)
+            {
+                await specialistWindow.ShowMessageAsync("Зміни внесено",
+                    "Усі зміни в поточний план виробництва успішно внесено.");
+            }
+        }
+
+        private void UpdateDb()
+        {
+            var temp = Session.FactoryEntities.PRODUCT_INFO.ToList();
+            ProductsList.Clear();
+            foreach (var product in temp)
+            {
+                ProductsList.Add(new ProductListElement(product, this));
+            }
+            if (ProductsList != null && ProductsList.Count > 0)
+                SelectedProduct =
+                    ProductsList.FirstOrDefault(
+                        pr => pr.ProductInfo.PRODUCT_INFO_ID == SelectedProduct.ProductInfo.PRODUCT_INFO_ID);
+        }
+        #endregion
+        #endregion
+
+        #region Director
+        private ObservableCollection<STAFF> _EmployeeList;
+        private STAFF _SelectedEmployee;
+
+
+        #region Second
+
+        #endregion
+
+        #region Properties
+
+
+        #endregion
+
+        #region Commands
+
+        public ICommand ChangeCommand
+        {
+            get { return new RelayCommand<string>(DoChange); }
+        }
+        
+        public void DoChange(string parameter)
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+
+            switch (parameter)
+            {
+                case "Add":
+                    {
+                        if (Options.ContainsKey(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString()))
+                        {
+                            if (window != null)
+                            {
+                                window.ShowMessageAsync("Не можливо додати", "Ви уже обрали даний термін. Спробуйте інший");
+                            }
+                        }
+                        else
+                        {
+                            foreach (var pr in ProductPackagesList)
+                            {
+                                pr.QuantityInOrders.Add(new OrderProductTransaction.QuantityInOrder(FromTime, ToTime, pr));
+                            }
+                            if (window != null)
+                            {
+                                var adminWindow = window as HomeWindowAdmin;
+                                if (adminWindow != null)
+                                {
+                                    adminWindow.addColumns();
+                                    Update();
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case "Remove":
+                    {
+                        if (SelectedOption != null)
+                        {
+                            var res = Options[SelectedOption];
+                            foreach (var pr in ProductPackagesList)
+                            {
+                                pr.QuantityInOrders.RemoveAt(res.index);
+                            }
+                            if (window != null)
+                            {
+                                var adminWindow = window as HomeWindowAdmin;
+                                if (adminWindow != null)
+                                {
+                                    adminWindow.addColumns();
+                                    Update();
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        public void Update()
+        {
+            Options = new Dictionary<string, RegionInfo>();
+            OptionsList = new ObservableCollection<string>();
+            var i = 0;
+            foreach (var quantity in ProductPackagesList.First().QuantityInOrders)
+            {
+                Options.Add(quantity.From.ToLongDateString() + " - " + quantity.To.ToLongDateString(),
+                    new RegionInfo(i++, quantity.From, quantity.To));
+            }
+            foreach (var option in Options.Keys.ToList())
+            {
+                OptionsList.Add(option);
+            }
+            if (OptionsList.Count > 0)
+                SelectedOption = OptionsList.First();
+            UpdateSeries();
+        }
+
+        public void UpdateQuantity()
+        {
+            foreach (var product in ProductPackagesList)
+            {
+                product.QuantityInOrders.Clear();
+                foreach (var option in Options)
+                {
+                    product.QuantityInOrders.Add(new OrderProductTransaction.QuantityInOrder(option.Value.from,
+                        option.Value.to, product));
+                }
+            }
+            UpdateSeries();
+        }
+
+        #endregion
+        #endregion
         #endregion
     }
 }

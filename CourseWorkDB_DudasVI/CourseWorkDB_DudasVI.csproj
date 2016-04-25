@@ -178,16 +178,9 @@
     <Compile Include="MVVM\Models\Additional\OrderProductTransaction.cs" />
     <Compile Include="MVVM\Models\Additional\ProductListElement.cs" />
     <Compile Include="MVVM\Models\Additional\ProductPriceListElement.cs" />
-    <Compile Include="MVVM\Models\DirectorModel.cs" />
     <Compile Include="MVVM\Models\GeneralModel.cs" />
-    <Compile Include="MVVM\Models\SalerModel.cs" />
-    <Compile Include="MVVM\Models\SpecialistModel.cs" />
-    <Compile Include="MVVM\ViewModels\ChartViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CommonViewModel.cs" />
-    <Compile Include="MVVM\ViewModels\DirectorViewModel.cs" />
     <Compile Include="MVVM\ViewModels\SettingsViewModel.cs" />
-    <Compile Include="MVVM\ViewModels\SalerViewModel.cs" />
-    <Compile Include="MVVM\ViewModels\SpecialistViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelBaseInside.cs" />
     <Compile Include="ORDER_PRODUCT.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>

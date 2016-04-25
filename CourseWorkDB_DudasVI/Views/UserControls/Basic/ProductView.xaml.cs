@@ -4,9 +4,6 @@ using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls
 {
-    /// <summary>
-    ///     Логика взаимодействия для CustomerView.xaml
-    /// </summary>
     public partial class ProductView : UserControl
     {
         public ProductView()
@@ -16,7 +13,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         
         private void PriceChanged(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var model = DataContext as SpecialistViewModel;
+            var model = DataContext as CommonViewModel;
             if (model != null)
             {
                 model.ChangeProductPriceValue = true;

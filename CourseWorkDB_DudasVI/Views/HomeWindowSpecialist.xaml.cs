@@ -26,12 +26,11 @@ namespace CourseWorkDB_DudasVI.Views
     {
         private readonly List<ChartsSet> chartsSets;
         private readonly List<Flyout> flyouts;
-        public SpecialistViewModel _specialistViewModel;
+        public CommonViewModel _specialistViewModel;
 
         public HomeWindowSpecialist()
         {
-            var specialistModel = new SpecialistModel();
-            _specialistViewModel = Mapper.Map<SpecialistModel, SpecialistViewModel>(specialistModel);
+            _specialistViewModel = new CommonViewModel();
             DataContext = _specialistViewModel;
 
             InitializeComponent();
@@ -114,7 +113,7 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void RefreshDiagram(object sender, RoutedEventArgs e)
         {
-            var model = DataContext as SpecialistViewModel;
+            var model = DataContext as CommonViewModel;
             if (model != null)
             {
                 model.UpdateSeries();
@@ -127,10 +126,10 @@ namespace CourseWorkDB_DudasVI.Views
             {
                 case 0:
                 {
-                    var model = DataContext as SpecialistViewModel;
+                    var model = DataContext as CommonViewModel;
                     if (model != null)
                     {
-                        foreach (var product in model.productPackagesList)
+                        foreach (var product in model.ProductPackagesList)
                         {
                             product.isChecked = true;
                         }
@@ -156,10 +155,10 @@ namespace CourseWorkDB_DudasVI.Views
             {
                 case 0:
                 {
-                    var model = DataContext as SpecialistViewModel;
+                    var model = DataContext as CommonViewModel;
                     if (model != null)
                     {
-                        foreach (var product in model.productPackagesList)
+                        foreach (var product in model.ProductPackagesList)
                         {
                             product.isChecked = false;
                         }
@@ -192,7 +191,7 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var model = DataContext as SpecialistViewModel;
+            var model = DataContext as CommonViewModel;
             if (model != null)
             {
                 model.TabIndex = SpecialistControl.SelectedIndex;

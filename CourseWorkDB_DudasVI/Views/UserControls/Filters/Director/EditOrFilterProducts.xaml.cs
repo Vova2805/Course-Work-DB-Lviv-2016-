@@ -47,7 +47,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         private void CategorySelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var model = DataContext as DirectorViewModel;
+            var model = DataContext as CommonViewModel;
             if (model != null)
             {
                 switch (model.TabIndex)
@@ -56,7 +56,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                     {
                         #region First
 
-                        model.productPackagesList.Clear();
+                        model.ProductPackagesList.Clear();
                         if (model.SelectedCategory.Equals("Всі категорії"))
                         {
                             var groupedPackages =
@@ -66,7 +66,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                             var i = 0;
                             foreach (var group in groupedPackages)
                             {
-                                model.productPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value,
+                                model.ProductPackagesList.Add(new OrderProductTransaction(i++, group.Key, group.Value,
                                     Session.User));
                             }
                             model.UpdateQuantity();
@@ -84,7 +84,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                                     group.Value.First()
                                         .PRODUCT_INFO.CATEGORY.CATEGORY_TITLE.Equals(model.SelectedCategory))
                                 {
-                                    model.productPackagesList.Add(new OrderProductTransaction(i++, group.Key,
+                                    model.ProductPackagesList.Add(new OrderProductTransaction(i++, group.Key,
                                         group.Value,
                                         Session.User));
                                 }
@@ -93,15 +93,15 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                             FilterByPrice(sender, e);
                         }
                         var titles =
-                            model.productPackagesList.ToList()
+                            model.ProductPackagesList.ToList()
                                 .Select(p => p.packages.First().PRODUCT_INFO.PRODUCT_TITLE.ToString())
                                 .ToList();
                         var prices =
                             Session.FactoryEntities.PRODUCT_PRICE.ToList()
                                 .FindAll(pr => titles.Contains(pr.PRODUCT_INFO.PRODUCT_TITLE))
                                 .ToList();
-                        model.priceFrom = prices.Min(p => p.PRICE_VALUE);
-                        model.priceTo = prices.Max(p => p.PRICE_VALUE);
+                        model.PriceFrom = prices.Min(p => p.PRICE_VALUE);
+                        model.PriceTo = prices.Max(p => p.PRICE_VALUE);
 
                         #endregion
                     }
@@ -138,8 +138,8 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                         }
                         if (productprices.Count > 0)
                         {
-                            model.priceFrom = (decimal) productprices.Min(p => p);
-                            model.priceTo = (decimal) productprices.Max(p => p);
+                            model.PriceFrom = (decimal) productprices.Min(p => p);
+                            model.PriceTo = (decimal) productprices.Max(p => p);
                         }
 
                         #endregion
@@ -151,7 +151,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         private void FilterByPrice(object sender, RoutedEventArgs e)
         {
-            var model = DataContext as DirectorViewModel;
+            var model = DataContext as CommonViewModel;
             if (model != null && model.FilterByPrice)
             {
                 switch (model.TabIndex)
@@ -160,18 +160,18 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                     {
                         var i = 0;
                         var temp = new ObservableCollection<OrderProductTransaction>();
-                        foreach (var product in model.productPackagesList)
+                        foreach (var product in model.ProductPackagesList)
                         {
                             var price =
                                 API.getlastPrice(product.packages.First().PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE;
-                            if (price >= model.priceFrom && price <= model.priceTo)
+                            if (price >= model.PriceFrom && price <= model.PriceTo)
                             {
                                 temp.Add(new OrderProductTransaction(i++,
                                     product.packages.First().PRODUCT_INFO.PRODUCT_TITLE,
                                     product.packages, Session.User));
                             }
                         }
-                        model.productPackagesList = temp;
+                        model.ProductPackagesList = temp;
                         model.UpdateQuantity();
                     }
                         break;
@@ -185,7 +185,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                                 Session.FactoryEntities.PRODUCT_PRICE.ToList().
                                     FindAll(pr => pr.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID))
                                 .PRICE_VALUE;
-                            if (price >= model.priceFrom && price <= model.priceTo)
+                            if (price >= model.PriceFrom && price <= model.PriceTo)
                             {
                                 temp.Add(product);
                             }
@@ -199,14 +199,14 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         private void CheckedChanged(object sender, EventArgs e)
         {
-            var model = DataContext as SpecialistViewModel;
+            var model = DataContext as CommonViewModel;
             if (model != null)
             {
                 switch (model.TabIndex)
                 {
                     case 0:
                     {
-                        if (model.productPackagesList != null)
+                        if (model.ProductPackagesList != null)
                         {
                             CategorySelectionChanged(sender, null);
                             if (!model.FilterByPrice)
@@ -224,7 +224,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         private void ProductSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var model = DataContext as DirectorViewModel;
+            var model = DataContext as CommonViewModel;
             if (model != null && model.FilterByPrice)
             {
                 CategorySelectionChanged(sender, e);
@@ -242,8 +242,8 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                     }
                     model.ProductsList = temp;
                     FilterByPrice(sender, e);
-                    model.priceFrom = (decimal) productprices.Min(p => p);
-                    model.priceTo = (decimal) productprices.Max(p => p);
+                    model.PriceFrom = (decimal) productprices.Min(p => p);
+                    model.PriceTo = (decimal) productprices.Max(p => p);
                 }
             }
         }

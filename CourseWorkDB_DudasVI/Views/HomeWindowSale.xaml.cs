@@ -15,8 +15,7 @@ namespace CourseWorkDB_DudasVI.Views
 
         public HomeWindowSale()
         {
-            var salerModel = new SalerModel();
-            var salerViewModel = Mapper.Map<SalerModel, SalerViewModel>(salerModel);
+            var salerViewModel = new CommonViewModel();
             DataContext = salerViewModel;
             InitializeComponent();
             addHotKey();

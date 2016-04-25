@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
@@ -132,12 +133,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _Quantity = value;
-                if (dataContextVM == null) initialiseDataContextVM();
-                if (dataContextVM is SpecialistViewModel)
+                if (Session.userType == UserType.Specialist)
                 {
                     QuantityNeeded = _Quantity;
                 }
-                else if (dataContextVM is SalerViewModel)
+                else if (Session.userType == UserType.Saler)
                 {
                     QuantityNeeded = 0;
                 }
@@ -154,12 +154,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     if (_QuantityNeeded == _Quantity)
                     {
                         if (dataContextVM == null) initialiseDataContextVM();
-                        if (dataContextVM is SpecialistViewModel)
+                        if (Session.userType == UserType.Specialist)
                         {
                             IsBooked = false;
                             dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
                         }
-                        else if (dataContextVM is SalerViewModel)
+                        else if (Session.userType == UserType.Saler)
                         {
                             //TODO show warning
                             if(Quantity!=0)
@@ -169,15 +169,14 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     else if (_QuantityNeeded < _Quantity)
                     {
                         if (dataContextVM == null) initialiseDataContextVM();
-                        if (dataContextVM is SpecialistViewModel)
+                        if (Session.userType == UserType.Specialist)
                         {
                             _QuantityNeeded = _Quantity;
                             dataContextVM.CurrentWarehouse.removeScheduleProduct(ProductInfo);
                             IsBooked = false;
                         }
-                        else if (dataContextVM is SalerViewModel)
+                        else if (Session.userType == UserType.Saler)
                         {
-                            dataContextVM = dataContextVM as SalerViewModel;
                             dataContextVM.SelectedClient.addOrderProduct(ProductInfo, _QuantityNeeded);
                             IsBooked = true;
                         }
@@ -186,12 +185,12 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     {
                         
                         if (dataContextVM == null) initialiseDataContextVM();
-                        if (dataContextVM is SpecialistViewModel)
+                        if (Session.userType == UserType.Specialist)
                         {
                             IsBooked = true;
                             dataContextVM.CurrentWarehouse.addScheduleProduct(ProductInfo, -_Quantity + _QuantityNeeded);
                         }
-                        else if (dataContextVM is SalerViewModel)
+                        else if (Session.userType == UserType.Saler)
                         {
                             QuantityNeeded = _Quantity;
                         }
@@ -232,7 +231,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             var salerWindow = window as HomeWindowSale;
             if (salerWindow != null)
             {
-                dataContextVM = salerWindow.DataContext as SalerViewModel;
+                dataContextVM = salerWindow.DataContext as CommonViewModel;
             }
         }
     }

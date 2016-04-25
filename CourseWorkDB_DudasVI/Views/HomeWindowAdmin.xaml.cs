@@ -13,9 +13,6 @@ using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views
 {
-    /// <summary>
-    ///     Логика взаимодействия для HomeWindow.xaml
-    /// </summary>
     public partial class HomeWindowAdmin : MetroWindow
     {
         private static bool isopenFlyout;
@@ -25,8 +22,7 @@ namespace CourseWorkDB_DudasVI.Views
         public HomeWindowAdmin()
         {
             InitializeComponent();
-            var directorModel = new DirectorModel();
-            var directorViewModel = Mapper.Map<DirectorModel, DirectorViewModel>(directorModel);
+            var directorViewModel = new CommonViewModel();
             DataContext = directorViewModel;
 
             flyouts = new List<Flyout> {AdminFlyout};
@@ -148,9 +144,9 @@ namespace CourseWorkDB_DudasVI.Views
             }
             columns.Clear();
             var i = 0;
-            var dataContext = DataContext as ChartViewModel;
+            var dataContext = DataContext as CommonViewModel;
             if (dataContext != null)
-                foreach (var quantity in dataContext.productPackagesList.First().QuantityInOrders)
+                foreach (var quantity in dataContext.ProductPackagesList.First().QuantityInOrders)
                 {
                     var column = new DataGridTextColumn();
                     column.Header = quantity.From.ToLongDateString() + " \n " + quantity.To.ToLongDateString();

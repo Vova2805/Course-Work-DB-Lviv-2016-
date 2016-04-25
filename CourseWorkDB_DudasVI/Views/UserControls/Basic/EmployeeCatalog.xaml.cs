@@ -19,7 +19,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         public void init()
         {
-            var model = DataContext as SpecialistViewModel;
+            var model = DataContext as CommonViewModel;
             if (model != null)
             {
                 view = CollectionViewSource.GetDefaultView(model.ProductsList);
@@ -34,7 +34,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         private bool FilterProductsRule(object obj)
         {
-            var model = DataContext as SpecialistViewModel;
+            var model = DataContext as CommonViewModel;
             if (model != null)
             {
                 var product = obj as ProductListElement;
@@ -51,7 +51,7 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
 
         private void OnSearch(object sender, TextChangedEventArgs e)
         {
-            var model = DataContext as SpecialistViewModel;
+            var model = DataContext as CommonViewModel;
             if (model != null)
             {
                 model.ChangedText = searchTxt.Text;

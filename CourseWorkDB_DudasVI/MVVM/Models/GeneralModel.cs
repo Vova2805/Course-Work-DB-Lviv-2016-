@@ -13,31 +13,28 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
     {
         public SeriesCollection BarSeriesInstance;
         public List<string> CategoriesList;
-
-
         public string ChangedText;
         public WarehouseListItem CurrentWarehouse;
         public string CurrentWarehouseString;
         public string DateFilterString;
         public decimal Engaged;
         public bool ExtendedMode;
-        public bool filterByPrice = false;
+        public bool FilterByPrice = false;
         public string FlowDirection;
-
         public DateTime FromTime;
         public List<WarehouseProductTransaction> InOutComeFlow;
         public List<string> Labels;
         public SeriesCollection LineSeriesInstance;
 
-        public Dictionary<string, CommonViewModel.RegionInfo> options =
+        public Dictionary<string, CommonViewModel.RegionInfo> Options =
             new Dictionary<string, CommonViewModel.RegionInfo>();
 
         public List<string> OptionsList;
         public SeriesCollection PieSeriesInstance;
-        public decimal priceFrom;
-        public decimal priceTo;
+        public decimal PriceFrom;
+        public decimal PriceTo;
 
-        public List<OrderProductTransaction> productPackagesList = new List<OrderProductTransaction>();
+        public List<OrderProductTransaction> ProductPackagesList = new List<OrderProductTransaction>();
         public List<ProductPriceListElement> ProductPriceList;
         public double ProductPricePersentage;
         public double ProductPriceValue;
@@ -46,48 +43,53 @@ namespace CourseWorkDB_DudasVI.MVVM.Models
         public List<ReleasedProductListItem> ProductsOnWarehouse;
         public List<string> ProductsTitleList;
         public List<PRODUCTION_SCHEDULE> Schedules;
-        public string selectedCategory;
-        public string selectedOption;
+        public string SelectedCategory;
+        public string SelectedOption;
         public ProductListElement SelectedProduct;
         public PRODUCTION_SCHEDULE SelectedProductionSchedule;
         public ReleasedProductListItem SelectedProductOnWarehouse;
         public PRODUCT_PRICE SelectedProductPrice;
         public string SelectedProductTitle;
-        public int tabIndex;
+        public int TabIndex;
         public string TotalIncome;
         public string TotalOutcome;
         public DateTime ToTime;
         public string ValueRange;
 
-        public List<WarehouseListItem> warehouses;
-        public List<string> warehousesStrings;
-        public string xTitle;
-        public string yTitle;
+        public List<WarehouseListItem> Warehouses;
+        public List<string> WarehousesStrings;
+        public string XTitle;
+        public string YTitle;
 
-        public bool isSaler;
+        public bool IsSaler;
+
+        public List<ClientListItem> Clients;
+        public ClientListItem SelectedClient;
+        public List<string> ClientsTitle;
+        public string SelectedClientTitle;
+        public List<WAREHOUSE> WarehousesList;
+        public WAREHOUSE SelectedWarehouse;
+        public List<string> WarehousesListTitles;
+        public string SelectedWarehouseTitle;
+        public decimal Distance;
+        public decimal CostPerKm;
+
+
+        public PRODUCTION_SCHEDULE CurrentProductionSchedule;
+
+        //Expired period(calculation of expenses)
+        public int Days;
+        public decimal LostMoney;
+        public int LostProducts;
+        public List<SCHEDULE_PRODUCT_INFO> SchedulePackages;
+
+
+        public List<STAFF> EmployeeList;
+        public STAFF SelectedEmployee;
 
         public GeneralModel()
         {
-            CategoriesList = Session.FactoryEntities.CATEGORY.ToList().Select(c => c.CATEGORY_TITLE).ToList();
-            CategoriesList.Insert(0, "Всі категорії");
-            priceFrom = Session.FactoryEntities.PRODUCT_PRICE.ToList().Min(p => p.PRICE_VALUE);
-            priceTo = Session.FactoryEntities.PRODUCT_PRICE.ToList().Max(p => p.PRICE_VALUE);
-            selectedCategory = CategoriesList.First();
-            ChangedText = "";
-            LineSeriesInstance = new SeriesCollection();
-            PieSeriesInstance = new SeriesCollection();
-            BarSeriesInstance = new SeriesCollection();
-
-            FromTime = API.getLastPlanDate(Session.User);
-            ToTime = API.getTodayDate();
-            options.Add(FromTime.ToLongDateString() + " - " + ToTime.ToLongDateString(),
-                new CommonViewModel.RegionInfo(0, FromTime, ToTime));
-            OptionsList = options.Keys.ToList();
-            selectedOption = OptionsList.First();
-            Labels = new List<string>();
-            Schedules = new List<PRODUCTION_SCHEDULE>();
-
-      
+           
         }
     }
 }

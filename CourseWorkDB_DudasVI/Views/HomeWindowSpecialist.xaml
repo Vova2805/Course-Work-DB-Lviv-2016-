@@ -18,11 +18,6 @@
                       Icon="../Resources/images/warehouse.png"
                       WindowTransitionsEnabled="False"
                       WindowStartupLocation="CenterScreen" WindowState="Maximized">
-    <Controls:MetroWindow.Resources>
-        <DataTemplate DataType="{x:Type ViewModels:SpecialistViewModel}">
-            <UserControls:EditOrderOrProduct />
-        </DataTemplate>
-    </Controls:MetroWindow.Resources>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button ToolTip="Налаштування профілю Alt+S" Click="SettingsClick">
