@@ -76,11 +76,19 @@ namespace CourseWorkDB_DudasVI.Views
             firstSettings = new RoutedCommand();
             firstSettings.InputGestures.Add(new KeyGesture(Key.F1, ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(firstSettings, Help));
+            firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.Tab, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(firstSettings, NextTab));
         }
 
         private void ClearClick(object sender, RoutedEventArgs e)
         {
             //searchTxt.Text = "";
+        }
+
+        private void NextTab(object sender, RoutedEventArgs e)
+        {
+            SalerTabControl.SelectedIndex = SalerTabControl.SelectedIndex == 0 ? 1 : 0;
         }
     }
 }

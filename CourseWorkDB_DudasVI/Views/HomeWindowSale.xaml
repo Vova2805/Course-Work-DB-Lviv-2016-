@@ -133,7 +133,7 @@
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
-    <TabControl SelectionChanged="TabControl_SelectionChanged">
+    <TabControl SelectionChanged="TabControl_SelectionChanged" x:Name="SalerTabControl">
         <TabControl.Resources>
             <converters:AddressConverter x:Key="AddressConverter" />
         </TabControl.Resources>
@@ -185,7 +185,6 @@
                                     <!--#region First expander-->
                                     <Expander Header="Особисті дані" IsExpanded="True">
                                         <Grid>
-
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="0*" />
                                                 <RowDefinition Height="31*" />
@@ -203,7 +202,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Ім'я" />
-                                            <TextBox Grid.Row="1" Grid.Column="2" Margin="5,5,5,0" ToolTip="Введіть ім'я" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" >
+                                            <TextBox Grid.Row="1" Grid.Column="2" Margin="5,5,5,0" ToolTip="Введіть ім'я" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Name" >
                                                 <TextBox.Text>
                                                     <Binding Path="Client.CLIENT_NAME" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
                                                         <Binding.ValidationRules>
@@ -225,7 +224,7 @@
 
                                             <!--Username of the user-->
                                             <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Мобільний телефон" />
-                                            <TextBox   Grid.Row="6" Grid.Column="2" Margin="5" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
+                                            <TextBox   Grid.Row="6" Grid.Column="2" Margin="5" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Mobile">
                                             <TextBox.Text>
                                                     <Binding Path="Client.MOBILE_PHONE" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
                                                     <Binding.ValidationRules>
@@ -237,11 +236,10 @@
                                             <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Телефон компанії"
                                        VerticalAlignment="Center" />
                                             <TextBox Text="{Binding Path=Client.COMPANY_PHONE,Mode=TwoWay}" Grid.Row="7" Margin="5"
-                                     Grid.Column="2" ToolTip="Введіть телефон компанії"
-                                     Validation.ErrorTemplate="{x:Null}" VerticalAlignment="Center" />
+                                     Grid.Column="2" ToolTip="Введіть телефон компанії" VerticalAlignment="Center" />
 
                                             <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="E-mail" VerticalAlignment="Center" />
-                                            <TextBox Grid.Row="4" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}"
+                                            <TextBox Grid.Row="4" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Email"
                                      Grid.Column="2" Margin="5" ToolTip="Введіть email у форматі ____@___.__. Наприклад newclient@gmail.com"
                                      VerticalAlignment="Center" >
                                                 <TextBox.Text>
@@ -256,7 +254,7 @@
                                             <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="Прізвище" TextWrapping="Wrap"
                                        VerticalAlignment="Center" />
                                             <TextBox  Grid.Row="3" ToolTip="Введіть прізвище" Grid.Column="2"
-                                     VerticalAlignment="Center" Margin="5"  Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
+                                     VerticalAlignment="Center" Margin="5"  Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Surname">
                                             <TextBox.Text>
                                                     <Binding Path="Client.CLIENT_SURNAME" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
                                                     <Binding.ValidationRules>
@@ -270,7 +268,81 @@
                                     <!--#endregion-->
                                     <!--#region Second expander-->
                                     <Expander Header="Адреса" IsExpanded="True">
-                                        <UserControls:AddressEditableView DataContext="{Binding Path=Client.ADDRESS1,Mode=TwoWay}" />
+                                        <Grid  VerticalAlignment="Stretch">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="3*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Країна" />
+                                            <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Country">
+                                                <TextBox.Text>
+                                                    <Binding Path="Client.ADDRESS1.COUNTRY" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="Регіон" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Region"/>
+                                            <TextBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,0" >
+                                                <TextBox.Text>
+                                                    <Binding Path="Client.ADDRESS1.REGION" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Місто" />
+                                            <TextBox x:Name="City" Grid.Row="5" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
+                                                <TextBox.Text>
+                                                    <Binding Path="Client.ADDRESS1.CITY" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Вулиця" />
+                                            <TextBox Grid.Row="6" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Street">
+                                                <TextBox.Text>
+                                                    <Binding Path="Client.ADDRESS1.STREET" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Номер будинку" VerticalAlignment="Center" />
+                                            <TextBox  BorderThickness="1" Grid.Row="7"
+                                                Grid.Column="1" Margin="5" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}"  VerticalAlignment="Stretch" Name="BN">
+                                                <TextBox.Text>
+                                                    <Binding Path="Client.ADDRESS1.BUILDING_NUMBER" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                            <rules:NumberRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                        </Grid>
+
                                     </Expander>
                                     <!--#endregion-->
                                     <!--#region Third expander-->
@@ -402,8 +474,28 @@
                             <Button Width="50"
                                     Height="50"
                                     VerticalAlignment="Top"
-                                    ToolTip="Зберегти зміни Alt+X" Background="{DynamicResource ProgressBrush}"
-                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                    ToolTip="Зберегти зміни Alt+X" Background="{DynamicResource ProgressBrush}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButtonStyle}">
+                                        <Setter Property="IsEnabled" Value="false" />
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Name}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Surname}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Email}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Mobile}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=City}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Region}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Street}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=BN}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Country}" Value="false" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="IsEnabled" Value="true" />
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
                                 <Rectangle Width="20" Height="20">
                                     <Rectangle.Style>
                                         <Style TargetType="{x:Type Rectangle}">
