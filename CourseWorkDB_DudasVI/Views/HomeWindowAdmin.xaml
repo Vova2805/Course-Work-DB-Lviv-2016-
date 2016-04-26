@@ -381,6 +381,7 @@
                                         </Grid>
                                     </Expander>
                                     <!--#endregion-->
+                                    
                                     <!--#region Second expander-->
                                     <Expander Header="Адреса" IsExpanded="True">
                                         <Grid  VerticalAlignment="Stretch">
@@ -461,11 +462,9 @@
                                     </Expander>
                                     <!--#endregion-->
                                     <!--#region Third expander-->
-                                    <Expander Header="Результати роботи (замовлення)" IsExpanded="False"
-                              Visibility="{Binding Path=SelectedEmployee.Employee.POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='2'}">
+                                    <Expander Header="Результати роботи (замовлення)" IsExpanded="False" Visibility="{Binding Path=SelectedEmployee.Employee.POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='2'}">
                                         <ScrollViewer>
-                                            <ListBox VerticalAlignment="Stretch" Background="{DynamicResource AccentColorBrush4}"
-                                     ItemsSource="{Binding SALE_ORDER}">
+                                            <ListBox VerticalAlignment="Stretch" Background="{DynamicResource AccentColorBrush4}" ItemsSource="{Binding Path=SelectedEmployee.Employee.SALE_ORDER}">
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <UserControls:OrderListItem />
@@ -480,7 +479,7 @@
                               Visibility="{Binding Path=SelectedEmployee.Employee.POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='3'}">
                                         <ScrollViewer>
                                             <ListBox VerticalAlignment="Stretch" Background="{DynamicResource AccentColorBrush4}"
-                                     ItemsSource="{Binding PRODUCTION_SCHEDULE}">
+                                     ItemsSource="{Binding Path=SelectedEmployee.Employee.PRODUCTION_SCHEDULE}">
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <UserControls:ScheduleListItem />
@@ -488,6 +487,16 @@
                                                 </ListBox.ItemTemplate>
                                             </ListBox>
                                         </ScrollViewer>
+                                    </Expander>
+                                    <!--#endregion-->
+                                    <!--#region Second expander-->
+                                    <Expander Header="Відповідальний за склади" IsExpanded="True"  Visibility="{Binding Path=SelectedEmployee.Employee.POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='3'}">
+                                        <DataGrid  ItemsSource="{Binding Path=SelectedEmployee.Warehouses}" AutoGenerateColumns="False">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Width="*" Header="Адреса" IsReadOnly="True"
+                                                    Binding="{Binding}" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
                                     </Expander>
                                     <!--#endregion-->
                                 </StackPanel>
