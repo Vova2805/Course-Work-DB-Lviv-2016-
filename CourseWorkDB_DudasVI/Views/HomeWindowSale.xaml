@@ -130,6 +130,12 @@
             <Controls:Flyout Header="Налаштування профілю" Position="Right" Name="AdminFlyout" Theme="Accent">
                 <UserControls:SettingView />
             </Controls:Flyout>
+            <Controls:Flyout Header="Фільтрація" Position="Right" Name="ClientsFilter" Theme="Accent">
+                <UserControls:ClientsSalerFilter />
+            </Controls:Flyout>
+            <Controls:Flyout Header="Фільтрація і редагування" Position="Right" Name="NewOrderFilter" Theme="Accent">
+                <UserControls:NewOrderFilter />
+            </Controls:Flyout>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
@@ -405,7 +411,7 @@
                             BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
-                            <Button Width="50" Click="CustomerFilter"
+                            <Button Width="50" Click="OpenFilter"
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}">

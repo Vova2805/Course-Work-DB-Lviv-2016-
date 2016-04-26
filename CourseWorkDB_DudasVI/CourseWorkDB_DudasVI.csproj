@@ -344,6 +344,12 @@
     <Compile Include="Views\UserControls\Filters\GoodsFilter.xaml.cs">
       <DependentUpon>GoodsFilter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Filters\Saler\NewOrderFilter.xaml.cs">
+      <DependentUpon>NewOrderFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\Saler\ClientsSalerFilter.xaml.cs">
+      <DependentUpon>ClientsSalerFilter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Filters\Specialist\EditOrder.xaml.cs">
       <DependentUpon>EditOrder.xaml</DependentUpon>
     </Compile>
@@ -517,6 +523,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\UserControls\Filters\Saler\NewOrderFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Filters\Saler\ClientsSalerFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\Filters\Specialist\EditOrder.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -612,7 +626,6 @@
   <ItemGroup>
     <Folder Include="DATA\" />
     <Folder Include="MVVM\Models\Mapping\" />
-    <Folder Include="Views\UserControls\Filters\Saler\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\images\Left.png" />

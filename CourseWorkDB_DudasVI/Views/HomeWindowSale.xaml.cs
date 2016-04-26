@@ -54,12 +54,12 @@ namespace CourseWorkDB_DudasVI.Views
         private void addHotKey()
         {
             var firstSettings = new RoutedCommand();
-            //firstSettings.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Alt));
-            //CommandBindings.Add(new CommandBinding(firstSettings, EditOrdersOpen));
+            firstSettings.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(firstSettings, OpenFilter));
 
             firstSettings = new RoutedCommand();
             firstSettings.InputGestures.Add(new KeyGesture(Key.F, ModifierKeys.Alt));
-            CommandBindings.Add(new CommandBinding(firstSettings, CustomerFilter));
+            CommandBindings.Add(new CommandBinding(firstSettings, OpenFilter));
 
             firstSettings = new RoutedCommand();
             firstSettings.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Alt));
@@ -81,14 +81,23 @@ namespace CourseWorkDB_DudasVI.Views
             CommandBindings.Add(new CommandBinding(firstSettings, NextTab));
         }
 
-        private void ClearClick(object sender, RoutedEventArgs e)
-        {
-            //searchTxt.Text = "";
-        }
 
         private void NextTab(object sender, RoutedEventArgs e)
         {
             SalerTabControl.SelectedIndex = SalerTabControl.SelectedIndex == 0 ? 1 : 0;
+        }
+
+        private void OpenFilter(object sender, RoutedEventArgs e)
+        {
+            if (SalerTabControl.SelectedIndex == 0)
+            {
+                ClientsFilter.IsOpen = !ClientsFilter.IsOpen;
+            }
+            else
+            if (SalerTabControl.SelectedIndex == 1)
+            {
+                NewOrderFilter.IsOpen = !NewOrderFilter.IsOpen;
+            }
         }
     }
 }
