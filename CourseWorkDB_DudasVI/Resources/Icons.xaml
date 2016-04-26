@@ -5050,6 +5050,11 @@
               Fill="{DynamicResource BlackBrush}"
               Data="F1 M 23.5,45.5L 30,52L 40.5,41.5L 44,45L 30,59L 20,49L 23.5,45.5 Z M 20,17L 43.25,17L 56,29.75L 56,59L 32,59L 36,55L 52,55L 52,34L 39,34L 39,21L 24,21L 24,43L 20,47L 20,17 Z M 20,59L 20,51L 28,59L 20,59 Z M 43,22.25L 43,30L 50.75,30L 43,22.25 Z " />
     </Canvas>
+    <Canvas x:Key="appbar_page_check_white" x:Shared="False" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+        <Path Width="36" Height="42" Canvas.Left="20" Canvas.Top="17" Stretch="Fill"
+              Fill="White"
+              Data="F1 M 23.5,45.5L 30,52L 40.5,41.5L 44,45L 30,59L 20,49L 23.5,45.5 Z M 20,17L 43.25,17L 56,29.75L 56,59L 32,59L 36,55L 52,55L 52,34L 39,34L 39,21L 24,21L 24,43L 20,47L 20,17 Z M 20,59L 20,51L 28,59L 20,59 Z M 43,22.25L 43,30L 50.75,30L 43,22.25 Z " />
+    </Canvas>
 
     <Canvas x:Key="appbar_page_code" x:Shared="False" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
         <Path Width="41" Height="46" Canvas.Left="19" Canvas.Top="17" Stretch="Fill"

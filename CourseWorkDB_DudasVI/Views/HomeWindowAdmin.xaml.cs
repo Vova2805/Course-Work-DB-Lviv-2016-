@@ -82,50 +82,26 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void OnCheckAll(object sender, RoutedEventArgs e)
         {
-            //switch (SpecialistControl.SelectedIndex)
-            //{
-            //    case 0:
-            //        {
-            //            var model = DataContext as SpecialistViewModel;
-            //            if (model != null)
-            //            {
-            //                foreach (var product in model.productPackagesList)
-            //                {
-            //                    product.isChecked = true;
-            //                }
-            //            }
-            //        }
-            //        break;
-            //    case 1:
-            //        {
-            //            ProductsCatalog.ClearText();
-            //        }
-            //        break;
-            //    case 4:
-            //        {
-            //            ProductsScheduleCatalog.ClearText();
-            //        }
-            //        break;
-            //}
+            var model = DataContext as CommonViewModel;
+            if (model != null)
+            {
+                foreach (var flow in model.InOutComeFlow)
+                {
+                    flow.IsMarked = true;
+                }
+            }
         }
 
         private void OnUncheckAll(object sender, RoutedEventArgs e)
         {
-            //switch (SpecialistControl.SelectedIndex)
-            //{
-            //    case 0:
-            //        {
-            //            var model = DataContext as SpecialistViewModel;
-            //            if (model != null)
-            //            {
-            //                foreach (var product in model.productPackagesList)
-            //                {
-            //                    product.isChecked = false;
-            //                }
-            //            }
-            //        }
-            //        break;
-            //}
+            var model = DataContext as CommonViewModel;
+            if (model != null)
+            {
+                foreach (var flow in model.InOutComeFlow)
+                {
+                    flow.IsMarked = false;
+                }
+            }      
         }
 
         private void RefreshDiagram(object sender, RoutedEventArgs e)
