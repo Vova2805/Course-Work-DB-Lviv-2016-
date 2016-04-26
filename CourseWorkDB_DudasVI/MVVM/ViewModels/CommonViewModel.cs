@@ -190,6 +190,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
             SelectedEmployee = EmployeeList.First();
             IsSaler = Session.userType == UserType.Saler;
+            NewEmployee = InitializeNewEmployee();
+
             var newClientPattern = new CLIENT();
             newClientPattern.CLIENT_NAME = "Ім'я клієнта";
             newClientPattern.CLIENT_SURNAME = "Прізвище клієнта";
@@ -209,6 +211,29 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 SelectedPost = Posts.First();
                 SelectedPostTitle = PostsTitles.First();
             }
+        }
+
+        private EmployeeListItem 
+            InitializeNewEmployee()
+        {
+            var newEmployeePattern = new STAFF();
+            newEmployeePattern.POST = Session.User.POST;
+            newEmployeePattern.BIRTH_DATE = API.getTodayDate();
+            newEmployeePattern.STAFF_NAME = "Ім'я працівника";
+            newEmployeePattern.STAFF_SURNAME = "Прізвище працівника";
+            newEmployeePattern.EMAIL = "email@email.com";
+            newEmployeePattern.LOGIN = "test";
+            newEmployeePattern.PASSWORD = "test";
+            var address = new ADDRESS();
+            address.COUNTRY = "Країна";
+            address.REGION = "Західний";
+            address.CITY = "Київ";
+            address.STREET = "Південна";
+            address.BUILDING_NUMBER = 1;
+
+            var temp = new EmployeeListItem(newEmployeePattern, newEmployeePattern.POST);
+            temp.Employee.ADDRESS1 = address;
+            return temp;
         }
 
         #endregion
@@ -1812,13 +1837,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _employee = employee;
                 Post = currentPost;
-                FullSalary = employee.FULL_SALARY_PERSENTAGE;
+                FullSalary = employee.FULL_SALARY_PERSENTAGE == 0?100: employee.FULL_SALARY_PERSENTAGE;
                 Warehouses = new ObservableCollection<string>();
                 int i = 0;
+                if(employee.WAREHOUSE!=null)
                 foreach (var warehouse in _employee.WAREHOUSE.ToList())
                 {
                     Warehouses.Add(API.ConvertAddress(warehouse.ADDRESS1,++i+". "));
                 }
+                _employee.ADDRESS1 =
+                    Session.FactoryEntities.ADDRESS.ToList().Find(a => a.ADDRESS_ID == _employee.ADDRESS);
             }
             public STAFF Employee
             {
@@ -2124,20 +2152,60 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        private void AddEmployee(object obj)
+        private async void AddEmployee(object obj)
         {
-            //if (NewClientEditing)
-            //{
-            //    //add to database
-            //    NewClientEditing = false;
-            //}
-            //else
-            //{
-            //    NewClientEditing = true;
-            //    Clients.Insert(0, NewClient);
-            //    SelectedClient = NewClient;
-            //    Clients = _clients;
-            //}
+            if (NewEmployeeEditing)
+            {
+                //add to database
+                var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+                var metroWindow = window as MetroWindow;
+                if (metroWindow != null)
+                {
+                    using (var connection = new SWEET_FACTORYEntities())
+                    {
+                        using (var dbContextTransaction = connection.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                NewEmployee.Employee.STAFF_ID = connection.STAFF.ToList().Max(a => a.STAFF_ID) + 1;
+                                NewEmployee.Employee.POST_ID = NewEmployee.Post.POST_ID;
+                                NewEmployee.Employee.THEME = 11;
+                                NewEmployee.Employee.PRODUCTION_SCHEDULE = new List<PRODUCTION_SCHEDULE>();
+                                NewEmployee.Employee.SALE_ORDER = new List<SALE_ORDER>();
+                                NewEmployee.Employee.ADDRESS1.ADDRESS_ID = connection.ADDRESS.ToList().Max(a => a.ADDRESS_ID) + 1;
+                                NewEmployee.Employee.ADDRESS = NewEmployee.Employee.ADDRESS1.ADDRESS_ID;
+                                var address = new ADDRESS();
+                                CopyAddress(ref address, NewEmployee.Employee.ADDRESS1);
+                                connection.ADDRESS.Add(address);
+                                var staff = new STAFF();
+                                CopyStaff(ref staff, NewEmployee.Employee);
+                                connection.STAFF.Add(staff);
+                                connection.SaveChanges();
+                                dbContextTransaction.Commit();
+                                NewEmployeeEditing = false;
+                                NewEmployee = InitializeNewEmployee();
+                                await
+                                    metroWindow.ShowMessageAsync("Вітання",
+                                        "Зміни внесено! Дані про працівника оновлено");
+                                
+                            }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                                await metroWindow.ShowMessageAsync("Невдача",
+                                    "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                NewEmployeeEditing = true;
+                EmployeeList.Insert(0,NewEmployee);
+                SelectedEmployee = NewEmployee;
+                EmployeeList = _EmployeeList;
+            }
         }
 
         private async void SaveEmployeeChangesFunc(object obj)
@@ -2266,11 +2334,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 EmployeeSalaryPersentage = (double)SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE;
             }
         }
-
-
-
         private void CopyAddress(ref ADDRESS one, ADDRESS two)
         {
+            one.ADDRESS_ID = two.ADDRESS_ID;
             one.COUNTRY = two.COUNTRY;
             one.CITY = two.CITY;
             one.REGION = two.REGION;
@@ -2279,6 +2345,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         }
         private void CopyStaff(ref STAFF one, STAFF two)
         {
+            one.STAFF_ID = two.STAFF_ID;
             one.STAFF_NAME = two.STAFF_NAME;
             one.STAFF_SURNAME = two.STAFF_SURNAME;
             one.BIRTH_DATE = two.BIRTH_DATE;
@@ -2286,6 +2353,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             one.LOGIN = two.LOGIN;
             one.PASSWORD = two.PASSWORD;
             one.POST_ID = two.POST_ID;
+            one.ADDRESS = two.ADDRESS;
+            one.POST_ID = two.POST_ID;
+            one.FULL_SALARY_PERSENTAGE = two.FULL_SALARY_PERSENTAGE;
+            one.THEME = two.THEME;
         }
     }
 }

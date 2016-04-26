@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Height="50" Width="50"
-                   Source="{Binding Path=Employee.POST_ID,Converter={StaticResource Converter}}" VerticalAlignment="Center" />
+                   Source="{Binding Path=Post,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource Converter}}" VerticalAlignment="Center" />
             <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -48,7 +48,7 @@
                 </Grid>
             </StackPanel>
             <TextBlock FontWeight="Bold" x:Name="post" Grid.Row="4" Grid.Column="2"
-                       Text="{Binding Path=Employee.POST.POST_NAME}" />
+                       Text="{Binding Path=Post.POST_NAME,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
     </Border>
 

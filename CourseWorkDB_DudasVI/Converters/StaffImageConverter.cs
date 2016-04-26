@@ -10,24 +10,28 @@ namespace CourseWorkDB_DudasVI.Converters
         {
             var base_url = "pack://application:,,,/Resources/images/";
             var image = "test.png";
-            var val = (int) value;
-            switch (val)
+            var post = (POST) value;
+            if (post != null)
             {
-                case 1:
+                var val = (int)post.POST_ID;
+                switch (val)
                 {
-                    image = "director.png";
+                    case 1:
+                        {
+                            image = "director.png";
+                        }
+                        break;
+                    case 2:
+                        {
+                            image = "saler.png";
+                        }
+                        break;
+                    case 3:
+                        {
+                            image = "specialist.png";
+                        }
+                        break;
                 }
-                    break;
-                case 2:
-                {
-                    image = "saler.png";
-                }
-                    break;
-                case 3:
-                {
-                    image = "specialist.png";
-                }
-                    break;
             }
             return base_url + image;
         }
