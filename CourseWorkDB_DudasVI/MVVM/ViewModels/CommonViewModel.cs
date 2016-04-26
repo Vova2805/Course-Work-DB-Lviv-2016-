@@ -1669,26 +1669,29 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    using (var dbContextTransaction = Session.FactoryEntities.Database.BeginTransaction())
+                    using (var connection = new SWEET_FACTORYEntities())
                     {
-                        try
+                        using (var dbContextTransaction = connection.Database.BeginTransaction())
                         {
-                            var selected = Session.FactoryEntities.PRODUCT_PRICE;
-                            SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
-                            SelectedProductPrice.PRICE_ID =
-                                Session.FactoryEntities.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
-                            SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
-                            selected.Add(SelectedProductPrice);
-                            Session.FactoryEntities.SaveChanges();
-                            dbContextTransaction.Commit();
-                            await metroWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
-                            UpdateDb();
-                        }
-                        catch (Exception e)
-                        {
-                            dbContextTransaction.Rollback();
-                            await metroWindow.ShowMessageAsync("Невдача",
-                                    "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            try
+                            {
+                                var selected = connection.PRODUCT_PRICE;
+                                SelectedProductPrice.CHANGED_DATE = API.getTodayDate();
+                                SelectedProductPrice.PRICE_ID =
+                                    connection.PRODUCT_PRICE.ToList().Max(price => price.PRICE_ID) + 1;
+                                SelectedProductPrice.STAFF_ID = Session.User.STAFF_ID;
+                                selected.Add(SelectedProductPrice);
+                                connection.SaveChanges();
+                                dbContextTransaction.Commit();
+                                await metroWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
+                                UpdateDb();
+                            }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                                await metroWindow.ShowMessageAsync("Невдача",
+                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
                         }
                     }
                 }
@@ -2058,20 +2061,20 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             var metroWindow = window as MetroWindow;
             if (metroWindow != null)
             {
-                    using (var dbContextTransaction = Session.FactoryEntities.Database.BeginTransaction())
+                using (var connection = new SWEET_FACTORYEntities())
+                {
+                    using (var dbContextTransaction = connection.Database.BeginTransaction())
                     {
                         try
                         {
-                            // SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE = (decimal)_employeeSalaryPersentage;
-
                             var selectedEmployee =
-                                Session.FactoryEntities.STAFF.Where(
+                                connection.STAFF.Where(
                                     s => s.STAFF_ID == SelectedEmployee.Employee.STAFF_ID).FirstOrDefault();
                             if (selectedEmployee != null)
                             {
                                 SelectedEmployee.FullSalary = (decimal)EmployeeSalaryPersentage;
                                 selectedEmployee.FULL_SALARY_PERSENTAGE = (decimal)EmployeeSalaryPersentage;
-                                Session.FactoryEntities.SaveChanges();
+                                connection.SaveChanges();
                                 dbContextTransaction.Commit();
                                 await metroWindow.ShowMessageAsync("Вітання", "Зміни внесено! Зарплату змінено.");
                             }
@@ -2089,6 +2092,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                     "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
                         }
                     }
+                }
+               
             }
         }
         private void CancelSalaryChangesFunc(object obj)

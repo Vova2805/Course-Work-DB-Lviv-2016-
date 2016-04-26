@@ -43,6 +43,7 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void LogoutClick(object sender, RoutedEventArgs e)
         {
+            Session.FactoryEntities = new SWEET_FACTORYEntities();
             var Home = new Authorization();
             Home.Show();
             Session.User = null;

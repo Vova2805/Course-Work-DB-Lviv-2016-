@@ -15,7 +15,7 @@
         }
 
         public static STAFF User { get; set; }
-        public static SWEET_FACTORYEntities FactoryEntities { get; private set; }
+        public static SWEET_FACTORYEntities FactoryEntities { get; set; }
         public static UserType userType { get; set; }
     }
 }
