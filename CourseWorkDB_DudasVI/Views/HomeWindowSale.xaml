@@ -130,12 +130,6 @@
             <Controls:Flyout Header="Налаштування профілю" Position="Right" Name="AdminFlyout" Theme="Accent">
                 <UserControls:SettingView />
             </Controls:Flyout>
-            <Controls:Flyout Header="Фільтр" Position="Right" Name="UserFilterFlyout" Theme="Accent">
-                <UserControls:UserFilter />
-            </Controls:Flyout>
-            <Controls:Flyout Header="Фільтр" Position="Right" Name="CustomerFilterFlyout" Theme="Accent">
-                <UserControls:CustomerFilter />
-            </Controls:Flyout>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 

@@ -135,12 +135,6 @@
             <Controls:Flyout Header="Налаштування профілю" Position="Right" Name="AdminFlyout" Theme="Accent">
                 <UserControls:SettingView />
             </Controls:Flyout>
-            <Controls:Flyout Header="Фільтр руху коштів" Position="Right" Name="CostFilterFlyout" Theme="Accent">
-                <UserControls:CostFilter />
-            </Controls:Flyout>
-            <Controls:Flyout Header="Фільтр руху товарів" Position="Right" Name="GoodsFilterFlyout" Theme="Accent">
-                <UserControls:CostFilter />
-            </Controls:Flyout>
 
             <Controls:Flyout Header="Фільтрувати продукти" Position="Right" Name="SpecialistProductFilter"
                              Theme="Accent">

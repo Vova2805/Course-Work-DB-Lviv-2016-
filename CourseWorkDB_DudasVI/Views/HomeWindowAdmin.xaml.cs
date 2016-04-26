@@ -36,9 +36,15 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void addHotKey()
         {
-            //var firstSettings = new RoutedCommand();
-            //firstSettings.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Alt));
-            //CommandBindings.Add(new CommandBinding(firstSettings, EditOrdersOpen));
+            var firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(firstSettings, OpenFilter));
+            firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.F, ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(firstSettings, OpenFilter));
+            firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.Tab, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(firstSettings, NextTab));
         }
 
         private void LogoutClick(object sender, RoutedEventArgs e)
@@ -59,25 +65,9 @@ namespace CourseWorkDB_DudasVI.Views
             isopenFlyout = !isopenFlyout;
             AdminFlyout.IsOpen = isopenFlyout;
         }
-
-        private void UserFilter(object sender, RoutedEventArgs e)
-        {
-            UserFilterFlyout.IsOpen = true;
-        }
-
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UserFilterFlyout.IsOpen = false;
-        }
-
-        private void CustomerFilter(object sender, RoutedEventArgs e)
-        {
-            CustomerFilterFlyout.IsOpen = true;
-        }
-
-        private void CostFilterOpen(object sender, RoutedEventArgs e)
-        {
-            CostFilterFlyout.IsOpen = true;
+            
         }
 
         private void OnCheckAll(object sender, RoutedEventArgs e)
@@ -96,6 +86,13 @@ namespace CourseWorkDB_DudasVI.Views
                     package.isChecked = true;
                 }
             }
+        }
+
+        private void NextTab(object sender, RoutedEventArgs e)
+        {
+            int tabIndex = AdminTabControl.SelectedIndex;
+            if (tabIndex == 5) AdminTabControl.SelectedIndex = 0;
+            else AdminTabControl.SelectedIndex += 1;
         }
 
         private void OnUncheckAll(object sender, RoutedEventArgs e)
@@ -118,16 +115,6 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void RefreshDiagram(object sender, RoutedEventArgs e)
         {
-        }
-
-        private void ProductFilterClick(object sender, RoutedEventArgs e)
-        {
-            FilterProductFlow.IsOpen = !FilterProductFlow.IsOpen;
-        }
-
-        private void EditOrdersOpen(object sender, RoutedEventArgs e)
-        {
-            DirectorEditOrders.IsOpen = !DirectorEditOrders.IsOpen;
         }
 
         public void addColumns()
@@ -173,6 +160,30 @@ namespace CourseWorkDB_DudasVI.Views
             {
                 model.ChangeEmployeeSalaryValue = true;
                 model.ChangeEmployeeSalaryPersentage = true;
+            }
+        }
+
+        private void OpenFilter(object sender, RoutedEventArgs e)
+        {
+            if (AdminTabControl.SelectedIndex == 1)
+            {
+                
+            }
+            if (AdminTabControl.SelectedIndex == 2)
+            {
+                
+            }
+            if (AdminTabControl.SelectedIndex == 3)
+            {
+                InOutComeFilterName.IsOpen = !InOutComeFilterName.IsOpen;
+            }
+            if (AdminTabControl.SelectedIndex == 4)
+            {
+                DirectorEditOrders.IsOpen = !DirectorEditOrders.IsOpen;
+            }
+            if (AdminTabControl.SelectedIndex == 5)
+            {
+                
             }
         }
     }

@@ -326,14 +326,17 @@
     <Compile Include="Views\UserControls\CustomElements\CustomTextBox.xaml.cs">
       <DependentUpon>CustomTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Filters\Director\OrdersFilter.xaml.cs">
+      <DependentUpon>OrdersFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\Director\InOutComeFlowFilter.xaml.cs">
+      <DependentUpon>InOutComeFlowFilter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Filters\Director\EditOrFilterProducts.xaml.cs">
       <DependentUpon>EditOrFilterProducts.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Filters\GoodsFilter.xaml.cs">
       <DependentUpon>GoodsFilter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Filters\CostFilter.xaml.cs">
-      <DependentUpon>CostFilter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Filters\Specialist\EditOrder.xaml.cs">
       <DependentUpon>EditOrder.xaml</DependentUpon>
@@ -364,12 +367,6 @@
     </Compile>
     <Compile Include="Views\UserControls\Basic\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Filters\CustomerFilter.xaml.cs">
-      <DependentUpon>CustomerFilter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Filters\UserFilter.xaml.cs">
-      <DependentUpon>UserFilter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\ListItem\CustomerListElement.xaml.cs">
       <DependentUpon>CustomerListElement.xaml</DependentUpon>
@@ -490,15 +487,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\Filters\Director\OrdersFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Filters\Director\InOutComeFlowFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\Filters\Director\EditOrFilterProducts.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Filters\GoodsFilter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControls\Filters\CostFilter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -539,14 +540,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Basic\SettingView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Filters\CustomerFilter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControls\Filters\UserFilter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

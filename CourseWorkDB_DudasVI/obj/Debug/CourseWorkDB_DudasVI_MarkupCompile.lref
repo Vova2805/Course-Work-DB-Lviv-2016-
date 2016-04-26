@@ -18,7 +18,6 @@ FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github p
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\CustomElements\CustomTextBox.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\EditOrFilterProducts.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\GoodsFilter.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\CostFilter.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Specialist\EditOrder.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\ClientOrderListItem.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\OrderListItem.xaml;;
@@ -29,9 +28,9 @@ FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github p
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\ProductionScheduleListItem.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\ScheduleListItem.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\SettingView.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\CustomerFilter.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\UserFilter.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\CustomerListElement.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\UserListElement.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\UserView.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\OrdersFilter.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\InOutComeFlowFilter.xaml;;
 

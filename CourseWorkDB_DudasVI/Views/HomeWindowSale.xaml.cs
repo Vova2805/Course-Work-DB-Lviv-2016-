@@ -30,18 +30,13 @@ namespace CourseWorkDB_DudasVI.Views
             AdminFlyout.IsOpen = !AdminFlyout.IsOpen;
         }
 
-        private void UserFilter(object sender, RoutedEventArgs e)
-        {
-            UserFilterFlyout.IsOpen = !UserFilterFlyout.IsOpen;
-        }
-
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
         }
 
         private void CustomerFilter(object sender, RoutedEventArgs e)
         {
-            CustomerFilterFlyout.IsOpen = !CustomerFilterFlyout.IsOpen;
+          
         }
 
         private void LogoutClick(object sender, RoutedEventArgs e)
