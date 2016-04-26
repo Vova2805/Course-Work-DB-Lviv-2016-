@@ -37,12 +37,12 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             var model = DataContext as CommonViewModel;
             if (model != null)
             {
-                var employee = obj as STAFF;
-                if (employee.STAFF_NAME.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
+                var employee = obj as CommonViewModel.EmployeeListItem;
+                if (employee.Employee.STAFF_NAME.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
                     ||
-                    employee.STAFF_SURNAME.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
+                    employee.Employee.STAFF_SURNAME.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
                     ||
-                    employee.EMAIL.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase))
+                    employee.Employee.EMAIL.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }

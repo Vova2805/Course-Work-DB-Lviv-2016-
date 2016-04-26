@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"
              mc:Ignorable="d"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters">
+             xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
+             xmlns:rules="clr-namespace:CourseWorkDB_DudasVI.Views.Rules">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,6 +18,24 @@
     <ScrollViewer VerticalScrollBarVisibility="Visible">
         <ScrollViewer.Resources>
             <converters:ResultsVisibilityConverter x:Key="VisibilityConverter" />
+            <converters:BooleanOrConverter x:Key="BooleanOrConverter"/>
+            <ControlTemplate x:Key="errorTemplateStyle">
+                <Grid>
+                    <Border BorderBrush="#FFCB2E2E" BorderThickness="1" Background="#11FF0000" IsHitTestVisible="False" x:Name="errorBorder"/>
+                    <AdornedElementPlaceholder x:Name="placeholder" />
+                    <Popup AllowsTransparency="True" HorizontalAlignment="Right" HorizontalOffset="0" VerticalOffset="0" PopupAnimation="Fade" Placement="Right" 
+                                   PlacementTarget="{Binding ElementName=errorBorder}" IsOpen="{Binding ElementName=placeholder, Path=AdornedElement.IsFocused, Mode=OneWay}">
+                        <StackPanel Orientation="Horizontal">
+                            <Polygon  VerticalAlignment="Center" Points="0,4 4,0 4,8" Fill="#FFCB2E2E" Stretch="Fill" Stroke="#FFCB2E2E"
+                                      StrokeThickness="2" />
+                            <Border Background="#FFCB2E2E" CornerRadius="4" Padding="4">
+                                <TextBlock HorizontalAlignment="Center" Foreground="White" FontWeight="Bold" Margin="2,0,0,0"
+                                                   Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent, Mode=OneWay}" />
+                            </Border>
+                        </StackPanel>
+                    </Popup>
+                </Grid>
+            </ControlTemplate>
         </ScrollViewer.Resources>
         <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <StackPanel.Resources>
@@ -65,55 +84,77 @@
                                 <RowDefinition Height="31*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="120" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Ім'я" />
-                            <TextBox x:Name="txtName" Grid.Row="1" Grid.Column="1" Margin="5,5,5,0"
-                                     Validation.ErrorTemplate="{x:Null}"
-                                     Text="{Binding Path=STAFF_NAME}" />
-                            <ContentPresenter Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="150"
-                                              Content="{Binding ElementName=txtName,Path=(Validation.Errors).CurrentItem}" />
+                            <TextBox ToolTip="Введіть ім'я" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Grid.Row="1" Grid.Column="1" Margin="5,5,5,0" >
+                                <TextBox.Text>
+                                    <Binding Path="SelectedEmployee.Employee.STAFF_NAME" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                        <Binding.ValidationRules>
+                                            <rules:EmptyRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
 
                             <!--Username of the user-->
                             <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="Прізвище" />
-                            <TextBox x:Name="txtUsername" Grid.Row="2" Grid.Column="1" Margin="5,5,5,0"
-                                     Validation.ErrorTemplate="{x:Null}"
-                                     Text="{Binding Path=STAFF_SURNAME}" />
-                            <ContentPresenter Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Width="150"
-                                              Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />
-                            <!--Username of the user-->
+                            <TextBox  Grid.Row="2" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" >
+                                <TextBox.Text>
+                                    <Binding Path="SelectedEmployee.Employee.STAFF_SURNAME" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                        <Binding.ValidationRules>
+                                            <rules:EmptyRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                             <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Логін" />
-                            <TextBox x:Name="asdas" Grid.Row="5" Grid.Column="1" Margin="5,5,5,0"
-                                     Validation.ErrorTemplate="{x:Null}"
-                                     Text="{Binding Path=LOGIN}" />
-                            <ContentPresenter Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="150"
-                                              Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />
-                            <!--Username of the user-->
+                            <TextBox Grid.Row="5" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
+                                <TextBox.Text>
+                                    <Binding Path="SelectedEmployee.Employee.LOGIN" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                        <Binding.ValidationRules>
+                                            <rules:EmptyRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                             <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Пароль" />
-                            <TextBox x:Name="ds" Grid.Row="6" Grid.Column="1" Margin="5,5,5,0"
-                                     Validation.ErrorTemplate="{x:Null}"
-                                     Text="{Binding Path=PASSWORD}" />
-                            <ContentPresenter Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Width="150"
-                                              Content="{Binding ElementName=txtUsername,Path=(Validation.Errors).CurrentItem}" />
+                            <TextBox Grid.Row="6" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
+                                <TextBox.Text>
+                                    <Binding Path="SelectedEmployee.Employee.PASSWORD" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                        <Binding.ValidationRules>
+                                            <rules:EmptyRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                             <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Посада" VerticalAlignment="Center" />
-                            <ListBox x:Name="dsdas" BorderBrush="LightGray" BorderThickness="1" Grid.Row="7"
-                                     Grid.Column="1" Margin="5" Validation.ErrorTemplate="{x:Null}"
+                            <ComboBox BorderBrush="LightGray" BorderThickness="1" Grid.Row="7"
+                                     Grid.Column="1" Margin="5" 
+                                     ItemsSource="{Binding Path=SelectedEmployee.PostsTitles}"
+                                     SelectedItem="{Binding Path=SelectedEmployee.SelectedPostTitle}"
                                      VerticalAlignment="Stretch" Height="23" />
-
                             <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="E-mail" VerticalAlignment="Center" />
-                            <TextBox x:Name="sd" Text="{Binding Path=EMAIL}" BorderThickness="1" Grid.Row="4"
-                                     Grid.Column="1" Margin="5" Validation.ErrorTemplate="{x:Null}"
-                                     VerticalAlignment="Stretch" />
+                            <TextBox BorderThickness="1" Grid.Row="4" ToolTip="Введіть email у форматі ____@___.__. Наприклад newclient@gmail.com"
+                                     Grid.Column="1" Margin="5"
+                                     VerticalAlignment="Stretch" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" >
+                            <TextBox.Text>
+                                    <Binding Path="SelectedEmployee.Employee.EMAIL" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                        <Binding.ValidationRules>
+                                            <rules:EmailRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="Дата народження"
                                        TextWrapping="Wrap" VerticalAlignment="Center" />
-                            <DatePicker x:Name="birthDate" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"
+                            <DatePicker Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"
                                         Margin="5"
                                         SelectedDate="{Binding
-                                        Path=BIRTH_DATE,
-                                        Mode=TwoWay}"
-                                        Validation.ErrorTemplate="{x:Null}" />
+                                        Path=SelectedEmployee.Employee.BIRTH_DATE,
+                                        Mode=TwoWay}" />
                             <!--SelectedDate="{Binding TransactionDate,ValidatesOnDataErrors=True}"-->
 
                             <TextBlock Grid.Row="8" Grid.Column="0" Margin="5" Text="Зарплата"
@@ -125,13 +166,11 @@
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="15" />
                                 </Grid.ColumnDefinitions>
-                                <Controls:NumericUpDown Minimum="0" Width="auto" Grid.Column="0" Interval="100"
-                                                        Value="0" BorderThickness="1" Margin="5,0,0,5"
-                                                        Validation.ErrorTemplate="{x:Null}" />
+                                <Controls:NumericUpDown Minimum="0" Width="auto" Grid.Column="0" Interval="100" ToolTip="Зарплата у валюті"
+                                                        Value="{Binding EmployeeSalaryValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Margin="5,0,0,5" PreviewMouseDown="SalaryChanged"/>
                                 <TextBlock Grid.Column="1" Text="грн" VerticalAlignment="Center" />
-                                <Controls:NumericUpDown Minimum="0" Width="auto" Grid.Column="2" Interval="1"
-                                                        Value="{Binding Path=FULL_SALARY}" BorderThickness="1"
-                                                        Margin="5,0,0,5" Validation.ErrorTemplate="{x:Null}" />
+                                <Controls:NumericUpDown Minimum="0" Width="auto" Grid.Column="2" Interval="1" ToolTip="Зарплата у відсотках від загальної для посади"
+                                                        Value="{Binding EmployeeSalaryPersentage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" PreviewMouseDown="SalaryChanged"/>
                                 <TextBlock Grid.Column="3" Text="%" VerticalAlignment="Center"
                                            HorizontalAlignment="Left" />
                             </Grid>
@@ -140,12 +179,12 @@
                     <!--#endregion-->
                     <!--#region Second expander-->
                     <Expander Header="Адреса" IsExpanded="True">
-                        <local:AddressEditableView DataContext="{Binding Path=ADDRESS1}" />
+                        <local:AddressEditableView DataContext="{Binding Path=SelectedEmployee.Employee.ADDRESS1}" />
                     </Expander>
                     <!--#endregion-->
                     <!--#region Third expander-->
                     <Expander Header="Результати роботи (замовлення)" IsExpanded="False"
-                              Visibility="{Binding Path=POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='2'}">
+                              Visibility="{Binding Path=SelectedEmployee.Employee.POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='2'}">
                         <ScrollViewer>
                             <ListBox VerticalAlignment="Stretch" Background="{DynamicResource AccentColorBrush4}"
                                      ItemsSource="{Binding SALE_ORDER}">
@@ -160,7 +199,7 @@
                     <!--#endregion-->
                     <!--#region Forth expander-->
                     <Expander Header="Результати роботи (плани виробництва)" IsExpanded="False"
-                              Visibility="{Binding Path=POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='3'}">
+                              Visibility="{Binding Path=SelectedEmployee.Employee.POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='3'}">
                         <ScrollViewer>
                             <ListBox VerticalAlignment="Stretch" Background="{DynamicResource AccentColorBrush4}"
                                      ItemsSource="{Binding PRODUCTION_SCHEDULE}">

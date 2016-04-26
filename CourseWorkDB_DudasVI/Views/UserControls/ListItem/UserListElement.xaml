@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Height="50" Width="50"
-                   Source="{Binding Path=POST_ID,Converter={StaticResource Converter}}" VerticalAlignment="Center" />
+                   Source="{Binding Path=Employee.POST_ID,Converter={StaticResource Converter}}" VerticalAlignment="Center" />
             <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -30,12 +30,12 @@
                         <ColumnDefinition Width="5" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Path=STAFF_NAME}" Grid.Column="0" />
-                    <TextBlock TextAlignment="Left" Text="{Binding Path=STAFF_SURNAME}" Grid.Column="2" />
+                    <TextBlock Text="{Binding Path=Employee.STAFF_NAME}" Grid.Column="0" />
+                    <TextBlock TextAlignment="Left" Text="{Binding Path=Employee.STAFF_SURNAME}" Grid.Column="2" />
                 </Grid>
             </StackPanel>
             <TextBlock FontWeight="Bold" x:Name="post" Grid.Row="2" Grid.Column="2"
-                       Text="{Binding Path=POST.POST_NAME}" />
+                       Text="{Binding Path=Employee.POST.POST_NAME}" />
         </Grid>
     </Border>
 

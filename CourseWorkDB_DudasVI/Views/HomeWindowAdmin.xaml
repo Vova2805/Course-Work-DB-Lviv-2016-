@@ -166,8 +166,7 @@
                     <UserControls:EmployeeCatalog x:Name="EmployeeCatalog"  Grid.Column="0" Grid.Row="0" />
 
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <UserControls:UserView Grid.Column="2" Grid.Row="0" x:Name="UserView"
-                                           DataContext="{Binding Path=SelectedEmployee}" />
+                    <UserControls:UserView Grid.Column="2" Grid.Row="0" x:Name="UserView" />
                     <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <UserControls:ChartsSet Grid.Column="4" Grid.Row="0" VerticalAlignment="Stretch"
                                             HorizontalAlignment="Stretch" Grid.RowSpan="2" />

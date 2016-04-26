@@ -180,12 +180,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             LostMoney = 0;
             Days = 7;
 
-            EmployeeList = new ObservableCollection<STAFF>();
+            EmployeeList = new ObservableCollection<EmployeeListItem>();
             foreach (
                 var employee in
                     Session.FactoryEntities.STAFF.ToList().FindAll(s => s.POST.DEPARTMENT.DEPARTMENT_ID == 3))
             {
-                EmployeeList.Add(employee);
+                EmployeeList.Add(new EmployeeListItem(employee,employee.POST));
             }
             SelectedEmployee = EmployeeList.First();
             IsSaler = Session.userType == UserType.Saler;
@@ -194,6 +194,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             newClientPattern.CLIENT_SURNAME = "Прізвище клієнта";
             newClientPattern.EMAIL = "Електронна пошта";
             NewClient = new ClientListItem(newClientPattern);
+            
         }
 
         #endregion
@@ -209,6 +210,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<ProductListElement> _productsList;
         private ObservableCollection<string> _productsTitleList;
         private PRODUCT_PRICE _selectedProductPrice;
+        private SALARY _EmployeePostSalary;
         private ObservableCollection<ProductPriceListElement> _productPriceList;
         private double _productPriceValue;
         private double _productPricePersentage;
@@ -262,6 +264,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private bool _isSaler;
         private ClientListItem _newClient;
         private bool _newClientEditing;
+        
+
 
         public void CurrentWarehouseChanged()
         {
@@ -890,6 +894,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 OnPropertyChanged("SelectedProductPrice");
             }
         }
+        
 
         public ObservableCollection<ProductListElement> ProductsList
         {
@@ -1350,7 +1355,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public ObservableCollection<STAFF> EmployeeList
+        public ObservableCollection<EmployeeListItem> EmployeeList
         {
             get { return _EmployeeList; }
             set
@@ -1360,12 +1365,23 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        public STAFF SelectedEmployee
+        public EmployeeListItem SelectedEmployee
         {
             get { return _SelectedEmployee; }
             set
             {
                 _SelectedEmployee = value;
+                if (_SelectedEmployee != null)
+                {
+                    EmployeePostSalary = API.getlastSalary(Session.FactoryEntities
+                        .SALARY.ToList().
+                        FindAll(s => s.POST_ID == _SelectedEmployee.Employee.POST_ID));
+                    
+                    ChangeEmployeeSalaryPersentage = true;
+                    ChangeEmployeeSalaryValue = false;
+                    EmployeeSalaryValue = (double)_SelectedEmployee.Employee.FULL_SALARY;
+                }
+
                 OnPropertyChanged("SelectedEmployee");
             }
         }
@@ -1738,9 +1754,137 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #region Director
 
-        private ObservableCollection<STAFF> _EmployeeList;
-        private STAFF _SelectedEmployee;
+        private ObservableCollection<EmployeeListItem> _EmployeeList;
+        private EmployeeListItem _SelectedEmployee;
 
+        public class EmployeeListItem:ViewModelBaseInside
+        {
+            private STAFF _employee;
+            private ObservableCollection<POST> _posts;
+            private POST _selectedPost;
+            private ObservableCollection<string> _postsTitles;
+            private string _selectedPostTitle;
+            public EmployeeListItem(STAFF employee, POST post1)
+            {
+                _employee = employee;
+                Posts = new ObservableCollection<POST>();
+                PostsTitles = new ObservableCollection<string>();
+                var tempPosts = Session.FactoryEntities.POST.ToList().Where(p => p.DEPARTMENT.DEPARTMENT_ID == 3).ToList();//відділ збуту
+                foreach (var post in tempPosts)
+                {
+                    Posts.Add(post);
+                    PostsTitles.Add(post.POST_NAME);
+                }
+                SelectedPost = post1;
+                if (SelectedPost != null)
+                    SelectedPostTitle = SelectedPost.POST_NAME;
+            }
+            public STAFF Employee
+            {
+                get { return _employee; }
+                set
+                {
+                    _employee = value;
+                    OnPropertyChanged("Employee");
+                }
+            }
+
+            public ObservableCollection<POST> Posts
+            {
+                get { return _posts; }
+                set
+                {
+                    _posts = value;
+                    OnPropertyChanged("Posts");
+                }
+            }
+
+            public ObservableCollection<string> PostsTitles
+            {
+                get { return _postsTitles; }
+                set { _postsTitles = value; OnPropertyChanged("PostsTitles"); }
+            }
+
+            public POST SelectedPost
+            {
+                get { return _selectedPost; }
+                set
+                {
+                    _selectedPost = value;
+                    SelectedPostTitle = _selectedPost.POST_NAME;
+                    OnPropertyChanged("SelectedPost");
+                }
+            }
+
+            public string SelectedPostTitle
+            {
+                get { return _selectedPostTitle; }
+                set
+                {
+                    _selectedPostTitle = value;
+                    if (Posts != null && !_selectedPost.POST_NAME.Equals(_selectedPostTitle))
+                        SelectedPost = Posts.ToList().Find(p => p.POST_NAME.Equals(_selectedPostTitle));
+                    OnPropertyChanged("SelectedPostTitle");
+                }
+            }
+
+        }
+
+
+
+        private double _employeeSalaryValue;
+        private double _employeeSalaryPersentage;
+        public bool ChangeEmployeeSalaryValue;
+        public bool ChangeEmployeeSalaryPersentage;
+
+
+
+        public double EmployeeSalaryValue
+        {
+            get { return _employeeSalaryValue; }
+            set
+            {
+                _employeeSalaryValue = value;
+                SelectedEmployee.Employee.FULL_SALARY = (decimal)_employeeSalaryValue;
+                if (ChangeEmployeeSalaryPersentage)
+                {
+                    ChangeEmployeeSalaryValue = false; //to avoid endless cycle
+                    if(EmployeePostSalary!=null)
+                    EmployeeSalaryPersentage = _employeeSalaryValue / (double)EmployeePostSalary.SALARY_VALUE * 100;
+                }
+                OnPropertyChanged("EmployeeSalaryValue");
+            }
+        }
+
+        public double EmployeeSalaryPersentage
+        {
+            get { return _employeeSalaryPersentage; }
+            set
+            {
+                _employeeSalaryPersentage = value;
+                
+                if (ChangeEmployeeSalaryValue)
+                {
+                    ChangeEmployeeSalaryPersentage = false;
+                    EmployeeSalaryValue = (double)EmployeePostSalary.SALARY_VALUE * _employeeSalaryPersentage;
+                }
+                OnPropertyChanged("EmployeeSalaryPersentage");
+            }
+        }
+
+        public SALARY EmployeePostSalary
+        {
+            get { return _EmployeePostSalary; }
+            set
+            {
+                _EmployeePostSalary = value;
+                ChangeEmployeeSalaryValue = false;
+                ChangeEmployeeSalaryPersentage = false;
+                EmployeeSalaryValue = _employeeSalaryValue;
+                EmployeeSalaryPersentage = _employeeSalaryPersentage;
+                OnPropertyChanged("EmployeePostSalary");
+            }
+        }
         #region Second
 
         #endregion

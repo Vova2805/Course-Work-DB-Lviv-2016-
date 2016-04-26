@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using CourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.Views.UserControls
 {
@@ -13,10 +14,14 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
         {
             InitializeComponent();
         }
-
-        private void NumericUpDown_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        private void SalaryChanged(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            throw new NotImplementedException();
+            var model = DataContext as CommonViewModel;
+            if (model != null)
+            {
+                model.ChangeEmployeeSalaryValue = true;
+                model.ChangeEmployeeSalaryPersentage = true;
+            }
         }
     }
 }

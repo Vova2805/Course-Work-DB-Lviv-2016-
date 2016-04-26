@@ -34,9 +34,9 @@ namespace CourseWorkDB_DudasVI.General
                 prices.ToList().FindAll(pr => pr.CHANGED_DATE <= endPeriod && pr.CHANGED_DATE >= startPeriod).ToList();
         }
 
-        public static decimal getlastSalary(ICollection<SALARY> salaries)
+        public static SALARY getlastSalary(ICollection<SALARY> salaries)
         {
-            return salaries.OrderBy(pr => pr.CHANGED_DATE).Last().SALARY_VALUE;
+            return salaries.OrderBy(pr => pr.CHANGED_DATE).Last();
         }
 
         public static List<SALARY> getPrice(ICollection<SALARY> salaries, DateTime startPeriod, DateTime endPeriod)
