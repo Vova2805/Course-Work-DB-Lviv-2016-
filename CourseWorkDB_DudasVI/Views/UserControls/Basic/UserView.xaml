@@ -114,7 +114,7 @@
                                 <TextBox.Text>
                                     <Binding Path="SelectedEmployee.Employee.LOGIN" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
                                         <Binding.ValidationRules>
-                                            <rules:EmptyRule/>
+                                            <rules:PasswordLoginRule/>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>
@@ -124,7 +124,7 @@
                                 <TextBox.Text>
                                     <Binding Path="SelectedEmployee.Employee.PASSWORD" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
                                         <Binding.ValidationRules>
-                                            <rules:EmptyRule/>
+                                            <rules:PasswordLoginRule/>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>
@@ -155,7 +155,6 @@
                                         SelectedDate="{Binding
                                         Path=SelectedEmployee.Employee.BIRTH_DATE,
                                         Mode=TwoWay}" />
-                            <!--SelectedDate="{Binding TransactionDate,ValidatesOnDataErrors=True}"-->
 
                             <TextBlock Grid.Row="8" Grid.Column="0" Margin="5" Text="Зарплата"
                                        VerticalAlignment="Center" />

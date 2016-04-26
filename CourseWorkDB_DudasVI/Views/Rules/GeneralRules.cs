@@ -58,4 +58,13 @@ namespace CourseWorkDB_DudasVI.Views.Rules
                 "Електронна пошта має не правильний формат");
         }
     }
+    public class PasswordLoginRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            var content = (string)value;
+            return new ValidationResult(content.Length>=5,
+                "Мінімальний обсяг символів - 5");
+        }
+    }
 }
