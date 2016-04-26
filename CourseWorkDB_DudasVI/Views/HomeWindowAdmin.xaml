@@ -383,7 +383,7 @@
                                     <!--#endregion-->
                                     <!--#region Second expander-->
                                     <Expander Header="Адреса" IsExpanded="True">
-                                        <Grid  VerticalAlignment="Stretch" DataContext="{Binding Path=SelectedEmployee.Employee.ADDRESS1}">
+                                        <Grid  VerticalAlignment="Stretch">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="3*" />
                                                 <RowDefinition Height="1*" />
@@ -403,7 +403,7 @@
                                             <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Країна" />
                                             <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Country">
                                                 <TextBox.Text>
-                                                    <Binding Path="COUNTRY" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                    <Binding Path="SelectedEmployee.Employee.ADDRESS1.COUNTRY" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
                                                         <Binding.ValidationRules>
                                                             <rules:EmptyRule/>
                                                         </Binding.ValidationRules>
@@ -414,7 +414,7 @@
                                             <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="Регіон" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Region"/>
                                             <TextBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,0" >
                                                 <TextBox.Text>
-                                                    <Binding Path="REGION" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                    <Binding Path="SelectedEmployee.Employee.ADDRESS1.REGION" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
                                                         <Binding.ValidationRules>
                                                             <rules:EmptyRule/>
                                                         </Binding.ValidationRules>
@@ -425,7 +425,7 @@
                                             <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Місто" />
                                             <TextBox x:Name="City" Grid.Row="5" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
                                                 <TextBox.Text>
-                                                    <Binding Path="CITY" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                    <Binding Path="SelectedEmployee.Employee.ADDRESS1.CITY" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
                                                         <Binding.ValidationRules>
                                                             <rules:EmptyRule/>
                                                         </Binding.ValidationRules>
@@ -436,7 +436,7 @@
                                             <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Вулиця" />
                                             <TextBox Grid.Row="6" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Street">
                                                 <TextBox.Text>
-                                                    <Binding Path="STREET" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                    <Binding Path="SelectedEmployee.Employee.ADDRESS1.STREET" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
                                                         <Binding.ValidationRules>
                                                             <rules:EmptyRule/>
                                                         </Binding.ValidationRules>
@@ -448,7 +448,7 @@
                                             <TextBox  BorderThickness="1" Grid.Row="7"
                                                 Grid.Column="1" Margin="5" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}"  VerticalAlignment="Stretch" Name="BN">
                                                 <TextBox.Text>
-                                                    <Binding Path="BUILDING_NUMBER" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                    <Binding Path="SelectedEmployee.Employee.ADDRESS1.BUILDING_NUMBER" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
                                                         <Binding.ValidationRules>
                                                             <rules:EmptyRule/>
                                                             <rules:NumberRule/>
@@ -612,7 +612,7 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
-                            <Button Width="50" 
+                            <Button Width="50" Command="{Binding CancelEmployeeChanges}"
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Скасувати зміни" Background="{DynamicResource ProgressBrush}"

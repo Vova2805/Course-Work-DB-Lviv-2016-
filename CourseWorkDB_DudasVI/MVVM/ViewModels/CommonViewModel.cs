@@ -1781,7 +1781,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public class EmployeeListItem:ViewModelBaseInside
         {
-            private STAFF _employee;
+            public STAFF _employee;
             private POST _post;
             private decimal _fullSalary;
             private decimal _MoneySalary;
@@ -2055,6 +2055,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return new RelayCommand<object>(SaveEmployeeChangesFunc); }
         }
 
+        public ICommand CancelEmployeeChanges
+        {
+            get { return new RelayCommand<object>(CancelEmployeeChangesFunc); }
+        }
+
         public ICommand SaveSalary
         {
             get { return new RelayCommand<object>(SaveSalaryFunc); }
@@ -2120,25 +2125,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                         s => s.STAFF_ID == SelectedEmployee.Employee.STAFF_ID).FirstOrDefault();
                                 if (selectedEmployee != null && selectedEmployeeAddress != null)
                                 {
-                                    selectedEmployeeAddress.COUNTRY = SelectedEmployee.Employee.ADDRESS1.COUNTRY;
-                                    selectedEmployeeAddress.CITY = SelectedEmployee.Employee.ADDRESS1.CITY;
-                                    selectedEmployeeAddress.REGION = SelectedEmployee.Employee.ADDRESS1.REGION;
-                                    selectedEmployeeAddress.STREET = SelectedEmployee.Employee.ADDRESS1.STREET;
-                                    selectedEmployeeAddress.BUILDING_NUMBER = SelectedEmployee.Employee.ADDRESS1.BUILDING_NUMBER;
-
+                                    CopyAddress(ref selectedEmployeeAddress, SelectedEmployee.Employee.ADDRESS1);
                                     SelectedEmployee.FullSalary = (decimal)EmployeeSalaryPersentage;
                                     SelectedEmployee.Post = SelectedPost;
+
                                     selectedEmployee.FULL_SALARY_PERSENTAGE = (decimal)EmployeeSalaryPersentage;
-
-                                    selectedEmployee.STAFF_NAME = SelectedEmployee.Employee.STAFF_NAME;
-                                    selectedEmployee.STAFF_SURNAME = SelectedEmployee.Employee.STAFF_SURNAME;
-                                    selectedEmployee.BIRTH_DATE = SelectedEmployee.Employee.BIRTH_DATE;
-                                    selectedEmployee.EMAIL = SelectedEmployee.Employee.EMAIL;
-                                    selectedEmployee.LOGIN = SelectedEmployee.Employee.LOGIN;
-                                    selectedEmployee.PASSWORD = SelectedEmployee.Employee.PASSWORD;
-                                    selectedEmployee.POST_ID = SelectedEmployee.Employee.POST_ID;
-
-
+                                    CopyStaff(ref selectedEmployee, SelectedEmployee.Employee);
                                     connection.SaveChanges();
                                     dbContextTransaction.Commit();
                                     await metroWindow.ShowMessageAsync("Вітання", "Зміни внесено! Дані про працівника оновлено");
@@ -2160,6 +2152,30 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     }
                 }
             }
+        }
+
+        private void CancelEmployeeChangesFunc(object obj)
+        {
+            CancelSalaryChangesFunc(obj);
+            using (var conection = new SWEET_FACTORYEntities())
+            {
+                var selectedEmp =
+                    conection.STAFF.Where(e => e.STAFF_ID == SelectedEmployee.Employee.STAFF_ID).FirstOrDefault();
+                if (selectedEmp != null)
+                {
+                    SelectedEmployee.Employee.ADDRESS1.COUNTRY = selectedEmp.ADDRESS1.COUNTRY;
+                    SelectedEmployee.Employee.ADDRESS1.CITY = selectedEmp.ADDRESS1.CITY;
+                    SelectedEmployee.Employee.ADDRESS1.REGION = selectedEmp.ADDRESS1.REGION;
+                    SelectedEmployee.Employee.ADDRESS1.STREET = selectedEmp.ADDRESS1.STREET;
+                    SelectedEmployee.Employee.ADDRESS1.BUILDING_NUMBER = selectedEmp.ADDRESS1.BUILDING_NUMBER;
+                    CopyStaff(ref SelectedEmployee._employee, selectedEmp);
+                    SelectedEmployee.Post = selectedEmp.POST;
+                    SelectedEmployee = SelectedEmployee;
+                    SelectedEmployee.Employee = SelectedEmployee.Employee;
+                    SelectedEmployee.Employee.ADDRESS1 = SelectedEmployee.Employee.ADDRESS1;
+                }
+            }
+            
         }
 
         private async void SaveSalaryFunc(object obj)
@@ -2203,11 +2219,35 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                
             }
         }
+
         private void CancelSalaryChangesFunc(object obj)
         {
-            ChangeEmployeeSalaryValue = true;
-            EmployeeSalaryPersentage = (double)SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE;        
+            if (SelectedEmployee != null)
+            {
+                ChangeEmployeeSalaryValue = true;
+                EmployeeSalaryPersentage = (double)SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE;
+            }
         }
 
+
+
+        private void CopyAddress(ref ADDRESS one, ADDRESS two)
+        {
+            one.COUNTRY = two.COUNTRY;
+            one.CITY = two.CITY;
+            one.REGION = two.REGION;
+            one.STREET = two.STREET;
+            one.BUILDING_NUMBER = two.BUILDING_NUMBER;
+        }
+        private void CopyStaff(ref STAFF one, STAFF two)
+        {
+            one.STAFF_NAME = two.STAFF_NAME;
+            one.STAFF_SURNAME = two.STAFF_SURNAME;
+            one.BIRTH_DATE = two.BIRTH_DATE;
+            one.EMAIL = two.EMAIL;
+            one.LOGIN = two.LOGIN;
+            one.PASSWORD = two.PASSWORD;
+            one.POST_ID = two.POST_ID;
+        }
     }
 }
