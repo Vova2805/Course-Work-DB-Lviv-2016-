@@ -349,10 +349,11 @@
                                                     </Rectangle>
                                                 </Button >
                                                 <Button Width="30" Grid.Column="5" Margin="3" Command="{Binding CancelSalaryChanges}"
-                                    Height="30"
-                                    VerticalAlignment="Center"
-                                    ToolTip="Скасувати зміни щодо зарплати" Background="{DynamicResource ProgressBrush}"
-                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                                        Height="30"
+                                                        VerticalAlignment="Center"
+                                                        ToolTip="Скасувати зміни щодо зарплати"
+                                                        Background="{DynamicResource ProgressBrush}"
+                                                        Style="{DynamicResource MetroCircleButtonStyle}">
                                                     <Rectangle Width="15" Height="15">
                                                         <Rectangle.Style>
                                                             <Style TargetType="{x:Type Rectangle}">
@@ -611,10 +612,10 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
-                            <Button Width="50" Command="{Binding RemoveEmployee}"
+                            <Button Width="50" 
                                     Height="50"
                                     VerticalAlignment="Top"
-                                    ToolTip="Видалити працівника" Background="{DynamicResource ProgressBrush}"
+                                    ToolTip="Скасувати зміни" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20" Height="20">
                                     <Rectangle.Style>
@@ -622,7 +623,7 @@
                                             <Setter Property="Fill">
                                                 <Setter.Value>
                                                     <VisualBrush Stretch="Fill"
-                                                                 Visual="{StaticResource appbar_user_delete}" />
+                                                                 Visual="{StaticResource appbar_cancel}" />
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
@@ -630,7 +631,7 @@
                                                     <Setter Property="Fill">
                                                         <Setter.Value>
                                                             <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                         Visual="{StaticResource appbar_user_delete_white}" />
+                                                                         Visual="{StaticResource appbar_cancel_white}" />
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>

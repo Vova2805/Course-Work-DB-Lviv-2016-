@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Core.Objects.DataClasses;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -1820,6 +1821,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 set
                 {
                     _post = value;
+                    Employee.POST_ID = _post.POST_ID;
                     OnPropertyChanged("Post");
                 }
             }
@@ -2048,11 +2050,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return new RelayCommand<object>(AddEmployee); }
         }
 
-        public ICommand RemoveEmployee
-        {
-            get { return new RelayCommand<object>(DelEmployee); }
-        }
-
         public ICommand SaveEmployeeChanges
         {
             get { return new RelayCommand<object>(SaveEmployeeChangesFunc); }
@@ -2099,14 +2096,70 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             //    Clients = _clients;
             //}
         }
-        private void DelEmployee(object obj)
-        {
-            
-        }
 
-        private void SaveEmployeeChangesFunc(object obj)
+        private async void SaveEmployeeChangesFunc(object obj)
         {
-            
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var metroWindow = window as MetroWindow;
+            if (metroWindow != null)
+            {
+                var result = await metroWindow.ShowMessageAsync("Попередження", "Старі дані про працівника будуть втрачені. Бажаєте продовжити?", MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    using (var connection = new SWEET_FACTORYEntities())
+                    {
+                        using (var dbContextTransaction = connection.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                var selectedEmployeeAddress =
+                                    connection.ADDRESS.Where(a => a.ADDRESS_ID == SelectedEmployee.Employee.ADDRESS)
+                                        .FirstOrDefault();
+                                var selectedEmployee =
+                                    connection.STAFF.Where(
+                                        s => s.STAFF_ID == SelectedEmployee.Employee.STAFF_ID).FirstOrDefault();
+                                if (selectedEmployee != null && selectedEmployeeAddress != null)
+                                {
+                                    selectedEmployeeAddress.COUNTRY = SelectedEmployee.Employee.ADDRESS1.COUNTRY;
+                                    selectedEmployeeAddress.CITY = SelectedEmployee.Employee.ADDRESS1.CITY;
+                                    selectedEmployeeAddress.REGION = SelectedEmployee.Employee.ADDRESS1.REGION;
+                                    selectedEmployeeAddress.STREET = SelectedEmployee.Employee.ADDRESS1.STREET;
+                                    selectedEmployeeAddress.BUILDING_NUMBER = SelectedEmployee.Employee.ADDRESS1.BUILDING_NUMBER;
+
+                                    SelectedEmployee.FullSalary = (decimal)EmployeeSalaryPersentage;
+                                    SelectedEmployee.Post = SelectedPost;
+                                    selectedEmployee.FULL_SALARY_PERSENTAGE = (decimal)EmployeeSalaryPersentage;
+
+                                    selectedEmployee.STAFF_NAME = SelectedEmployee.Employee.STAFF_NAME;
+                                    selectedEmployee.STAFF_SURNAME = SelectedEmployee.Employee.STAFF_SURNAME;
+                                    selectedEmployee.BIRTH_DATE = SelectedEmployee.Employee.BIRTH_DATE;
+                                    selectedEmployee.EMAIL = SelectedEmployee.Employee.EMAIL;
+                                    selectedEmployee.LOGIN = SelectedEmployee.Employee.LOGIN;
+                                    selectedEmployee.PASSWORD = SelectedEmployee.Employee.PASSWORD;
+                                    selectedEmployee.POST_ID = SelectedEmployee.Employee.POST_ID;
+
+
+                                    connection.SaveChanges();
+                                    dbContextTransaction.Commit();
+                                    await metroWindow.ShowMessageAsync("Вітання", "Зміни внесено! Дані про працівника оновлено");
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+                                    await metroWindow.ShowMessageAsync("Невдача",
+                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                                await metroWindow.ShowMessageAsync("Невдача",
+                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private async void SaveSalaryFunc(object obj)
@@ -2155,5 +2208,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             ChangeEmployeeSalaryValue = true;
             EmployeeSalaryPersentage = (double)SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE;        
         }
+
     }
 }

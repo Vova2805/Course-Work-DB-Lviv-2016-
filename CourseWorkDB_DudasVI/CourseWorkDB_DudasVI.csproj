@@ -168,6 +168,7 @@
     <Compile Include="General\API.cs" />
     <Compile Include="General\RelayCommand.cs" />
     <Compile Include="General\Session.cs" />
+    <Compile Include="General\ExstensionMethod.cs" />
     <Compile Include="INGREDIENTS.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
