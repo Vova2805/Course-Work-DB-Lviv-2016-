@@ -213,7 +213,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 SelectedPost = Posts.First();
                 SelectedPostTitle = PostsTitles.First();
             }
-            VisibilityDuringAddingNew = true;
         }
 
         private EmployeeListItem  InitializeNewEmployee()
@@ -575,15 +574,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (SelectedClient != null)
                 {
                     SelectedClientTitle = _selectedClient.GeneralInfo;
-                    if (_selectedClient.Equals(NewClient))
-                    {
-                        if (NewClientEditing)
-                        {
-                            VisibilityDuringAddingNew = false;
-                        }
-                        else VisibilityDuringAddingNew = true;
-                    }
-                    else VisibilityDuringAddingNew = true;
                 }
                 else
                 {
@@ -591,7 +581,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         _selectedClient =
                             Clients.ToList().FindAll(c => c.GeneralInfo.Equals(SelectedClientTitle)).FirstOrDefault();
                 }
-                
+                if(_selectedClient!=null)
+                if (_selectedClient.Equals(NewClient))
+                {
+                    if (NewClientEditing)
+                    {
+                        VisibilityDuringAddingNew = false;
+                    }
+                    else VisibilityDuringAddingNew = true;
+                }
+                else VisibilityDuringAddingNew = true;
                 OnPropertyChanged("SelectedClient");
             }
         }
@@ -1492,15 +1491,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     ChangeEmployeeSalaryValue = true;
                     EmployeeSalaryPersentage = (double)_SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE;
                     SelectedEmployee.InitializeLists();
-                    if (_SelectedEmployee.Equals(NewEmployee))
-                    {
-                        if (NewEmployeeEditing)
+                    if (_SelectedEmployee != null)
+                        if (_SelectedEmployee.Equals(NewClient))
                         {
-                            VisibilityDuringAddingNew = false;
+                            if (NewEmployeeEditing)
+                            {
+                                VisibilityDuringAddingNew = false;
+                            }
+                            else VisibilityDuringAddingNew = true;
                         }
                         else VisibilityDuringAddingNew = true;
-                    }
-                    else VisibilityDuringAddingNew = true;
                 }
                 OnPropertyChanged("SelectedEmployee");
             }
@@ -2346,8 +2346,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 NewClientEditing = true;
                 Clients.Insert(0, NewClient);
-                SelectedClient = NewClient;
                 Clients = _clients;
+                SelectedClient = Clients.First();
             }
         }
 

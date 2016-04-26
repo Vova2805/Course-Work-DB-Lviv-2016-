@@ -218,9 +218,8 @@
 
                                             <!--Username of the user-->
                                             <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Назва компанії" />
-                                            <TextBox  Grid.Row="5" Grid.Column="2" Margin="5,5,5,0"
-                                     Validation.ErrorTemplate="{x:Null}" ToolTip="Введіть назву компанії (якщо наявна)"
-                                     Text="{Binding Path=Client.COMPANY_TITLE,Mode=TwoWay}" />
+                                            <TextBox  Grid.Row="5" Grid.Column="2" Margin="5,5,5,0"  ToolTip="Введіть назву компанії (якщо наявна)"
+                                            Text="{Binding Path=Client.COMPANY_TITLE,Mode=TwoWay}" />
 
                                             <!--Username of the user-->
                                             <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Мобільний телефон" />

@@ -47,7 +47,7 @@
             </Button>
         </Grid>
         <ListBox Grid.Row="1" VerticalAlignment="Stretch"
-                 SelectedItem="{Binding SelectedClient,Mode=TwoWay}"
+                 SelectedItem="{Binding SelectedClient,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                  Background="{DynamicResource AccentColorBrush}" ItemsSource="{Binding Clients}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
