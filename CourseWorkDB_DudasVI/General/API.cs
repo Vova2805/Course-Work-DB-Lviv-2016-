@@ -14,14 +14,14 @@ namespace CourseWorkDB_DudasVI.General
                 .FirstOrDefault(p => p.PRICE_ID == result.PRICE_ID);
         }
 
-        public static string ConvertAddress(ADDRESS address, string number = "")
+        public static string ConvertAddress(ADDRESS address, string number = "",string additionalInfo="")
         {
             var response = "";
             if (address != null)
             {
                 response = number + " " + address.COUNTRY + ", " + address.REGION + ", " + address.CITY + ", " +
                            address.STREET + ", " +
-                           address.BUILDING_NUMBER;
+                           address.BUILDING_NUMBER+". "+additionalInfo;
             }
             return response;
         }

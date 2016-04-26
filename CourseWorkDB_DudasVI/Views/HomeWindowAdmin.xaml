@@ -135,6 +135,12 @@
             <Controls:Flyout Header="Фільтрувати замовлення" Position="Right" Name="OrdersFilter" Theme="Accent">
                 <UserControls:OrdersFilter />
             </Controls:Flyout>
+            <Controls:Flyout Header="Фільтрувати замовників" Position="Right" Name="ClientsFilter" Theme="Accent">
+                <UserControls:ClientsFilter />
+            </Controls:Flyout>
+            <Controls:Flyout Header="Фільтрувати плани виробництва" Position="Right" Name="ScheduleFilter" Theme="Accent">
+                <UserControls:ScheduleFilter />
+            </Controls:Flyout>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
@@ -314,10 +320,10 @@
                                                 <TextBlock Grid.Column="3" Text="%" VerticalAlignment="Center"
                                            HorizontalAlignment="Left" />
                                                 <Button Width="30" Grid.Column="4" Margin="3" Command="{Binding SaveSalary}"
-                                    Height="30"
-                                    VerticalAlignment="Center"
-                                    ToolTip="Зберегти значення зарплати" Background="{DynamicResource ProgressBrush}"
-                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                        Height="30"
+                                        VerticalAlignment="Center"
+                                        ToolTip="Зберегти значення зарплати" Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
                                                     <Rectangle Width="15" Height="15">
                                                         <Rectangle.Style>
                                                             <Style TargetType="{x:Type Rectangle}">
@@ -483,13 +489,59 @@
                                     </Expander>
                                     <!--#endregion-->
                                     <!--#region Second expander-->
-                                    <Expander Header="Відповідальний за склади" IsExpanded="True"  Visibility="{Binding Path=SelectedEmployee.Employee.POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='3'}">
-                                        <DataGrid  ItemsSource="{Binding Path=SelectedEmployee.Warehouses}" AutoGenerateColumns="False">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn Width="*" Header="Адреса" IsReadOnly="True"
+                                    <Expander Header="Відповідальний за склади" IsExpanded="True" DataContext="{Binding SelectedEmployee}"
+                                              Visibility="{Binding Path=Employee.POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='3'}">
+                                        <Grid>
+                                            <Grid.Resources>
+                                                <converters:VisibilityConverter x:Key="VisibilityConverterMine"/>
+                                            </Grid.Resources>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  ItemsSource="{Binding Path=Warehouses}" AutoGenerateColumns="False">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Width="*" Header="Адреса" IsReadOnly="True"
                                                     Binding="{Binding}" />
-                                            </DataGrid.Columns>
-                                        </DataGrid>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                            <ComboBox BorderBrush="LightGray" BorderThickness="1" Grid.Row="1" Grid.Column="0" Margin="5" 
+                                             ItemsSource="{Binding Path=OtherWarehouses}" Visibility="{Binding Path=isntVisible,Converter={StaticResource VisibilityConverterMine}}"
+                                             SelectedItem="{Binding Path=SelectedOtherWarehouses}"
+                                            VerticalAlignment="Stretch" Height="23" ToolTip="Оберіть один із складів і змініть відповідального фахівця" />
+                                            <Button Width="30"  Margin="3" Command="{Binding AddWarehouse}" 
+                                            Height="30" Grid.Row="1" Grid.Column="1"
+                                            VerticalAlignment="Center" Visibility="{Binding Path=isntVisible,Converter={StaticResource VisibilityConverterMine}}"
+                                            ToolTip="Назначити склад даному працівникові" Background="{DynamicResource ProgressBrush}"
+                                            Style="{DynamicResource MetroCircleButtonStyle}">
+                                                <Rectangle Width="15" Height="15">
+                                                    <Rectangle.Style>
+                                                        <Style TargetType="{x:Type Rectangle}">
+                                                            <Setter Property="Fill">
+                                                                <Setter.Value>
+                                                                    <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_add}" />
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Fill">
+                                                                        <Setter.Value>
+                                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_add_white}" />
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Rectangle.Style>
+                                                </Rectangle>
+                                            </Button >
+                                        </Grid>
                                     </Expander>
                                     <!--#endregion-->
                                 </StackPanel>
@@ -852,34 +904,6 @@
                             Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
-
-                            <Button Width="50" Click="OpenFilter"
-                                    Height="50"
-                                    VerticalAlignment="Top"
-                                    ToolTip="Фільтр продуктів Alt+F" Background="{DynamicResource ProgressBrush}"
-                                    Style="{DynamicResource MetroCircleButtonStyle}">
-                                <Rectangle Width="20" Height="20">
-                                    <Rectangle.Style>
-                                        <Style TargetType="{x:Type Rectangle}">
-                                            <Setter Property="Fill">
-                                                <Setter.Value>
-                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_filter}" />
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Fill">
-                                                        <Setter.Value>
-                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                         Visual="{StaticResource appbar_filter_white}" />
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Rectangle.Style>
-                                </Rectangle>
-                            </Button>
                             <Button Width="50" 
                                     Height="50"
                                     VerticalAlignment="Top"
@@ -1465,6 +1489,7 @@
                         <Grid Margin="5">
                             <Grid.Resources>
                                 <converters:StaffNameConverter x:Key="NameConverter"/>
+                                <converters:VisibilityConverter x:Key="VisibilityConverterMine"/>
                             </Grid.Resources>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />

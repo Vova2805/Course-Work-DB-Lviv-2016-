@@ -167,11 +167,7 @@ namespace CourseWorkDB_DudasVI.Views
         {
             if (AdminTabControl.SelectedIndex == 1)
             {
-                
-            }
-            if (AdminTabControl.SelectedIndex == 2)
-            {
-                
+                ClientsFilter.IsOpen = !ClientsFilter.IsOpen;
             }
             if (AdminTabControl.SelectedIndex == 3)
             {
@@ -183,7 +179,7 @@ namespace CourseWorkDB_DudasVI.Views
             }
             if (AdminTabControl.SelectedIndex == 5)
             {
-                
+                ScheduleFilter.IsOpen = !ScheduleFilter.IsOpen;
             }
         }
     }

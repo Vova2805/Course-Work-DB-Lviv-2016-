@@ -137,3 +137,7 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github pr
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Director\InOutComeFlowFilter.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Director\OrdersFilter.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Director\InOutComeFlowFilter.baml
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Director\ScheduleFilter.g.cs
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Director\ClientsFilter.g.cs
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Director\ScheduleFilter.baml
+E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Director\ClientsFilter.baml

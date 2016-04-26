@@ -326,6 +326,12 @@
     <Compile Include="Views\UserControls\CustomElements\CustomTextBox.xaml.cs">
       <DependentUpon>CustomTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Filters\Director\ScheduleFilter.xaml.cs">
+      <DependentUpon>ScheduleFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\Director\ClientsFilter.xaml.cs">
+      <DependentUpon>ClientsFilter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Filters\Director\OrdersFilter.xaml.cs">
       <DependentUpon>OrdersFilter.xaml</DependentUpon>
     </Compile>
@@ -486,6 +492,14 @@
     <Page Include="Views\UserControls\CustomElements\CustomTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Filters\Director\ScheduleFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Filters\Director\ClientsFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Filters\Director\OrdersFilter.xaml">
       <Generator>MSBuild:Compile</Generator>

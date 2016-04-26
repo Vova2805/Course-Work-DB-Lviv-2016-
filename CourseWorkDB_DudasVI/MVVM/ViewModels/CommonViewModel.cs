@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Converters;
 using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.Resources;
@@ -138,7 +139,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             var i = 0;
             foreach (var warehouse in Warehouses)
             {
-                WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
+                string result = "";
+                var staff = warehouse.Warehouse.STAFF;
+                if (staff != null)
+                    result += staff.STAFF_NAME + " " + staff.STAFF_SURNAME + " " + staff.POST.POST_NAME + " " +
+                              staff.MOBILE_PHONE;
+                else result = "Фахівці з продажу";
+                WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + ".","Відповідальний :"+result));
             }
             if (!IsSaler)
                 WarehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
@@ -848,7 +855,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     var i = 0;
                     foreach (var warehouse in _warehouses)
                     {
-                        WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + "."));
+                        string result = "";
+                        var staff = warehouse.Warehouse.STAFF;
+                        if (staff != null)
+                            result += staff.STAFF_NAME + " " + staff.STAFF_SURNAME + " " + staff.POST.POST_NAME + " " +
+                                      staff.MOBILE_PHONE;
+                        else result = "Фахівці з продажу";
+                        WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + ".", "Відповідальний :" + result));
                     }
                     if (!IsSaler)
                         WarehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
@@ -1447,6 +1460,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     ChangeEmployeeSalaryPersentage = false;
                     ChangeEmployeeSalaryValue = true;
                     EmployeeSalaryPersentage = (double)_SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE;
+                    SelectedEmployee.InitializeLists();
                 }
                 OnPropertyChanged("SelectedEmployee");
             }
@@ -1831,22 +1845,56 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             private POST _post;
             private decimal _fullSalary;
             private decimal _MoneySalary;
+            private ObservableCollection<WAREHOUSE> _warehousesItem;
+            private ObservableCollection<WAREHOUSE> _otherWarehousesItem;
             private ObservableCollection<string> _warehouses;
+            private ObservableCollection<string> _otherWarehouses;
+            private string _selectedOtherWarehouses;
 
             public EmployeeListItem(STAFF employee, POST currentPost)
             {
                 _employee = employee;
                 Post = currentPost;
                 FullSalary = employee.FULL_SALARY_PERSENTAGE == 0?100: employee.FULL_SALARY_PERSENTAGE;
-                Warehouses = new ObservableCollection<string>();
-                int i = 0;
-                if(employee.WAREHOUSE!=null)
-                foreach (var warehouse in _employee.WAREHOUSE.ToList())
-                {
-                    Warehouses.Add(API.ConvertAddress(warehouse.ADDRESS1,++i+". "));
-                }
                 _employee.ADDRESS1 =
                     Session.FactoryEntities.ADDRESS.ToList().Find(a => a.ADDRESS_ID == _employee.ADDRESS);
+                InitializeLists();
+            }
+
+            public void InitializeLists()
+            {
+                _warehousesItem = new ObservableCollection<WAREHOUSE>();
+                _otherWarehousesItem = new ObservableCollection<WAREHOUSE>();
+                Warehouses = new ObservableCollection<string>();
+                OtherWarehouses = new ObservableCollection<string>();
+                int i = 0;
+                using (var connection = new SWEET_FACTORYEntities())
+                {
+                    foreach (var warehouse in connection.WAREHOUSE.ToList())
+                    {
+                        string result = "";
+                        var staff = warehouse.STAFF;
+                        if (staff != null)
+                        {
+                            result += staff.STAFF_NAME + " " + staff.STAFF_SURNAME + " " + staff.POST.POST_NAME + " " +
+                                          staff.MOBILE_PHONE;
+                            if (staff.STAFF_ID == _employee.STAFF_ID) //if it's mine
+                            {
+                                _warehousesItem.Add(warehouse);
+                                Warehouses.Add(API.ConvertAddress(warehouse.ADDRESS1, ++i + ". ",
+                                    "Відповідальний :" + result));
+                            }
+                            else
+                            {
+                                _otherWarehousesItem.Add(warehouse);
+                                OtherWarehouses.Add(API.ConvertAddress(warehouse.ADDRESS1, ++i + ". ", "Відповідальний :" + result));
+                            }
+                        }
+                    }
+                    if (OtherWarehouses.Count > 0)
+                        SelectedOtherWarehouses = OtherWarehouses.First();
+                    isntVisible = true;//update
+                }   
             }
             public STAFF Employee
             {
@@ -1868,6 +1916,55 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
             }
 
+            public ObservableCollection<string> OtherWarehouses
+            {
+                get { return _otherWarehouses; }
+                set { _otherWarehouses = value; OnPropertyChanged("OtherWarehouses"); }
+            }
+
+            public string SelectedOtherWarehouses
+            {
+                get { return _selectedOtherWarehouses; }
+                set
+                {
+                    _selectedOtherWarehouses = value;
+                    OnPropertyChanged("SelectedOtherWarehouses");
+                }
+            }
+
+            public ICommand AddWarehouse
+            {
+                get { return new RelayCommand<object>(AddWarehouseFunc); }
+            }
+
+            public void AddWarehouseFunc(object obj)
+            {
+                int index = OtherWarehouses.ToList().IndexOf(SelectedOtherWarehouses);
+                if (index >= 0)
+                {
+                    var Warehouse = _otherWarehousesItem.ToList().ElementAt(index);
+                    using (var connection = new SWEET_FACTORYEntities())
+                    {
+                        using (var dbContextTransaction = connection.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                var neededWarehouse =
+                                    connection.WAREHOUSE.ToList().Find(w => w.WAREHOUSE_ID == Warehouse.WAREHOUSE_ID);
+                                neededWarehouse.STAFF_ID = _employee.STAFF_ID;//change owner
+                                connection.SaveChanges();
+                                dbContextTransaction.Commit();
+                            }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                            }
+                        }
+                    }
+                    InitializeLists();
+                }
+            }
+
             public decimal FullSalary
             {
                 get { return _fullSalary; }
@@ -1878,6 +1975,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         Employee.FULL_SALARY_PERSENTAGE = _fullSalary;
                     MoneySalary = API.getlastSalary(Post.SALARY).SALARY_VALUE * Employee.FULL_SALARY_PERSENTAGE / 100;
                     OnPropertyChanged("FullSalary");
+                }
+            }
+
+            public bool isntVisible
+            {
+                get { return !(_otherWarehouses.Count == 0); }
+                set
+                {
+                    OnPropertyChanged("isntVisible");
                 }
             }
 
