@@ -178,5 +178,14 @@ namespace CourseWorkDB_DudasVI.Views
                     flyout.IsOpen = false;
                 }
         }
+        private void SalaryChanged(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var model = DataContext as CommonViewModel;
+            if (model != null)
+            {
+                model.ChangeEmployeeSalaryValue = true;
+                model.ChangeEmployeeSalaryPersentage = true;
+            }
+        }
     }
 }

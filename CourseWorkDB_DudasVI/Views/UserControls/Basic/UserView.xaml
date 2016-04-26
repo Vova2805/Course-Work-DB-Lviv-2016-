@@ -132,8 +132,8 @@
                             <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Посада" VerticalAlignment="Center" />
                             <ComboBox BorderBrush="LightGray" BorderThickness="1" Grid.Row="7"
                                      Grid.Column="1" Margin="5" 
-                                     ItemsSource="{Binding Path=SelectedEmployee.PostsTitles}"
-                                     SelectedItem="{Binding Path=SelectedEmployee.SelectedPostTitle}"
+                                     ItemsSource="{Binding Path=PostsTitles}"
+                                     SelectedItem="{Binding Path=SelectedPostTitle}"
                                      VerticalAlignment="Stretch" Height="23" />
                             <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="E-mail" VerticalAlignment="Center" />
                             <TextBox BorderThickness="1" Grid.Row="4" ToolTip="Введіть email у форматі ____@___.__. Наприклад newclient@gmail.com"
@@ -151,7 +151,7 @@
                             <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="Дата народження"
                                        TextWrapping="Wrap" VerticalAlignment="Center" />
                             <DatePicker Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"
-                                        Margin="5"
+                                        Margin="5" Name="BirthDatePicker"
                                         SelectedDate="{Binding
                                         Path=SelectedEmployee.Employee.BIRTH_DATE,
                                         Mode=TwoWay}" />

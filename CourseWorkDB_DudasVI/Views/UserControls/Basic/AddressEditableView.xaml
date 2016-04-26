@@ -16,13 +16,13 @@
                     <Border BorderBrush="#FFCB2E2E" BorderThickness="1" Background="#11FF0000" IsHitTestVisible="False" x:Name="errorBorder"/>
                     <AdornedElementPlaceholder x:Name="placeholder" />
                     <Popup AllowsTransparency="True" HorizontalAlignment="Right" HorizontalOffset="0" VerticalOffset="0" PopupAnimation="Fade" Placement="Right" 
-                                   PlacementTarget="{Binding ElementName=errorBorder}" IsOpen="{Binding ElementName=placeholder, Path=AdornedElement.IsFocused, Mode=OneWay}">
+                                       PlacementTarget="{Binding ElementName=errorBorder}" IsOpen="{Binding ElementName=placeholder, Path=AdornedElement.IsFocused, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal">
                             <Polygon  VerticalAlignment="Center" Points="0,4 4,0 4,8" Fill="#FFCB2E2E" Stretch="Fill" Stroke="#FFCB2E2E"
-                                      StrokeThickness="2" />
+                                          StrokeThickness="2" />
                             <Border Background="#FFCB2E2E" CornerRadius="4" Padding="4">
                                 <TextBlock HorizontalAlignment="Center" Foreground="White" FontWeight="Bold" Margin="2,0,0,0"
-                                                   Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent, Mode=OneWay}" />
+                                                       Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent, Mode=OneWay}" />
                             </Border>
                         </StackPanel>
                     </Popup>
@@ -58,13 +58,13 @@
 
         <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="Регіон" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}"/>
         <TextBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,0" >
-        <TextBox.Text>
+            <TextBox.Text>
                 <Binding Path="REGION" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
-                <Binding.ValidationRules>
-                    <rules:EmptyRule/>
-                </Binding.ValidationRules>
-            </Binding>
-        </TextBox.Text>
+                    <Binding.ValidationRules>
+                        <rules:EmptyRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
         </TextBox>
 
         <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Місто" />
@@ -80,26 +80,27 @@
 
         <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Вулиця" />
         <TextBox Grid.Row="6" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
-        <TextBox.Text>
-            <Binding Path="STREET" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
-                <Binding.ValidationRules>
-                    <rules:EmptyRule/>
-                </Binding.ValidationRules>
-            </Binding>
-        </TextBox.Text>
+            <TextBox.Text>
+                <Binding Path="STREET" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                    <Binding.ValidationRules>
+                        <rules:EmptyRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
         </TextBox>
 
         <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Номер будинку" VerticalAlignment="Center" />
-        <TextBox PreviewTextInput="NumberValidationTextBox" BorderThickness="1" Grid.Row="7"
-                 Grid.Column="1" Margin="5" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}"
-                 VerticalAlignment="Stretch" >
-        <TextBox.Text>
-            <Binding Path="BUILDING_NUMBER" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
-                <Binding.ValidationRules>
-                    <rules:EmptyRule/>
-                </Binding.ValidationRules>
-            </Binding>
-        </TextBox.Text>
+        <TextBox  BorderThickness="1" Grid.Row="7"
+                     Grid.Column="1" Margin="5" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}"
+                     VerticalAlignment="Stretch" >
+            <TextBox.Text>
+                <Binding Path="BUILDING_NUMBER" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                    <Binding.ValidationRules>
+                        <rules:EmptyRule/>
+                        <rules:NumberRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
         </TextBox>
     </Grid>
 </UserControl>

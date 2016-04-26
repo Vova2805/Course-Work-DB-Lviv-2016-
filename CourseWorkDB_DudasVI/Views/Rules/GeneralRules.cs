@@ -58,6 +58,7 @@ namespace CourseWorkDB_DudasVI.Views.Rules
                 "Електронна пошта має не правильний формат");
         }
     }
+
     public class PasswordLoginRule : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
@@ -65,6 +66,18 @@ namespace CourseWorkDB_DudasVI.Views.Rules
             var content = (string)value;
             return new ValidationResult(content.Length>=5,
                 "Мінімальний обсяг символів - 5");
+        }
+    }
+
+    public class NumberRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            var content = (string)value;
+            string s = "[0-9]+";
+            Match aa = Regex.Match(content ?? "", s);
+            return new ValidationResult(aa.Success,
+                "Введіть числа");
         }
     }
 }

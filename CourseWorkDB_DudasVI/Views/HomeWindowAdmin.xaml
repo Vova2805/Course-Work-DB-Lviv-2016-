@@ -9,6 +9,8 @@
                       xmlns:apex="clr-namespace:Apex.Controls;assembly=Apex"
                       xmlns:System="clr-namespace:System;assembly=mscorlib"
                       xmlns:liveCharts="clr-namespace:LiveCharts;assembly=LiveCharts"
+                      xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
+                      xmlns:rules="clr-namespace:CourseWorkDB_DudasVI.Views.Rules"
                       mc:Ignorable="d"
                       Title="Sweet retail system"
                       BorderThickness="0"
@@ -166,7 +168,331 @@
                     <UserControls:EmployeeCatalog x:Name="EmployeeCatalog"  Grid.Column="0" Grid.Row="0" />
 
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <UserControls:UserView Grid.Column="2" Grid.Row="0" x:Name="UserView" />
+                    
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="2" Grid.Row="0">
+                        <ScrollViewer.Resources>
+                            <converters:ResultsVisibilityConverter x:Key="VisibilityConverter" />
+                            <converters:BooleanOrConverter x:Key="BooleanOrConverter"/>
+                            <ControlTemplate x:Key="errorTemplateStyle">
+                                <Grid>
+                                    <Border BorderBrush="#FFCB2E2E" BorderThickness="1" Background="#11FF0000" IsHitTestVisible="False" x:Name="errorBorder"/>
+                                    <AdornedElementPlaceholder x:Name="placeholder" />
+                                    <Popup AllowsTransparency="True" HorizontalAlignment="Right" HorizontalOffset="0" VerticalOffset="0" PopupAnimation="Fade" Placement="Right" 
+                                   PlacementTarget="{Binding ElementName=errorBorder}" IsOpen="{Binding ElementName=placeholder, Path=AdornedElement.IsFocused, Mode=OneWay}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Polygon  VerticalAlignment="Center" Points="0,4 4,0 4,8" Fill="#FFCB2E2E" Stretch="Fill" Stroke="#FFCB2E2E"
+                                      StrokeThickness="2" />
+                                            <Border Background="#FFCB2E2E" CornerRadius="4" Padding="4">
+                                                <TextBlock HorizontalAlignment="Center" Foreground="White" FontWeight="Bold" Margin="2,0,0,0"
+                                                   Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent, Mode=OneWay}" />
+                                            </Border>
+                                        </StackPanel>
+                                    </Popup>
+                                </Grid>
+                            </ControlTemplate>
+                        </ScrollViewer.Resources>
+                        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type Controls:NumericUpDown}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsReadOnly"
+                                 Value="True">
+                                            <Setter Property="HideUpDownButtons"
+                                    Value="True" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Column="0" Grid.Row="0"></Grid>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="0"
+                            Grid.RowSpan="2">
+                                    <!--#region First expander-->
+                                    <Expander Header="Особисті дані" IsExpanded="True">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="0*" />
+                                                <RowDefinition Height="31*" />
+                                                <RowDefinition Height="31*" />
+                                                <RowDefinition Height="36*" />
+                                                <RowDefinition Height="36*" />
+                                                <RowDefinition Height="31*" />
+                                                <RowDefinition Height="31*" />
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="31*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Ім'я" />
+                                            <TextBox ToolTip="Введіть ім'я" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Grid.Row="1" Grid.Column="1" Margin="5,5,5,0" Name="Name">
+                                                <TextBox.Text>
+                                                    <Binding Path="SelectedEmployee.Employee.STAFF_NAME" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <!--Username of the user-->
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="Прізвище" />
+                                            <TextBox  Grid.Row="2" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Surname">
+                                                <TextBox.Text>
+                                                    <Binding Path="SelectedEmployee.Employee.STAFF_SURNAME" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Логін" />
+                                            <TextBox Grid.Row="5" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Login">
+                                                <TextBox.Text>
+                                                    <Binding Path="SelectedEmployee.Employee.LOGIN" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:PasswordLoginRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Пароль" />
+                                            <TextBox Grid.Row="6" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Pass">
+                                                <TextBox.Text>
+                                                    <Binding Path="SelectedEmployee.Employee.PASSWORD" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:PasswordLoginRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                            <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Посада" VerticalAlignment="Center" />
+                                            <ComboBox BorderBrush="LightGray" BorderThickness="1" Grid.Row="7"
+                                     Grid.Column="1" Margin="5" 
+                                     ItemsSource="{Binding Path=PostsTitles}"
+                                     SelectedItem="{Binding Path=SelectedPostTitle}"
+                                     VerticalAlignment="Stretch" Height="23" />
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="E-mail" VerticalAlignment="Center" />
+                                            <TextBox BorderThickness="1" Grid.Row="4" ToolTip="Введіть email у форматі ____@___.__. Наприклад newclient@gmail.com"
+                                     Grid.Column="1" Margin="5" Name="Email"
+                                     VerticalAlignment="Stretch" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" >
+                                                <TextBox.Text>
+                                                    <Binding Path="SelectedEmployee.Employee.EMAIL" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmailRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="Дата народження"
+                                       TextWrapping="Wrap" VerticalAlignment="Center" />
+                                            <DatePicker Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"
+                                        Margin="5" Name="BirthDatePicker"
+                                        SelectedDate="{Binding
+                                        Path=SelectedEmployee.Employee.BIRTH_DATE,
+                                        Mode=TwoWay}" />
+
+                                            <TextBlock Grid.Row="8" Grid.Column="0" Margin="5" Text="Зарплата"
+                                       VerticalAlignment="Center" />
+                                            <Grid Grid.Row="8" Grid.Column="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto" />
+                                                    <ColumnDefinition Width="20" />
+                                                    <ColumnDefinition Width="auto" />
+                                                    <ColumnDefinition Width="15" />
+                                                    <ColumnDefinition Width="auto" />
+                                                    <ColumnDefinition Width="auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Controls:NumericUpDown Minimum="0" Width="auto" Grid.Column="0" Interval="1" ToolTip="Зарплата у валюті"
+                                                        Value="{Binding EmployeeSalaryValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Margin="5,0,0,5" PreviewMouseDown="SalaryChanged"/>
+                                                <TextBlock Grid.Column="1" Text="грн" VerticalAlignment="Center" />
+                                                <Controls:NumericUpDown Minimum="0" Width="auto" Grid.Column="2" Interval="1" ToolTip="Зарплата у відсотках від загальної для посади"
+                                                        Value="{Binding EmployeeSalaryPersentage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" PreviewMouseDown="SalaryChanged" Margin="5,0,0,5"/>
+                                                <TextBlock Grid.Column="3" Text="%" VerticalAlignment="Center"
+                                           HorizontalAlignment="Left" />
+                                                <Button Width="30" Grid.Column="4" Margin="3" Command="{Binding SaveSalary}"
+                                    Height="30"
+                                    VerticalAlignment="Center"
+                                    ToolTip="Зберегти значення зарплати" Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                                    <Rectangle Width="15" Height="15">
+                                                        <Rectangle.Style>
+                                                            <Style TargetType="{x:Type Rectangle}">
+                                                                <Setter Property="Fill">
+                                                                    <Setter.Value>
+                                                                        <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_save}" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Fill">
+                                                                            <Setter.Value>
+                                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_save_white}" />
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Rectangle.Style>
+                                                    </Rectangle>
+                                                </Button >
+                                                <Button Width="30" Grid.Column="5" Margin="3" Command="{Binding CancelSalaryChanges}"
+                                    Height="30"
+                                    VerticalAlignment="Center"
+                                    ToolTip="Скасувати зміни щодо зарплати" Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                                    <Rectangle Width="15" Height="15">
+                                                        <Rectangle.Style>
+                                                            <Style TargetType="{x:Type Rectangle}">
+                                                                <Setter Property="Fill">
+                                                                    <Setter.Value>
+                                                                        <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_cancel}" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Fill">
+                                                                            <Setter.Value>
+                                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource  appbar_cancel_white}" />
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Rectangle.Style>
+                                                    </Rectangle>
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </Expander>
+                                    <!--#endregion-->
+                                    <!--#region Second expander-->
+                                    <Expander Header="Адреса" IsExpanded="True">
+                                        <Grid  VerticalAlignment="Stretch" DataContext="{Binding Path=SelectedEmployee.Employee.ADDRESS1}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="3*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Країна" />
+                                            <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Country">
+                                                <TextBox.Text>
+                                                    <Binding Path="COUNTRY" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="Регіон" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Region"/>
+                                            <TextBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,0" >
+                                                <TextBox.Text>
+                                                    <Binding Path="REGION" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Місто" />
+                                            <TextBox x:Name="City" Grid.Row="5" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
+                                                <TextBox.Text>
+                                                    <Binding Path="CITY" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Вулиця" />
+                                            <TextBox Grid.Row="6" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" Name="Street">
+                                                <TextBox.Text>
+                                                    <Binding Path="STREET" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Номер будинку" VerticalAlignment="Center" />
+                                            <TextBox  BorderThickness="1" Grid.Row="7"
+                                                Grid.Column="1" Margin="5" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}"  VerticalAlignment="Stretch" Name="BN">
+                                                <TextBox.Text>
+                                                    <Binding Path="BUILDING_NUMBER" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                            <rules:NumberRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                        </Grid>
+                                        
+                                    </Expander>
+                                    <!--#endregion-->
+                                    <!--#region Third expander-->
+                                    <Expander Header="Результати роботи (замовлення)" IsExpanded="False"
+                              Visibility="{Binding Path=SelectedEmployee.Employee.POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='2'}">
+                                        <ScrollViewer>
+                                            <ListBox VerticalAlignment="Stretch" Background="{DynamicResource AccentColorBrush4}"
+                                     ItemsSource="{Binding SALE_ORDER}">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <UserControls:OrderListItem />
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </ScrollViewer>
+                                    </Expander>
+                                    <!--#endregion-->
+                                    <!--#region Forth expander-->
+                                    <Expander Header="Результати роботи (плани виробництва)" IsExpanded="False"
+                              Visibility="{Binding Path=SelectedEmployee.Employee.POST_ID,Converter={StaticResource VisibilityConverter},ConverterParameter='3'}">
+                                        <ScrollViewer>
+                                            <ListBox VerticalAlignment="Stretch" Background="{DynamicResource AccentColorBrush4}"
+                                     ItemsSource="{Binding PRODUCTION_SCHEDULE}">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <UserControls:ScheduleListItem />
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </ScrollViewer>
+                                    </Expander>
+                                    <!--#endregion-->
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
                     <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <UserControls:ChartsSet Grid.Column="4" Grid.Row="0" VerticalAlignment="Stretch"
                                             HorizontalAlignment="Stretch" Grid.RowSpan="2" />
@@ -180,7 +506,7 @@
 
                         <DockPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,0"
                                    VerticalAlignment="Stretch" LastChildFill="False">
-                            <Button Width="50" Click="UserFilter"
+                            <Button Width="50" 
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
@@ -208,7 +534,56 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
-                            <Button Width="50"
+                            <Button Width="50" Command ="{Binding SaveEmployeeChanges}"
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    ToolTip="Зберегти внесені зміни (поточний працівник)" Background="{DynamicResource ProgressBrush}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButtonStyle}">
+                                        <Setter Property="IsEnabled" Value="false" />
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Name}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Surname}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Email}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Login}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Pass}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=City}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Region}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Street}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=BN}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Country}" Value="false" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="IsEnabled" Value="true" />
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <Rectangle Width="20" Height="20">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_save}" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_save_white}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                            </Button>
+                            <Button Width="50" Command="{Binding AddNewEmployee}"
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Додати працівника" Background="{DynamicResource ProgressBrush}"
@@ -236,7 +611,7 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
-                            <Button Width="50"
+                            <Button Width="50" Command="{Binding RemoveEmployee}"
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Видалити працівника" Background="{DynamicResource ProgressBrush}"
@@ -264,34 +639,7 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
-                            <Button Width="50"
-                                    Height="50"
-                                    VerticalAlignment="Top"
-                                    ToolTip="Зберегти всі зміни" Background="{DynamicResource ProgressBrush}"
-                                    Style="{DynamicResource MetroCircleButtonStyle}">
-                                <Rectangle Width="20" Height="20">
-                                    <Rectangle.Style>
-                                        <Style TargetType="{x:Type Rectangle}">
-                                            <Setter Property="Fill">
-                                                <Setter.Value>
-                                                    <VisualBrush Stretch="Fill"
-                                                                 Visual="{StaticResource appbar_save}" />
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Fill">
-                                                        <Setter.Value>
-                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                         Visual="{StaticResource appbar_save_white}" />
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Rectangle.Style>
-                                </Rectangle>
-                            </Button>
+                            
                         </DockPanel>
                     </Grid>
 

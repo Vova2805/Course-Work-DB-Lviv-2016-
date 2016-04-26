@@ -194,7 +194,20 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             newClientPattern.CLIENT_SURNAME = "Прізвище клієнта";
             newClientPattern.EMAIL = "Електронна пошта";
             NewClient = new ClientListItem(newClientPattern);
-            
+            Posts = new ObservableCollection<POST>();
+            PostsTitles = new ObservableCollection<string>();
+            var tempPosts = Session.FactoryEntities.POST.ToList().Where(p => p.DEPARTMENT.DEPARTMENT_ID == 3).ToList();
+            //відділ збуту
+            foreach (var post in tempPosts)
+            {
+                Posts.Add(post);
+                PostsTitles.Add(post.POST_NAME);
+            }
+            if (Posts.Count > 0)
+            {
+                SelectedPost = Posts.First();
+                SelectedPostTitle = PostsTitles.First();
+            }
         }
 
         #endregion
@@ -262,9 +275,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private int _tabIndex;
         private ObservableCollection<OrderProductTransaction> _productPackagesList;
         private bool _isSaler;
+        private ObservableCollection<EmployeeListItem> _EmployeeList;
+        private EmployeeListItem _SelectedEmployee;
         private ClientListItem _newClient;
         private bool _newClientEditing;
-        
+        private bool _newEmployeeEditing;
+        private ObservableCollection<POST> _posts;
+        private POST _selectedPost;
+        private ObservableCollection<string> _postsTitles;
+        private string _selectedPostTitle;
+
 
 
         public void CurrentWarehouseChanged()
@@ -1756,33 +1776,19 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         #region Director
 
-        private ObservableCollection<EmployeeListItem> _EmployeeList;
-        private EmployeeListItem _SelectedEmployee;
+        
 
         public class EmployeeListItem:ViewModelBaseInside
         {
             private STAFF _employee;
-            private ObservableCollection<POST> _posts;
-            private POST _selectedPost;
-            private ObservableCollection<string> _postsTitles;
-            private string _selectedPostTitle;
+            private POST _post;
             private decimal _fullSalary;
             private decimal _MoneySalary;
 
-            public EmployeeListItem(STAFF employee, POST post1)
+            public EmployeeListItem(STAFF employee,POST currentPost)
             {
                 _employee = employee;
-                Posts = new ObservableCollection<POST>();
-                PostsTitles = new ObservableCollection<string>();
-                var tempPosts = Session.FactoryEntities.POST.ToList().Where(p => p.DEPARTMENT.DEPARTMENT_ID == 3).ToList();//відділ збуту
-                foreach (var post in tempPosts)
-                {
-                    Posts.Add(post);
-                    PostsTitles.Add(post.POST_NAME);
-                }
-                SelectedPost = post1;
-                if (SelectedPost != null)
-                    SelectedPostTitle = SelectedPost.POST_NAME;
+                Post = currentPost;
                 FullSalary = employee.FULL_SALARY_PERSENTAGE;
             }
             public STAFF Employee
@@ -1803,8 +1809,18 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     _fullSalary = value;
                     if (Employee.FULL_SALARY_PERSENTAGE != _fullSalary)
                     Employee.FULL_SALARY_PERSENTAGE = _fullSalary;
-                    MoneySalary = API.getlastSalary(SelectedPost.SALARY).SALARY_VALUE*Employee.FULL_SALARY_PERSENTAGE/100;
+                    MoneySalary = API.getlastSalary(Post.SALARY).SALARY_VALUE*Employee.FULL_SALARY_PERSENTAGE/100;
                     OnPropertyChanged("FullSalary");
+                }
+            }
+
+            public POST Post
+            {
+                get { return _post; }
+                set
+                {
+                    _post = value;
+                    OnPropertyChanged("Post");
                 }
             }
 
@@ -1817,46 +1833,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     OnPropertyChanged("MoneySalary");
                 }
             }
-
-            public ObservableCollection<POST> Posts
-            {
-                get { return _posts; }
-                set
-                {
-                    _posts = value;
-                    OnPropertyChanged("Posts");
-                }
-            }
-
-            public ObservableCollection<string> PostsTitles
-            {
-                get { return _postsTitles; }
-                set { _postsTitles = value; OnPropertyChanged("PostsTitles"); }
-            }
-
-            public POST SelectedPost
-            {
-                get { return _selectedPost; }
-                set
-                {
-                    _selectedPost = value;
-                    SelectedPostTitle = _selectedPost.POST_NAME;
-                    OnPropertyChanged("SelectedPost");
-                }
-            }
-
-            public string SelectedPostTitle
-            {
-                get { return _selectedPostTitle; }
-                set
-                {
-                    _selectedPostTitle = value;
-                    if (Posts != null && !_selectedPost.POST_NAME.Equals(_selectedPostTitle))
-                        SelectedPost = Posts.ToList().Find(p => p.POST_NAME.Equals(_selectedPostTitle));
-                    OnPropertyChanged("SelectedPostTitle");
-                }
-            }
-
         }
 
 
@@ -1885,6 +1861,45 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
+        public ObservableCollection<POST> Posts
+        {
+            get { return _posts; }
+            set
+            {
+                _posts = value;
+                OnPropertyChanged("Posts");
+            }
+        }
+
+        public ObservableCollection<string> PostsTitles
+        {
+            get { return _postsTitles; }
+            set { _postsTitles = value; OnPropertyChanged("PostsTitles"); }
+        }
+
+        public POST SelectedPost
+        {
+            get { return _selectedPost; }
+            set
+            {
+                _selectedPost = value;
+                SelectedPostTitle = _selectedPost.POST_NAME;
+                EmployeePostSalary = API.getlastSalary(_selectedPost.SALARY);
+                OnPropertyChanged("SelectedPost");
+            }
+        }
+
+        public string SelectedPostTitle
+        {
+            get { return _selectedPostTitle; }
+            set
+            {
+                _selectedPostTitle = value;
+                if (Posts != null && !_selectedPost.POST_NAME.Equals(_selectedPostTitle))
+                    SelectedPost = Posts.ToList().Find(p => p.POST_NAME.Equals(_selectedPostTitle));
+                OnPropertyChanged("SelectedPostTitle");
+            }
+        }
         public double EmployeeSalaryPersentage
         {
             get { return _employeeSalaryPersentage; }
@@ -1908,8 +1923,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 _EmployeePostSalary = value;
                 ChangeEmployeeSalaryValue = false;
                 ChangeEmployeeSalaryPersentage = false;
-                EmployeeSalaryValue = _employeeSalaryValue;
-                EmployeeSalaryPersentage = _employeeSalaryPersentage;
+                EmployeeSalaryValue = (double)_EmployeePostSalary.SALARY_VALUE * _employeeSalaryPersentage /100;
                 OnPropertyChanged("EmployeePostSalary");
             }
         }
@@ -2029,6 +2043,21 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return new RelayCommand<object>(AddClient); }
         }
 
+        public ICommand AddNewEmployee
+        {
+            get { return new RelayCommand<object>(AddEmployee); }
+        }
+
+        public ICommand RemoveEmployee
+        {
+            get { return new RelayCommand<object>(DelEmployee); }
+        }
+
+        public ICommand SaveEmployeeChanges
+        {
+            get { return new RelayCommand<object>(SaveEmployeeChangesFunc); }
+        }
+
         public ICommand SaveSalary
         {
             get { return new RelayCommand<object>(SaveSalaryFunc); }
@@ -2053,6 +2082,31 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 SelectedClient = NewClient;
                 Clients = _clients;
             }
+        }
+
+        private void AddEmployee(object obj)
+        {
+            //if (NewClientEditing)
+            //{
+            //    //add to database
+            //    NewClientEditing = false;
+            //}
+            //else
+            //{
+            //    NewClientEditing = true;
+            //    Clients.Insert(0, NewClient);
+            //    SelectedClient = NewClient;
+            //    Clients = _clients;
+            //}
+        }
+        private void DelEmployee(object obj)
+        {
+            
+        }
+
+        private void SaveEmployeeChangesFunc(object obj)
+        {
+            
         }
 
         private async void SaveSalaryFunc(object obj)
