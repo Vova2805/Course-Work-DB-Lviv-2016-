@@ -146,6 +146,7 @@
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Converters\AddedConverter.cs" />
+    <Compile Include="Converters\BooleanOrConverter .cs" />
     <Compile Include="Converters\PackageDescriptionConverter.cs" />
     <Compile Include="Converters\AddressConverter.cs" />
     <Compile Include="Converters\HeaderTitleConverter.cs" />
@@ -302,9 +303,6 @@
     <Compile Include="Views\UserControls\Basic\AddressEditableView.xaml.cs">
       <DependentUpon>AddressEditableView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Basic\CustomerEditableView.xaml.cs">
-      <DependentUpon>CustomerEditableView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Basic\ProductViewForSale.xaml.cs">
       <DependentUpon>ProductViewForSale.xaml</DependentUpon>
     </Compile>
@@ -457,10 +455,6 @@
     <Page Include="Views\UserControls\Basic\AddressEditableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Basic\CustomerEditableView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Basic\ProductViewForSale.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -48,7 +48,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public CommonViewModel()
         {
-            IsSaler = Session.userType == UserType.Saler;
             CategoriesList = new ObservableCollection<string>();
             foreach (var category in Session.FactoryEntities.CATEGORY.ToList().Select(c => c.CATEGORY_TITLE).ToList())
             {
@@ -189,6 +188,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 EmployeeList.Add(employee);
             }
             SelectedEmployee = EmployeeList.First();
+            IsSaler = Session.userType == UserType.Saler;
+            var newClientPattern = new CLIENT();
+            newClientPattern.CLIENT_NAME = "Ім'я клієнта";
+            newClientPattern.CLIENT_SURNAME = "Прізвище клієнта";
+            newClientPattern.EMAIL = "Електронна пошта";
+            NewClient = new ClientListItem(newClientPattern);
         }
 
         #endregion
@@ -199,7 +204,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         private ObservableCollection<string> _categoriesList;
         private ObservableCollection<SCHEDULE_PRODUCT_INFO> _schedulePackages;
-
         private ObservableCollection<ClientListItem> _clients;
         private ClientListItem _selectedClient;
         private ObservableCollection<ProductListElement> _productsList;
@@ -228,13 +232,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<PRODUCTION_SCHEDULE> _schedules;
         private PRODUCTION_SCHEDULE _selectedProductionSchedule;
         private string _changedText;
-        private bool _isSaler;
-
         private DateTime _fromTime;
-
         private Dictionary<string, RegionInfo> _options;
-
-
         private ObservableCollection<string> _optionsList;
         private decimal _priceFrom;
         private decimal _priceTo;
@@ -260,10 +259,33 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private string _yTitle;
         private int _tabIndex;
         private ObservableCollection<OrderProductTransaction> _productPackagesList;
+        private bool _isSaler;
+        private ClientListItem _newClient;
+        private bool _newClientEditing;
 
         public void CurrentWarehouseChanged()
         {
             ExtendedMode = _extendedMode;
+        }
+
+        public ClientListItem NewClient
+        {
+            get { return _newClient; }
+            set
+            {
+                _newClient = value; 
+                OnPropertyChanged("NewClient");
+            }
+        }
+
+        public bool NewClientEditing
+        {
+            get { return _newClientEditing; }
+            set
+            {
+                _newClientEditing = value; 
+                OnPropertyChanged("NewClientEditing");
+            }
         }
 
         public void UpdateView()
@@ -420,15 +442,20 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         {
             get
             {
-                IsSaler = Session.userType.Equals(UserType.Saler);
+                bool temp = Session.userType == UserType.Saler;
+                if (_isSaler != temp) IsSaler = temp;
                 return _isSaler;
             }
             set
             {
                 _isSaler = value;
+                foreach (var product in ProductsList)
+                {
+                    product.IsntSaler = !_isSaler;
+                }
                 OnPropertyChanged("IsSaler");
             }
-        }
+       }
 
         public ReleasedProductListItem SelectedProductOnWarehouse
         {
@@ -1268,7 +1295,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     {
                         if (product.ReleasedProduct.EXPIRED_DATE <= ExpiredDate)
                         {
-                            product.IsExpiring = true;
+                            product.IsExpiring = ExtendedMode;
                             LostProducts += product.Quantity;
                             LostMoney += product.Quantity*
                                          API.getlastPrice(product.ReleasedProduct.PRODUCT_INFO.PRODUCT_PRICE)
@@ -1822,5 +1849,26 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         #endregion
 
         #endregion
+
+        public ICommand AddNewClient
+        {
+            get { return new RelayCommand<object>(AddClient); }
+        }
+
+        private void AddClient(object obj)
+        {
+            if (NewClientEditing)
+            {
+                //add to database
+                NewClientEditing = false;
+            }
+            else
+            {
+                NewClientEditing = true;
+                Clients.Insert(0,NewClient);
+                SelectedClient = NewClient;
+                Clients = _clients;
+            }
+        }
     }
 }

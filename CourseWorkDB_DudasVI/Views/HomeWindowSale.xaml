@@ -9,6 +9,7 @@
                       xmlns:listItem="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls.ListItem"
                       xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
                       xmlns:system="clr-namespace:System;assembly=mscorlib"
+                      xmlns:rules="clr-namespace:CourseWorkDB_DudasVI.Views.Rules"
                       mc:Ignorable="d"
                       Icon="../Resources/images/icon_main.png"
                       Title="Sweet retail system"
@@ -19,13 +20,24 @@
                       WindowTransitionsEnabled="False"
                       WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Controls:MetroWindow.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <converters:BooleanOrConverter x:Key="BooleanOrConverter"/>
+        <ControlTemplate x:Key="errorTemplateStyle">
+            <Grid>
+                <Border BorderBrush="#FFCB2E2E" BorderThickness="1" Background="#11FF0000" IsHitTestVisible="False" x:Name="errorBorder"/>
+                <AdornedElementPlaceholder x:Name="placeholder" />
+                <Popup AllowsTransparency="True" HorizontalAlignment="Right" HorizontalOffset="0" VerticalOffset="0" PopupAnimation="Fade" Placement="Right" 
+                                   PlacementTarget="{Binding ElementName=errorBorder}" IsOpen="{Binding ElementName=placeholder, Path=AdornedElement.IsFocused, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <Polygon  VerticalAlignment="Center" Points="0,4 4,0 4,8" Fill="#FFCB2E2E" Stretch="Fill" Stroke="#FFCB2E2E"
+                                      StrokeThickness="2" />
+                        <Border Background="#FFCB2E2E" CornerRadius="4" Padding="4">
+                            <TextBlock HorizontalAlignment="Center" Foreground="White" FontWeight="Bold" Margin="2,0,0,0"
+                                                   Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent, Mode=OneWay}" />
+                        </Border>
+                    </StackPanel>
+                </Popup>
+            </Grid>
+        </ControlTemplate>
     </Controls:MetroWindow.Resources>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
@@ -149,8 +161,141 @@
                     <UserControls:ClientsCatalog Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" />
 
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
-                    <UserControls:CustomerEditableView Grid.Column="2" Grid.Row="0"
-                                                       DataContext="{Binding Path=SelectedClient}" />
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="2" Grid.Row="0" DataContext="{Binding Path=SelectedClient}">
+                        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type Controls:NumericUpDown}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsReadOnly"
+                                 Value="True">
+                                            <Setter Property="HideUpDownButtons"
+                                    Value="True" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Column="0" Grid.Row="0">
+                                    
+                                </Grid>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="0"
+                            Grid.RowSpan="2">
+                                    <!--#region First expander-->
+                                    <Expander Header="Особисті дані" IsExpanded="True">
+                                        <Grid>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="0*" />
+                                                <RowDefinition Height="31*" />
+                                                <RowDefinition Height="31*" />
+                                                <RowDefinition Height="36*" />
+                                                <RowDefinition Height="36*" />
+                                                <RowDefinition Height="31*" />
+                                                <RowDefinition Height="31*" />
+                                                <RowDefinition Height="33" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Ім'я" />
+                                            <TextBox Grid.Row="1" Grid.Column="2" Margin="5,5,5,0" ToolTip="Введіть ім'я" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" >
+                                                <TextBox.Text>
+                                                    <Binding Path="Client.CLIENT_NAME" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmptyRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="По-батькові" />
+                                            <TextBox Grid.Row="2" Grid.Column="2" Margin="5,5,5,0" ToolTip="Введіть по-батькові"
+                                     Text="{Binding Path=Client.CLIENT_MIDDLE_NAME,Mode=TwoWay}" />
+
+                                            <!--Username of the user-->
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Назва компанії" />
+                                            <TextBox  Grid.Row="5" Grid.Column="2" Margin="5,5,5,0"
+                                     Validation.ErrorTemplate="{x:Null}" ToolTip="Введіть назву компанії (якщо наявна)"
+                                     Text="{Binding Path=Client.COMPANY_TITLE,Mode=TwoWay}" />
+
+                                            <!--Username of the user-->
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Мобільний телефон" />
+                                            <TextBox   Grid.Row="6" Grid.Column="2" Margin="5" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
+                                            <TextBox.Text>
+                                                    <Binding Path="Client.MOBILE_PHONE" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                    <Binding.ValidationRules>
+                                                        <rules:EmptyRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                            </TextBox>
+                                            <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Телефон компанії"
+                                       VerticalAlignment="Center" />
+                                            <TextBox Text="{Binding Path=Client.COMPANY_PHONE,Mode=TwoWay}" Grid.Row="7" Margin="5"
+                                     Grid.Column="2" ToolTip="Введіть телефон компанії"
+                                     Validation.ErrorTemplate="{x:Null}" VerticalAlignment="Center" />
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="E-mail" VerticalAlignment="Center" />
+                                            <TextBox Grid.Row="4" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}"
+                                     Grid.Column="2" Margin="5" ToolTip="Введіть email у форматі ____@___.__. Наприклад newclient@gmail.com"
+                                     VerticalAlignment="Center" >
+                                                <TextBox.Text>
+                                                    <Binding Path="Client.EMAIL" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                        <Binding.ValidationRules>
+                                                            <rules:EmailRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="Прізвище" TextWrapping="Wrap"
+                                       VerticalAlignment="Center" />
+                                            <TextBox  Grid.Row="3" ToolTip="Введіть прізвище" Grid.Column="2"
+                                     VerticalAlignment="Center" Margin="5"  Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
+                                            <TextBox.Text>
+                                                    <Binding Path="Client.CLIENT_SURNAME" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                    <Binding.ValidationRules>
+                                                        <rules:EmptyRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                            </TextBox>
+                                        </Grid>
+                                    </Expander>
+                                    <!--#endregion-->
+                                    <!--#region Second expander-->
+                                    <Expander Header="Адреса" IsExpanded="True">
+                                        <UserControls:AddressEditableView DataContext="{Binding Path=Client.ADDRESS1,Mode=TwoWay}" />
+                                    </Expander>
+                                    <!--#endregion-->
+                                    <!--#region Third expander-->
+                                    <Expander Header="Замовлення" IsExpanded="True">
+                                        <ListBox Grid.Row="1" VerticalAlignment="Stretch"
+                                 SelectedItem="{Binding SelectedOrder,Mode=TwoWay}"
+                                 Background="{DynamicResource AccentColorBrush}" ItemsSource="{Binding SaleOrders}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <UserControls:ClientOrderListItem />
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander>
+                                    <!--#endregion-->
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
                     <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <Border Grid.Row="0" Grid.Column="4" Margin="5" Grid.RowSpan="2">
                         <Grid>
@@ -223,7 +368,7 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
-                            <Button Width="50" Click="CustomerFilter"
+                            <Button Width="50" Command="{Binding AddNewClient}"
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Додати замовника Alt+N" Background="{DynamicResource ProgressBrush}"
@@ -231,21 +376,30 @@
                                 <Rectangle Width="20" Height="20">
                                     <Rectangle.Style>
                                         <Style TargetType="{x:Type Rectangle}">
-                                            <Setter Property="Fill">
-                                                <Setter.Value>
-                                                    <VisualBrush Stretch="Fill"
-                                                                 Visual="{StaticResource appbar_user_add}" />
-                                                </Setter.Value>
-                                            </Setter>
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
                                                     <Setter Property="Fill">
                                                         <Setter.Value>
-                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                         Visual="{StaticResource appbar_user_add_white}" />
+                                                            <VisualBrush x:Name="Brush" Stretch="Fill" Visual="{StaticResource appbar_user_add_white}" />
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>
+                                                <DataTrigger Binding="{Binding NewClientEditing}" Value="True">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_check}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="ToolTip" Value="Підтвердити зміни" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding NewClientEditing}" Value="False">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_user_add}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="ToolTip" Value="Додати замовника Alt+N" />
+                                                </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </Rectangle.Style>
@@ -438,7 +592,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Склад" VerticalAlignment="Center" Margin="5" FontSize="15" />
                         <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
-                                  ItemsSource="{Binding WarehousesStrings, Mode=TwoWay}"
+                                  ItemsSource="{Binding WarehousesStringsWithoutAll, Mode=TwoWay}"
                                   SelectedValue="{Binding Path=CurrentWarehouseString,Mode=TwoWay}"
                                   IsEditable="False" />
                     </Grid>
