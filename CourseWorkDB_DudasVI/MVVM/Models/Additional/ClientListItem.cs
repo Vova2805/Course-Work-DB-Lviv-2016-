@@ -173,8 +173,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 }
                 else
                 {
-                    var orderProduct = InitializeOrder(product);
-                    PackagesProducts.Add(new OrderProductListItem(orderProduct, quantity, this));
+                    if (quantity > 0)
+                    {
+                        var orderProduct = InitializeOrder(product);
+                        PackagesProducts.Add(new OrderProductListItem(orderProduct, quantity, this));
+                    }
                 }
                 UpdateTotals();
                 PackagesProducts = _packagesProducts;
@@ -243,7 +246,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             private readonly ClientListItem DataContext;
             private ORDER_PRODUCT _orderProduct;
             private decimal _packageTotal;
-            private int _QuantityInOrder;
+            private int _QuantityInOrder = 0;
 
             public OrderProductListItem(ORDER_PRODUCT orderProduct, int quantity, ClientListItem dataContext)
             {

@@ -18,6 +18,10 @@ namespace CourseWorkDB_DudasVI.Views
             InitializeComponent();
             addHotKey();
             RequiredDatePicker.DisplayDateStart = API.getTodayDate();
+            ProductsCatalog.DataContext = salerViewModel;
+            ProductsCatalog.init();
+            ClientsCatalog.DataContext = salerViewModel;
+            ClientsCatalog.init();
         }
 
 

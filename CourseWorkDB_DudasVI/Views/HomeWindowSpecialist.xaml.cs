@@ -33,8 +33,13 @@ namespace CourseWorkDB_DudasVI.Views
 
             InitializeComponent();
 
+            //initialization of filters
             ProductsCatalog.DataContext = _specialistViewModel;
             ProductsCatalog.init();
+            ProductsScheduleCatalog.DataContext = _specialistViewModel;
+            ProductsScheduleCatalog.init();
+
+            
             chartsSets = new List<ChartsSet> {ChartsSet2};
             foreach (var chart in chartsSets)
             {

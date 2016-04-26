@@ -22,8 +22,8 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             var model = DataContext as CommonViewModel;
             if (model != null)
             {
-                view = CollectionViewSource.GetDefaultView(model.ProductsList);
-                view.Filter = FilterProductsRule;
+                view = CollectionViewSource.GetDefaultView(model.EmployeeList);
+                view.Filter = FilterEmployeeRule;
             }
         }
 
@@ -32,16 +32,17 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             searchTxt.Text = "";
         }
 
-        private bool FilterProductsRule(object obj)
+        private bool FilterEmployeeRule(object obj)
         {
             var model = DataContext as CommonViewModel;
             if (model != null)
             {
-                var product = obj as ProductListElement;
-                if (product.ProductInfo.PRODUCT_TITLE.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
+                var employee = obj as STAFF;
+                if (employee.STAFF_NAME.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
                     ||
-                    product.ProductInfo.CATEGORY.CATEGORY_TITLE.Contains(model.ChangedText,
-                        StringComparison.OrdinalIgnoreCase))
+                    employee.STAFF_SURNAME.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
+                    ||
+                    employee.EMAIL.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }

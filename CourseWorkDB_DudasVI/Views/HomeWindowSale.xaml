@@ -158,7 +158,7 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="4*" />
                     </Grid.ColumnDefinitions>
-                    <UserControls:ClientsCatalog Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" />
+                    <UserControls:ClientsCatalog x:Name="ClientsCatalog" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" />
 
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="2" Grid.Row="0" DataContext="{Binding Path=SelectedClient}">
@@ -608,7 +608,7 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
-                        <UserControls:ProductsCatalog Grid.Column="0" />
+                        <UserControls:ProductsCatalog x:Name="ProductsCatalog" Grid.Column="0" />
                         <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                         <Grid Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch">
                             <Grid.RowDefinitions>
@@ -646,9 +646,9 @@
                                         <DataGridTemplateColumn Width="Auto" Header="Кількість">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate DataType="{x:Type system:Decimal}">
-                                                    <Controls:NumericUpDown Minimum="1" Width="auto"
+                                                    <Controls:NumericUpDown Minimum="0" Width="auto"
                                                                             Interval="1"
-                                                                            Value="{Binding  QuantityInOrder, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                                                            Value="{Binding Path=QuantityInOrder, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                                                             BorderThickness="1" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>

@@ -22,8 +22,8 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             var model = DataContext as CommonViewModel;
             if (model != null)
             {
-                view = CollectionViewSource.GetDefaultView(model.ProductsList);
-                view.Filter = FilterProductsRule;
+                view = CollectionViewSource.GetDefaultView(model.Clients);
+                view.Filter = FilterClientsRule;
             }
         }
 
@@ -32,16 +32,23 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
             searchTxt.Text = "";
         }
 
-        private bool FilterProductsRule(object obj)
+        private bool FilterClientsRule(object obj)
         {
             var model = DataContext as CommonViewModel;
             if (model != null)
             {
-                var product = obj as ProductListElement;
-                if (product.ProductInfo.PRODUCT_TITLE.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
+                var clinent = obj as ClientListItem;
+                if (clinent.Client.CLIENT_NAME.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
                     ||
-                    product.ProductInfo.CATEGORY.CATEGORY_TITLE.Contains(model.ChangedText,
-                        StringComparison.OrdinalIgnoreCase))
+                    clinent.Client.CLIENT_SURNAME.Contains(model.ChangedText,StringComparison.OrdinalIgnoreCase)
+                    ||
+                    clinent.Client.CLIENT_MIDDLE_NAME.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
+                    ||
+                    clinent.Client.EMAIL.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
+                    ||
+                    clinent.Client.COMPANY_TITLE.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase)
+                    ||
+                    clinent.Client.MOBILE_PHONE.Contains(model.ChangedText, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }

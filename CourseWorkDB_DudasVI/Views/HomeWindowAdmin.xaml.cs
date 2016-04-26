@@ -24,6 +24,14 @@ namespace CourseWorkDB_DudasVI.Views
 
             flyouts = new List<Flyout> {AdminFlyout};
             addHotKey();
+
+            EmployeeCatalog.DataContext = directorViewModel;
+            EmployeeCatalog.init();
+            ClientsCatalog.DataContext = directorViewModel;
+            ClientsCatalog.init();
+            ProductsCatalog.DataContext = directorViewModel;
+            ProductsCatalog.init();
+
         }
 
         private void addHotKey()

@@ -163,7 +163,7 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="5*" />
                     </Grid.ColumnDefinitions>
-                    <UserControls:EmployeeCatalog Grid.Column="0" Grid.Row="0" />
+                    <UserControls:EmployeeCatalog x:Name="EmployeeCatalog"  Grid.Column="0" Grid.Row="0" />
 
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <UserControls:UserView Grid.Column="2" Grid.Row="0" x:Name="UserView"
@@ -315,7 +315,7 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="4*" />
                     </Grid.ColumnDefinitions>
-                    <UserControls:ClientsCatalog Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" />
+                    <UserControls:ClientsCatalog x:Name="ClientsCatalog" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" />
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <UserControls:CustomerView Grid.Column="2" Grid.Row="0" DataContext="{Binding SelectedClient}" />
                     <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />

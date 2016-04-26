@@ -953,11 +953,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             var tempProdOrder = SelectedClient.ContainsOrderProduct(product.ProductInfo);
                             var tempProdWarehouse =
                                 ProductsOnWarehouse.ToList()
-                                    .Find(
-                                        pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID);
+                                    .Find(pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID);
+                            if (tempProdWarehouse != null)
+                            {
+                                product.Quantity = tempProdWarehouse.Quantity;
+                            }
                             if (tempProdOrder != null)
                             {
-                                product.Quantity = tempProdWarehouse != null ? tempProdWarehouse.Quantity : 0;
                                 product.QuantityNeeded = tempProdOrder.QuantityInOrder;
                             }
                         }

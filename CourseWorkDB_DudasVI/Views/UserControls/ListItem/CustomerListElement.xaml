@@ -15,6 +15,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
@@ -28,16 +29,22 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="5" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{Binding Path=Client.CLIENT_NAME}" Grid.Column="2" ToolTip="Ім'я клієнта" />
                     <TextBlock TextAlignment="Left" Text="{Binding Path=Client.CLIENT_SURNAME}" Grid.Column="0"
                                ToolTip="Прізвище клієнта" />
+                    <TextBlock TextAlignment="Left" Text="{Binding Path=Client.CLIENT_MIDDLE_NAME}" Grid.Column="4"
+                               ToolTip="По-батькові клієнта" />
                 </Grid>
             </StackPanel>
             <TextBlock FontWeight="Bold" Grid.Row="1" Grid.Column="2"
-                       Text="{Binding Path=Client.MOBILE_PHONE}" ToolTip="Мобільний телефон" Margin="5" />
+                       Text="{Binding Path=Client.COMPANY_TITLE}" ToolTip="Назва компанії"/>
             <TextBlock FontWeight="Bold" Grid.Row="2" Grid.Column="2"
+                       Text="{Binding Path=Client.MOBILE_PHONE}" ToolTip="Мобільний телефон" Margin="5" />
+            <TextBlock FontWeight="Bold" Grid.Row="3" Grid.Column="2"
                        Text="{Binding Path=Client.EMAIL}" ToolTip="Електронна адреса" />
         </Grid>
     </Border>

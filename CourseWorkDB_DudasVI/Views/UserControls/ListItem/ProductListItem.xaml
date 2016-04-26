@@ -29,7 +29,7 @@
             <converters:ProductPriceConverter x:Key="PriceConverter" />
             <converters:VisibilityConverter x:Key="VisibilityConverter" />
         </Border.Resources>
-        <Grid Height="Auto" Margin="5">
+        <Grid Height="Auto">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -71,7 +71,7 @@
                                         Grid.Row="2" Minimum="0" Interval="1"
                                         Value="{Binding Path=QuantityNeeded,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-               </Grid>
+                           </Grid>
 
             <Grid Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
