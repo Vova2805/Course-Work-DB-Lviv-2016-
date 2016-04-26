@@ -1377,11 +1377,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         .SALARY.ToList().
                         FindAll(s => s.POST_ID == _SelectedEmployee.Employee.POST_ID));
                     
-                    ChangeEmployeeSalaryPersentage = true;
-                    ChangeEmployeeSalaryValue = false;
-                    EmployeeSalaryValue = (double)_SelectedEmployee.Employee.FULL_SALARY;
+                    ChangeEmployeeSalaryPersentage = false;
+                    ChangeEmployeeSalaryValue = true;
+                    EmployeeSalaryPersentage = (double)_SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE;
                 }
-
                 OnPropertyChanged("SelectedEmployee");
             }
         }
@@ -1845,12 +1844,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _employeeSalaryValue = value;
-                SelectedEmployee.Employee.FULL_SALARY = (decimal)_employeeSalaryValue;
+                
                 if (ChangeEmployeeSalaryPersentage)
                 {
                     ChangeEmployeeSalaryValue = false; //to avoid endless cycle
-                    if(EmployeePostSalary!=null)
-                    EmployeeSalaryPersentage = _employeeSalaryValue / (double)EmployeePostSalary.SALARY_VALUE * 100;
+                    if (EmployeePostSalary != null)
+                        EmployeeSalaryPersentage = (double)_employeeSalaryValue / (double)EmployeePostSalary.SALARY_VALUE * 100.0;
                 }
                 OnPropertyChanged("EmployeeSalaryValue");
             }
@@ -1862,11 +1861,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _employeeSalaryPersentage = value;
-                
+               // SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE = (decimal)_employeeSalaryPersentage;
                 if (ChangeEmployeeSalaryValue)
                 {
                     ChangeEmployeeSalaryPersentage = false;
-                    EmployeeSalaryValue = (double)EmployeePostSalary.SALARY_VALUE * _employeeSalaryPersentage;
+                    EmployeeSalaryValue = (double)EmployeePostSalary.SALARY_VALUE * _employeeSalaryPersentage / 100.0;
                 }
                 OnPropertyChanged("EmployeeSalaryPersentage");
             }

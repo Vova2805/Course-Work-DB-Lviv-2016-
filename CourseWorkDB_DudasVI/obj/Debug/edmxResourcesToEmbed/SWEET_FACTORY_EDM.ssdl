@@ -262,7 +262,7 @@
     <Property Name="ADDRESS" Type="int" />
     <Property Name="LOGIN" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="PASSWORD" Type="varchar" MaxLength="20" Nullable="false" />
-    <Property Name="FULL_SALARY" Type="numeric" Precision="10" Scale="4" Nullable="false" />
+    <Property Name="FULL_SALARY_PERSENTAGE" Type="numeric" Precision="10" Scale="4" Nullable="false" />
     <Property Name="THEME" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">

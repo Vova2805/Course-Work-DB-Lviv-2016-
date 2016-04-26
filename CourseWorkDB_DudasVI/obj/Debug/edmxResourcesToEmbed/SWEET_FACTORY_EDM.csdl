@@ -324,7 +324,7 @@
     <Property Name="ADDRESS" Type="Int32" />
     <Property Name="LOGIN" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="PASSWORD" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="FULL_SALARY" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+    <Property Name="FULL_SALARY_PERSENTAGE" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
     <Property Name="THEME" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ADDRESS1" Relationship="Self.R_101" FromRole="STAFF" ToRole="ADDRESS" />
     <NavigationProperty Name="POST" Relationship="Self.R_83" FromRole="STAFF" ToRole="POST" />

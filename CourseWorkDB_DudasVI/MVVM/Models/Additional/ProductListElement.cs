@@ -27,7 +27,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private ProductListElement(PRODUCT_INFO productInfo)
         {
             ProductInfo = productInfo;
-            IsNumbersVisible = true;
+            IsNumbersVisible = Session.userType !=UserType.Director;
             //isAdded = false;
             _title = _productInfo.PRODUCT_TITLE;
             _categoryTitle = _productInfo.CATEGORY.CATEGORY_TITLE;

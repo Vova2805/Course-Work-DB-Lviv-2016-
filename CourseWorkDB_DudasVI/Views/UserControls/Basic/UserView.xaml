@@ -165,14 +165,72 @@
                                     <ColumnDefinition Width="20" />
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="15" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
                                 </Grid.ColumnDefinitions>
-                                <Controls:NumericUpDown Minimum="0" Width="auto" Grid.Column="0" Interval="100" ToolTip="Зарплата у валюті"
+                                <Controls:NumericUpDown Minimum="0" Width="auto" Grid.Column="0" Interval="1" ToolTip="Зарплата у валюті"
                                                         Value="{Binding EmployeeSalaryValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Margin="5,0,0,5" PreviewMouseDown="SalaryChanged"/>
                                 <TextBlock Grid.Column="1" Text="грн" VerticalAlignment="Center" />
                                 <Controls:NumericUpDown Minimum="0" Width="auto" Grid.Column="2" Interval="1" ToolTip="Зарплата у відсотках від загальної для посади"
-                                                        Value="{Binding EmployeeSalaryPersentage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" PreviewMouseDown="SalaryChanged"/>
+                                                        Value="{Binding EmployeeSalaryPersentage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" PreviewMouseDown="SalaryChanged" Margin="5,0,0,5"/>
                                 <TextBlock Grid.Column="3" Text="%" VerticalAlignment="Center"
                                            HorizontalAlignment="Left" />
+                                <Button Width="30" Grid.Column="4" Margin="3"
+                                    Height="30"
+                                    VerticalAlignment="Center"
+                                    ToolTip="Зберегти значення зарплати" Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="15" Height="15">
+                                        <Rectangle.Style>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_save}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_save_white}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </Button >
+                                <Button Width="30" Grid.Column="5" Margin="3"
+                                    Height="30"
+                                    VerticalAlignment="Center"
+                                    ToolTip="Скасувати зміни щодо зарплати" Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="15" Height="15">
+                                        <Rectangle.Style>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_cancel}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource  appbar_cancel_white}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Expander>

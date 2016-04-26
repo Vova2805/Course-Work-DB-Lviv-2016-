@@ -267,7 +267,7 @@
                             <Button Width="50"
                                     Height="50"
                                     VerticalAlignment="Top"
-                                    ToolTip="Зберегти зміни" Background="{DynamicResource ProgressBrush}"
+                                    ToolTip="Зберегти всі зміни" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20" Height="20">
                                     <Rectangle.Style>
@@ -366,7 +366,7 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="4*" />
                         <ColumnDefinition Width="auto" />

@@ -33,7 +33,7 @@ namespace CourseWorkDB_DudasVI
         public Nullable<int> ADDRESS { get; set; }
         public string LOGIN { get; set; }
         public string PASSWORD { get; set; }
-        public decimal FULL_SALARY { get; set; }
+        public decimal FULL_SALARY_PERSENTAGE { get; set; }
         public int THEME { get; set; }
     
         public virtual ADDRESS ADDRESS1 { get; set; }
