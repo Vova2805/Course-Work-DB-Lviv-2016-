@@ -198,12 +198,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             SelectedEmployee = EmployeeList.First();
             IsSaler = Session.userType == UserType.Saler;
             NewEmployee = InitializeNewEmployee();
-
-            var newClientPattern = new CLIENT();
-            newClientPattern.CLIENT_NAME = "Ім'я клієнта";
-            newClientPattern.CLIENT_SURNAME = "Прізвище клієнта";
-            newClientPattern.EMAIL = "Електронна пошта";
-            NewClient = new ClientListItem(newClientPattern);
+            NewClient = InitializeNewClient();
             Posts = new ObservableCollection<POST>();
             PostsTitles = new ObservableCollection<string>();
             var tempPosts = Session.FactoryEntities.POST.ToList().Where(p => p.DEPARTMENT.DEPARTMENT_ID == 3).ToList();
@@ -218,10 +213,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 SelectedPost = Posts.First();
                 SelectedPostTitle = PostsTitles.First();
             }
+            VisibilityDuringAddingNew = true;
         }
 
-        private EmployeeListItem 
-            InitializeNewEmployee()
+        private EmployeeListItem  InitializeNewEmployee()
         {
             var newEmployeePattern = new STAFF();
             newEmployeePattern.POST = Session.User.POST;
@@ -240,6 +235,28 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
             var temp = new EmployeeListItem(newEmployeePattern, newEmployeePattern.POST);
             temp.Employee.ADDRESS1 = address;
+            return temp;
+        }
+
+        private ClientListItem InitializeNewClient()
+        {
+            var newClientPattern = new CLIENT();
+            newClientPattern.CLIENT_NAME = "Ім'я клієнта";
+            newClientPattern.CLIENT_SURNAME = "Прізвище клієнта";
+            newClientPattern.CLIENT_MIDDLE_NAME = "По-батькові клієнта";
+            newClientPattern.COMPANY_TITLE = "Нова";
+            newClientPattern.MOBILE_PHONE = "02";
+            newClientPattern.EMAIL = "Електронна пошта";
+            newClientPattern.SALE_ORDER = new List<SALE_ORDER>();
+            var address = new ADDRESS();
+            address.COUNTRY = "Країна";
+            address.REGION = "Західний";
+            address.CITY = "Київ";
+            address.STREET = "Південна";
+            address.BUILDING_NUMBER = 1;
+
+            var temp = new ClientListItem(newClientPattern);
+            temp.Client.ADDRESS1 = address;
             return temp;
         }
 
@@ -352,6 +369,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _newEmployeeEditing = value;
+                if (!value)
+                    VisibilityDuringAddingNew = true;
                 OnPropertyChanged("NewEmployeeEditing");
             }
         }
@@ -362,6 +381,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _newClientEditing = value;
+                if (!value)
+                    VisibilityDuringAddingNew = true;
                 OnPropertyChanged("NewClientEditing");
             }
         }
@@ -554,6 +575,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (SelectedClient != null)
                 {
                     SelectedClientTitle = _selectedClient.GeneralInfo;
+                    if (_selectedClient.Equals(NewClient))
+                    {
+                        if (NewClientEditing)
+                        {
+                            VisibilityDuringAddingNew = false;
+                        }
+                        else VisibilityDuringAddingNew = true;
+                    }
+                    else VisibilityDuringAddingNew = true;
                 }
                 else
                 {
@@ -561,6 +591,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         _selectedClient =
                             Clients.ToList().FindAll(c => c.GeneralInfo.Equals(SelectedClientTitle)).FirstOrDefault();
                 }
+                
                 OnPropertyChanged("SelectedClient");
             }
         }
@@ -1461,6 +1492,15 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     ChangeEmployeeSalaryValue = true;
                     EmployeeSalaryPersentage = (double)_SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE;
                     SelectedEmployee.InitializeLists();
+                    if (_SelectedEmployee.Equals(NewEmployee))
+                    {
+                        if (NewEmployeeEditing)
+                        {
+                            VisibilityDuringAddingNew = false;
+                        }
+                        else VisibilityDuringAddingNew = true;
+                    }
+                    else VisibilityDuringAddingNew = true;
                 }
                 OnPropertyChanged("SelectedEmployee");
             }
@@ -2089,6 +2129,18 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
+        private bool _visibilityDuringAddingNew;
+
+        public bool VisibilityDuringAddingNew
+        {
+            get { return _visibilityDuringAddingNew; }
+            set
+            {
+                _visibilityDuringAddingNew = value;
+                OnPropertyChanged("VisibilityDuringAddingNew");
+            }
+        }
+
         public SALARY EmployeePostSalary
         {
             get { return _EmployeePostSalary; }
@@ -2242,12 +2294,53 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return new RelayCommand<object>(CancelSalaryChangesFunc); }
         }
 
-        private void AddClient(object obj)
+        private async void AddClient(object obj)
         {
             if (NewClientEditing)
             {
                 //add to database
-                NewClientEditing = false;
+                var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+                var metroWindow = window as MetroWindow;
+                if (metroWindow != null)
+                {
+                    using (var connection = new SWEET_FACTORYEntities())
+                    {
+                        using (var dbContextTransaction = connection.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                NewClient.Client.CLIENT_ID = connection.CLIENT.ToList().Max(a => a.CLIENT_ID) + 1;
+                                NewClient.Client.SALE_ORDER = new List<SALE_ORDER>();
+                                NewClient.Client.ADDRESS1.ADDRESS_ID = connection.ADDRESS.ToList().Max(a => a.ADDRESS_ID) + 1;
+                                NewClient.Client.ADDRESS = NewClient.Client.ADDRESS1.ADDRESS_ID;
+
+                                var address = new ADDRESS();
+                                CopyAddress(ref address, NewClient.Client.ADDRESS1);
+                                connection.ADDRESS.Add(address);
+
+                                var client = new CLIENT();
+                                CopyClient(ref client, NewClient.Client);
+                                connection.CLIENT.Add(client);
+                                connection.SaveChanges();
+                                dbContextTransaction.Commit();
+                                NewEmployeeEditing = false;
+                                NewEmployee = InitializeNewEmployee();
+                                
+                                NewClient = InitializeNewClient();
+                                await metroWindow.ShowMessageAsync("Вітання",
+                                        "Зміни внесено! Дані про клієнта збережено");
+                                NewClientEditing = false;
+
+                            }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                                await metroWindow.ShowMessageAsync("Невдача",
+                                    "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
+                        }
+                    }
+                }
             }
             else
             {
@@ -2288,12 +2381,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                 connection.STAFF.Add(staff);
                                 connection.SaveChanges();
                                 dbContextTransaction.Commit();
-                                NewEmployeeEditing = false;
+                                
                                 NewEmployee = InitializeNewEmployee();
                                 await
                                     metroWindow.ShowMessageAsync("Вітання",
                                         "Зміни внесено! Дані про працівника оновлено");
-                                
+                                NewEmployeeEditing = false;
+
                             }
                             catch (Exception e)
                             {
@@ -2463,6 +2557,19 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             one.POST_ID = two.POST_ID;
             one.FULL_SALARY_PERSENTAGE = two.FULL_SALARY_PERSENTAGE;
             one.THEME = two.THEME;
+        }
+        private void CopyClient(ref CLIENT one, CLIENT two)
+        {
+            one.CLIENT_ID = two.CLIENT_ID;
+            one.CLIENT_NAME = two.CLIENT_NAME;
+            one.CLIENT_SURNAME = two.CLIENT_SURNAME;
+            one.CLIENT_MIDDLE_NAME = two.CLIENT_MIDDLE_NAME;
+            one.EMAIL = two.EMAIL;
+            one.COMPANY_TITLE = two.COMPANY_TITLE;
+            one.MOBILE_PHONE = two.MOBILE_PHONE;
+            one.COMPANY_PHONE = two.COMPANY_PHONE;
+            one.ADDRESS = two.ADDRESS;
+            one.ADDRESS = two.ADDRESS;
         }
     }
 }

@@ -612,6 +612,11 @@
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="IsEnabled" Value="true" />
                                             </MultiDataTrigger>
+                                            <DataTrigger Binding="{Binding VisibilityDuringAddingNew}" Value="False">
+                                                <Setter Property="IsEnabled" Value="False">
+                                                </Setter>
+                                                <Setter Property="ToolTip" Value="Спочатку підтвердіть додавання клієнта" />
+                                            </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
@@ -699,8 +704,18 @@
                             <Button Width="50" Command="{Binding CancelEmployeeChanges}"
                                     Height="50"
                                     VerticalAlignment="Top"
-                                    ToolTip="Скасувати зміни" Background="{DynamicResource ProgressBrush}"
-                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                    ToolTip="Скасувати зміни" Background="{DynamicResource ProgressBrush}">
+                                <Button.Style >
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButtonStyle}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding VisibilityDuringAddingNew}" Value="False">
+                                                <Setter Property="IsEnabled" Value="False">
+                                                </Setter>
+                                                <Setter Property="ToolTip" Value="Спочатку підтвердіть додавання клієнта" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
                                 <Rectangle Width="20" Height="20">
                                     <Rectangle.Style>
                                         <Style TargetType="{x:Type Rectangle}">

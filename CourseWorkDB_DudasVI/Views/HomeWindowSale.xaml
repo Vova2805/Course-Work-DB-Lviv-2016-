@@ -409,8 +409,18 @@
                             <Button Width="50" Click="CustomerFilter"
                                     Height="50"
                                     VerticalAlignment="Top"
-                                    ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
-                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                    ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}">
+                                <Button.Style >
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButtonStyle}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding VisibilityDuringAddingNew}" Value="False">
+                                                <Setter Property="IsEnabled" Value="False">
+                                                </Setter>
+                                                <Setter Property="ToolTip" Value="Спочатку підтвердіть додавання клієнта" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
                                 <Rectangle Width="20" Height="20">
                                     <Rectangle.Style>
                                         <Style TargetType="{x:Type Rectangle}">
@@ -437,8 +447,28 @@
                             <Button Width="50" Command="{Binding AddNewClient}"
                                     Height="50"
                                     VerticalAlignment="Top"
-                                    ToolTip="Додати замовника Alt+N" Background="{DynamicResource ProgressBrush}"
-                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                    ToolTip="Додати замовника Alt+N" Background="{DynamicResource ProgressBrush}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButtonStyle}">
+                                        <Setter Property="IsEnabled" Value="false" />
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Name}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Surname}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Email}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Mobile}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=City}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Region}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Street}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=BN}" Value="false" />
+                                                    <Condition Binding="{Binding (Validation.HasError), ElementName=Country}" Value="false" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="IsEnabled" Value="true" />
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
                                 <Rectangle Width="20" Height="20">
                                     <Rectangle.Style>
                                         <Style TargetType="{x:Type Rectangle}">
@@ -493,6 +523,11 @@
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="IsEnabled" Value="true" />
                                             </MultiDataTrigger>
+                                            <DataTrigger Binding="{Binding VisibilityDuringAddingNew}" Value="False">
+                                                <Setter Property="IsEnabled" Value="False">
+                                                </Setter>
+                                                <Setter Property="ToolTip" Value="Спочатку підтвердіть додавання клієнта" />
+                                            </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
@@ -514,6 +549,7 @@
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>
+                                                
                                             </Style.Triggers>
                                         </Style>
                                     </Rectangle.Style>
