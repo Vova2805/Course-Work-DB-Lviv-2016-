@@ -498,31 +498,34 @@
                                     <DataGridTemplateColumn Width="Auto" Header="Напрям" IsReadOnly="True">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <DockPanel>
-                                                    <Path x:Name="figurePath" DockPanel.Dock="Left" Stretch="Uniform"
-                                                          Width="15" Height="15" Margin="5"
-                                                          RenderTransformOrigin="0.5,0.5">
-                                                        <Path.RenderTransform>
-                                                            <TransformGroup>
-                                                                <TransformGroup.Children>
-                                                                    <RotateTransform Angle="3" />
-                                                                    <ScaleTransform ScaleX="1" ScaleY="1" />
-                                                                </TransformGroup.Children>
-                                                            </TransformGroup>
-                                                        </Path.RenderTransform>
-                                                    </Path>
-                                                    <ContentPresenter Margin="0,5,5,5" Content="{Binding FlowType}" />
-                                                </DockPanel>
-                                                <!--<DataTemplate.Triggers>
-                                                    <DataTrigger Binding="{Binding FlowType}" Value="1">
-                                                        <Setter Property="Data" TargetName="figurePath" Value="{StaticResource ExpenditureFigure}"/>
-                                                        <Setter Property="Fill" TargetName="figurePath" Value="Red"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding FlowType}" Value="2">
-                                                        <Setter Property="Data" TargetName="figurePath" Value="{StaticResource IncomeFigure}"/>
-                                                        <Setter Property="Fill" TargetName="figurePath" Value="Green"/>
-                                                    </DataTrigger>
-                                                </DataTemplate.Triggers>-->
+                                                <Rectangle Width="30" Height="10">
+                                                    <Rectangle.Style>
+                                                        <Style TargetType="{x:Type Rectangle}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding FlowType}" Value="True">
+                                                                    <Setter Property="Fill">
+                                                                        <Setter.Value>
+                                                                            <VisualBrush Stretch="Fill"
+                                                                                         Visual="{StaticResource appbar_arrow_left_green}" />
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Setter Property="ToolTip"
+                                                                            Value="Завезено до складу" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding FlowType}" Value="False">
+                                                                    <Setter Property="Fill">
+                                                                        <Setter.Value>
+                                                                            <VisualBrush Stretch="Fill"
+                                                                                         Visual="{StaticResource appbar_arrow_right_red}" />
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Setter Property="ToolTip"
+                                                                            Value="Реалізовано (продано)" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Rectangle.Style>
+                                                </Rectangle>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>

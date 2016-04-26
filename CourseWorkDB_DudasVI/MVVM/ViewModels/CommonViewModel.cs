@@ -1659,12 +1659,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         public async void SubmitChanges(object obj)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
-            var specialistWindow = window as HomeWindowSpecialist;
-            if (specialistWindow != null)
+            var metroWindow = window as MetroWindow;
+            if (metroWindow != null)
             {
                 var result =
                     await
-                        specialistWindow.ShowMessageAsync("Попередження",
+                        metroWindow.ShowMessageAsync("Попередження",
                             "Ви дійсно хочете підтвердити зміни?\nСкасувати цю дію буде не можливо.",
                             MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Affirmative)
@@ -1681,14 +1681,13 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             selected.Add(SelectedProductPrice);
                             Session.FactoryEntities.SaveChanges();
                             dbContextTransaction.Commit();
-                            await specialistWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
+                            await metroWindow.ShowMessageAsync("Вітання", "Зміни внесено! Нову ціну додано.");
                             UpdateDb();
                         }
                         catch (Exception e)
                         {
                             dbContextTransaction.Rollback();
-                            await
-                                specialistWindow.ShowMessageAsync("Невдача",
+                            await metroWindow.ShowMessageAsync("Невдача",
                                     "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
                         }
                     }
