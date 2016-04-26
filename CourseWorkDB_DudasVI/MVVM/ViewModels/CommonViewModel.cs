@@ -1744,6 +1744,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 SelectedProduct =
                     ProductsList.FirstOrDefault(
                         pr => pr.ProductInfo.PRODUCT_INFO_ID == SelectedProduct.ProductInfo.PRODUCT_INFO_ID);
+            IsSaler = IsSaler;
         }
 
         #endregion
@@ -1762,6 +1763,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             private POST _selectedPost;
             private ObservableCollection<string> _postsTitles;
             private string _selectedPostTitle;
+            private decimal _fullSalary;
+            private decimal _MoneySalary;
+
             public EmployeeListItem(STAFF employee, POST post1)
             {
                 _employee = employee;
@@ -1776,6 +1780,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 SelectedPost = post1;
                 if (SelectedPost != null)
                     SelectedPostTitle = SelectedPost.POST_NAME;
+                FullSalary = employee.FULL_SALARY_PERSENTAGE;
             }
             public STAFF Employee
             {
@@ -1784,6 +1789,29 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 {
                     _employee = value;
                     OnPropertyChanged("Employee");
+                }
+            }
+
+            public decimal FullSalary
+            {
+                get { return _fullSalary; }
+                set
+                {
+                    _fullSalary = value;
+                    if (Employee.FULL_SALARY_PERSENTAGE != _fullSalary)
+                    Employee.FULL_SALARY_PERSENTAGE = _fullSalary;
+                    MoneySalary = API.getlastSalary(SelectedPost.SALARY).SALARY_VALUE*Employee.FULL_SALARY_PERSENTAGE/100;
+                    OnPropertyChanged("FullSalary");
+                }
+            }
+
+            public decimal MoneySalary
+            {
+                get { return _MoneySalary; }
+                set
+                {
+                    _MoneySalary = value;
+                    OnPropertyChanged("MoneySalary");
                 }
             }
 
@@ -1860,7 +1888,6 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _employeeSalaryPersentage = value;
-               // SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE = (decimal)_employeeSalaryPersentage;
                 if (ChangeEmployeeSalaryValue)
                 {
                     ChangeEmployeeSalaryPersentage = false;
@@ -1999,6 +2026,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return new RelayCommand<object>(AddClient); }
         }
 
+        public ICommand SaveSalary
+        {
+            get { return new RelayCommand<object>(SaveSalaryFunc); }
+        }
+
+        public ICommand CancelSalaryChanges
+        {
+            get { return new RelayCommand<object>(CancelSalaryChangesFunc); }
+        }
+
         private void AddClient(object obj)
         {
             if (NewClientEditing)
@@ -2013,6 +2050,51 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 SelectedClient = NewClient;
                 Clients = _clients;
             }
+        }
+
+        private async void SaveSalaryFunc(object obj)
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var metroWindow = window as MetroWindow;
+            if (metroWindow != null)
+            {
+                    using (var dbContextTransaction = Session.FactoryEntities.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            // SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE = (decimal)_employeeSalaryPersentage;
+
+                            var selectedEmployee =
+                                Session.FactoryEntities.STAFF.Where(
+                                    s => s.STAFF_ID == SelectedEmployee.Employee.STAFF_ID).FirstOrDefault();
+                            if (selectedEmployee != null)
+                            {
+                                SelectedEmployee.FullSalary = (decimal)EmployeeSalaryPersentage;
+                                selectedEmployee.FULL_SALARY_PERSENTAGE = (decimal)EmployeeSalaryPersentage;
+                                Session.FactoryEntities.SaveChanges();
+                                dbContextTransaction.Commit();
+                                await metroWindow.ShowMessageAsync("Вітання", "Зміни внесено! Зарплату змінено.");
+                            }
+                            else
+                            {
+                                dbContextTransaction.Rollback();
+                                await metroWindow.ShowMessageAsync("Невдача",
+                                    "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            dbContextTransaction.Rollback();
+                            await metroWindow.ShowMessageAsync("Невдача",
+                                    "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                        }
+                    }
+            }
+        }
+        private void CancelSalaryChangesFunc(object obj)
+        {
+            ChangeEmployeeSalaryValue = true;
+            EmployeeSalaryPersentage = (double)SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE;        
         }
     }
 }

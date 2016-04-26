@@ -175,7 +175,7 @@
                                                         Value="{Binding EmployeeSalaryPersentage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" PreviewMouseDown="SalaryChanged" Margin="5,0,0,5"/>
                                 <TextBlock Grid.Column="3" Text="%" VerticalAlignment="Center"
                                            HorizontalAlignment="Left" />
-                                <Button Width="30" Grid.Column="4" Margin="3"
+                                <Button Width="30" Grid.Column="4" Margin="3" Command="{Binding SaveSalary}"
                                     Height="30"
                                     VerticalAlignment="Center"
                                     ToolTip="Зберегти значення зарплати" Background="{DynamicResource ProgressBrush}"
@@ -203,7 +203,7 @@
                                         </Rectangle.Style>
                                     </Rectangle>
                                 </Button >
-                                <Button Width="30" Grid.Column="5" Margin="3"
+                                <Button Width="30" Grid.Column="5" Margin="3" Command="{Binding CancelSalaryChanges}"
                                     Height="30"
                                     VerticalAlignment="Center"
                                     ToolTip="Скасувати зміни щодо зарплати" Background="{DynamicResource ProgressBrush}"

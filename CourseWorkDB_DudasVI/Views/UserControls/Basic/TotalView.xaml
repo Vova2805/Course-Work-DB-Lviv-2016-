@@ -45,7 +45,7 @@
         <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding FlowDirection}" />
 
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Категорія : " />
-        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding selectedCategory}" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding SelectedCategory}" />
 
     </Grid>
 </UserControl>

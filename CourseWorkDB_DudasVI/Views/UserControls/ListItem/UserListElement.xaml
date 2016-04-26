@@ -15,6 +15,8 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="5" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
@@ -34,7 +36,18 @@
                     <TextBlock TextAlignment="Left" Text="{Binding Path=Employee.STAFF_SURNAME}" Grid.Column="2" />
                 </Grid>
             </StackPanel>
-            <TextBlock FontWeight="Bold" x:Name="post" Grid.Row="2" Grid.Column="2"
+            <StackPanel Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Path=FullSalary, StringFormat={}{0:F0}%}" Grid.Column="0" ToolTip="Зарплата у відсотках"/>
+                    <TextBlock TextAlignment="Left" Foreground="DarkOliveGreen" Text="{Binding Path=MoneySalary, StringFormat={}{0:F0} грн.}" Grid.Column="2" ToolTip="Зарплата у валюті"/>
+                </Grid>
+            </StackPanel>
+            <TextBlock FontWeight="Bold" x:Name="post" Grid.Row="4" Grid.Column="2"
                        Text="{Binding Path=Employee.POST.POST_NAME}" />
         </Grid>
     </Border>
