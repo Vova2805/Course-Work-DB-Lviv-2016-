@@ -149,7 +149,7 @@
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
-    <TabControl SelectionChanged="TabControl_SelectionChanged">
+    <TabControl SelectionChanged="TabControl_SelectionChanged" x:Name="AdminTabControl">
         <!--#region Працівники-->
         <TabItem Header="Працівники">
             <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="0,2,0,0">
@@ -891,6 +891,34 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
+                            <Button Width="50" 
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    ToolTip="Звіт по ціні товару Alt+Z" Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="20" Height="20">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_page_check}" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_page_check_white}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                            </Button>
                             <Button Width="50" Click="RefreshDiagram"
                                     Height="50"
                                     VerticalAlignment="Top"
@@ -1386,7 +1414,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="6*" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
@@ -1411,9 +1439,9 @@
 
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="5*" />
                             </Grid.ColumnDefinitions>
                             <ListBox Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch"
                                      SelectedItem="{Binding SelectedProductionSchedule,Mode=TwoWay}"
@@ -1443,9 +1471,45 @@
                             </DataGrid>
                         </Grid>
                     </Grid>
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" Background="{DynamicResource AccentColorBrush}">
 
-                    <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
+                        <Grid Margin="5">
+                            <Grid.Resources>
+                                <converters:StaffNameConverter x:Key="NameConverter"/>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" FontWeight="Bold" Grid.Column="0" Text="Загальна інформація :" FontSize="14" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Відповідальний :" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=CurrentWarehouse.Warehouse, Converter={StaticResource NameConverter}}" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Емність складу:" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=CurrentWarehouse.Capacity}" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Зайнято :" />
+                            <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding Path=CurrentWarehouse.Engaged}" Margin="3"/>
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Вільно :" />
+                            <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding Path=CurrentWarehouse.Free}" Margin="3"/>
+
+                        </Grid>
+                        <Border  HorizontalAlignment="Stretch"
                             Background="{DynamicResource GrayBrush2}" />
+                    </StackPanel>
+                    
 
                     <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50"
                             Background="{DynamicResource AccentColorBrush}">

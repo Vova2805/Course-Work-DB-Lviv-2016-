@@ -85,9 +85,15 @@ namespace CourseWorkDB_DudasVI.Views
             var model = DataContext as CommonViewModel;
             if (model != null)
             {
+                if(AdminTabControl.SelectedIndex == 3)
                 foreach (var flow in model.InOutComeFlow)
                 {
                     flow.IsMarked = true;
+                }
+                if (AdminTabControl.SelectedIndex == 4)
+                    foreach (var package in model.ProductPackagesList)
+                {
+                    package.isChecked = true;
                 }
             }
         }
@@ -97,9 +103,15 @@ namespace CourseWorkDB_DudasVI.Views
             var model = DataContext as CommonViewModel;
             if (model != null)
             {
-                foreach (var flow in model.InOutComeFlow)
+                if (AdminTabControl.SelectedIndex == 3)
+                    foreach (var flow in model.InOutComeFlow)
                 {
                     flow.IsMarked = false;
+                }
+                if (AdminTabControl.SelectedIndex == 4)
+                    foreach (var package in model.ProductPackagesList)
+                {
+                    package.isChecked = false;
                 }
             }      
         }

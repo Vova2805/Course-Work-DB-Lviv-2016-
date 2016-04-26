@@ -145,6 +145,7 @@
     <Compile Include="CLIENT.cs">
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Converters\StaffNameConverter.cs" />
     <Compile Include="Converters\AddedConverter.cs" />
     <Compile Include="Converters\BooleanOrConverter .cs" />
     <Compile Include="Converters\PackageDescriptionConverter.cs" />
