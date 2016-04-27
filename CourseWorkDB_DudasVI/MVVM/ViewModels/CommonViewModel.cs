@@ -405,6 +405,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _selectedWarehouseAddress = value;
+                SelectedClient.NewDelivery.DeliveryAddress.ADDRESS = _selectedWarehouseAddress;
                 OnPropertyChanged("SelectedWarehouseAddress");
             }
         }
@@ -2372,11 +2373,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                 NewClient.Client.ADDRESS = NewClient.Client.ADDRESS1.ADDRESS_ID;
 
                                 var address = new ADDRESS();
-                                CopyAddress(ref address, NewClient.Client.ADDRESS1);
+                                API.CopyAddress(ref address, NewClient.Client.ADDRESS1);
                                 connection.ADDRESS.Add(address);
 
                                 var client = new CLIENT();
-                                CopyClient(ref client, NewClient.Client);
+                                API.CopyClient(ref client, NewClient.Client);
                                 connection.CLIENT.Add(client);
                                 connection.SaveChanges();
                                 dbContextTransaction.Commit();
@@ -2431,10 +2432,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                 NewEmployee.Employee.ADDRESS1.ADDRESS_ID = connection.ADDRESS.ToList().Max(a => a.ADDRESS_ID) + 1;
                                 NewEmployee.Employee.ADDRESS = NewEmployee.Employee.ADDRESS1.ADDRESS_ID;
                                 var address = new ADDRESS();
-                                CopyAddress(ref address, NewEmployee.Employee.ADDRESS1);
+                                API.CopyAddress(ref address, NewEmployee.Employee.ADDRESS1);
                                 connection.ADDRESS.Add(address);
                                 var staff = new STAFF();
-                                CopyStaff(ref staff, NewEmployee.Employee);
+                                API.CopyStaff(ref staff, NewEmployee.Employee);
                                 connection.STAFF.Add(staff);
                                 connection.SaveChanges();
                                 dbContextTransaction.Commit();
@@ -2488,12 +2489,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                         s => s.STAFF_ID == SelectedEmployee.Employee.STAFF_ID).FirstOrDefault();
                                 if (selectedEmployee != null && selectedEmployeeAddress != null)
                                 {
-                                    CopyAddress(ref selectedEmployeeAddress, SelectedEmployee.Employee.ADDRESS1);
+                                    API.CopyAddress(ref selectedEmployeeAddress, SelectedEmployee.Employee.ADDRESS1);
                                     SelectedEmployee.FullSalary = (decimal)EmployeeSalaryPersentage;
                                     SelectedEmployee.Post = SelectedPost;
 
                                     selectedEmployee.FULL_SALARY_PERSENTAGE = (decimal)EmployeeSalaryPersentage;
-                                    CopyStaff(ref selectedEmployee, SelectedEmployee.Employee);
+                                    API.CopyStaff(ref selectedEmployee, SelectedEmployee.Employee);
                                     connection.SaveChanges();
                                     dbContextTransaction.Commit();
                                     await metroWindow.ShowMessageAsync("Вітання", "Зміни внесено! Дані про працівника оновлено");
@@ -2531,7 +2532,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     SelectedEmployee.Employee.ADDRESS1.REGION = selectedEmp.ADDRESS1.REGION;
                     SelectedEmployee.Employee.ADDRESS1.STREET = selectedEmp.ADDRESS1.STREET;
                     SelectedEmployee.Employee.ADDRESS1.BUILDING_NUMBER = selectedEmp.ADDRESS1.BUILDING_NUMBER;
-                    CopyStaff(ref SelectedEmployee._employee, selectedEmp);
+                    API.CopyStaff(ref SelectedEmployee._employee, selectedEmp);
                     SelectedEmployee.Post = selectedEmp.POST;
                     SelectedEmployee = SelectedEmployee;
                     SelectedEmployee.Employee = SelectedEmployee.Employee;
@@ -2591,43 +2592,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 EmployeeSalaryPersentage = (double)SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE;
             }
         }
-        private void CopyAddress(ref ADDRESS one, ADDRESS two)
-        {
-            one.ADDRESS_ID = two.ADDRESS_ID;
-            one.COUNTRY = two.COUNTRY;
-            one.CITY = two.CITY;
-            one.REGION = two.REGION;
-            one.STREET = two.STREET;
-            one.BUILDING_NUMBER = two.BUILDING_NUMBER;
-        }
-        private void CopyStaff(ref STAFF one, STAFF two)
-        {
-            one.STAFF_ID = two.STAFF_ID;
-            one.STAFF_NAME = two.STAFF_NAME;
-            one.STAFF_SURNAME = two.STAFF_SURNAME;
-            one.BIRTH_DATE = two.BIRTH_DATE;
-            one.EMAIL = two.EMAIL;
-            one.LOGIN = two.LOGIN;
-            one.PASSWORD = two.PASSWORD;
-            one.POST_ID = two.POST_ID;
-            one.ADDRESS = two.ADDRESS;
-            one.POST_ID = two.POST_ID;
-            one.FULL_SALARY_PERSENTAGE = two.FULL_SALARY_PERSENTAGE;
-            one.THEME = two.THEME;
-        }
-        private void CopyClient(ref CLIENT one, CLIENT two)
-        {
-            one.CLIENT_ID = two.CLIENT_ID;
-            one.CLIENT_NAME = two.CLIENT_NAME;
-            one.CLIENT_SURNAME = two.CLIENT_SURNAME;
-            one.CLIENT_MIDDLE_NAME = two.CLIENT_MIDDLE_NAME;
-            one.EMAIL = two.EMAIL;
-            one.COMPANY_TITLE = two.COMPANY_TITLE;
-            one.MOBILE_PHONE = two.MOBILE_PHONE;
-            one.COMPANY_PHONE = two.COMPANY_PHONE;
-            one.ADDRESS = two.ADDRESS;
-            one.ADDRESS = two.ADDRESS;
-        }
+       
 
 
     }

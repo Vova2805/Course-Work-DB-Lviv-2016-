@@ -109,5 +109,43 @@ namespace CourseWorkDB_DudasVI.General
             res = temp.Last().COST_PER_KM;
             return res;
         }
+
+        public static void CopyAddress(ref ADDRESS one, ADDRESS two)
+        {
+            one.ADDRESS_ID = two.ADDRESS_ID;
+            one.COUNTRY = two.COUNTRY;
+            one.CITY = two.CITY;
+            one.REGION = two.REGION;
+            one.STREET = two.STREET;
+            one.BUILDING_NUMBER = two.BUILDING_NUMBER;
+        }
+        public static void CopyStaff(ref STAFF one, STAFF two)
+        {
+            one.STAFF_ID = two.STAFF_ID;
+            one.STAFF_NAME = two.STAFF_NAME;
+            one.STAFF_SURNAME = two.STAFF_SURNAME;
+            one.BIRTH_DATE = two.BIRTH_DATE;
+            one.EMAIL = two.EMAIL;
+            one.LOGIN = two.LOGIN;
+            one.PASSWORD = two.PASSWORD;
+            one.POST_ID = two.POST_ID;
+            one.ADDRESS = two.ADDRESS;
+            one.POST_ID = two.POST_ID;
+            one.FULL_SALARY_PERSENTAGE = two.FULL_SALARY_PERSENTAGE;
+            one.THEME = two.THEME;
+        }
+        public static void CopyClient(ref CLIENT one, CLIENT two)
+        {
+            one.CLIENT_ID = two.CLIENT_ID;
+            one.CLIENT_NAME = two.CLIENT_NAME;
+            one.CLIENT_SURNAME = two.CLIENT_SURNAME;
+            one.CLIENT_MIDDLE_NAME = two.CLIENT_MIDDLE_NAME;
+            one.EMAIL = two.EMAIL;
+            one.COMPANY_TITLE = two.COMPANY_TITLE;
+            one.MOBILE_PHONE = two.MOBILE_PHONE;
+            one.COMPANY_PHONE = two.COMPANY_PHONE;
+            one.ADDRESS = two.ADDRESS;
+            one.ADDRESS = two.ADDRESS;
+        }
     }
 }

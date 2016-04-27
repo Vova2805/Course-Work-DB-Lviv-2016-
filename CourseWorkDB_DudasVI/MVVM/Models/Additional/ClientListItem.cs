@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
+using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using LiveCharts;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
@@ -16,8 +21,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private ObservableCollection<DeliveryListItem> _newOrderDeliveries;
         private decimal _newOrderTotal;
         private ObservableCollection<OrderProductListItem> _packagesProducts;
-        private ObservableCollection<SALE_ORDER> _saleOrders;
-        private SALE_ORDER _selectedOrder;
+        private ObservableCollection<NewOrderItem> _saleOrders;
+        private NewOrderItem _selectedOrder;
+        private bool _isSelectedOrderActive;
         private int _totalQuantity;
         private DeliveryListItem selectedDelivery;
 
@@ -29,10 +35,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         {
             Client = client;
             var temp = client.SALE_ORDER.ToList();
-            _saleOrders = new ObservableCollection<SALE_ORDER>();
+            _saleOrders = new ObservableCollection<NewOrderItem>();
             foreach (var order in temp)
             {
-                SaleOrders.Add(order);
+                SaleOrders.Add(new NewOrderItem(order));
             }
             if (SaleOrders.Count > 0)
                 SelectedOrder = SaleOrders.First();
@@ -42,7 +48,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             NewOrder = new NewOrderItem(newOrder);
             _packagesProducts = new ChartValues<OrderProductListItem>(); //empty
             NewOrderDeliveries = new ObservableCollection<DeliveryListItem>();
-            NewDelivery = new DeliveryListItem(InitializeDelivery());
+            NewDelivery = new DeliveryListItem(InitializeDelivery(), SelectedOrder != null?SelectedOrder.SaleOrder.TOTAL:0);
         }
 
         private DELIVERY InitializeDelivery()
@@ -54,6 +60,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 
             var address = new DELIVERY_ADDRESS();
             address.DISTANCE = 0;
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            if (window != null)
+            {
+                var context = window.DataContext as CommonViewModel;
+                if (context != null)
+                {
+                    address.ADDRESS = context.CurrentWarehouse.Warehouse.ADDRESS1;
+                }
+            }
+            address.ADDRESS1 = Client.ADDRESS1;
 
             temp.DELIVERY_ADDRESS = address;
             return temp;
@@ -79,7 +95,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public ObservableCollection<SALE_ORDER> SaleOrders
+        public ObservableCollection<NewOrderItem> SaleOrders
         {
             get { return _saleOrders; }
             set
@@ -89,7 +105,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public SALE_ORDER SelectedOrder
+        public NewOrderItem SelectedOrder
         {
             get { return _selectedOrder; }
             set
@@ -98,10 +114,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 if (_selectedOrder != null)
                 {
                     DeliveryList = new ObservableCollection<DeliveryListItem>();
-                    var tempDelivery = _selectedOrder.DELIVERY.ToList();
+                    var tempDelivery = _selectedOrder.SaleOrder.DELIVERY.ToList();
                     foreach (var delivery in tempDelivery)
                     {
-                        DeliveryList.Add(new DeliveryListItem(delivery));
+                        DeliveryList.Add(new DeliveryListItem(delivery, SelectedOrder != null ? SelectedOrder.SaleOrder.TOTAL : 0));
                     }
                     if (DeliveryList.Count > 0)
                         selectedDelivery = DeliveryList.First();
@@ -268,6 +284,79 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     OnPropertyChanged("SaleOrder");
                 }
             }
+
+            public ICommand AddNewOrder
+            {
+                get { return new RelayCommand<object>(AddNewOrderFuc); }
+            }
+
+            public async void AddNewOrderFuc(object obj)
+            {
+                var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+                var metroWindow = window as MetroWindow;
+                if (metroWindow != null)
+                {
+                    using (var dbContextTransaction = Session.FactoryEntities.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            //add new delivery order to current
+                                var dataContext = metroWindow.DataContext as CommonViewModel;
+                                if (dataContext != null)
+                                {
+                                    ADDRESS addr = new ADDRESS();
+                                    addr.ADDRESS_ID = Session.FactoryEntities.ADDRESS.ToList().Max(a => a.ADDRESS_ID) + 1;
+                                        
+                                    var newDeliveryAddress = dataContext.SelectedClient.NewDelivery.DeliveryAddress;
+                                    newDeliveryAddress.DELIVERY_ADDRESS_FROM = newDeliveryAddress.ADDRESS.ADDRESS_ID;
+                                    newDeliveryAddress.DELIVERY_ADDRESS_TO = addr.ADDRESS_ID;
+                                    API.CopyAddress(ref addr,newDeliveryAddress.ADDRESS1);
+
+                                    Session.FactoryEntities.ADDRESS.Add(addr);
+                                    Session.FactoryEntities.SaveChanges();
+
+                                    newDeliveryAddress.ADDRESS1 = null;
+                                    newDeliveryAddress.DEL_ADDRESS_ID =
+                                        Session.FactoryEntities.DELIVERY_ADDRESS.ToList().Max(a => a.DEL_ADDRESS_ID) + 1;
+                                    newDeliveryAddress.DELIVERY = null;
+
+                                    Session.FactoryEntities.DELIVERY_ADDRESS.Add(newDeliveryAddress);
+                                    Session.FactoryEntities.SaveChanges();
+
+                                    var newDelivery = dataContext.SelectedClient.NewDelivery.Delivery;
+
+                                    newDelivery.SALE_ORDER_ID = this.SaleOrder.SALE_ORDER_ID;
+                                    newDelivery.SALE_ORDER = null;
+                                    newDelivery.DEL_ADDRESS_ID = newDeliveryAddress.DEL_ADDRESS_ID;
+                                    newDelivery.DELIVERY_ID =
+                                        Session.FactoryEntities.DELIVERY.ToList().Max(a => a.DELIVERY_ID) + 1;
+                                    newDelivery.DELIVERY_ADDRESS = null;
+                                    newDelivery.DELIVERY_DATE = API.getTodayDate();
+                                    newDelivery.RAWSTUFF_ORDER = null;
+                                    Session.FactoryEntities.DELIVERY.Add(newDelivery);
+
+                                Session.FactoryEntities.SaveChanges();
+                                dbContextTransaction.Commit();
+                                await metroWindow.ShowMessageAsync("Вітання",
+                                "Зміни внесено! Дані про клієнта збережено");
+                            }
+                                else
+                                {
+                                dbContextTransaction.Rollback();
+                                await metroWindow.ShowMessageAsync("Невдача",
+                                    "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                                }
+                        }
+                        catch (Exception e)
+                        {
+                            dbContextTransaction.Rollback();
+                            await metroWindow.ShowMessageAsync("Невдача",
+                                "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                        }
+                    }
+
+                }
+            }
         }
 
         public class OrderProductListItem : ViewModelBaseInside
@@ -335,11 +424,19 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         {
             private DELIVERY _delivery;
             private DELIVERY_ADDRESS _deliveryAddress;
+            private decimal _total;
+            private decimal _costPerKm;
+            private decimal _Kms;
+            private decimal _OrderTotal;
 
-            public DeliveryListItem(DELIVERY delivery)
+            public DeliveryListItem(DELIVERY delivery,decimal orderTotal)
             {
                 _delivery = delivery;
                 _deliveryAddress = delivery.DELIVERY_ADDRESS;
+                Total = 0;
+                CostPerKm = delivery.COST_PER_KM;
+                Kms = DeliveryAddress.DISTANCE;
+                this.OrderTotal = orderTotal;
             }
 
             public DELIVERY Delivery
@@ -357,8 +454,57 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 get { return _deliveryAddress; }
                 set
                 {
-                    _deliveryAddress = value;
+                    _deliveryAddress  = value;
                     OnPropertyChanged("DeliveryAddress");
+                }
+            }
+            
+            public decimal Total
+            {
+                get { return _total; }
+                set
+                {
+                    _total = value;
+                    Delivery.DELIVERY_TOTAL = _total;
+                    OnPropertyChanged("Total");
+                }
+            }
+
+            public decimal CostPerKm
+            {
+                get { return _costPerKm; }
+                set
+                {
+                    _costPerKm = value;
+                    Total = 0;
+                    Total = ((decimal)(OrderTotal < 50000 ? 0.02 : 0.01) * OrderTotal) + _Kms * _costPerKm;
+                    Delivery.COST_PER_KM = _costPerKm;
+                    OnPropertyChanged("CostPerKm");
+                }
+            }
+
+            public decimal Kms
+            {
+                get { return _Kms; }
+                set
+                {
+                    _Kms = value;
+                    Total = 0;
+                    Total = ((decimal)(OrderTotal < 50000 ? 0.02 : 0.01)* OrderTotal) + _Kms*_costPerKm;
+                    DeliveryAddress.DISTANCE = _Kms;
+                    OnPropertyChanged("Kms");
+                }
+            }
+
+            public decimal OrderTotal
+            {
+                get { return _OrderTotal; }
+                set
+                {
+                    _OrderTotal = value;
+                    Total = 0;
+                    Total = ((decimal)(OrderTotal < 50000 ? 0.02 : 0.01) * OrderTotal) + _Kms * _costPerKm;
+                    OnPropertyChanged("OrderTotal");
                 }
             }
         }

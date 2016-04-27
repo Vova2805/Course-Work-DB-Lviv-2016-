@@ -1,4 +1,6 @@
-use [SWEET FACTORY]
+use [SWEET FACTORY TEST]
+GO
+
 CREATE TABLE PROVIDER
 (
 	PROVIDER_ID integer  NOT NULL ,
@@ -384,3 +386,21 @@ BEGIN
 	  )
 END;
 GO
+
+--CREATE TRIGGER InsertReleasedProductTrigger on RELEASED_PRODUCT
+--AFTER INSERT
+--AS
+--BEGIN
+--		declare @warehouse_id int, @engaged numeric(18, 2),@engaged_add numeric(18, 2), @width numeric(18, 2),@height numeric(18, 2),@lenght numeric(18, 2),@pack_id int
+--		set @warehouse_id =(SELECT WAREHOUSE_ID FROM inserted);
+--		set @engaged = (SELECT ENGAGED_SPACE FROM WAREHOUSE WHERE WAREHOUSE_ID = @warehouse_id);
+--		set @pack_id = (SELECT PACK_DESCR_ID FROM PRODUCT_INFO WHERE PRODUCT_INFO_ID  = (SELECT PRODUCT_INFO_ID FROM inserted));
+--		set @width = (SELECT WIDTH FROM PACKAGE_DESCRIPTION WHERE PACK_DESCR_ID = @pack_id) ;
+--		set @height = (SELECT HEIGTH FROM PACKAGE_DESCRIPTION WHERE PACK_DESCR_ID = @pack_id) ;
+--		set @lenght = (SELECT LENGTH FROM PACKAGE_DESCRIPTION WHERE PACK_DESCR_ID = @pack_id) ;
+--		set @engaged_add = @width * @height * @lenght / POWER(10, 9);
+--		UPDATE WAREHOUSE 
+--		SET ENGAGED_SPACE = @engaged +@engaged_add
+--		WHERE WAREHOUSE_ID = @warehouse_id;
+--END;
+--GO
