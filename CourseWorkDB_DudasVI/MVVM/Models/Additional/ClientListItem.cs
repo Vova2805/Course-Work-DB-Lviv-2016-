@@ -28,8 +28,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 
         private DeliveryListItem _newDelivery;
 
-
-
         public ClientListItem(CLIENT client)
         {
             Client = client;
@@ -297,6 +295,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             private SALE_ORDER _saleOrder;
             private OrderState state;
             private bool canAddDelivery;
+            private decimal total;
 
             public NewOrderItem(SALE_ORDER saleOrder)
             {
@@ -314,6 +313,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 {
                     state = OrderState.Canceled;
                 }
+                Total = saleOrder.TOTAL;
             }
 
             public SALE_ORDER SaleOrder
@@ -325,6 +325,18 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     OnPropertyChanged("SaleOrder");
                 }
             }
+
+            public decimal Total
+            {
+                get { return total; }
+                set
+                {
+                    total = value;
+                    SaleOrder.TOTAL = value;
+                    OnPropertyChanged("Total");
+                }
+            }
+
             public bool CanAddDelivery
             {
                 get { return canAddDelivery; }
@@ -351,13 +363,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     OnPropertyChanged("State");
                 }
             }
-
-            public ICommand AddNewOrder
+            public ICommand AddNewDelivery
             {
-                get { return new RelayCommand<object>(AddNewOrderFuc); }
+                get { return new RelayCommand<object>(AddNewDeliveryFuc); }
             }
+            
 
-            public async void AddNewOrderFuc(object obj)
+            public async void AddNewDeliveryFuc(object obj)
             {
                 var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
                 var metroWindow = window as MetroWindow;
@@ -405,7 +417,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                     newDelivery.RAWSTUFF_ORDER = null;
                                     connection.DELIVERY.Add(newDelivery);
 
-                                    connection.SaveChanges();
+                                    
                                     
                                     Session.FactoryEntities = new SWEET_FACTORYEntities();
                                     //change order total
@@ -417,7 +429,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                                     dataContext.SelectedClient.SelectedOrder.SaleOrder.SALE_ORDER_ID).FirstOrDefault();
 
                                     order.TOTAL += dataContext.SelectedClient.NewDelivery.Total;
-                                    dataContext.SelectedClient.SelectedOrder.SaleOrder.TOTAL = order.TOTAL;
+                                    dataContext.SelectedClient.SelectedOrder.Total = order.TOTAL;
+                                    connection.SaveChanges();
                                     dbContextTransaction.Commit();
                                     await metroWindow.ShowMessageAsync("Вітання",
                                     "Зміни внесено! Дані про клієнта збережено");
@@ -455,155 +468,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        public class OrderProductListItem : ViewModelBaseInside
-        {
-            private readonly ClientListItem DataContext;
-            private ORDER_PRODUCT _orderProduct;
-            private decimal _packageTotal;
-            private int _QuantityInOrder = 0;
+       
 
-            public OrderProductListItem(ORDER_PRODUCT orderProduct, int quantity, ClientListItem dataContext)
-            {
-                DataContext = dataContext;
-                _orderProduct = orderProduct;
-                QuantityInOrder = quantity;
-                PackageTotal = API.getlastPrice(_orderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE*_QuantityInOrder;
-            }
-
-            public decimal PackageTotal
-            {
-                get { return _packageTotal; }
-                set
-                {
-                    _packageTotal = value;
-                    OnPropertyChanged("PackageTotal");
-                }
-            }
-
-            public ORDER_PRODUCT OrderProduct
-            {
-                get { return _orderProduct; }
-                set
-                {
-                    _orderProduct = value;
-                    OnPropertyChanged("OrderProduct");
-                }
-            }
-
-            public int QuantityInOrder
-            {
-                get { return _QuantityInOrder; }
-                set
-                {
-                    _QuantityInOrder = value;
-                    PackageTotal = API.getlastPrice(_orderProduct.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE*
-                                   _QuantityInOrder;
-                    _orderProduct.QUANTITY_IN_ORDER = _QuantityInOrder;
-                    OnPropertyChanged("QuantityInOrder");
-                    DataContext.PackagesProducts =
-                        DataContext.PackagesProducts;
-                }
-            }
-
-            public ICommand RemoveProductFromOrder
-            {
-                get { return new RelayCommand<object>(RemoveProductFromOrderFunc); }
-            }
-
-            private void RemoveProductFromOrderFunc(object obj)
-            {
-                _QuantityInOrder = 0; //remove product from order
-            }
-        }
-
-        public class DeliveryListItem : ViewModelBaseInside
-        {
-            private DELIVERY _delivery;
-            private DELIVERY_ADDRESS _deliveryAddress;
-            private decimal _total;
-            private decimal _costPerKm;
-            private decimal _Kms;
-            private decimal _OrderTotal;
-
-            public DeliveryListItem(DELIVERY delivery,decimal orderTotal)
-            {
-                _delivery = delivery;
-                _deliveryAddress = delivery.DELIVERY_ADDRESS;
-                Total = 0;
-                CostPerKm = delivery.COST_PER_KM;
-                Kms = DeliveryAddress.DISTANCE;
-                this.OrderTotal = orderTotal;
-            }
-
-            public DELIVERY Delivery
-            {
-                get { return _delivery; }
-                set
-                {
-                    _delivery = value;
-                    OnPropertyChanged("Delivery");
-                }
-            }
-
-            public DELIVERY_ADDRESS DeliveryAddress
-            {
-                get { return _deliveryAddress; }
-                set
-                {
-                    _deliveryAddress  = value;
-                    OnPropertyChanged("DeliveryAddress");
-                }
-            }
-            
-            public decimal Total
-            {
-                get { return _total; }
-                set
-                {
-                    _total = value;
-                    Delivery.DELIVERY_TOTAL = _total;
-                    OnPropertyChanged("Total");
-                }
-            }
-
-            public decimal CostPerKm
-            {
-                get { return _costPerKm; }
-                set
-                {
-                    _costPerKm = value;
-                    Total = 0;
-                    Total = ((decimal)(OrderTotal < 50000 ? 0.02 : 0.01) * OrderTotal) + _Kms * _costPerKm;
-                    Delivery.COST_PER_KM = _costPerKm;
-                    OnPropertyChanged("CostPerKm");
-                }
-            }
-
-            public decimal Kms
-            {
-                get { return _Kms; }
-                set
-                {
-                    _Kms = value;
-                    Total = 0;
-                    Total = ((decimal)(OrderTotal < 50000 ? 0.02 : 0.01)* OrderTotal) + _Kms*_costPerKm;
-                    DeliveryAddress.DISTANCE = _Kms;
-                    OnPropertyChanged("Kms");
-                }
-            }
-
-            public decimal OrderTotal
-            {
-                get { return _OrderTotal; }
-                set
-                {
-                    _OrderTotal = value;
-                    Total = 0;
-                    Total = ((decimal)(OrderTotal < 50000 ? 0.02 : 0.01) * OrderTotal) + _Kms * _costPerKm;
-                    OnPropertyChanged("OrderTotal");
-                }
-            }
-        }
+       
 
         #region Funcs
 
@@ -619,5 +486,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         }
 
         #endregion
+
+        public ICommand ClearChangesInDelivery
+        {
+            get { return new RelayCommand<object>(ClearChangesInDeliveryFunc); }
+        }
+
+        public void ClearChangesInDeliveryFunc(object obj)
+        {
+            NewDelivery = new DeliveryListItem(InitializeDelivery(), SelectedOrder != null ? SelectedOrder.SaleOrder.TOTAL : 0);
+        }
     }
 }

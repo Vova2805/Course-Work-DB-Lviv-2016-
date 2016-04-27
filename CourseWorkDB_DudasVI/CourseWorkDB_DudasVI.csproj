@@ -179,6 +179,8 @@
       <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="MVVM\Models\Additional\ClientListItem.cs" />
+    <Compile Include="MVVM\Models\Additional\DeliveryListItem.cs" />
+    <Compile Include="MVVM\Models\Additional\OrderProductListItem.cs" />
     <Compile Include="MVVM\Models\Additional\ReleasedProductListItem.cs" />
     <Compile Include="MVVM\Models\Additional\WarehouseListItem.cs" />
     <Compile Include="MVVM\Models\Additional\WarehouseProductTransaction.cs" />

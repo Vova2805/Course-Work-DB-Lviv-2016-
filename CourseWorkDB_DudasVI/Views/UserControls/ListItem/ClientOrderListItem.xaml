@@ -49,7 +49,7 @@
             <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="4" Text="Загалом" Margin="5" />
             <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2"
                        Foreground="Green" VerticalAlignment="Center" HorizontalAlignment="Center"
-                       Text="{Binding Path=SaleOrder.TOTAL}" Margin="5" ToolTip="Загальна вартість замовлення" />
+                       Text="{Binding Path=Total}" Margin="5" ToolTip="Загальна вартість замовлення" />
             <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="3" Grid.Column="4" Foreground="Red"
                        HorizontalAlignment="Center" Text="{Binding Path=SaleOrder.DISCOUNT}" ToolTip="Знижка" Margin="5" />
         </Grid>
