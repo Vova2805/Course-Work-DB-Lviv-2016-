@@ -175,18 +175,27 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void OpenFilter(object sender, RoutedEventArgs e)
         {
-            switch (SpecialistTabControl.SelectedIndex)
+            if (SpecialistTabControl.SelectedIndex == 0)
             {
-                case 0:
-                {
-                }
-                    break;
-                case 1:
-                {
-                    SpecialistProductFilter.IsOpen = !SpecialistProductFilter.IsOpen;
-                }
-                    break;
+                WarehousesFilter.IsOpen = !WarehousesFilter.IsOpen;
             }
+            else
+             if (SpecialistTabControl.SelectedIndex == 1)
+            {
+                if (InnerControl.SelectedIndex == 0)
+                {
+                    StoryFilter.IsOpen = !StoryFilter.IsOpen;
+                }
+                else CurrentPlanFilter.IsOpen = CurrentPlanFilter.IsOpen;
+            }
+             else
+                if (SpecialistTabControl.SelectedIndex == 2)
+                {
+                CatalogFilter.IsOpen = !CatalogFilter.IsOpen;
+                }
+            else if (SpecialistTabControl.SelectedIndex == 3)
+                InOutComeFlowFilte.IsOpen = !InOutComeFlowFilte.IsOpen;
+
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

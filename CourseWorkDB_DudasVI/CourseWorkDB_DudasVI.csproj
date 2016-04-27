@@ -347,8 +347,20 @@
     <Compile Include="Views\UserControls\Filters\Saler\ClientsSalerFilter.xaml.cs">
       <DependentUpon>ClientsSalerFilter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Filters\Specialist\EditOrder.xaml.cs">
+    <Compile Include="Views\UserControls\Filters\Director\EditOrder.xaml.cs">
       <DependentUpon>EditOrder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\Specialist\CatalogFilter.xaml.cs">
+      <DependentUpon>CatalogFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\Specialist\CurrentPlanFilter.xaml.cs">
+      <DependentUpon>CurrentPlanFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\Specialist\StoryFilter.xaml.cs">
+      <DependentUpon>StoryFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Filters\Specialist\WarehousesFilter.xaml.cs">
+      <DependentUpon>WarehousesFilter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\ListItem\ClientOrderListItem.xaml.cs">
       <DependentUpon>ClientOrderListItem.xaml</DependentUpon>
@@ -524,7 +536,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UserControls\Filters\Specialist\EditOrder.xaml">
+    <Page Include="Views\UserControls\Filters\Director\EditOrder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Filters\Specialist\CatalogFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Filters\Specialist\CurrentPlanFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Filters\Specialist\StoryFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Filters\Specialist\WarehousesFilter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

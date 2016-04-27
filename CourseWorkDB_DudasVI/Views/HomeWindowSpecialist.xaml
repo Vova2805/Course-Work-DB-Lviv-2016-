@@ -167,6 +167,26 @@
                              Theme="Accent">
                 <UserControls:EditOrderOrProduct />
             </Controls:Flyout>
+            <Controls:Flyout Header="Фільтрувати" Position="Right" Name="WarehousesFilter"
+                             Theme="Accent">
+                <UserControls:WarehousesFilter />
+            </Controls:Flyout>
+            <Controls:Flyout Header="Фільтрувати" Position="Right" Name="StoryFilter"
+                             Theme="Accent">
+                <UserControls:StoryFilter />
+            </Controls:Flyout>
+            <Controls:Flyout Header="Фільтрувати" Position="Right" Name="CurrentPlanFilter"
+                             Theme="Accent">
+                <UserControls:CurrentPlanFilter />
+            </Controls:Flyout>
+            <Controls:Flyout Header="Фільтрувати" Position="Right" Name="CatalogFilter"
+                             Theme="Accent">
+                <UserControls:CatalogFilter />
+            </Controls:Flyout>
+            <Controls:Flyout Header="Фільтрувати" Position="Right" Name="InOutComeFlowFilte"
+                             Theme="Accent">
+                <UserControls:InOutComeFlowFilte />
+            </Controls:Flyout>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
@@ -1374,7 +1394,6 @@
                             <UserControls:ChartsSet />
                         </ScrollViewer>
                     </DockPanel>
-
                 </Grid>
             </Border>
         </TabItem>
