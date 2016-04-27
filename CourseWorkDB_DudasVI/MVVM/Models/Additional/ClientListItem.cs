@@ -111,6 +111,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
+        public DeliveryListItem SelectedDeliveryNewOrder
+        {
+            get { return selectedDeliveryNewOrder; }
+            set
+            {
+                selectedDeliveryNewOrder = value;
+                OnPropertyChanged("SelectedDeliveryNewOrder");
+            }
+        }
+
         public NewOrderItem SelectedOrder
         {
             get { return _selectedOrder; }
