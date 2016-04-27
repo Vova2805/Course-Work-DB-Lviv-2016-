@@ -43,7 +43,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             NewSchedule.STAFF = Session.User;
             NewSchedule.STAFF_ID = Session.User.STAFF_ID;
             NewSchedule.CREATED_DATE = API.getTodayDate();
-            NewSchedule.REQUIRED_DATE = API.getTodayDate();
+            NewSchedule.REQUIRED_DATE = API.getTodayDate().AddDays(10);
             NewSchedule.SCHEDULE_ID = Session.FactoryEntities.PRODUCTION_SCHEDULE.ToList().Max(p => p.SCHEDULE_ID) + 1;
             ScheduleProductInfos = new ObservableCollection<ScheduleProductInfo>();
             ItemsQuantity = 0;
@@ -345,7 +345,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             var metroWindow = window as MetroWindow;
             if (metroWindow != null)
             {
-                var result = await metroWindow.ShowMessageAsync("Зьереження", "Зберегти поточний план?", MessageDialogStyle.AffirmativeAndNegative);
+                var result = await metroWindow.ShowMessageAsync("Збереження", "Зберегти поточний план?", MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Affirmative)
                 {
                     using (var connection = new SWEET_FACTORYEntities())

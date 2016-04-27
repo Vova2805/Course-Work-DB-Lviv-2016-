@@ -1830,17 +1830,16 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 {
                     if (specialistWindow != null)
                     {
-                        Dialog.Initialize("Змінити кількість?",
+                        var result = await specialistWindow.ShowMessageAsync("Змінити кількість?",
                             "У плані вже наявний продукт : " + existed.ProductInfo.PRODUCT_INFO.PRODUCT_TITLE +
                             "\nКількості : " + existed.Quantity +
-                            ".\nБажаєте змінити кількість на " + selectedSchedule_Package.QUANTITY_IN_SCHEDULE + " ?");
-                        if (!Dialog.ForAll)
-                            Dialog.ShowDialog();
-                        if (Dialog.DialogResult == DialogResponse.Yes)
+                            ".\nБажаєте змінити кількість на " + selectedSchedule_Package.QUANTITY_IN_SCHEDULE + " ?", MessageDialogStyle.AffirmativeAndNegative);
+                        if (result==MessageDialogResult.Affirmative)
                         {
                             CurrentWarehouse.addScheduleProduct(selectedSchedule_Package.PRODUCT_INFO,
                                 selectedSchedule_Package.QUANTITY_IN_SCHEDULE);
                         }
+                        //else quantity is the same
                     }
                 }
                 else
