@@ -73,7 +73,6 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github pr
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\CustomerView.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\CustomElements\CustomTextBox.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Director\EditOrFilterProducts.g.cs
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\GoodsFilter.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Specialist\EditOrder.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\ClientOrderListItem.g.cs
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\OrderListItem.g.cs
@@ -111,7 +110,6 @@ E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github pr
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Basic\CustomerView.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\CustomElements\CustomTextBox.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Director\EditOrFilterProducts.baml
-E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\GoodsFilter.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\Filters\Specialist\EditOrder.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\ClientOrderListItem.baml
 E:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\obj\Debug\Views\UserControls\ListItem\OrderListItem.baml

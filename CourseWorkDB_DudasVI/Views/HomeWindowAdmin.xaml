@@ -62,6 +62,33 @@
                         </Rectangle>
                     </StackPanel>
                 </Button>
+                <Button ToolTip="Синхронізувати (оновити) БД Alt+R" Click="SettingsClick">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="5 0 5 0"
+                               VerticalAlignment="Center" />
+                        <Rectangle Width="15" Height="15">
+                            <Rectangle.Style>
+                                <Style TargetType="{x:Type Rectangle}">
+                                    <Setter Property="Fill">
+                                        <Setter.Value>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                             Visual="{StaticResource appbar_refresh_white}" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+                        </Rectangle>
+                    </StackPanel>
+                </Button>
                 <Button Click="LogoutClick" ToolTip="Завершити роботу">
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Width="15" Height="15">

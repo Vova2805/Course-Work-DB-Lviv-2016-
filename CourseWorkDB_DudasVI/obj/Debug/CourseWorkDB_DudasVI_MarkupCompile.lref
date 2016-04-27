@@ -16,8 +16,13 @@ FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github p
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Charts\Sequence\ChartsSet.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\CustomerView.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\CustomElements\CustomTextBox.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\ScheduleFilter.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\ClientsFilter.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\OrdersFilter.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\InOutComeFlowFilter.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\EditOrFilterProducts.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\GoodsFilter.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Saler\NewOrderFilter.xaml;;
+FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Saler\ClientsSalerFilter.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Specialist\EditOrder.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\ClientOrderListItem.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\OrderListItem.xaml;;
@@ -31,10 +36,4 @@ FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github p
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\CustomerListElement.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\ListItem\UserListElement.xaml;;
 FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Basic\UserView.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\OrdersFilter.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\InOutComeFlowFilter.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\ScheduleFilter.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Director\ClientsFilter.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Saler\NewOrderFilter.xaml;;
-FE:\Software engineering\PI_34\6 semester\Курсова\КУРСОВА\github projects\Course-Work-DB-Lviv-2016-\CourseWorkDB_DudasVI\Views\UserControls\Filters\Saler\ClientsSalerFilter.xaml;;
 

@@ -341,9 +341,6 @@
     <Compile Include="Views\UserControls\Filters\Director\EditOrFilterProducts.xaml.cs">
       <DependentUpon>EditOrFilterProducts.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Filters\GoodsFilter.xaml.cs">
-      <DependentUpon>GoodsFilter.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Filters\Saler\NewOrderFilter.xaml.cs">
       <DependentUpon>NewOrderFilter.xaml</DependentUpon>
     </Compile>
@@ -516,10 +513,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Filters\Director\EditOrFilterProducts.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControls\Filters\GoodsFilter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

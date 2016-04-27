@@ -56,11 +56,11 @@ namespace CourseWorkDB_DudasVI.Views
         {
             var firstSettings = new RoutedCommand();
             firstSettings.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Alt));
-            CommandBindings.Add(new CommandBinding(firstSettings, EditOrdersOpen));
+            CommandBindings.Add(new CommandBinding(firstSettings, OpenFilter));
 
             firstSettings = new RoutedCommand();
             firstSettings.InputGestures.Add(new KeyGesture(Key.F, ModifierKeys.Alt));
-            CommandBindings.Add(new CommandBinding(firstSettings, EditOrdersOpen));
+            CommandBindings.Add(new CommandBinding(firstSettings, OpenFilter));
 
             firstSettings = new RoutedCommand();
             firstSettings.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Alt));
@@ -81,6 +81,18 @@ namespace CourseWorkDB_DudasVI.Views
             firstSettings = new RoutedCommand();
             firstSettings.InputGestures.Add(new KeyGesture(Key.F1, ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(firstSettings, Help));
+
+            firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.P, ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(firstSettings, ToPlan));
+
+            firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.Z, ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(firstSettings, ToPlan));
+
+            firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.Tab, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(firstSettings, NextTab));
         }
 
         private void LogoutClick(object sender, RoutedEventArgs e)
@@ -97,7 +109,7 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void InnerTabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (InnerControl.SelectedIndex == 1 && SpecialistControl.SelectedIndex == 1)
+            if (InnerControl.SelectedIndex == 1 && SpecialistTabControl.SelectedIndex == 1)
             {
                 var dataContext = DataContext as CommonViewModel;
                 if (dataContext != null && dataContext.CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
@@ -125,49 +137,27 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void OnCheckAll(object sender, RoutedEventArgs e)
         {
-            switch (SpecialistControl.SelectedIndex)
+            var model = DataContext as CommonViewModel;
+            if (model != null)
             {
-                case 0:
-                {
-                    var model = DataContext as CommonViewModel;
-                    if (model != null)
+                if (SpecialistTabControl.SelectedIndex == 3)
+                    foreach (var product in model.InOutComeFlow)
                     {
-                        foreach (var product in model.ProductPackagesList)
-                        {
-                            product.isChecked = true;
-                        }
+                        product.IsMarked = true;
                     }
-                }
-                    break;
-                case 1:
-                {
-                    ProductsCatalog.ClearText();
-                }
-                    break;
-                case 4:
-                {
-                    ProductsScheduleCatalog.ClearText();
-                }
-                    break;
             }
         }
 
         private void OnUncheckAll(object sender, RoutedEventArgs e)
         {
-            switch (SpecialistControl.SelectedIndex)
+            var model = DataContext as CommonViewModel;
+            if (model != null)
             {
-                case 0:
-                {
-                    var model = DataContext as CommonViewModel;
-                    if (model != null)
+                if (SpecialistTabControl.SelectedIndex == 3)
+                    foreach (var product in model.InOutComeFlow)
                     {
-                        foreach (var product in model.ProductPackagesList)
-                        {
-                            product.isChecked = false;
-                        }
+                        product.IsMarked = false;
                     }
-                }
-                    break;
             }
         }
 
@@ -176,9 +166,9 @@ namespace CourseWorkDB_DudasVI.Views
             AdminFlyout.IsOpen = !AdminFlyout.IsOpen;
         }
 
-        private void EditOrdersOpen(object sender, RoutedEventArgs e)
+        private void OpenFilter(object sender, RoutedEventArgs e)
         {
-            switch (SpecialistControl.SelectedIndex)
+            switch (SpecialistTabControl.SelectedIndex)
             {
                 case 0:
                 {
@@ -197,14 +187,14 @@ namespace CourseWorkDB_DudasVI.Views
             var model = DataContext as CommonViewModel;
             if (model != null)
             {
-                model.TabIndex = SpecialistControl.SelectedIndex;
+                model.TabIndex = SpecialistTabControl.SelectedIndex;
                 model.UpdateSeries();
                 //ProductsCatalog.ClearText();
-                if (SpecialistControl.SelectedIndex == 1 && InnerControl.SelectedIndex == 1 &&
+                if (SpecialistTabControl.SelectedIndex == 1 && InnerControl.SelectedIndex == 1 &&
                     model.CurrentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
                     InnerTabControlSelectionChanged(sender, e);
                 var visibility = true;
-                if (SpecialistControl.SelectedIndex == 2)
+                if (SpecialistTabControl.SelectedIndex == 2)
                 {
                     visibility = false;
                 }
@@ -227,5 +217,25 @@ namespace CourseWorkDB_DudasVI.Views
         }
 
         #endregion
+
+        private int indexBack = 0;
+        private void ToPlan(object sender, RoutedEventArgs e)
+        {
+            if (SpecialistTabControl.SelectedIndex == 1 && InnerControl.SelectedIndex == 1) //come back
+                SpecialistTabControl.SelectedIndex = indexBack;
+            else
+            {
+                indexBack = SpecialistTabControl.SelectedIndex;
+                SpecialistTabControl.SelectedIndex = 1;
+                InnerControl.SelectedIndex = 1;
+            }
+        }
+        private void NextTab(object sender, RoutedEventArgs e)
+        {
+            int index = SpecialistTabControl.SelectedIndex;
+            if (index == 3)
+                SpecialistTabControl.SelectedIndex = 0;
+            else SpecialistTabControl.SelectedIndex += 1;
+        }
     }
 }

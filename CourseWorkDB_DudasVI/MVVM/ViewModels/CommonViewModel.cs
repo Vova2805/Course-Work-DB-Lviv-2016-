@@ -2514,7 +2514,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                     "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
                             }
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             dbContextTransaction.Rollback();
                             await metroWindow.ShowMessageAsync("Невдача",
