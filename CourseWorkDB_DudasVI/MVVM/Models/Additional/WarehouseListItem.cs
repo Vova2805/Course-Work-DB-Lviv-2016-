@@ -368,69 +368,72 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         public async void UtilizeFunc(object obj)
         {
             int a = 0;
-            //saver schedule to db
-            //var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
-            //var metroWindow = window as MetroWindow;
-            //if (metroWindow != null)
-            //{
-            //    var result = await metroWindow.ShowMessageAsync("Збереження", "Зберегти поточний план?", MessageDialogStyle.AffirmativeAndNegative);
-            //    if (result == MessageDialogResult.Affirmative)
-            //    {
-            //        using (var connection = new SWEET_FACTORYEntities())
-            //        {
-            //            using (var dbContextTransaction = connection.Database.BeginTransaction())
-            //            {
-            //                try
-            //                {
-            //                    var productionSchedule = new PRODUCTION_SCHEDULE();
-            //                    NewSchedule.SCHEDULE_ID =
-            //                        connection.PRODUCTION_SCHEDULE.ToList().Max(s => s.SCHEDULE_ID) + 1;
-            //                    NewSchedule.STAFF_ID = Session.User.STAFF_ID;
-            //                    NewSchedule.CREATED_DATE = API.getTodayDate();
-            //                    NewSchedule.SCHEDULE_STATE = "Активний";
-            //                    NewSchedule.WAREHOUSE_ID = this.Warehouse.WAREHOUSE_ID;
-            //                    NewSchedule.SCHEDULE_TOTAL = TotalPrice;
-            //                    CopyProductionSchedule(ref productionSchedule, NewSchedule);
 
-            //                    connection.PRODUCTION_SCHEDULE.Add(productionSchedule);
-            //                    connection.SaveChanges();
-            //                    foreach (var product in ScheduleProductInfos)
-            //                    {
-            //                        SCHEDULE_PRODUCT_INFO ProductInfo = new SCHEDULE_PRODUCT_INFO();
-            //                        product.ProductInfo.SCHEDULE_PRODUCT_INFO_ID =
-            //                            connection.SCHEDULE_PRODUCT_INFO.ToList()
-            //                                .Max(s => s.SCHEDULE_PRODUCT_INFO_ID) + 1;
-            //                        product.ProductInfo.SCHEDULE_ID = productionSchedule.SCHEDULE_ID;
-            //                        product.ProductInfo.QUANTITY_IN_SCHEDULE = product.Quantity;
-            //                        product.ProductInfo.PRODUCT_INFO_ID =
-            //                            product.ProductInfo.PRODUCT_INFO.PRODUCT_INFO_ID;
-            //                        product.ProductInfo.RELEASED_QUANTITY = 0;
-            //                        CopyScheduleProductInfo(ref ProductInfo, product.ProductInfo);
-            //                        connection.SCHEDULE_PRODUCT_INFO.Add(ProductInfo);
-            //                        connection.SaveChanges();
-            //                    }
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var metroWindow = window as MetroWindow;
+            if (metroWindow != null)
+            {
+                var result = await metroWindow.ShowMessageAsync("Попередження", "Всі прострочені товари будуть видалені із БД. Бажаєте продовжити?", MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    using (var connection = new SWEET_FACTORYEntities())
+                    {
+                        using (var dbContextTransaction = connection.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                var temp = new ObservableCollection<ReleasedProductListItem>();
+                                var datacontext = metroWindow.DataContext as CommonViewModel;
+                                if(datacontext!=null)
+                                {
 
-            //                    connection.SaveChanges();
-            //                    dbContextTransaction.Commit();
-            //                    InitializeNewSchedule();
-            //                    await metroWindow.ShowMessageAsync("Вітання",
-            //                            "Зміни внесено! Новий план виробництва збережено");
-            //                    if (dataContext == null) initialiseDataContext();
-            //                    if (dataContext != null)
-            //                    {
-            //                        dataContext.CurrentWarehouse = dataContext.CurrentWarehouse;
-            //                    }
-            //                }
-            //                catch (Exception e)
-            //                {
-            //                    dbContextTransaction.Rollback();
-            //                    await metroWindow.ShowMessageAsync("Невдача",
-            //                            "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
+                                    foreach (var product in datacontext.ProductsOnWarehouse)
+                                    {
+                                        if (product.IsExpiring)
+                                        {
+                                            var releasedpr =
+                                                connection.RELEASED_PRODUCT.ToList()
+                                                    .Find(
+                                                        pr =>
+                                                            pr.RELEASED_PRODUCT_INFO_ID ==
+                                                            product.ReleasedProduct.RELEASED_PRODUCT_INFO_ID);
+                                            temp.Add(new ReleasedProductListItem(releasedpr, this));
+                                            connection.RELEASED_PRODUCT.Remove(releasedpr);
+                                        }
+                                    }
+
+                                    foreach (var prod in temp)
+                                    {
+                                        var pr =
+                                            datacontext.ProductsOnWarehouse.ToList()
+                                                .Find(
+                                                    p =>
+                                                        p.ReleasedProduct.RELEASED_PRODUCT_INFO_ID ==
+                                                        prod.ReleasedProduct.RELEASED_PRODUCT_INFO_ID);
+                                        datacontext.ProductsOnWarehouse.Remove(pr);
+                                    }
+                                    connection.SaveChanges();
+                                    dbContextTransaction.Commit();
+                                    await metroWindow.ShowMessageAsync("Вітання",
+                                            "Зміни внесено! Склад очищено");
+                                }
+                            else
+                                {
+                                    dbContextTransaction.Rollback();
+                                    await metroWindow.ShowMessageAsync("Невдача",
+                                            "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                                }
+                             }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                                await metroWindow.ShowMessageAsync("Невдача",
+                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
+                        }
+                    }
+                }
+            }
         }
 
 

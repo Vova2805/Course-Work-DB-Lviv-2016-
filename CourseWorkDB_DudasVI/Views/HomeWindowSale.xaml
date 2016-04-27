@@ -1410,35 +1410,7 @@
                                         </Rectangle.Style>
                                     </Rectangle>
                                 </Button>
-                                <Button Width="50"
-                                        Height="50"
-                                        VerticalAlignment="Top"
-                                        ToolTip="Очистити замовлення Alt+D"
-                                        Background="{DynamicResource ProgressBrush}"
-                                        Style="{DynamicResource MetroCircleButtonStyle}">
-                                    <Rectangle Width="20" Height="20">
-                                        <Rectangle.Style>
-                                            <Style TargetType="{x:Type Rectangle}">
-                                                <Setter Property="Fill">
-                                                    <Setter.Value>
-                                                        <VisualBrush Stretch="Fill"
-                                                                     Visual="{StaticResource appbar_delete}" />
-                                                    </Setter.Value>
-                                                </Setter>
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Fill">
-                                                            <Setter.Value>
-                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                             Visual="{StaticResource appbar_delete_white}" />
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Rectangle.Style>
-                                    </Rectangle>
-                                </Button>
+                               
                                 <Button Width="50" Click="CustomerFilter"
                                         Height="50"
                                         VerticalAlignment="Top"
@@ -1460,6 +1432,35 @@
                                                             <Setter.Value>
                                                                 <VisualBrush x:Name="Brush" Stretch="Fill"
                                                                              Visual="{StaticResource appbar_save_white}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </Button>
+                                <Button Width="50"
+                                        Height="50"
+                                        VerticalAlignment="Top"
+                                        ToolTip="Очистити замовлення Alt+D"
+                                        Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                                    <Rectangle Width="20" Height="20">
+                                        <Rectangle.Style>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <VisualBrush Stretch="Fill"
+                                                                     Visual="{StaticResource appbar_delete}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                             Visual="{StaticResource appbar_delete_white}" />
                                                             </Setter.Value>
                                                         </Setter>
                                                     </Trigger>
