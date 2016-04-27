@@ -2162,8 +2162,12 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _selectedPost = value;
-                SelectedPostTitle = _selectedPost.POST_NAME;
-                EmployeePostSalary = API.getlastSalary(_selectedPost.SALARY);
+                if (_selectedPost != null)
+                {
+                    SelectedPostTitle = _selectedPost.POST_NAME;
+                    EmployeePostSalary = API.getlastSalary(_selectedPost.SALARY);
+                }
+              
                 OnPropertyChanged("SelectedPost");
             }
         }

@@ -32,6 +32,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             _title = _productInfo.PRODUCT_TITLE;
             _categoryTitle = _productInfo.CATEGORY.CATEGORY_TITLE;
             _productPrice = (double) API.getlastPrice(_productInfo.PRODUCT_PRICE).PRICE_VALUE;
+            IsBooked = false;
         }
 
         public ProductListElement(PRODUCT_INFO ProductInfo, CommonViewModel dataContextViewModel)
