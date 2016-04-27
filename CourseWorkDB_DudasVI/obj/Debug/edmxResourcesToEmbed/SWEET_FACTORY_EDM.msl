@@ -308,7 +308,7 @@
         <MappingFragment StoreEntitySet="WAREHOUSE">
           <ScalarProperty Name="WAREHOUSE_ID" ColumnName="WAREHOUSE_ID" />
           <ScalarProperty Name="CAPACITY" ColumnName="CAPACITY" />
-          <ScalarProperty Name="FREE_SPACE" ColumnName="FREE_SPACE" />
+          <ScalarProperty Name="ENGAGED_SPACE" ColumnName="ENGAGED_SPACE" />
           <ScalarProperty Name="PHONE_NUMBER" ColumnName="PHONE_NUMBER" />
           <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
           <ScalarProperty Name="FAX" ColumnName="FAX" />

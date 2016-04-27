@@ -349,7 +349,7 @@
     </Key>
     <Property Name="WAREHOUSE_ID" Type="Int32" Nullable="false" />
     <Property Name="CAPACITY" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-    <Property Name="FREE_SPACE" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="ENGAGED_SPACE" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="PHONE_NUMBER" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="ADDRESS" Type="Int32" />
     <Property Name="FAX" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />

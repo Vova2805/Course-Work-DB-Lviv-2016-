@@ -281,7 +281,7 @@
     </Key>
     <Property Name="WAREHOUSE_ID" Type="int" Nullable="false" />
     <Property Name="CAPACITY" Type="money" Nullable="false" />
-    <Property Name="FREE_SPACE" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="ENGAGED_SPACE" Type="numeric" Precision="18" Scale="2" Nullable="false" />
     <Property Name="PHONE_NUMBER" Type="varchar" MaxLength="20" />
     <Property Name="ADDRESS" Type="int" />
     <Property Name="FAX" Type="varchar" MaxLength="20" />

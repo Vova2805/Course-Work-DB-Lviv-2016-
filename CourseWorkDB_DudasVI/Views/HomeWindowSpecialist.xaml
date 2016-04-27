@@ -341,7 +341,7 @@
                                 </Rectangle>
                             </Button>
                             <Button Width="50" Visibility ="{ Binding Path=ExtendedMode,Converter={StaticResource VisibilityConverter}}"
-                                    Height="50"
+                                    Height="50" Command="{Binding Path=CurrentWarehouse.Utilize}"
                                     VerticalAlignment="Top"
                                     ToolTip="Утилізувати прострочені товари"
                                     Background="{DynamicResource ProgressBrush}"
@@ -659,6 +659,17 @@
                                               FontSize="14"
                                               ItemsSource="{Binding Path=CurrentWarehouse.ScheduleProductInfos}"
                                               AutoGenerateColumns="False">
+                                        <DataGrid.RowStyle>
+                                            <Style TargetType="DataGridRow">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsExcessive}" Value="True">
+                                                        <Setter Property="Background" Value="IndianRed" />
+                                                        <Setter Property="ToolTip"
+                                                    Value="Замало місця на складі щоб вмістити даний товар" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGrid.RowStyle>
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Width="Auto" Header="Назва" IsReadOnly="True"
                                                                 Binding="{Binding Path=ProductInfo.PRODUCT_INFO.PRODUCT_TITLE}" />
@@ -786,6 +797,10 @@
                                     <TextBlock Grid.Row="3" Grid.Column="3" Text="Вільного місця на складі :" />
                                     <TextBlock Grid.Row="3" Grid.Column="4" Foreground="Green" FontWeight="Bold"
                                                Text="{Binding Path=CurrentWarehouse.Free}" />
+
+                                    <TextBlock Grid.Row="4" Grid.Column="3" Text="Зайнятого місця на складі :" />
+                                    <TextBlock Grid.Row="4" Grid.Column="4" Foreground="Red" FontWeight="Bold"
+                                               Text="{Binding Path=CurrentWarehouse.Engaged}" />
                                 </Grid>
                             </Border>
 

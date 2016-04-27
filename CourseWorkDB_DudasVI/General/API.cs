@@ -84,5 +84,14 @@ namespace CourseWorkDB_DudasVI.General
             var result = Session.FactoryEntities.DELIVERY.ToList().OrderBy(del => del.DELIVERY_DATE).Last();
             return result.COST_PER_KM;
         }
+
+        public static decimal getVolume(PACKAGE_DESCRIPTION description)
+        {
+            decimal width = description.WIDTH;
+            decimal height = description.HEIGTH;
+            decimal lenght = description.LENGTH;
+            //в мм
+            return width*height*lenght / (decimal)Math.Pow(10,9);// до метрів^3
+        }
     }
 }

@@ -286,7 +286,7 @@
           </Key>
           <Property Name="WAREHOUSE_ID" Type="int" Nullable="false" />
           <Property Name="CAPACITY" Type="money" Nullable="false" />
-          <Property Name="FREE_SPACE" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ENGAGED_SPACE" Type="numeric" Precision="18" Scale="2" Nullable="false" />
           <Property Name="PHONE_NUMBER" Type="varchar" MaxLength="20" />
           <Property Name="ADDRESS" Type="int" />
           <Property Name="FAX" Type="varchar" MaxLength="20" />
@@ -1268,7 +1268,7 @@
           </Key>
           <Property Name="WAREHOUSE_ID" Type="Int32" Nullable="false" />
           <Property Name="CAPACITY" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="FREE_SPACE" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ENGAGED_SPACE" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="PHONE_NUMBER" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ADDRESS" Type="Int32" />
           <Property Name="FAX" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -2215,7 +2215,7 @@
               <MappingFragment StoreEntitySet="WAREHOUSE">
                 <ScalarProperty Name="WAREHOUSE_ID" ColumnName="WAREHOUSE_ID" />
                 <ScalarProperty Name="CAPACITY" ColumnName="CAPACITY" />
-                <ScalarProperty Name="FREE_SPACE" ColumnName="FREE_SPACE" />
+                <ScalarProperty Name="ENGAGED_SPACE" ColumnName="ENGAGED_SPACE" />
                 <ScalarProperty Name="PHONE_NUMBER" ColumnName="PHONE_NUMBER" />
                 <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
                 <ScalarProperty Name="FAX" ColumnName="FAX" />

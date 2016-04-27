@@ -150,14 +150,14 @@ GO
 INSERT INTO [dbo].[WAREHOUSE]
            ([WAREHOUSE_ID]
            ,[CAPACITY]
-           ,[FREE_SPACE]
+           ,[ENGAGED_SPACE]
            ,[PHONE_NUMBER]
            ,[ADDRESS]
            ,[FAX]
 		   ,[STAFF_ID])
      VALUES
-           (1,100000,100000,'+380986456174',1,'75037',30),
-		   (2,200000,200000,'+380565756755',3,'32435',30)
+           (1,100000,0,'+380986456174',1,'75037',30),
+		   (2,200000,0,'+380565756755',3,'32435',30)
 GO
 
 INSERT INTO [dbo].[CLIENT]

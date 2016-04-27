@@ -25,7 +25,7 @@ namespace CourseWorkDB_DudasVI
     
         public int WAREHOUSE_ID { get; set; }
         public decimal CAPACITY { get; set; }
-        public decimal FREE_SPACE { get; set; }
+        public decimal ENGAGED_SPACE { get; set; }
         public string PHONE_NUMBER { get; set; }
         public Nullable<int> ADDRESS { get; set; }
         public string FAX { get; set; }

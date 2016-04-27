@@ -688,11 +688,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 {
                     var tempWarehouse = new WAREHOUSE();
                     tempWarehouse.CAPACITY = 0;
-                    tempWarehouse.FREE_SPACE = 0;
+                    tempWarehouse.ENGAGED_SPACE = 0;
                     foreach (var warehouse in Warehouses)
                     {
                         tempWarehouse.CAPACITY += warehouse.Warehouse.CAPACITY;
-                        tempWarehouse.FREE_SPACE += warehouse.Warehouse.FREE_SPACE;
+                        tempWarehouse.ENGAGED_SPACE += warehouse.Warehouse.ENGAGED_SPACE;
                         order_products.AddRange(Session.FactoryEntities.ORDER_PRODUCT.ToList()
                             .Where(op => op.WAREHOUSE_ID == warehouse.Warehouse.WAREHOUSE_ID).ToList());
 
@@ -754,7 +754,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     }
 
 
-                Engaged = _currentWarehouse.Warehouse.CAPACITY - _currentWarehouse.Warehouse.FREE_SPACE;
+                Engaged = _currentWarehouse.Warehouse.ENGAGED_SPACE;
                 CurrentWarehouse.ItemsQuantity = ProductsOnWarehouse.Count;
 
                 foreach (var package in order_products)
@@ -2570,5 +2570,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             one.ADDRESS = two.ADDRESS;
             one.ADDRESS = two.ADDRESS;
         }
+
+
     }
 }

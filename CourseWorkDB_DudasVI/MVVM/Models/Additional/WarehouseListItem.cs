@@ -17,6 +17,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private int _ItemsQuantity;
         private PRODUCTION_SCHEDULE _newSchedule;
         private ObservableCollection<ScheduleProductInfo> _scheduleProductInfos;
+        private decimal _newScheduleCapacity;
         private decimal _totalPrice;
         private int _totalQuantity;
         private WAREHOUSE _warehouse;
@@ -31,7 +32,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             InitializeNewSchedule();
             ItemsQuantity = 0;
             Capacity = Warehouse.CAPACITY;
-            Free = Warehouse.FREE_SPACE;
+            Free = Warehouse.CAPACITY - Warehouse.ENGAGED_SPACE;
             Engaged = Capacity - Free;
         }
 
@@ -48,6 +49,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             ScheduleProductInfos = new ObservableCollection<ScheduleProductInfo>();
             ItemsQuantity = 0;
             UpdateTotal();
+            NewScheduleCapacity = 0;
         }
 
         public bool addScheduleProduct(PRODUCT_INFO product, int quantity)
@@ -85,15 +87,31 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
-        private void UpdateTotal()
+        private bool Once = true;
+        private async void UpdateTotal()
         {
+            Once = true;
             TotalPrice = 0;
             TotalQuantity = 0;
+            Engaged = Warehouse.ENGAGED_SPACE;//to initial value
             foreach (var prodInfo in _scheduleProductInfos)
             {
+                prodInfo.IsExcessive = false;
                 TotalQuantity += prodInfo.Quantity;
                 TotalPrice += API.getlastPrice(prodInfo.ProductInfo.PRODUCT_INFO.PRODUCT_PRICE).PRICE_VALUE*
                               prodInfo.Quantity;
+                Engaged += API.getVolume(prodInfo.ProductInfo.PRODUCT_INFO.PACKAGE_DESCRIPTION)*prodInfo.Quantity;
+                if (Engaged > Capacity && Once)
+                {
+                    prodInfo.IsExcessive = true;
+                    var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+                    var metroWindow = window as MetroWindow;
+                    if (metroWindow != null)
+                    {
+                        await metroWindow.ShowMessageAsync("Попередження", "На складі замало місця щоб вмістити стільки продукції!");
+                    }
+                    Once = false;
+                }
             }
         }
 
@@ -156,11 +174,22 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
+        public decimal NewScheduleCapacity
+        {
+            get { return _newScheduleCapacity; }
+            set
+            {
+                _newScheduleCapacity = value;
+                OnPropertyChanged("NewScheduleCapacity");
+            }
+        }
+
         public class ScheduleProductInfo : ViewModelBaseInside
         {
             private readonly CommonViewModel dataContext;
             private SCHEDULE_PRODUCT_INFO _ProductInfo;
             private int _Quantity;
+            private bool isExcessive = false;
 
             public ScheduleProductInfo(SCHEDULE_PRODUCT_INFO productInfo, CommonViewModel dataContext)
             {
@@ -176,6 +205,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 {
                     _ProductInfo = value;
                     OnPropertyChanged("ProductInfo");
+                }
+            }
+
+            public bool IsExcessive
+            {
+                get { return isExcessive; }
+                set
+                {
+                    isExcessive = value;
+                    OnPropertyChanged("IsExcessive");
                 }
             }
 
@@ -296,6 +335,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _engaged = value;
+                Free = Capacity - Engaged;
                 OnPropertyChanged("Engaged");
             }
         }
@@ -319,6 +359,80 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         {
             get { return new RelayCommand<string>(SaveScheduleScheduleFunc); }
         }
+
+        public ICommand Utilize
+        {
+            get { return new RelayCommand<string>(UtilizeFunc); }
+        }
+
+        public async void UtilizeFunc(object obj)
+        {
+            int a = 0;
+            //saver schedule to db
+            //var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            //var metroWindow = window as MetroWindow;
+            //if (metroWindow != null)
+            //{
+            //    var result = await metroWindow.ShowMessageAsync("Збереження", "Зберегти поточний план?", MessageDialogStyle.AffirmativeAndNegative);
+            //    if (result == MessageDialogResult.Affirmative)
+            //    {
+            //        using (var connection = new SWEET_FACTORYEntities())
+            //        {
+            //            using (var dbContextTransaction = connection.Database.BeginTransaction())
+            //            {
+            //                try
+            //                {
+            //                    var productionSchedule = new PRODUCTION_SCHEDULE();
+            //                    NewSchedule.SCHEDULE_ID =
+            //                        connection.PRODUCTION_SCHEDULE.ToList().Max(s => s.SCHEDULE_ID) + 1;
+            //                    NewSchedule.STAFF_ID = Session.User.STAFF_ID;
+            //                    NewSchedule.CREATED_DATE = API.getTodayDate();
+            //                    NewSchedule.SCHEDULE_STATE = "Активний";
+            //                    NewSchedule.WAREHOUSE_ID = this.Warehouse.WAREHOUSE_ID;
+            //                    NewSchedule.SCHEDULE_TOTAL = TotalPrice;
+            //                    CopyProductionSchedule(ref productionSchedule, NewSchedule);
+
+            //                    connection.PRODUCTION_SCHEDULE.Add(productionSchedule);
+            //                    connection.SaveChanges();
+            //                    foreach (var product in ScheduleProductInfos)
+            //                    {
+            //                        SCHEDULE_PRODUCT_INFO ProductInfo = new SCHEDULE_PRODUCT_INFO();
+            //                        product.ProductInfo.SCHEDULE_PRODUCT_INFO_ID =
+            //                            connection.SCHEDULE_PRODUCT_INFO.ToList()
+            //                                .Max(s => s.SCHEDULE_PRODUCT_INFO_ID) + 1;
+            //                        product.ProductInfo.SCHEDULE_ID = productionSchedule.SCHEDULE_ID;
+            //                        product.ProductInfo.QUANTITY_IN_SCHEDULE = product.Quantity;
+            //                        product.ProductInfo.PRODUCT_INFO_ID =
+            //                            product.ProductInfo.PRODUCT_INFO.PRODUCT_INFO_ID;
+            //                        product.ProductInfo.RELEASED_QUANTITY = 0;
+            //                        CopyScheduleProductInfo(ref ProductInfo, product.ProductInfo);
+            //                        connection.SCHEDULE_PRODUCT_INFO.Add(ProductInfo);
+            //                        connection.SaveChanges();
+            //                    }
+
+            //                    connection.SaveChanges();
+            //                    dbContextTransaction.Commit();
+            //                    InitializeNewSchedule();
+            //                    await metroWindow.ShowMessageAsync("Вітання",
+            //                            "Зміни внесено! Новий план виробництва збережено");
+            //                    if (dataContext == null) initialiseDataContext();
+            //                    if (dataContext != null)
+            //                    {
+            //                        dataContext.CurrentWarehouse = dataContext.CurrentWarehouse;
+            //                    }
+            //                }
+            //                catch (Exception e)
+            //                {
+            //                    dbContextTransaction.Rollback();
+            //                    await metroWindow.ShowMessageAsync("Невдача",
+            //                            "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+        }
+
 
         public async void ClearScheduleFunc(object obj)
         {
@@ -404,7 +518,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 }
             }
         }
-
+       
 
         private void CopyScheduleProductInfo(ref SCHEDULE_PRODUCT_INFO one, SCHEDULE_PRODUCT_INFO two)
         {

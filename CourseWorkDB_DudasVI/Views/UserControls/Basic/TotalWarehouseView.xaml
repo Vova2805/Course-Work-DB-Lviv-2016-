@@ -52,7 +52,7 @@
 
         <TextBlock Grid.Row="3" Grid.Column="3" Text="Вільного місця :" />
         <TextBlock Grid.Row="3" Grid.Column="4" TextAlignment="Left"
-                   Text="{Binding Path=CurrentWarehouse.Warehouse.FREE_SPACE}" />
+                   Text="{Binding Path=CurrentWarehouse.Free}" />
 
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Категорія : " />
         <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding SelectedCategory}" />
