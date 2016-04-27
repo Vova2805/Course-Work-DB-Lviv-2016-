@@ -149,6 +149,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                                     dataContext.SelectedClient.SelectedOrder.SaleOrder.SALE_ORDER_ID).FirstOrDefault();
 
                                     order.TOTAL -= dataContext.SelectedClient.NewDelivery.Total;
+                                    var deliveries1 = order.DELIVERY.ToList();
+                                    if (deliveries1.Count == 0) order.DELIVERY_STATUS = "Не замовлено";
                                     connection.SaveChanges();
                                     dbContextTransaction.Commit();
                                     dataContext.SelectedClient.SelectedOrder.Total = order.TOTAL;

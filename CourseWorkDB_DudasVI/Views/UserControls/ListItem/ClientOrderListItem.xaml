@@ -8,6 +8,9 @@
              mc:Ignorable="d">
     <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="1,1,1,1" Margin="5">
         <Grid Height="auto" Margin="5">
+            <Grid.Resources>
+                <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
+            </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -39,19 +42,23 @@
                        ToolTip="Дата кінця реалізації" Margin="5" />
 
             <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="3" Text="Статус" Margin="5" />
-            <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="3" Text="{Binding Path=SaleOrder.PAID}"
+            <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="3" Text="{Binding Path=Paid}"
                        Margin="5" ToolTip="Оплачено" />
-            <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="2" Grid.Column="3"
-                       Text="{Binding Path=SaleOrder.ORDER_STATUS}" Margin="5" ToolTip="Статус замовлення" />
+            
+            <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="2" Grid.Column="3" 
+                       Text="{Binding Path=OrderStatus}" Margin="5" ToolTip="Статус замовлення" />
+            <ComboBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding Path=OrderStatusStrings}" SelectedItem="{Binding Path=OrderStatus}"
+                      Visibility="{Binding Path=IsSaler,Converter={StaticResource VisibilityConverter},ConverterParameter='2'}"
+                       Text="{Binding Path=OrderStatus}" Margin="5" ToolTip="Зміна статусу замовлення" />
             <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="3" Grid.Column="3"
-                       Text="{Binding Path=SaleOrder.DELIVERY_STATUS}" Margin="5" ToolTip="Статус доставки" />
+                       Text="{Binding Path=DeliveryStatus}" Margin="5" ToolTip="Статус доставки" />
 
             <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="4" Text="Загалом" Margin="5" />
             <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2"
                        Foreground="Green" VerticalAlignment="Center" HorizontalAlignment="Center"
                        Text="{Binding Path=Total}" Margin="5" ToolTip="Загальна вартість замовлення" />
             <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="3" Grid.Column="4" Foreground="Red"
-                       HorizontalAlignment="Center" Text="{Binding Path=SaleOrder.DISCOUNT}" ToolTip="Знижка" Margin="5" />
+                       HorizontalAlignment="Center" Text="{Binding Path=Discount}" ToolTip="Знижка" Margin="5" />
         </Grid>
     </Border>
 </UserControl>

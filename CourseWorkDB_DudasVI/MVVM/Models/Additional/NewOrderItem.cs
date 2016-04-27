@@ -17,7 +17,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private ClientListItem.OrderState state;
         private bool canAddDelivery;
         private decimal total;
+        private decimal paid;
+        private decimal discount;
+        private string orderStatus;
+        private string deliveryStatus;
         private ClientListItem CurrentClient;
+        private bool isSaler;
+
+        private ObservableCollection<string> orderStatusStrings = new ObservableCollection<string>();
+        private ObservableCollection<string> deliveryStatusStrings = new ObservableCollection<string>(); 
 
         public NewOrderItem(SALE_ORDER saleOrder, ClientListItem currentClient)
         {
@@ -37,6 +45,23 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 state = ClientListItem.OrderState.Canceled;
             }
             Total = saleOrder.TOTAL;
+            Discount = saleOrder.DISCOUNT;
+            Paid = saleOrder.PAID;
+            OrderStatus = saleOrder.ORDER_STATUS;
+            DeliveryStatus = saleOrder.DELIVERY_STATUS;
+            OrderStatusStrings.Add("Активне"); orderStatusStrings.Add("Реалізоване"); orderStatusStrings.Add("Скасоване");
+            DeliveryStatusStrings.Add("Замовлено"); deliveryStatusStrings.Add("Не замовлено");
+            IsSaler = Session.userType == UserType.Saler;
+        }
+
+        public bool IsSaler
+        {
+            get { return isSaler; }
+            set
+            {
+                isSaler = value;
+                OnPropertyChanged("IsSaler");
+            }
         }
 
         public SALE_ORDER SaleOrder
@@ -60,6 +85,55 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
+        public decimal Discount
+        {
+            get { return discount; }
+            set
+            {
+                discount = value;
+                SaleOrder.DISCOUNT = value;
+                OnPropertyChanged("Discount");
+            }
+        }
+
+        public decimal Paid
+        {
+            get { return paid; }
+            set
+            {
+                paid = value;
+                SaleOrder.PAID = value;
+                OnPropertyChanged("Paid");
+            }
+        }
+
+        public string DeliveryStatus
+        {
+            get { return deliveryStatus; }
+            set
+            {
+                deliveryStatus = value;
+                SaleOrder.DELIVERY_STATUS = deliveryStatus;
+                OnPropertyChanged("DeliveryStatus");
+            }
+        }
+
+        public string OrderStatus
+        {
+            get { return orderStatus; }
+            set
+            {
+                orderStatus = value;
+                SaleOrder.ORDER_STATUS = OrderStatus;
+                OnPropertyChanged("OrderStatus");
+            }
+        }
+
+        private void changeOrderStatus(string status)
+        {
+            
+        }
+
         public bool CanAddDelivery
         {
             get { return canAddDelivery; }
@@ -78,8 +152,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 OnPropertyChanged("CanAddDelivery");
             }
         }
-
-
+        
         public ClientListItem.OrderState State
         {
             get { return state; }
@@ -95,8 +168,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         {
             get { return new RelayCommand<object>(AddNewDeliveryFuc); }
         }
-
-
+        
         public async void AddNewDeliveryFuc(object obj)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
@@ -154,6 +226,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                         .FirstOrDefault();
 
                                 order.TOTAL += dataContext.SelectedClient.NewDelivery.Total;
+                                order.DELIVERY_STATUS = "Замовлено";
                                 dataContext.SelectedClient.SelectedOrder.Total = order.TOTAL;
                                 connection.SaveChanges();
                                 dbContextTransaction.Commit();
@@ -195,6 +268,26 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                         }
                     }
                 }
+            }
+        }
+
+        public ObservableCollection<string> DeliveryStatusStrings
+        {
+            get { return deliveryStatusStrings; }
+            set
+            {
+                deliveryStatusStrings = value;
+                OnPropertyChanged("DeliveryStatusStrings");
+            }
+        }
+
+        public ObservableCollection<string> OrderStatusStrings
+        {
+            get { return orderStatusStrings; }
+            set
+            {
+                orderStatusStrings = value;
+                OnPropertyChanged("OrderStatusStrings");
             }
         }
     }
