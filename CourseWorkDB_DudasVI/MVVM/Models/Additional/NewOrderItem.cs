@@ -52,8 +52,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             OrderStatusStrings.Add("Активне"); orderStatusStrings.Add("Реалізоване"); orderStatusStrings.Add("Скасоване");
             DeliveryStatusStrings.Add("Замовлено"); deliveryStatusStrings.Add("Не замовлено");
             IsSaler = Session.userType == UserType.Saler;
+            if (OrderStatus.Equals("Реалізоване")) IsSaler = false;
         }
-
+        
         public bool IsSaler
         {
             get { return isSaler; }
@@ -118,20 +119,117 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
         }
 
+        private bool changed = false;
         public string OrderStatus
         {
             get { return orderStatus; }
             set
             {
-                orderStatus = value;
-                SaleOrder.ORDER_STATUS = OrderStatus;
+                if (OrderStatus!=null && value.Equals("Реалізоване") && !OrderStatus.Equals(value))
+                {
+                    changeOrderStatus(OrderStatus);
+                    if (changed)
+                    {
+                        IsSaler = false;
+                        OrderStatus = value;
+                        SaleOrder.ORDER_STATUS = OrderStatus;
+                        changed = false;
+                    } 
+                }
+                else
+                {
+                    orderStatus = value;
+                    SaleOrder.ORDER_STATUS = OrderStatus;
+                }
                 OnPropertyChanged("OrderStatus");
             }
         }
 
-        private void changeOrderStatus(string status)
+        private async void changeOrderStatus(string status)
         {
-            
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var metroWindow = window as MetroWindow;
+            if (metroWindow != null)
+            {
+
+                var result = await metroWindow.ShowMessageAsync("Попередження","Будуть внесені зміни щодо кількості товарів на складі. \nСтатус замовлення не можливо буде змінити.\nБажаєте продовжити? ",MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    using (var connection = new SWEET_FACTORYEntities())
+                    {
+                        using (var dbContextTransaction = connection.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                //add new delivery order to current
+                                var dataContext = metroWindow.DataContext as CommonViewModel;
+                                if (dataContext != null)
+                                {
+                                    var order =
+                                        connection.SALE_ORDER.ToList()
+                                            .Find(o => o.SALE_ORDER_ID == SaleOrder.SALE_ORDER_ID);
+                                    order.ORDER_STATUS = "Реалізоване";
+                                    //change quantity of released product
+                                    var productsList = order.ORDER_PRODUCT.ToList();
+                                    //first sale older released products
+                                    foreach (var product in productsList)
+                                    {
+                                        var releasedProducts =
+                                            connection.RELEASED_PRODUCT.ToList()
+                                                .Where(p => p.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID).ToList();
+                                        releasedProducts.Sort( //sort by production date
+                                            (pr1, pr2) =>
+                                            {
+                                                return pr1.PRODUCTION_DATE > pr2.PRODUCTION_DATE
+                                                    ? 1
+                                                    : pr1.PRODUCTION_DATE == pr2.PRODUCTION_DATE ? 0 : -1;
+                                            }
+                                            );
+                                        int quantity = product.QUANTITY_IN_ORDER;
+                                        while (quantity > 0)
+                                        {
+                                            var rel_product = releasedProducts.First();
+                                            if (rel_product.QUANTITY <= quantity)
+                                            {
+                                                quantity -= rel_product.QUANTITY;
+                                                releasedProducts.Remove(rel_product);
+                                            }
+                                            else if (rel_product.QUANTITY > quantity)
+                                            {
+                                                rel_product.QUANTITY -= quantity;
+                                                quantity = 0;
+                                            }
+                                            if (releasedProducts.Count == 0)
+                                            {
+                                                await metroWindow.ShowMessageAsync("Невдача", "На складі не вистачило товарів. \nНе можливо реалізувати замовлення.\n Сформуйте замовлення до відділу виробництва.");
+                                                throw new Exception();
+                                            }
+                                        }
+                                    }
+
+                                    connection.SaveChanges();
+                                    dbContextTransaction.Commit();
+                                    await metroWindow.ShowMessageAsync("Вітання",
+                                        "Зміни внесено! Замовлення підтверджено і реалізовано.");
+                                    changed = true;
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+                                    await metroWindow.ShowMessageAsync("Невдача",
+                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                                await metroWindow.ShowMessageAsync("Невдача",
+                                    "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public bool CanAddDelivery
