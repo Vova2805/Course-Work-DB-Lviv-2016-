@@ -73,7 +73,7 @@ namespace CourseWorkDB_DudasVI.Views.Rules
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            var content = (string)value;
+            var content = value.ToString();
             string s = "[0-9]+";
             Match aa = Regex.Match(content ?? "", s);
             return new ValidationResult(aa.Success,

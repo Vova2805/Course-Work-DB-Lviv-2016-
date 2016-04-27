@@ -5,11 +5,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CourseWorkDB_DudasVI.Views.UserControls"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:converters="clr-namespace:CourseWorkDB_DudasVI.Converters"
+             xmlns:rules="clr-namespace:CourseWorkDB_DudasVI.Views.Rules"
              mc:Ignorable="d">
     <Border Background="GhostWhite" BorderBrush="DodgerBlue" BorderThickness="1,1,1,1" Margin="5">
         <Grid Height="auto" Margin="5">
             <Grid.Resources>
                 <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
+                <converters:BooleanOrConverter x:Key="BooleanOrConverter"/>
+                    <ControlTemplate x:Key="errorTemplateStyle">
+                        <Grid>
+                            <Border BorderBrush="#FFCB2E2E" BorderThickness="1" Background="#11FF0000" IsHitTestVisible="False" x:Name="errorBorder"/>
+                            <AdornedElementPlaceholder x:Name="placeholder" />
+                            <Popup AllowsTransparency="True" HorizontalAlignment="Right" HorizontalOffset="0" VerticalOffset="0" PopupAnimation="Fade" Placement="Right" 
+                                   PlacementTarget="{Binding ElementName=errorBorder}" IsOpen="{Binding ElementName=placeholder, Path=AdornedElement.IsFocused, Mode=OneWay}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Polygon  VerticalAlignment="Center" Points="0,4 4,0 4,8" Fill="#FFCB2E2E" Stretch="Fill" Stroke="#FFCB2E2E"
+                                      StrokeThickness="2" />
+                                    <Border Background="#FFCB2E2E" CornerRadius="4" Padding="4">
+                                        <TextBlock HorizontalAlignment="Center" Foreground="White" FontWeight="Bold" Margin="2,0,0,0"
+                                                   Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent, Mode=OneWay}" />
+                                    </Border>
+                                </StackPanel>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
             </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -44,12 +64,58 @@
             <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="3" Text="Статус" Margin="5" />
             <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="1" Grid.Column="3" Text="{Binding Path=Paid}"
                        Margin="5" ToolTip="Оплачено" />
+            <Grid Grid.Row="1" Grid.Column="3"  Visibility="{Binding Path=IsSalerReal,Converter={StaticResource VisibilityConverter},ConverterParameter='2'}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Controls:NumericUpDown Grid.Column="0" Minimum="0" Width="auto"
+                                                        Margin="2"
+                                                        Interval="1" 
+                                                        BorderThickness="1" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" >
+                    <Controls:NumericUpDown.Value>
+                        <Binding Path="Paid" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                            <Binding.ValidationRules>
+                                <rules:NumberRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </Controls:NumericUpDown.Value>
+                </Controls:NumericUpDown>
+                <Button Width="30" Grid.Column="1" Margin="1" Command="{Binding CanselPaidChange}"
+                                        Height="30"
+                                        VerticalAlignment="Center"
+                                        ToolTip="Скасувати останню зміну" Background="{DynamicResource ProgressBrush}"
+                                        Style="{DynamicResource MetroCircleButtonStyle}">
+                    <Rectangle Width="15" Height="15">
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Setter Property="Fill">
+                                    <Setter.Value>
+                                        <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_cancel}" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_cancel_white}" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                </Button >
+            </Grid>
             
             <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="2" Grid.Column="3" 
                        Text="{Binding Path=OrderStatus}" Margin="5" ToolTip="Статус замовлення" />
             <ComboBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding Path=OrderStatusStrings}" SelectedItem="{Binding Path=OrderStatus}"
                       Visibility="{Binding Path=IsSaler,Converter={StaticResource VisibilityConverter},ConverterParameter='2'}"
-                       Text="{Binding Path=OrderStatus}" Margin="5" ToolTip="Зміна статусу замовлення" />
+                       Text="{Binding Path=OrderStatus}" Margin="2" ToolTip="Зміна статусу замовлення" />
             <TextBlock FontWeight="Bold" TextWrapping="Wrap" Grid.Row="3" Grid.Column="3"
                        Text="{Binding Path=DeliveryStatus}" Margin="5" ToolTip="Статус доставки" />
 

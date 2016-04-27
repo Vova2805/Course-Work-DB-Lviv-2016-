@@ -405,7 +405,7 @@
                                 <RowDefinition Height="2*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <DataGrid Grid.Row="0" FontSize="14"
+                            <DataGrid Grid.Row="0" FontSize="14" Margin="0,0,5,0"
                                       ItemsSource="{Binding Path=SelectedClient.SelectedOrder.SaleOrder.ORDER_PRODUCT}"
                                       AutoGenerateColumns="False">
                                 <DataGrid.Columns>
@@ -413,12 +413,12 @@
                                                         Binding="{Binding Path=PRODUCT_INFO.PRODUCT_TITLE}" />
                                     <DataGridTextColumn Width="Auto" Header="Категорія" IsReadOnly="True"
                                                         Binding="{Binding Path=PRODUCT_INFO.CATEGORY.CATEGORY_TITLE}" />
-                                    <DataGridTextColumn Width="*" Header="Кількість" IsReadOnly="True"
+                                    <DataGridTextColumn Width="Auto" Header="Кількість" IsReadOnly="True"
                                                         Binding="{Binding QUANTITY_IN_ORDER}" />
                                 </DataGrid.Columns>
                             </DataGrid>
                             <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
-                            <DataGrid Grid.Row="2" FontSize="14"
+                            <DataGrid Grid.Row="2" FontSize="14" Margin="0,0,5,0"
                                       ItemsSource="{Binding Path=SelectedClient.DeliveryList}"
                                       SelectedItem="{Binding Path=SelectedClient.SelectedDelivery}"
                                       AutoGenerateColumns="False">
@@ -438,7 +438,7 @@
                                                         Binding="{Binding Path=DeliveryAddress.DISTANCE}" />
                                     <DataGridTextColumn Width="Auto" Header="Загалом за доставку" IsReadOnly="True"
                                                         Binding="{Binding Path=Total}" />
-                                    <DataGridTemplateColumn Width="*" Header="Видалити" Visibility="{Binding Path=CanAddDelivery,Converter={StaticResource VisibilityConverter}}">
+                                    <DataGridTemplateColumn Width="Auto" Header="Видалити" Visibility="{Binding Path=CanAddDelivery,Converter={StaticResource VisibilityConverter}}">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Button Width="30" Command ="{Binding Path=DeleteDelivery}"

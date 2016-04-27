@@ -23,6 +23,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private string deliveryStatus;
         private ClientListItem CurrentClient;
         private bool isSaler;
+        private bool isSalerReal;
 
         private ObservableCollection<string> orderStatusStrings = new ObservableCollection<string>();
         private ObservableCollection<string> deliveryStatusStrings = new ObservableCollection<string>(); 
@@ -52,6 +53,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             OrderStatusStrings.Add("Активне"); orderStatusStrings.Add("Реалізоване"); orderStatusStrings.Add("Скасоване");
             DeliveryStatusStrings.Add("Замовлено"); deliveryStatusStrings.Add("Не замовлено");
             IsSaler = Session.userType == UserType.Saler;
+            IsSalerReal = IsSaler;
             if (OrderStatus.Equals("Реалізоване")) IsSaler = false;
         }
         
@@ -62,6 +64,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 isSaler = value;
                 OnPropertyChanged("IsSaler");
+            }
+        }
+
+        public bool IsSalerReal
+        {
+            get { return isSalerReal; }
+            set
+            {
+                isSalerReal = value;
+                OnPropertyChanged("IsSalerReal");
             }
         }
 
@@ -102,8 +114,34 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             get { return paid; }
             set
             {
-                paid = value;
-                SaleOrder.PAID = value;
+                double temp;
+                if (double.TryParse(value.ToString(), out temp))
+                {
+                    //change in bd
+                    if (paid != null && paid != value)
+                        using (var connection = new SWEET_FACTORYEntities())
+                        {
+                            using (var dbContextTransaction = connection.Database.BeginTransaction())
+                            {
+                                try
+                                {
+                                    var order =
+                                        connection.SALE_ORDER.ToList().Find(o => o.SALE_ORDER_ID == SaleOrder.SALE_ORDER_ID);
+                                    if (order.PAID != value)
+                                        order.PAID = value;
+                                    connection.SaveChanges();
+                                    dbContextTransaction.Commit();
+
+                                }
+                                catch (Exception e)
+                                {
+                                    dbContextTransaction.Rollback();
+                                }
+                            }
+                        }
+                    paid = value;
+                }
+
                 OnPropertyChanged("Paid");
             }
         }
@@ -125,16 +163,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             get { return orderStatus; }
             set
             {
-                if (OrderStatus!=null && value.Equals("Реалізоване") && !OrderStatus.Equals(value))
+                if (OrderStatus!=null && value!=null && value.Equals("Реалізоване") && !OrderStatus.Equals(value))
                 {
+                    OrderStatus = null;
                     changeOrderStatus(OrderStatus);
-                    if (changed)
-                    {
-                        IsSaler = false;
-                        OrderStatus = value;
-                        SaleOrder.ORDER_STATUS = OrderStatus;
-                        changed = false;
-                    } 
                 }
                 else
                 {
@@ -229,6 +261,17 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                         }
                     }
                 }
+                if (changed)
+                {
+                    IsSaler = false;
+                    OrderStatus = "Реалізоване";
+                    SaleOrder.ORDER_STATUS = OrderStatus;
+                    changed = false;
+                }
+                else
+                {
+                    OrderStatus = orderStatus;
+                }
             }
         }
 
@@ -266,7 +309,17 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         {
             get { return new RelayCommand<object>(AddNewDeliveryFuc); }
         }
-        
+
+        public ICommand CanselPaidChange
+        {
+            get { return new RelayCommand<object>(CanselPaidChangeFunc); }
+        }
+
+        public void CanselPaidChangeFunc(object obj)
+        {
+            Paid = SaleOrder.PAID;
+        }
+
         public async void AddNewDeliveryFuc(object obj)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
