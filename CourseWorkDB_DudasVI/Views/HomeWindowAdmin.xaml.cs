@@ -182,5 +182,11 @@ namespace CourseWorkDB_DudasVI.Views
                 ScheduleFilter.IsOpen = !ScheduleFilter.IsOpen;
             }
         }
+
+        private void CreateReport(object sender, RoutedEventArgs e)
+        {
+            var window = new ReportWindow();
+            window.Show();
+        }
     }
 }
