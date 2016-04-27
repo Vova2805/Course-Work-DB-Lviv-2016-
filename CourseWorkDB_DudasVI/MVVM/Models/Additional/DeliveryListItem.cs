@@ -123,11 +123,40 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                 var dataContext = metroWindow.DataContext as CommonViewModel;
                                 if (dataContext != null)
                                 {
+                                    var del_address =
+                                        connection.DELIVERY_ADDRESS.ToList()
+                                            .Find(a => a.DEL_ADDRESS_ID == DeliveryAddress.DEL_ADDRESS_ID);
+                                    connection.DELIVERY_ADDRESS.Remove(del_address);
+                                    var delivery1 = connection.DELIVERY.ToList()
+                                            .Find(a => a.DELIVERY_ID == Delivery.DELIVERY_ID);
+                                    connection.DELIVERY.Remove(delivery1);
+                                    //change order total
+                                    var order =
+                                        connection.SALE_ORDER.ToList()
+                                            .Where(
+                                                o =>
+                                                    o.SALE_ORDER_ID ==
+                                                    dataContext.SelectedClient.SelectedOrder.SaleOrder.SALE_ORDER_ID).FirstOrDefault();
+
+                                    order.TOTAL -= dataContext.SelectedClient.NewDelivery.Total;
                                     connection.SaveChanges();
                                     dbContextTransaction.Commit();
+                                    dataContext.SelectedClient.SelectedOrder.Total = order.TOTAL;
                                     await metroWindow.ShowMessageAsync("Вітання",
                                     "Зміни внесено! Доставку успішно видалено");
-                                  }
+                                    var deliveries =
+                                       connection.DELIVERY.ToList()
+                                           .Where(
+                                               d =>
+                                                   d.SALE_ORDER_ID ==
+                                                   dataContext.SelectedClient.SelectedOrder.SaleOrder.SALE_ORDER_ID).ToList();
+                                    dataContext.SelectedClient.DeliveryList = new ObservableCollection<DeliveryListItem>();
+                                    foreach (var delivery in deliveries)
+                                    {
+                                        dataContext.SelectedClient.DeliveryList.Add(new DeliveryListItem(delivery, dataContext.SelectedClient.SelectedOrder.SaleOrder.TOTAL));
+                                    }
+                                    dataContext.SelectedClient.DeliveryList = dataContext.SelectedClient.DeliveryList;
+                                }
                                 else
                                 {
                                     dbContextTransaction.Rollback();

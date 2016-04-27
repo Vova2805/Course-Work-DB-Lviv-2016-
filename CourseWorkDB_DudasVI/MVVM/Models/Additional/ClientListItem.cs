@@ -416,10 +416,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                     newDelivery.DELIVERY_DATE = API.getTodayDate();
                                     newDelivery.RAWSTUFF_ORDER = null;
                                     connection.DELIVERY.Add(newDelivery);
-
-                                    
-                                    
-                                    Session.FactoryEntities = new SWEET_FACTORYEntities();
                                     //change order total
                                     var order =
                                         connection.SALE_ORDER.ToList()

@@ -420,7 +420,11 @@
                             <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
                             <DataGrid Grid.Row="2" FontSize="14"
                                       ItemsSource="{Binding Path=SelectedClient.DeliveryList}"
+                                      SelectedItem="{Binding Path=SelectedClient.SelectedDelivery}"
                                       AutoGenerateColumns="False">
+                                <DataGrid.Resources>
+                                    <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+                                </DataGrid.Resources>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Width="Auto" Header="Дата" IsReadOnly="True"
                                                         Binding="{Binding Path=Delivery.DELIVERY_DATE,StringFormat=\{0:dd.MM.yyyy р.\}}" />
@@ -432,11 +436,12 @@
                                                         Binding="{Binding Path=Delivery.COST_PER_KM}" />
                                     <DataGridTextColumn Width="Auto" Header="Відстань (км.)" IsReadOnly="True"
                                                         Binding="{Binding Path=DeliveryAddress.DISTANCE}" />
-                                    <!--Command="{Binding Path=RemoveScheduleItem}"-->
-                                    <DataGridTemplateColumn Width="*" Header="Видалити">
+                                    <DataGridTextColumn Width="Auto" Header="Загалом за доставку" IsReadOnly="True"
+                                                        Binding="{Binding Path=Total}" />
+                                    <DataGridTemplateColumn Width="*" Header="Видалити" Visibility="{Binding Path=CanAddDelivery,Converter={StaticResource VisibilityConverter}}">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Width="30" 
+                                                <Button Width="30" Command ="{Binding Path=DeleteDelivery}"
                                                                 Height="30"
                                                                 VerticalAlignment="Top"
                                                                 ToolTip="Видалити із плану"
