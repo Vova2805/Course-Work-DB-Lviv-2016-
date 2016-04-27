@@ -48,8 +48,9 @@ namespace CourseWorkDB_DudasVI.Views
             }
             flyouts = new List<Flyout> {AdminFlyout};
             addHotKey();
-
             RequiredDatePicker.DisplayDateStart = API.getTodayDate();
+            RequiredDatePicker.SelectedDate = API.getTodayDate().AddDays(10);
+           
         }
 
         private void addHotKey()

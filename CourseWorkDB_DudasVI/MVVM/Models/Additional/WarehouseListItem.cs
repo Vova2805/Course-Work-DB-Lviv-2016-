@@ -387,6 +387,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                 InitializeNewSchedule();
                                 await metroWindow.ShowMessageAsync("Вітання",
                                         "Зміни внесено! Новий план виробництва збережено");
+                                if (dataContext == null) initialiseDataContext();
+                                if (dataContext != null)
+                                {
+                                    dataContext.CurrentWarehouse = dataContext.CurrentWarehouse;
+                                }
                             }
                             catch (Exception e)
                             {
