@@ -50,6 +50,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
 
         public CommonViewModel()
         {
+            InitializeViewModel();
+        }
+
+        private void InitializeViewModel()
+        {
             CategoriesList = new ObservableCollection<string>();
             foreach (var category in Session.FactoryEntities.CATEGORY.ToList().Select(c => c.CATEGORY_TITLE).ToList())
             {
@@ -148,7 +153,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     result += staff.STAFF_NAME + " " + staff.STAFF_SURNAME + " " + staff.POST.POST_NAME + " " +
                               staff.MOBILE_PHONE;
                 else result = "Фахівці з продажу";
-                WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + ".","Відповідальний :"+result));
+                WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + ".", "Відповідальний :" + result));
                 WarehousesAddresssStrings.Add(WarehousesStrings.Last());
             }
             if (WarehousesAddresssStrings.Count > 0)
@@ -2352,6 +2357,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return new RelayCommand<object>(CancelSalaryChangesFunc); }
         }
 
+        public ICommand RefreshAll
+        {
+            get { return new RelayCommand<object>(RefreshAllFunc); }
+        }
+
         private async void AddClient(object obj)
         {
             if (NewClientEditing)
@@ -2592,8 +2602,28 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 EmployeeSalaryPersentage = (double)SelectedEmployee.Employee.FULL_SALARY_PERSENTAGE;
             }
         }
-       
 
+        private  void RefreshAllFunc(object obj)
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var metroWindow = window as MetroWindow;
+            if (metroWindow != null)
+            {
+                try
+                {
+                    Session.FactoryEntities = new SWEET_FACTORYEntities();
+                    InitializeViewModel();
+                    metroWindow.ShowMessageAsync("Успіх",
+                        "З'єднання встановлено. Всі дані оновлені.");
+                }
+                catch (Exception)
+                {
+                    metroWindow.ShowMessageAsync("Невдача",
+                       "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                }
+                
+            }
+        }
 
     }
 }

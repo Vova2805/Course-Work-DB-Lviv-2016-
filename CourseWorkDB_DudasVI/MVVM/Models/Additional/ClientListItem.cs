@@ -296,32 +296,35 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 var metroWindow = window as MetroWindow;
                 if (metroWindow != null)
                 {
-                    using (var dbContextTransaction = Session.FactoryEntities.Database.BeginTransaction())
+                    using (var connection = new SWEET_FACTORYEntities())
                     {
-                        try
+                        using (var dbContextTransaction = connection.Database.BeginTransaction())
                         {
-                            //add new delivery order to current
+                            try
+                            {
+                                //add new delivery order to current
                                 var dataContext = metroWindow.DataContext as CommonViewModel;
                                 if (dataContext != null)
                                 {
                                     ADDRESS addr = new ADDRESS();
-                                    addr.ADDRESS_ID = Session.FactoryEntities.ADDRESS.ToList().Max(a => a.ADDRESS_ID) + 1;
-                                        
+                                    
                                     var newDeliveryAddress = dataContext.SelectedClient.NewDelivery.DeliveryAddress;
+                                    API.CopyAddress(ref addr, newDeliveryAddress.ADDRESS1);
+                                    int id = connection.ADDRESS.ToList().Max(a => a.ADDRESS_ID) + 1;
+                                    addr.ADDRESS_ID = id;
+                                    connection.ADDRESS.Add(addr);
+                                    connection.SaveChanges();
+
+                                    
                                     newDeliveryAddress.DELIVERY_ADDRESS_FROM = newDeliveryAddress.ADDRESS.ADDRESS_ID;
                                     newDeliveryAddress.DELIVERY_ADDRESS_TO = addr.ADDRESS_ID;
-                                    API.CopyAddress(ref addr,newDeliveryAddress.ADDRESS1);
-
-                                    Session.FactoryEntities.ADDRESS.Add(addr);
-                                    Session.FactoryEntities.SaveChanges();
-
                                     newDeliveryAddress.ADDRESS1 = null;
-                                    newDeliveryAddress.DEL_ADDRESS_ID =
-                                        Session.FactoryEntities.DELIVERY_ADDRESS.ToList().Max(a => a.DEL_ADDRESS_ID) + 1;
                                     newDeliveryAddress.DELIVERY = null;
-
-                                    Session.FactoryEntities.DELIVERY_ADDRESS.Add(newDeliveryAddress);
-                                    Session.FactoryEntities.SaveChanges();
+                                    newDeliveryAddress.ADDRESS = null;
+                                    newDeliveryAddress.DEL_ADDRESS_ID =
+                                        connection.DELIVERY_ADDRESS.ToList().Max(a => a.DEL_ADDRESS_ID) + 1;
+                                    connection.DELIVERY_ADDRESS.Add(newDeliveryAddress);
+                                    connection.SaveChanges();
 
                                     var newDelivery = dataContext.SelectedClient.NewDelivery.Delivery;
 
@@ -329,32 +332,32 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                     newDelivery.SALE_ORDER = null;
                                     newDelivery.DEL_ADDRESS_ID = newDeliveryAddress.DEL_ADDRESS_ID;
                                     newDelivery.DELIVERY_ID =
-                                        Session.FactoryEntities.DELIVERY.ToList().Max(a => a.DELIVERY_ID) + 1;
+                                        connection.DELIVERY.ToList().Max(a => a.DELIVERY_ID) + 1;
                                     newDelivery.DELIVERY_ADDRESS = null;
                                     newDelivery.DELIVERY_DATE = API.getTodayDate();
                                     newDelivery.RAWSTUFF_ORDER = null;
-                                    Session.FactoryEntities.DELIVERY.Add(newDelivery);
+                                    connection.DELIVERY.Add(newDelivery);
 
-                                Session.FactoryEntities.SaveChanges();
-                                dbContextTransaction.Commit();
-                                await metroWindow.ShowMessageAsync("Вітання",
-                                "Зміни внесено! Дані про клієнта збережено");
-                            }
+                                    connection.SaveChanges();
+                                    dbContextTransaction.Commit();
+                                    await metroWindow.ShowMessageAsync("Вітання",
+                                    "Зміни внесено! Дані про клієнта збережено");
+                                }
                                 else
                                 {
+                                    dbContextTransaction.Rollback();
+                                    await metroWindow.ShowMessageAsync("Невдача",
+                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                                }
+                            }
+                            catch (Exception e)
+                            {
                                 dbContextTransaction.Rollback();
                                 await metroWindow.ShowMessageAsync("Невдача",
                                     "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
-                                }
-                        }
-                        catch (Exception e)
-                        {
-                            dbContextTransaction.Rollback();
-                            await metroWindow.ShowMessageAsync("Невдача",
-                                "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
                         }
                     }
-
                 }
             }
         }

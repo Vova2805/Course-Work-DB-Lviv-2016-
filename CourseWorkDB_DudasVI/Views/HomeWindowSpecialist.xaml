@@ -48,7 +48,7 @@
                     </Rectangle>
                 </StackPanel>
             </Button>
-            <Button ToolTip="Синхронізувати (оновити) БД Alt+R">
+            <Button ToolTip="Синхронізувати (оновити) БД Alt+R"  Command="{Binding RefreshAll}">
                 <StackPanel Orientation="Horizontal" x:Name="UpArrow">
                     <TextBlock Margin="5 0 5 0"
                                VerticalAlignment="Center" />
