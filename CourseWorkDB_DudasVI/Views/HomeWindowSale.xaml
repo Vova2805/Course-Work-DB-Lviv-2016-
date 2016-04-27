@@ -1156,10 +1156,12 @@
                                         </DataGridTemplateColumn>
                                         <DataGridTextColumn Width="Auto" Header="Загальна вартість" IsReadOnly="True"
                                                             Binding="{Binding Path=PackageTotal}" />
+                                        <DataGridTextColumn Width="Auto" Header="Склад №" IsReadOnly="True"
+                                                            Binding="{Binding Path=OrderProduct.WAREHOUSE_ID}" />
                                         <DataGridTemplateColumn Width="Auto" Header="Видалити">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Button Width="50" Command="{Binding RemoveProductFromOrder}"
+                                                    <Button Width="50" Command="{Binding Path=RemoveProductFromOrder}"
                                                             Height="50"
                                                             VerticalAlignment="Top"
                                                             ToolTip="Видалити із замовлення"
@@ -1255,7 +1257,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="Кінцева дата реалізації :" />
                                         <DatePicker Grid.Column="1"
-                                                    SelectedDate="{Binding Path=SelectedClient.RequiredDate,Mode=TwoWay}"
+                                                    SelectedDate="{Binding Path=SelectedClient.NewOrder.RequiredDate,Mode=TwoWay}"
                                                     Name="RequiredDatePicker" />
                                     </Grid>
 
@@ -1279,19 +1281,219 @@
                             </Grid.RowDefinitions>
                             <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
                             <UserControls:ProductViewForSale Grid.Row="0" DataContext="{Binding SelectedProduct}" />
-                            <UserControls:DeliveryView Grid.Row="2" />
+
+                            <Border Background="GhostWhite" BorderThickness="2" Grid.Row="2">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="{x:Type Controls:NumericUpDown}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsReadOnly"
+                                     Value="True">
+                                                        <Setter Property="HideUpDownButtons"
+                                        Value="True" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Resources>
+                                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Grid.Column="1" Margin="5" Text="Додати доставку" FontSize="20" />
+                                            <Grid Grid.Column="0" Grid.Row="0" />
+                                            <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="1"
+                                Grid.RowSpan="2" Margin="5">
+                                                <!--#region First expander-->
+                                                <Expander Header="Від" IsExpanded="False">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="13*" />
+                                                            <ColumnDefinition Width="81*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Column="0" Text="Склад : " VerticalAlignment="Center" Margin="5,8"
+                                           FontSize="15" />
+                                                        <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
+                                                ItemsSource="{Binding WarehousesAddresssStrings}"
+                                                SelectedValue="{Binding SelectedWarehouseAddressString}"
+                                                IsEditable="True" Grid.ColumnSpan="2" />
+                                                    </Grid>
+                                                </Expander>
+                                                <Expander Header="До" IsExpanded="False">
+                                                    <Grid VerticalAlignment="Stretch" DataContext="{Binding Path=SelectedClient.NewDelivery.DeliveryAddress.ADDRESS1}">
+                                                        <Grid.Resources>
+                                                            <converters:BooleanOrConverter x:Key="BooleanOrConverter"/>
+                                                            <ControlTemplate x:Key="errorTemplateStyle">
+                                                                <Grid>
+                                                                    <Border BorderBrush="#FFCB2E2E" BorderThickness="1" Background="#11FF0000" IsHitTestVisible="False" x:Name="errorBorder"/>
+                                                                    <AdornedElementPlaceholder x:Name="placeholder" />
+                                                                    <Popup AllowsTransparency="True" HorizontalAlignment="Right" HorizontalOffset="0" VerticalOffset="0" PopupAnimation="Fade" Placement="Right" 
+                                       PlacementTarget="{Binding ElementName=errorBorder}" IsOpen="{Binding ElementName=placeholder, Path=AdornedElement.IsFocused, Mode=OneWay}">
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <Polygon  VerticalAlignment="Center" Points="0,4 4,0 4,8" Fill="#FFCB2E2E" Stretch="Fill" Stroke="#FFCB2E2E"
+                                          StrokeThickness="2" />
+                                                                            <Border Background="#FFCB2E2E" CornerRadius="4" Padding="4">
+                                                                                <TextBlock HorizontalAlignment="Center" Foreground="White" FontWeight="Bold" Margin="2,0,0,0"
+                                                       Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent, Mode=OneWay}" />
+                                                                            </Border>
+                                                                        </StackPanel>
+                                                                    </Popup>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Grid.Resources>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="3*" />
+                                                            <RowDefinition Height="1*" />
+                                                            <RowDefinition Height="1*" />
+                                                            <RowDefinition Height="1*" />
+                                                            <RowDefinition Height="1*" />
+                                                            <RowDefinition Height="1*" />
+                                                            <RowDefinition Height="1*" />
+                                                            <RowDefinition Height="1*" />
+                                                            <RowDefinition Height="1*" />
+                                                            <RowDefinition Height="1*" />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="120" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="Країна" />
+                                                        <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" x:Name="Country2">
+                                                            <TextBox.Text>
+                                                                <Binding Path="COUNTRY" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                                    <Binding.ValidationRules>
+                                                                        <rules:EmptyRule/>
+                                                                    </Binding.ValidationRules>
+                                                                </Binding>
+                                                            </TextBox.Text>
+                                                        </TextBox>
+
+                                                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,0,5" Text="Регіон" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}" />
+                                                        <TextBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,0" x:Name="Region2">
+                                                            <TextBox.Text>
+                                                                <Binding Path="REGION" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                                    <Binding.ValidationRules>
+                                                                        <rules:EmptyRule/>
+                                                                    </Binding.ValidationRules>
+                                                                </Binding>
+                                                            </TextBox.Text>
+                                                        </TextBox>
+
+                                                        <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="Місто" />
+                                                        <TextBox x:Name="City2" Grid.Row="5" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
+                                                            <TextBox.Text>
+                                                                <Binding Path="CITY" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                                    <Binding.ValidationRules>
+                                                                        <rules:EmptyRule/>
+                                                                    </Binding.ValidationRules>
+                                                                </Binding>
+                                                            </TextBox.Text>
+                                                        </TextBox>
+
+                                                        <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="Вулиця" />
+                                                        <TextBox Grid.Row="6" x:Name="Street2" Grid.Column="1" Margin="5,5,5,0" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}">
+                                                            <TextBox.Text>
+                                                                <Binding Path="STREET" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                                    <Binding.ValidationRules>
+                                                                        <rules:EmptyRule/>
+                                                                    </Binding.ValidationRules>
+                                                                </Binding>
+                                                            </TextBox.Text>
+                                                        </TextBox>
+
+                                                        <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="Номер будинку" VerticalAlignment="Center" />
+                                                        <TextBox  BorderThickness="1" x:Name="BN2" Grid.Row="7"
+                     Grid.Column="1" Margin="5" Validation.ErrorTemplate="{StaticResource errorTemplateStyle}"
+                     VerticalAlignment="Stretch" >
+                                                            <TextBox.Text>
+                                                                <Binding Path="BUILDING_NUMBER" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True">
+                                                                    <Binding.ValidationRules>
+                                                                        <rules:EmptyRule/>
+                                                                        <rules:NumberRule/>
+                                                                    </Binding.ValidationRules>
+                                                                </Binding>
+                                                            </TextBox.Text>
+                                                        </TextBox>
+                                                    </Grid>
+                                                </Expander>
+                                                <Expander Header="Додатково" IsExpanded="True">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Відстань : " VerticalAlignment="Center"
+                                           Margin="5"
+                                           FontSize="15" />
+                                                        <Controls:NumericUpDown Grid.Row="0" Grid.Column="1" Minimum="0" Width="auto"
+                                                        Margin="5"
+                                                        Interval="1" Value="{Binding  Path=SelectedClient.NewDelivery.Kms,Mode=TwoWay}"
+                                                        BorderThickness="1" />
+                                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Вартість км. : "
+                                           VerticalAlignment="Center" Margin="5"
+                                           FontSize="15" />
+                                                        <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" Minimum="1" Width="auto"
+                                                        Margin="5"
+                                                        Interval="1" Value="{Binding Path=SelectedClient.NewDelivery.CostPerKm,Mode=TwoWay}"
+                                                        BorderThickness="1" />
+                                                        <TextBlock Grid.Column="0" Grid.Row="2" Text= "Вартість доставки : "
+                                           VerticalAlignment="Center" Margin="5" FontSize="15" />
+                                                        <TextBlock  Grid.Column="1" Grid.Row="2" FontSize="15" Text="{Binding  Path=SelectedClient.NewDelivery.Total,Mode=TwoWay}"
+                                           VerticalAlignment="Center" Margin="5" Foreground="Green" />
+                                                    </Grid>
+                                                </Expander>
+                                                <!--#endregion-->
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Border>
+
+
+
                             <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Height="50"
                                     BorderThickness="0,2,0,0" BorderBrush="Black"
                                     Background="{DynamicResource AccentColorBrush}">
                                 <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                            LastChildFill="False">
 
-                                    <Button Width="50" Click="CustomerFilter"
+                                    <Button Width="50" Click="CustomerFilter" Command="{Binding Path=SelectedClient.SelectedOrder.AddNewDelivery}"
                                             Height="50"
                                             VerticalAlignment="Top"
                                             ToolTip="Додати доставку до замовлення Alt+A"
-                                            Background="{DynamicResource ProgressBrush}"
-                                            Style="{DynamicResource MetroCircleButtonStyle}">
+                                            Background="{DynamicResource ProgressBrush}">
+                                        <Button.Style>
+                                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButtonStyle}">
+                                                <Setter Property="IsEnabled" Value="false" />
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding (Validation.HasError), ElementName=City2}" Value="false" />
+                                                            <Condition Binding="{Binding (Validation.HasError), ElementName=Region2}" Value="false" />
+                                                            <Condition Binding="{Binding (Validation.HasError), ElementName=Street2}" Value="false" />
+                                                            <Condition Binding="{Binding (Validation.HasError), ElementName=BN2}" Value="false" />
+                                                            <Condition Binding="{Binding (Validation.HasError), ElementName=Country2}" Value="false" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="IsEnabled" Value="true" />
+                                                    </MultiDataTrigger>
+                                                    <DataTrigger  Binding="{Binding Path=SelectedClient.SelectedOrder.CanAddDelivery}" Value="False">
+                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                        <Setter Property="ToolTip" Value="Статус замовлення не є активним щоб додавати доставки"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
                                         <Rectangle Width="20" Height="20">
                                             <Rectangle.Style>
                                                 <Style TargetType="{x:Type Rectangle}">
@@ -1315,7 +1517,7 @@
                                             </Rectangle.Style>
                                         </Rectangle>
                                     </Button>
-                                    <Button Width="50"
+                                    <Button Width="50" Command="{Binding Path=SelectedClient.ClearChangesInDelivery}"
                                             Height="50"
                                             VerticalAlignment="Top"
                                             ToolTip="Очистити зміни у доставці"
@@ -1354,7 +1556,7 @@
                             <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                        LastChildFill="False">
 
-                                <Button Width="50" Click="CustomerFilter"
+                                <Button Width="50" Click="CustomerFilter" Visibility="Collapsed"
                                         Height="50"
                                         VerticalAlignment="Top"
                                         ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
@@ -1382,36 +1584,8 @@
                                         </Rectangle.Style>
                                     </Rectangle>
                                 </Button>
-                                <Button Width="50" Click="CustomerFilter"
-                                        Height="50"
-                                        VerticalAlignment="Top"
-                                        ToolTip="Додати доставку Alt+A" Background="{DynamicResource ProgressBrush}"
-                                        Style="{DynamicResource MetroCircleButtonStyle}">
-                                    <Rectangle Width="20" Height="20">
-                                        <Rectangle.Style>
-                                            <Style TargetType="{x:Type Rectangle}">
-                                                <Setter Property="Fill">
-                                                    <Setter.Value>
-                                                        <VisualBrush Stretch="Fill"
-                                                                     Visual="{StaticResource appbar_add}" />
-                                                    </Setter.Value>
-                                                </Setter>
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Fill">
-                                                            <Setter.Value>
-                                                                <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                             Visual="{StaticResource appbar_add_white}" />
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Rectangle.Style>
-                                    </Rectangle>
-                                </Button>
-                               
-                                <Button Width="50" Click="CustomerFilter"
+
+                                <Button Width="50"  Command="{Binding Path=SelectedClient.SaveNewOrder}"
                                         Height="50"
                                         VerticalAlignment="Top"
                                         ToolTip="Зберегти замовлення Alt+X"
@@ -1440,7 +1614,7 @@
                                         </Rectangle.Style>
                                     </Rectangle>
                                 </Button>
-                                <Button Width="50"
+                                <Button Width="50"   Command="{Binding Path=SelectedClient.ClearNewOrder}"
                                         Height="50"
                                         VerticalAlignment="Top"
                                         ToolTip="Очистити замовлення Alt+D"

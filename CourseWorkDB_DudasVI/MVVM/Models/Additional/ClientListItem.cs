@@ -239,6 +239,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     {
                         var orderProduct = InitializeOrder(product);
                         PackagesProducts.Add(new OrderProductListItem(orderProduct, quantity, this));
+                        
                     }
                 }
                 UpdateTotals();
@@ -310,9 +311,32 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             get { return new RelayCommand<object>(ClearChangesInDeliveryFunc); }
         }
 
+        public ICommand SaveNewOrder
+        {
+            get { return new RelayCommand<object>(SaveNewOrderFunc); }
+        }
+
+        public ICommand ClearNewOrder
+        {
+            get { return new RelayCommand<object>(ClearNewOrderFunc); }
+        }
+
         public void ClearChangesInDeliveryFunc(object obj)
         {
             NewDelivery = new DeliveryListItem(InitializeDelivery(), SelectedOrder != null ? SelectedOrder.SaleOrder.TOTAL : 0);
+        }
+
+        public void SaveNewOrderFunc(object obj)
+        {
+           
+        }
+
+        public void ClearNewOrderFunc(object obj)
+        {
+            foreach (var package in PackagesProducts)
+            {
+                package.QuantityInOrder = 0;
+            }
         }
     }
 }

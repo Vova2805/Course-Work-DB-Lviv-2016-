@@ -4,6 +4,7 @@ using CourseWorkDB_DudasVI.General;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using CourseWorkDB_DudasVI.Views;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using ourseWorkDB_DudasVI.MVVM.ViewModels;
 
 namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
@@ -68,9 +69,13 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _isNumbersVisible = value;
                 if (_dataContextVm == null) initialiseDataContextVM();
-                if (_dataContextVm != null && _dataContextVm.CurrentWarehouse != null)
-                    IsBooked = _dataContextVm.CurrentWarehouse.Contains(ProductInfo) && _isNumbersVisible;
-                else IsBooked = _isBooked && _isNumbersVisible;
+                if (Session.userType != UserType.Saler)
+                {
+                    if (_dataContextVm != null && _dataContextVm.CurrentWarehouse != null)
+                        IsBooked = _dataContextVm.CurrentWarehouse.Contains(ProductInfo) && _isNumbersVisible;
+                    else IsBooked = _isBooked && _isNumbersVisible;
+                }
+               
                 OnPropertyChanged("IsNumbersVisible");
             }
         }
@@ -100,11 +105,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _quantity = value;
-                if (_quantity == 0) MessageBox.Show("0");
-                //if (Session.userType == UserType.Specialist)
-                //{
-                //    QuantityNeeded = _quantity;
-                //}
+                if (Session.userType == UserType.Specialist)
+                {
+                    QuantityNeeded = _quantity;
+                }
                 //else if (Session.userType == UserType.Saler)
                 //{
                 //    QuantityNeeded = 0;
@@ -129,7 +133,18 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     }
                     else if (Session.userType == UserType.Saler)
                     {
-                        //TODO show warning
+                        var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+                        var currentWindow = window as HomeWindowSale;
+                        if (currentWindow != null)
+                        {
+                            var result = await metroWindow.ShowMessageAsync("Попередження", "Будуть внесені зміни щодо кількості товарів на складі. \nСтатус замовлення не можливо буде змінити.\nБажаєте продовжити? ", MessageDialogStyle.AffirmativeAndNegative);
+                            if (result == MessageDialogResult.Affirmative)
+                            {
+                            }
+
+
+                        }
+
                         if (Quantity != 0)
                             IsBooked = true;
                     }
@@ -145,8 +160,17 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     }
                     else if (Session.userType == UserType.Saler)
                     {
-                        _dataContextVm.SelectedClient.addOrderProduct(ProductInfo, _quantityNeeded);
-                        IsBooked = true;
+                        if (_quantityNeeded == 0)
+                        {
+                            _dataContextVm.SelectedClient.removeOrderProduct(ProductInfo);
+                            IsBooked = false;
+                        }
+                        else
+                        {
+                            _dataContextVm.SelectedClient.addOrderProduct(ProductInfo, _quantityNeeded);
+                            IsBooked = true;
+                        }
+                        
                     }
                 }
                 else //>=

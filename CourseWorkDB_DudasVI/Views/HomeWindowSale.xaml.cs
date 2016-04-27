@@ -15,6 +15,7 @@ namespace CourseWorkDB_DudasVI.Views
         {
             var salerViewModel = new CommonViewModel();
             DataContext = salerViewModel;
+            Session.dataContext = salerViewModel;
             InitializeComponent();
             addHotKey();
             RequiredDatePicker.DisplayDateStart = API.getTodayDate();
@@ -33,6 +34,7 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
         }
 
         private void CustomerFilter(object sender, RoutedEventArgs e)

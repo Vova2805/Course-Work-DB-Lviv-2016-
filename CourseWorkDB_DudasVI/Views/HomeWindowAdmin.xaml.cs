@@ -21,7 +21,7 @@ namespace CourseWorkDB_DudasVI.Views
             InitializeComponent();
             var directorViewModel = new CommonViewModel();
             DataContext = directorViewModel;
-
+            Session.dataContext = directorViewModel;
             flyouts = new List<Flyout> {AdminFlyout};
             addHotKey();
 

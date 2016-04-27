@@ -1,4 +1,6 @@
-﻿namespace CourseWorkDB_DudasVI.General
+﻿using CourseWorkDB_DudasVI.MVVM.ViewModels;
+
+namespace CourseWorkDB_DudasVI.General
 {
     public enum UserType
     {
@@ -17,5 +19,7 @@
         public static STAFF User { get; set; }
         public static SWEET_FACTORYEntities FactoryEntities { get; set; }
         public static UserType userType { get; set; }
+        public static  CommonViewModel dataContext { get; set; }
+
     }
 }

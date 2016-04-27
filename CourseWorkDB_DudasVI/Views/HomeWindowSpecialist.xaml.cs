@@ -30,7 +30,7 @@ namespace CourseWorkDB_DudasVI.Views
         {
             _specialistViewModel = new CommonViewModel();
             DataContext = _specialistViewModel;
-
+            Session.dataContext = _specialistViewModel;
             InitializeComponent();
 
             //initialization of filters
