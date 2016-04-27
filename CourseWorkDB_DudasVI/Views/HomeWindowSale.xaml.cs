@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
@@ -34,7 +35,16 @@ namespace CourseWorkDB_DudasVI.Views
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (SalerTabControl.SelectedIndex == 0)
+            {
+                if (Session.dataContext != null)
+                    Session.dataContext.SelectedClient.SelectedOrder = Session.dataContext.SelectedClient.SaleOrders.First();
+            }
+            else // 1
+            {
+                if (Session.dataContext != null)
+                    Session.dataContext.SelectedClient.SelectedOrder = Session.dataContext.SelectedClient.NewOrder;
+            }
         }
 
         private void CustomerFilter(object sender, RoutedEventArgs e)

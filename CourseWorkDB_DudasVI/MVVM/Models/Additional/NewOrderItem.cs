@@ -323,6 +323,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             get { return new RelayCommand<object>(AddNewDeliveryFuc); }
         }
 
+        public ICommand AddNewDeliveryNewOrder
+        {
+            get { return new RelayCommand<object>(AddNewDeliveryNewOrderFuc); }
+        }
+
         public ICommand CanselPaidChange
         {
             get { return new RelayCommand<object>(CanselPaidChangeFunc); }
@@ -331,6 +336,22 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         public void CanselPaidChangeFunc(object obj)
         {
             Paid = SaleOrder.PAID;
+        }
+        public async void AddNewDeliveryNewOrderFuc(object obj)
+        {
+            var dataContext = Session.dataContext;
+            if (dataContext != null)
+            {
+                dataContext.SelectedClient.NewOrderDeliveries.Add(dataContext.SelectedClient.NewDelivery);
+                Total += dataContext.SelectedClient.NewDelivery.Total;
+                deliveryStatus = "Замовлено";
+                dataContext.SelectedClient.NewOrderDeliveries = dataContext.SelectedClient.NewOrderDeliveries;
+                dataContext.SelectedClient.NewDelivery =
+                                    new DeliveryListItem(dataContext.SelectedClient.InitializeDelivery(),
+                                        dataContext.SelectedClient.SelectedOrder != null
+                                            ? dataContext.SelectedClient.SelectedOrder.SaleOrder.TOTAL
+                                            : 0);
+            }
         }
 
         public async void AddNewDeliveryFuc(object obj)

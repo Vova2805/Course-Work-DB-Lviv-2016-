@@ -137,14 +137,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                         var currentWindow = window as HomeWindowSale;
                         if (currentWindow != null)
                         {
-                            var result = await metroWindow.ShowMessageAsync("Попередження", "Будуть внесені зміни щодо кількості товарів на складі. \nСтатус замовлення не можливо буде змінити.\nБажаєте продовжити? ", MessageDialogStyle.AffirmativeAndNegative);
-                            if (result == MessageDialogResult.Affirmative)
-                            {
-                            }
-
-
+                            ShowWarning(currentWindow);
                         }
-
                         if (Quantity != 0)
                             IsBooked = true;
                     }
@@ -183,12 +177,21 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     }
                     else if (Session.userType == UserType.Saler)
                     {
-                        QuantityNeeded = _quantity;
+                        var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+                        if (window != null)
+                        {
+                            ShowWarning(window);
+                        }
                     }
                 }
 
                 OnPropertyChanged("QuantityNeeded");
             }
+        }
+
+        private async void ShowWarning(MetroWindow currentWindow)
+        {
+            var result = await currentWindow.ShowMessageAsync("Попередження", "Це крайній ліміт продукту на складі.\n Спробуйте із іншого складу або ж сформуйте додаткове замовлення до відділу виробництва? ");
         }
 
         public string CategoryTitle

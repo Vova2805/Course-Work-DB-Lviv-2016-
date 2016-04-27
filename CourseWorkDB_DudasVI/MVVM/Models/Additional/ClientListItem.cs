@@ -25,6 +25,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private NewOrderItem _selectedOrder;
         private int _totalQuantity;
         private DeliveryListItem selectedDelivery;
+        private DeliveryListItem selectedDeliveryNewOrder;
 
         private DeliveryListItem _newDelivery;
 
@@ -310,6 +311,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         {
             get { return new RelayCommand<object>(ClearChangesInDeliveryFunc); }
         }
+        public ICommand ClearChangesInDeliveryNewOrder
+        {
+            get { return new RelayCommand<object>(ClearChangesInDeliveryFunc); }
+        }
 
         public ICommand SaveNewOrder
         {
@@ -333,9 +338,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 
         public void ClearNewOrderFunc(object obj)
         {
-            foreach (var package in PackagesProducts)
+            while (PackagesProducts.Count>0)
             {
-                package.QuantityInOrder = 0;
+                PackagesProducts.First().QuantityInOrder = 0;
             }
         }
     }

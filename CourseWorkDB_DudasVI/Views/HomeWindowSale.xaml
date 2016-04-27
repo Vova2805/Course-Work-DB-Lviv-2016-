@@ -1196,20 +1196,62 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
-                                <DataGrid ToolTip="Список доставок" Grid.Row="2" FontSize="14"
-                                          ItemsSource="{Binding Path=SelectedClient.NewOrder.NewOrderDeliveries}"
-                                          AutoGenerateColumns="False">
+                                <DataGrid Grid.Row="2" FontSize="14" Margin="0,0,5,0"
+                                      ItemsSource="{Binding Path=SelectedClient.NewOrderDeliveries}"
+                                      SelectedItem="{Binding Path=SelectedClient.SelectedDeliveryNewOrder}"
+                                      AutoGenerateColumns="False">
+                                    <DataGrid.Resources>
+                                        <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+                                    </DataGrid.Resources>
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Width="Auto" Header="Дата" IsReadOnly="True"
-                                                            Binding="{Binding Path=Delivery.DELIVERY_DATE,StringFormat=\{0:dd.MM.yyyy р.\}}" />
-                                        <DataGridTextColumn Width="*" Header="Адреса (від)" IsReadOnly="True"
-                                                            Binding="{Binding Path=DeliveryAddress.ADDRESS,Converter={StaticResource AddressConverter}}" />
-                                        <DataGridTextColumn Width="*" Header="Адреса (до)" IsReadOnly="True"
-                                                            Binding="{Binding Path=DeliveryAddress.ADDRESS1,Converter={StaticResource AddressConverter}}" />
+                                                        Binding="{Binding Path=Delivery.DELIVERY_DATE,StringFormat=\{0:dd.MM.yyyy р.\}}" />
+                                        <DataGridTextColumn Width="100" Header="Адреса (від)" IsReadOnly="True"
+                                                        Binding="{Binding Path=DeliveryAddress.ADDRESS,Converter={StaticResource AddressConverter}}" />
+                                        <DataGridTextColumn Width="100" Header="Адреса (до)" IsReadOnly="True"
+                                                        Binding="{Binding Path=DeliveryAddress.ADDRESS1,Converter={StaticResource AddressConverter}}" />
                                         <DataGridTextColumn Width="Auto" Header="Вартість км." IsReadOnly="True"
-                                                            Binding="{Binding Path=Delivery.COST_PER_KM}" />
+                                                        Binding="{Binding Path=Delivery.COST_PER_KM}" />
                                         <DataGridTextColumn Width="Auto" Header="Відстань (км.)" IsReadOnly="True"
-                                                            Binding="{Binding Path=DeliveryAddress.DISTANCE}" />
+                                                        Binding="{Binding Path=DeliveryAddress.DISTANCE}" />
+                                        <DataGridTextColumn Width="Auto" Header="Загалом за доставку" IsReadOnly="True"
+                                                        Binding="{Binding Path=Total}" />
+                                        <DataGridTemplateColumn Width="Auto" Header="Видалити" Visibility="{Binding Path=CanAddDelivery,Converter={StaticResource VisibilityConverter}}">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Width="30" Command ="{Binding Path=DeleteDeliveryNewOrder}"
+                                                                Height="30"
+                                                                VerticalAlignment="Top"
+                                                                ToolTip="Видалити із плану"
+                                                                Style="{DynamicResource MetroCircleButtonStyle}">
+                                                        <Rectangle Width="15" Height="15">
+                                                            <Rectangle.Style>
+                                                                <Style TargetType="{x:Type Rectangle}">
+                                                                    <Setter Property="Fill">
+                                                                        <Setter.Value>
+                                                                            <VisualBrush Stretch="Fill"
+                                                                                             Visual="{StaticResource appbar_delete}" />
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver"
+                                                                                     Value="True">
+                                                                            <Setter Property="Fill">
+                                                                                <Setter.Value>
+                                                                                    <VisualBrush x:Name="Brush"
+                                                                                                     Stretch="Fill"
+                                                                                                     Visual="{StaticResource appbar_delete_white}" />
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Rectangle.Style>
+                                                        </Rectangle>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>
@@ -1348,16 +1390,16 @@
                                                             </ControlTemplate>
                                                         </Grid.Resources>
                                                         <Grid.RowDefinitions>
-                                                            <RowDefinition Height="3*" />
-                                                            <RowDefinition Height="1*" />
-                                                            <RowDefinition Height="1*" />
-                                                            <RowDefinition Height="1*" />
-                                                            <RowDefinition Height="1*" />
-                                                            <RowDefinition Height="1*" />
-                                                            <RowDefinition Height="1*" />
-                                                            <RowDefinition Height="1*" />
-                                                            <RowDefinition Height="1*" />
-                                                            <RowDefinition Height="1*" />
+                                                            <RowDefinition Height="0*" />
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                            <RowDefinition Height="0*" />
+                                                            <RowDefinition Height="0*" />
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                            <RowDefinition Height="36" />
+                                                            <RowDefinition Height="0*" />
+                                                            <RowDefinition Height="0*" />
                                                         </Grid.RowDefinitions>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="120" />
@@ -1468,7 +1510,7 @@
                                 <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                            LastChildFill="False">
 
-                                    <Button Width="50" Click="CustomerFilter" Command="{Binding Path=SelectedClient.SelectedOrder.AddNewDelivery}"
+                                    <Button Width="50" Click="CustomerFilter" Command="{Binding Path=SelectedClient.NewOrder.AddNewDeliveryNewOrder}"
                                             Height="50"
                                             VerticalAlignment="Top"
                                             ToolTip="Додати доставку до замовлення Alt+A"
@@ -1517,7 +1559,7 @@
                                             </Rectangle.Style>
                                         </Rectangle>
                                     </Button>
-                                    <Button Width="50" Command="{Binding Path=SelectedClient.ClearChangesInDelivery}"
+                                    <Button Width="50" Command="{Binding Path=SelectedClient.ClearChangesInDeliveryNewOrder}"
                                             Height="50"
                                             VerticalAlignment="Top"
                                             ToolTip="Очистити зміни у доставці"

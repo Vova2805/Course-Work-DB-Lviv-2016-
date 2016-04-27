@@ -114,6 +114,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             get { return new RelayCommand<object>(DeleteDeliveryFunc); }
         }
 
+        public ICommand DeleteDeliveryNewOrder
+        {
+            get { return new RelayCommand<object>(DeleteDeliveryNewOrderFunc); }
+        }
+
         private async void DeleteDeliveryFunc(object obj)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
@@ -186,6 +191,23 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     }
                 }
             }
+        }
+
+        private async void DeleteDeliveryNewOrderFunc(object obj)
+        {
+               //add new delivery order to current
+                                var dataContext = Session.dataContext;
+                                if (dataContext != null)
+                                {
+                                    dataContext.SelectedClient.NewOrder.Total -=
+                                        dataContext.SelectedClient.NewDelivery.Total;
+                                    var deliveries1 = dataContext.SelectedClient.NewOrderDeliveries.ToList();
+                                    if (deliveries1.Count == 0)
+                                        dataContext.SelectedClient.NewOrder.DeliveryStatus = "Не замовлено";
+                dataContext.SelectedClient.NewOrderDeliveries = dataContext.SelectedClient.NewOrderDeliveries;
+            }
+                            
+                        
         }
     }
 }
