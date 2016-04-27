@@ -237,17 +237,17 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             private void SyncQuantity(CommonViewModel dataContext, PRODUCT_INFO product, int quantity)
             {
                 //sync quantity
-                var ProductListItem =
-                    dataContext.ProductsList.ToList()
-                        .Find(pr => pr.ProductInfo.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID);
-                var ReleasedProductItem =
-                    dataContext.ProductsOnWarehouse.ToList()
-                        .Find(pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID);
-                if (ProductListItem != null && ProductListItem.QuantityNeeded != ProductListItem.Quantity + quantity)
-                    ProductListItem.QuantityNeeded = ProductListItem.Quantity + quantity;
-                if (ReleasedProductItem != null &&
-                    ReleasedProductItem.QuantityNeeded != ReleasedProductItem.Quantity + quantity)
-                    ReleasedProductItem.QuantityNeeded = ReleasedProductItem.Quantity + quantity;
+                //var ProductListItem =
+                //    dataContext.ProductsList.ToList()
+                //        .Find(pr => pr.ProductInfo.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID);
+                //var ReleasedProductItem =
+                //    dataContext.ProductsOnWarehouse.ToList()
+                //        .Find(pr => pr.ReleasedProduct.PRODUCT_INFO_ID == product.PRODUCT_INFO_ID);
+                //if (ProductListItem != null && ProductListItem.QuantityNeeded != ProductListItem.Quantity + quantity)
+                //    ProductListItem.QuantityNeeded = ProductListItem.Quantity + quantity;
+                //if (ReleasedProductItem != null &&
+                //    ReleasedProductItem.QuantityNeeded != ReleasedProductItem.Quantity + quantity)
+                //    ReleasedProductItem.QuantityNeeded = ReleasedProductItem.Quantity + quantity;
             }
 
             public void RemoveScheduleItemFuct(object obj)

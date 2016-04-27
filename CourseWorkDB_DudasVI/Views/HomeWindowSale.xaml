@@ -1149,7 +1149,7 @@
                                                 <DataTemplate DataType="{x:Type system:Decimal}">
                                                     <Controls:NumericUpDown Minimum="0" Width="auto"
                                                                             Interval="1"
-                                                                            Value="{Binding Path=QuantityInOrder, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                                                            Value="{Binding Path=QuantityInOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                             BorderThickness="1" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>

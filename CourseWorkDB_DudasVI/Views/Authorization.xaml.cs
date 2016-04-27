@@ -142,7 +142,7 @@ namespace CourseWorkDB_DudasVI
                 }
                 //thread.Interrupt();
                 //Back(sender, e);
-                Close();
+                //Close();
             }
             else
             {

@@ -109,37 +109,37 @@ namespace CourseWorkDB_DudasVI.Views.UserControls
                     {
                         #region Second
 
-                        model.ProductsList.Clear();
-                        var productprices = new List<double>();
-                        model.ProductsList = new ObservableCollection<ProductListElement>();
-                        foreach (var product in Session.FactoryEntities.PRODUCT_INFO.ToList())
-                        {
-                            model.ProductsList.Add(new ProductListElement(product, model));
-                        }
-                        if (!model.SelectedCategory.Equals("Всі категорії"))
-                        {
-                            var temp = new ObservableCollection<ProductListElement>();
-                            foreach (var product in model.ProductsList)
-                            {
-                                if (
-                                    Session.FactoryEntities.CATEGORY.Find(product.ProductInfo.CATEGORY_ID)
-                                        .CATEGORY_TITLE.Equals(model.SelectedCategory))
-                                {
-                                    temp.Add(product);
-                                    productprices.Add((double) API.getlastPrice(
-                                        Session.FactoryEntities.PRODUCT_PRICE.ToList()
-                                            .FindAll(pr => pr.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID))
-                                        .PRICE_VALUE);
-                                }
-                            }
-                            model.ProductsList = temp;
-                            FilterByPrice(sender, e);
-                        }
-                        if (productprices.Count > 0)
-                        {
-                            model.PriceFrom = (decimal) productprices.Min(p => p);
-                            model.PriceTo = (decimal) productprices.Max(p => p);
-                        }
+                        //model.ProductsList.Clear();
+                        //var productprices = new List<double>();
+                        //model.ProductsList = new ObservableCollection<ProductListElement>();
+                        //foreach (var product in Session.FactoryEntities.PRODUCT_INFO.ToList())
+                        //{
+                        //    model.ProductsList.Add(new ProductListElement(product, model));
+                        //}
+                        //if (!model.SelectedCategory.Equals("Всі категорії"))
+                        //{
+                        //    var temp = new ObservableCollection<ProductListElement>();
+                        //    foreach (var product in model.ProductsList)
+                        //    {
+                        //        if (
+                        //            Session.FactoryEntities.CATEGORY.Find(product.ProductInfo.CATEGORY_ID)
+                        //                .CATEGORY_TITLE.Equals(model.SelectedCategory))
+                        //        {
+                        //            temp.Add(product);
+                        //            productprices.Add((double) API.getlastPrice(
+                        //                Session.FactoryEntities.PRODUCT_PRICE.ToList()
+                        //                    .FindAll(pr => pr.PRODUCT_INFO_ID == product.ProductInfo.PRODUCT_INFO_ID))
+                        //                .PRICE_VALUE);
+                        //        }
+                        //    }
+                        //    model.ProductsList = temp;
+                        //    FilterByPrice(sender, e);
+                        //}
+                        //if (productprices.Count > 0)
+                        //{
+                        //    model.PriceFrom = (decimal) productprices.Min(p => p);
+                        //    model.PriceTo = (decimal) productprices.Max(p => p);
+                        //}
 
                         #endregion
                     }

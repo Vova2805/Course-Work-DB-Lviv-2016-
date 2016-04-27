@@ -9,7 +9,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private readonly ClientListItem DataContext;
         private ORDER_PRODUCT _orderProduct;
         private decimal _packageTotal;
-        private int _QuantityInOrder = 0;
+        private int _QuantityInOrder;
 
         public OrderProductListItem(ORDER_PRODUCT orderProduct, int quantity, ClientListItem dataContext)
         {

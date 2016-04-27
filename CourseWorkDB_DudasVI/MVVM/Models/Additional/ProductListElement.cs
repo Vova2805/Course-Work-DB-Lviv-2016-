@@ -27,12 +27,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private ProductListElement(PRODUCT_INFO productInfo)
         {
             ProductInfo = productInfo;
-            IsNumbersVisible = Session.userType !=UserType.Director;
+            IsNumbersVisible = Session.userType != UserType.Director;
             //isAdded = false;
             _title = _productInfo.PRODUCT_TITLE;
             _categoryTitle = _productInfo.CATEGORY.CATEGORY_TITLE;
-            _productPrice = (double) API.getlastPrice(_productInfo.PRODUCT_PRICE).PRICE_VALUE;
-            IsBooked = false;
+            _productPrice = (double)API.getlastPrice(_productInfo.PRODUCT_PRICE).PRICE_VALUE;
         }
 
         public ProductListElement(PRODUCT_INFO ProductInfo, CommonViewModel dataContextViewModel)
@@ -101,14 +100,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             set
             {
                 _quantity = value;
-                if (Session.userType == UserType.Specialist)
-                {
-                    QuantityNeeded = _quantity;
-                }
-                else if (Session.userType == UserType.Saler)
-                {
-                    QuantityNeeded = 0;
-                }
+                if (_quantity == 0) MessageBox.Show("0");
+                //if (Session.userType == UserType.Specialist)
+                //{
+                //    QuantityNeeded = _quantity;
+                //}
+                //else if (Session.userType == UserType.Saler)
+                //{
+                //    QuantityNeeded = 0;
+                //}
                 OnPropertyChanged("Quantity");
             }
         }

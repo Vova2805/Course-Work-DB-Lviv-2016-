@@ -228,7 +228,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        private EmployeeListItem  InitializeNewEmployee()
+        private EmployeeListItem InitializeNewEmployee()
         {
             var newEmployeePattern = new STAFF();
             newEmployeePattern.POST = Session.User.POST;
@@ -428,8 +428,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         public ObservableCollection<string> WarehousesAddresssStrings
         {
             get { return _warehousesAddresssStrings; }
-            set { _warehousesAddresssStrings = value;
-                OnPropertyChanged("WarehousesAddresssStrings"); }
+            set
+            {
+                _warehousesAddresssStrings = value;
+                OnPropertyChanged("WarehousesAddresssStrings");
+            }
         }
 
         public string SelectedWarehouseAddressString
@@ -438,10 +441,10 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             set
             {
                 _selectedWarehouseAddressString = value;
-                if(WarehousesAddresssStrings!=null)
+                if (WarehousesAddresssStrings != null)
                 {
                     int index = WarehousesAddresssStrings.ToList().IndexOf(_selectedWarehouseAddressString);
-                    if (index >= 0 && WarehousesAddresss!=null)
+                    if (index >= 0 && WarehousesAddresss != null)
                     {
                         SelectedWarehouseAddress = WarehousesAddresss.ElementAt(index);
                     }
@@ -645,17 +648,17 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                         _selectedClient =
                             Clients.ToList().FindAll(c => c.GeneralInfo.Equals(SelectedClientTitle)).FirstOrDefault();
                 }
-                if(_selectedClient!=null)
-                if (_selectedClient.Equals(NewClient))
-                {
-                    if (NewClientEditing)
+                if (_selectedClient != null)
+                    if (_selectedClient.Equals(NewClient))
                     {
-                        VisibilityDuringAddingNew = false;
+                        if (NewClientEditing)
+                        {
+                            VisibilityDuringAddingNew = false;
+                        }
+                        else VisibilityDuringAddingNew = true;
                     }
                     else VisibilityDuringAddingNew = true;
-                }
-                else VisibilityDuringAddingNew = true;
-                if(SelectedClient !=null)
+                if (SelectedClient != null)
                     SelectedClient.init();
                 OnPropertyChanged("SelectedClient");
             }
@@ -1111,7 +1114,9 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (ProductsList.Count > 0)
                     SelectedProduct = ProductsList.First();
                 if (_currentWarehouseString != null)
+                {
                     if (!IsSaler && !_currentWarehouseString.Equals(ResourceClass.ALL_WAREHOUSES))
+                    {
                         foreach (var product in ProductsList)
                         {
                             product.IsBooked = _currentWarehouse.Contains(product.ProductInfo);
@@ -1125,6 +1130,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                 product.QuantityNeeded = tempProd.QuantityNeeded;
                             }
                         }
+                    }
                     else if (IsSaler)
                     {
                         if (SelectedClient == null) SelectedClient = null;
@@ -1145,6 +1151,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             }
                         }
                     }
+                }
+
                 OnPropertyChanged("ProductsList");
             }
         }
@@ -1900,7 +1908,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             "У плані вже наявний продукт : " + existed.ProductInfo.PRODUCT_INFO.PRODUCT_TITLE +
                             "\nКількості : " + existed.Quantity +
                             ".\nБажаєте змінити кількість на " + selectedSchedule_Package.QUANTITY_IN_SCHEDULE + " ?", MessageDialogStyle.AffirmativeAndNegative);
-                        if (result==MessageDialogResult.Affirmative)
+                        if (result == MessageDialogResult.Affirmative)
                         {
                             CurrentWarehouse.addScheduleProduct(selectedSchedule_Package.PRODUCT_INFO,
                                 selectedSchedule_Package.QUANTITY_IN_SCHEDULE);
@@ -1960,7 +1968,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             {
                 _employee = employee;
                 Post = currentPost;
-                FullSalary = employee.FULL_SALARY_PERSENTAGE == 0?100: employee.FULL_SALARY_PERSENTAGE;
+                FullSalary = employee.FULL_SALARY_PERSENTAGE == 0 ? 100 : employee.FULL_SALARY_PERSENTAGE;
                 _employee.ADDRESS1 =
                     Session.FactoryEntities.ADDRESS.ToList().Find(a => a.ADDRESS_ID == _employee.ADDRESS);
                 InitializeLists();
@@ -1999,7 +2007,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     if (OtherWarehouses.Count > 0)
                         SelectedOtherWarehouses = OtherWarehouses.First();
                     isntVisible = true;//update
-                }   
+                }
             }
             public STAFF Employee
             {
@@ -2167,7 +2175,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     SelectedPostTitle = _selectedPost.POST_NAME;
                     EmployeePostSalary = API.getlastSalary(_selectedPost.SALARY);
                 }
-              
+
                 OnPropertyChanged("SelectedPost");
             }
         }
@@ -2409,7 +2417,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                 dbContextTransaction.Commit();
                                 NewEmployeeEditing = false;
                                 NewEmployee = InitializeNewEmployee();
-                                
+
                                 NewClient = InitializeNewClient();
                                 await metroWindow.ShowMessageAsync("Вітання",
                                         "Зміни внесено! Дані про клієнта збережено");
@@ -2465,7 +2473,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                                 connection.STAFF.Add(staff);
                                 connection.SaveChanges();
                                 dbContextTransaction.Commit();
-                                
+
                                 NewEmployee = InitializeNewEmployee();
                                 await
                                     metroWindow.ShowMessageAsync("Вітання",
@@ -2486,7 +2494,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             else
             {
                 NewEmployeeEditing = true;
-                EmployeeList.Insert(0,NewEmployee);
+                EmployeeList.Insert(0, NewEmployee);
                 SelectedEmployee = NewEmployee;
                 EmployeeList = _EmployeeList;
             }
@@ -2593,7 +2601,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 }
             }
         }
-        
+
         private void CancelClientChangesFunc(object obj)
         {
             CancelSalaryChangesFunc(obj);
@@ -2691,7 +2699,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
-        private  void RefreshAllFunc(object obj)
+        private void RefreshAllFunc(object obj)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
             var metroWindow = window as MetroWindow;
@@ -2709,7 +2717,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     metroWindow.ShowMessageAsync("Невдача",
                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
                 }
-                
+
             }
         }
 
