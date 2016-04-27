@@ -19,6 +19,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private decimal _costPerKm;
         private decimal _Kms;
         private decimal _OrderTotal;
+        private bool canAddDelivery;
 
         public DeliveryListItem(DELIVERY delivery, decimal orderTotal)
         {
@@ -37,6 +38,15 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 _delivery = value;
                 OnPropertyChanged("Delivery");
+            }
+        }
+
+        public bool CanAddDelivery
+        {
+            get { return canAddDelivery; }
+            set
+            {
+                canAddDelivery = value;OnPropertyChanged("CanAddDelivery");
             }
         }
 
