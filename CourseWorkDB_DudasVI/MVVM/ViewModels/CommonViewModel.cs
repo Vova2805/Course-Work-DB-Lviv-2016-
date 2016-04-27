@@ -53,7 +53,7 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             InitializeViewModel();
         }
 
-        private void InitializeViewModel()
+        public void InitializeViewModel()
         {
             CategoriesList = new ObservableCollection<string>();
             foreach (var category in Session.FactoryEntities.CATEGORY.ToList().Select(c => c.CATEGORY_TITLE).ToList())
@@ -655,6 +655,8 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                     else VisibilityDuringAddingNew = true;
                 }
                 else VisibilityDuringAddingNew = true;
+                if(SelectedClient !=null)
+                    SelectedClient.init();
                 OnPropertyChanged("SelectedClient");
             }
         }

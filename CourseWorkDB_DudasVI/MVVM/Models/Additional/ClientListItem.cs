@@ -23,7 +23,6 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private ObservableCollection<OrderProductListItem> _packagesProducts;
         private ObservableCollection<NewOrderItem> _saleOrders;
         private NewOrderItem _selectedOrder;
-        private bool _isSelectedOrderActive;
         private int _totalQuantity;
         private DeliveryListItem selectedDelivery;
 
@@ -42,13 +41,18 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             }
             if (SaleOrders.Count > 0)
                 SelectedOrder = SaleOrders.First();
+            init();
+        }
+
+        public void init()
+        {
             var newOrder = new SALE_ORDER();
             newOrder.ORDER_DATE = API.getTodayDate();
             newOrder.REQUIRED_DATE = API.getTodayDate();
             NewOrder = new NewOrderItem(newOrder);
             _packagesProducts = new ChartValues<OrderProductListItem>(); //empty
             NewOrderDeliveries = new ObservableCollection<DeliveryListItem>();
-            NewDelivery = new DeliveryListItem(InitializeDelivery(), SelectedOrder != null?SelectedOrder.SaleOrder.TOTAL:0);
+            NewDelivery = new DeliveryListItem(InitializeDelivery(), SelectedOrder != null ? SelectedOrder.SaleOrder.TOTAL : 0);
         }
 
         private DELIVERY InitializeDelivery()
@@ -69,8 +73,11 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     address.ADDRESS = context.CurrentWarehouse.Warehouse.ADDRESS1;
                 }
             }
-            address.ADDRESS1 = Client.ADDRESS1;
-
+            
+            var addr = new ADDRESS();
+            if(Client.ADDRESS1!=null)
+            API.CopyAddress(ref addr, Client.ADDRESS1);
+            address.ADDRESS1 = addr;
             temp.DELIVERY_ADDRESS = address;
             return temp;
         }
@@ -121,6 +128,18 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                     }
                     if (DeliveryList.Count > 0)
                         selectedDelivery = DeliveryList.First();
+                    if (_selectedOrder.SaleOrder.ORDER_STATUS.Equals("Активне"))
+                    {
+                        _selectedOrder.State = OrderState.Active;
+                    }
+                    else if (_selectedOrder.SaleOrder.ORDER_STATUS.Equals("Реалізоване"))
+                    {
+                        _selectedOrder.State = OrderState.Done;
+                    }
+                    else if (_selectedOrder.SaleOrder.ORDER_STATUS.Equals("Скасоване"))
+                    {
+                        _selectedOrder.State = OrderState.Canceled;
+                    }
                 }
                 OnPropertyChanged("SelectedOrder");
             }
@@ -266,13 +285,35 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             return false;
         }
 
+        public enum OrderState
+        {
+            Active,
+            Done,
+            Canceled
+        }
+
         public class NewOrderItem : ViewModelBaseInside
         {
             private SALE_ORDER _saleOrder;
+            private OrderState state;
+            private bool canAddDelivery;
 
             public NewOrderItem(SALE_ORDER saleOrder)
             {
                 _saleOrder = saleOrder;
+                if (SaleOrder.ORDER_STATUS == null) saleOrder.ORDER_STATUS = "Активне";
+                if (saleOrder.ORDER_STATUS.Equals("Активне"))
+                {
+                    state = OrderState.Active;
+                }
+                else if (saleOrder.ORDER_STATUS.Equals("Реалізоване"))
+                {
+                    state = OrderState.Done;
+                }
+                else if (saleOrder.ORDER_STATUS.Equals("Скасоване"))
+                {
+                    state = OrderState.Canceled;
+                }
             }
 
             public SALE_ORDER SaleOrder
@@ -282,6 +323,32 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                 {
                     _saleOrder = value;
                     OnPropertyChanged("SaleOrder");
+                }
+            }
+            public bool CanAddDelivery
+            {
+                get { return canAddDelivery; }
+                set
+                {
+                    canAddDelivery = value;
+                    if (state == OrderState.Active) canAddDelivery = true;
+                    else
+                    {
+                        canAddDelivery = false;
+                    }
+                    OnPropertyChanged("CanAddDelivery");
+                }
+            }
+
+
+            public OrderState State
+            {
+                get { return state; }
+                set
+                {
+                    state = value;
+                    CanAddDelivery = canAddDelivery;
+                    OnPropertyChanged("State");
                 }
             }
 
@@ -315,9 +382,9 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                     connection.ADDRESS.Add(addr);
                                     connection.SaveChanges();
 
-                                    
-                                    newDeliveryAddress.DELIVERY_ADDRESS_FROM = newDeliveryAddress.ADDRESS.ADDRESS_ID;
-                                    newDeliveryAddress.DELIVERY_ADDRESS_TO = addr.ADDRESS_ID;
+
+                                    newDeliveryAddress.DELIVERY_ADDRESS_FROM = addr.ADDRESS_ID;
+                                    newDeliveryAddress.DELIVERY_ADDRESS_TO = newDeliveryAddress.ADDRESS.ADDRESS_ID;
                                     newDeliveryAddress.ADDRESS1 = null;
                                     newDeliveryAddress.DELIVERY = null;
                                     newDeliveryAddress.ADDRESS = null;
@@ -339,9 +406,35 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                     connection.DELIVERY.Add(newDelivery);
 
                                     connection.SaveChanges();
+                                    
+                                    Session.FactoryEntities = new SWEET_FACTORYEntities();
+                                    //change order total
+                                    var order =
+                                        connection.SALE_ORDER.ToList()
+                                            .Where(
+                                                o =>
+                                                    o.SALE_ORDER_ID ==
+                                                    dataContext.SelectedClient.SelectedOrder.SaleOrder.SALE_ORDER_ID).FirstOrDefault();
+
+                                    order.TOTAL += dataContext.SelectedClient.NewDelivery.Total;
+                                    dataContext.SelectedClient.SelectedOrder.SaleOrder.TOTAL = order.TOTAL;
                                     dbContextTransaction.Commit();
                                     await metroWindow.ShowMessageAsync("Вітання",
                                     "Зміни внесено! Дані про клієнта збережено");
+
+                                    var deliveries =
+                                        connection.DELIVERY.ToList()
+                                            .Where(
+                                                d =>
+                                                    d.SALE_ORDER_ID ==
+                                                    dataContext.SelectedClient.SelectedOrder.SaleOrder.SALE_ORDER_ID).ToList();
+                                    dataContext.SelectedClient.DeliveryList = new ObservableCollection<DeliveryListItem>();
+                                    foreach (var delivery in deliveries)
+                                    {
+                                        dataContext.SelectedClient.DeliveryList.Add(new DeliveryListItem(delivery, dataContext.SelectedClient.SelectedOrder.SaleOrder.TOTAL));
+                                    }
+                                    dataContext.SelectedClient.DeliveryList = dataContext.SelectedClient.DeliveryList;
+                                    dataContext.SelectedClient.NewDelivery = new DeliveryListItem(dataContext.SelectedClient.InitializeDelivery(), dataContext.SelectedClient.SelectedOrder != null ? dataContext.SelectedClient.SelectedOrder.SaleOrder.TOTAL : 0);
                                 }
                                 else
                                 {

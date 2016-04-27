@@ -674,6 +674,10 @@
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="IsEnabled" Value="true" />
                                                     </MultiDataTrigger>
+                                                    <DataTrigger  Binding="{Binding Path=SelectedClient.SelectedOrder.CanAddDelivery}" Value="False">
+                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                        <Setter Property="ToolTip" Value="Статус замовлення не є активним щоб додавати доставки"/>
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </Button.Style>
