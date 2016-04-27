@@ -345,7 +345,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             var metroWindow = window as MetroWindow;
             if (metroWindow != null)
             {
-                var result = await metroWindow.ShowMessageAsync("Попередження", "Старі дані про працівника будуть втрачені. Бажаєте продовжити?", MessageDialogStyle.AffirmativeAndNegative);
+                var result = await metroWindow.ShowMessageAsync("Зьереження", "Зберегти поточний план?", MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Affirmative)
                 {
                     using (var connection = new SWEET_FACTORYEntities())
@@ -363,10 +363,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                 NewSchedule.WAREHOUSE_ID = this.Warehouse.WAREHOUSE_ID;
                                 NewSchedule.SCHEDULE_TOTAL = TotalPrice;
                                 CopyProductionSchedule(ref productionSchedule, NewSchedule);
-
+                                
                                 connection.PRODUCTION_SCHEDULE.Add(productionSchedule);
-
-                                    foreach (var product in ScheduleProductInfos)
+                                connection.SaveChanges();
+                                foreach (var product in ScheduleProductInfos)
                                     {
                                         SCHEDULE_PRODUCT_INFO ProductInfo = new SCHEDULE_PRODUCT_INFO();
                                         product.ProductInfo.SCHEDULE_PRODUCT_INFO_ID =
@@ -379,6 +379,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                         product.ProductInfo.RELEASED_QUANTITY = 0;
                                         CopyScheduleProductInfo(ref ProductInfo, product.ProductInfo);
                                         connection.SCHEDULE_PRODUCT_INFO.Add(ProductInfo);
+                                        connection.SaveChanges();
                                     }
 
                                 connection.SaveChanges();
@@ -387,7 +388,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                 await metroWindow.ShowMessageAsync("Вітання",
                                         "Зміни внесено! Новий план виробництва збережено");
                             }
-                            catch (Exception)
+                            catch (Exception e)
                             {
                                 dbContextTransaction.Rollback();
                                 await metroWindow.ShowMessageAsync("Невдача",
