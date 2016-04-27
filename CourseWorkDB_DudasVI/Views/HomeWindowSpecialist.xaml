@@ -48,7 +48,7 @@
                     </Rectangle>
                 </StackPanel>
             </Button>
-            <Button ToolTip="Синхронізувати (оновити) БД Alt+R" RenderTransformOrigin="0.5,0.5">
+            <Button ToolTip="Синхронізувати (оновити) БД Alt+R">
                 <StackPanel Orientation="Horizontal" x:Name="UpArrow">
                     <TextBlock Margin="5 0 5 0"
                                VerticalAlignment="Center" />
@@ -177,6 +177,7 @@
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.Resources>
                         <converters:AddressConverter x:Key="AddressConverter" />
+                        <converters:VisibilityConverter x:Key="VisibilityConverter"/>
                     </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -283,7 +284,7 @@
                     <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50"
                             Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right">
-                            <Button Width="50" 
+                            <Button Width="50" Click="OpenFilter"
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Фільтр та редагування Alt+E,F"
@@ -314,6 +315,34 @@
                             <Button Width="50" 
                                     Height="50"
                                     VerticalAlignment="Top"
+                                    ToolTip="Звіт по стану складу Alt+Z" Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="20" Height="20">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_page_check}" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_page_check_white}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                            </Button>
+                            <Button Width="50" Visibility ="{ Binding Path=ExtendedMode,Converter={StaticResource VisibilityConverter}}"
+                                    Height="50"
+                                    VerticalAlignment="Top"
                                     ToolTip="Утилізувати прострочені товари"
                                     Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
@@ -323,7 +352,7 @@
                                             <Setter Property="Fill">
                                                 <Setter.Value>
                                                     <VisualBrush Stretch="Fill"
-                                                                 Visual="{StaticResource appbar_refresh }" />
+                                                                 Visual="{StaticResource appbar_clean }" />
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
@@ -331,7 +360,7 @@
                                                     <Setter Property="Fill">
                                                         <Setter.Value>
                                                             <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                         Visual="{StaticResource appbar_refresh_white}" />
+                                                                         Visual="{StaticResource appbar_clean_white}" />
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>
@@ -486,7 +515,7 @@
                             <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50"
                                     Background="{DynamicResource AccentColorBrush}">
                                 <DockPanel HorizontalAlignment="Right">
-                                    <Button Width="50"
+                                    <Button Width="50" Click="OpenFilter"
                                             Height="50"
                                             VerticalAlignment="Top"
                                             ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
@@ -738,6 +767,15 @@
                                                     SelectedDate="{Binding Path=CurrentWarehouse.NewSchedule.REQUIRED_DATE,Mode=TwoWay}"
                                                     Name="RequiredDatePicker" />
                                     </Grid>
+                                    <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Місткість складу :" />
+                                        <TextBlock Grid.Column="1" FontWeight="Bold" TextAlignment="Center"
+                                                   Text="{Binding Path=CurrentWarehouse.Capacity}" />
+                                    </Grid>
 
                                     <TextBlock Grid.Row="1" Grid.Column="3" Text="Загальна кількість продукції :" />
                                     <TextBlock Grid.Row="1" Grid.Column="4"
@@ -745,13 +783,16 @@
                                     <TextBlock Grid.Row="2" Grid.Column="3" Text="Загальна вартість продукції :" />
                                     <TextBlock Grid.Row="2" Grid.Column="4"
                                                Text="{Binding Path=CurrentWarehouse.TotalPrice}" />
+                                    <TextBlock Grid.Row="3" Grid.Column="3" Text="Вільного місця на складі :" />
+                                    <TextBlock Grid.Row="3" Grid.Column="4" Foreground="Green" FontWeight="Bold"
+                                               Text="{Binding Path=CurrentWarehouse.Free}" />
                                 </Grid>
                             </Border>
 
                             <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50"
                                     Background="{DynamicResource AccentColorBrush}">
                                 <DockPanel HorizontalAlignment="Right">
-                                    <Button Width="50"
+                                    <Button Width="50" Click="OpenFilter"
                                             Height="50"
                                             VerticalAlignment="Top"
                                             ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
@@ -808,7 +849,7 @@
                                             </Rectangle.Style>
                                         </Rectangle>
                                     </Button>
-                                    <Button Width="50" Click="OnUncheckAll"
+                                    <Button Width="50" Command="{Binding Path=CurrentWarehouse.ClearSchedule}"
                                             Height="50"
                                             VerticalAlignment="Top"
                                             ToolTip="Очистити план Alt+D" Background="{DynamicResource ProgressBrush}"
@@ -836,7 +877,7 @@
                                             </Rectangle.Style>
                                         </Rectangle>
                                     </Button>
-                                    <Button Width="50" 
+                                    <Button Width="50"  Command="{Binding Path=CurrentWarehouse.SaveSchedule}"
                                             Height="50"
                                             VerticalAlignment="Top"
                                             ToolTip="Зберегти план Alt+X" Background="{DynamicResource ProgressBrush}"
@@ -912,7 +953,7 @@
                                    LastChildFill="False">
 
                             <Button Width="50" 
-                                    Height="50"
+                                    Height="50" Click="OpenFilter"
                                     VerticalAlignment="Top"
                                     ToolTip="Фільтр продуктів Alt+F" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
@@ -930,6 +971,34 @@
                                                         <Setter.Value>
                                                             <VisualBrush x:Name="Brush" Stretch="Fill"
                                                                          Visual="{StaticResource appbar_filter_white}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                            </Button>
+                            <Button Width="50" 
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    ToolTip="Звіт по працівнику Alt+Z" Background="{DynamicResource ProgressBrush}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="20" Height="20">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_page_check}" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_page_check_white}" />
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>
@@ -1113,7 +1182,7 @@
                     <Border Grid.Row="2" Grid.Column="0" Height="50" Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
-                            <Button Width="50" 
+                            <Button Width="50"  Click="OpenFilter"
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Фільтр та редагування Alt+E,F"
@@ -1152,7 +1221,7 @@
                                             <Setter Property="Fill">
                                                 <Setter.Value>
                                                     <VisualBrush Stretch="Fill"
-                                                                 Visual="{StaticResource appbar_page_new}" />
+                                                                 Visual="{StaticResource appbar_page_check}" />
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
@@ -1160,7 +1229,7 @@
                                                     <Setter Property="Fill">
                                                         <Setter.Value>
                                                             <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                         Visual="{StaticResource appbar_page_new_white}" />
+                                                                         Visual="{StaticResource appbar_page_check_white}" />
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>

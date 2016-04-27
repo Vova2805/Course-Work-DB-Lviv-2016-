@@ -39,7 +39,7 @@ namespace CourseWorkDB_DudasVI.Views
             ProductsScheduleCatalog.DataContext = _specialistViewModel;
             ProductsScheduleCatalog.init();
 
-            
+
             chartsSets = new List<ChartsSet> {ChartsSet2};
             foreach (var chart in chartsSets)
             {
@@ -93,6 +93,14 @@ namespace CourseWorkDB_DudasVI.Views
             firstSettings = new RoutedCommand();
             firstSettings.InputGestures.Add(new KeyGesture(Key.Tab, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(firstSettings, NextTab));
+
+            firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(firstSettings, CleadSchedule));
+
+            firstSettings = new RoutedCommand();
+            firstSettings.InputGestures.Add(new KeyGesture(Key.X, ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(firstSettings, SaveSchedule));
         }
 
         private void LogoutClick(object sender, RoutedEventArgs e)
@@ -219,6 +227,7 @@ namespace CourseWorkDB_DudasVI.Views
         #endregion
 
         private int indexBack = 0;
+
         private void ToPlan(object sender, RoutedEventArgs e)
         {
             if (SpecialistTabControl.SelectedIndex == 1 && InnerControl.SelectedIndex == 1) //come back
@@ -230,12 +239,37 @@ namespace CourseWorkDB_DudasVI.Views
                 InnerControl.SelectedIndex = 1;
             }
         }
+
         private void NextTab(object sender, RoutedEventArgs e)
         {
             int index = SpecialistTabControl.SelectedIndex;
             if (index == 3)
                 SpecialistTabControl.SelectedIndex = 0;
             else SpecialistTabControl.SelectedIndex += 1;
+        }
+
+        private void CleadSchedule(object sender, RoutedEventArgs e)
+        {
+            if (SpecialistTabControl.SelectedIndex == 1 && InnerControl.SelectedIndex == 1)
+            {
+                var model = DataContext as CommonViewModel;
+                if (model != null)
+                {
+                    model.CurrentWarehouse.ClearScheduleFunc(null);
+                }
+            }
+        }
+
+        private void SaveSchedule(object sender, RoutedEventArgs e)
+        {
+            if (SpecialistTabControl.SelectedIndex == 1 && InnerControl.SelectedIndex == 1)
+            {
+                var model = DataContext as CommonViewModel;
+                if (model != null)
+                {
+                    model.CurrentWarehouse.SaveScheduleScheduleFunc(null);
+                }
+            }
         }
     }
 }
