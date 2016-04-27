@@ -2348,9 +2348,19 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             get { return new RelayCommand<object>(SaveEmployeeChangesFunc); }
         }
 
+        public ICommand SaveСlientChanges
+        {
+            get { return new RelayCommand<object>(SaveСlientChangesFunc); }
+        }
+
         public ICommand CancelEmployeeChanges
         {
             get { return new RelayCommand<object>(CancelEmployeeChangesFunc); }
+        }
+
+        public ICommand CancelClientChanges
+        {
+            get { return new RelayCommand<object>(CancelClientChangesFunc); }
         }
 
         public ICommand SaveSalary
@@ -2482,6 +2492,56 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             }
         }
 
+        private async void SaveСlientChangesFunc(object obj)
+        {
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var metroWindow = window as MetroWindow;
+            if (metroWindow != null)
+            {
+                var result = await metroWindow.ShowMessageAsync("Попередження", "Старі дані про клієнта будуть втрачені. Бажаєте продовжити?", MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    using (var connection = new SWEET_FACTORYEntities())
+                    {
+                        using (var dbContextTransaction = connection.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                var selectedClientAddress =
+                                    connection.ADDRESS.Where(a => a.ADDRESS_ID == SelectedClient.Client.ADDRESS)
+                                        .FirstOrDefault();
+                                var selectedClient =
+                                    connection.CLIENT.Where(
+                                        s => s.CLIENT_ID == SelectedClient.Client.CLIENT_ID).FirstOrDefault();
+                                if (selectedClient != null && selectedClientAddress != null)
+                                {
+                                    API.CopyAddress(ref selectedClientAddress, SelectedClient.Client.ADDRESS1);
+                                    int id = selectedClient.CLIENT_ID;
+                                    API.CopyClient(ref selectedClient, SelectedClient.Client);
+                                    selectedClient.CLIENT_ID = id;
+                                    connection.SaveChanges();
+                                    dbContextTransaction.Commit();
+                                    await metroWindow.ShowMessageAsync("Вітання", "Зміни внесено! Дані про клієнта оновлено");
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+                                    await metroWindow.ShowMessageAsync("Невдача",
+                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                                await metroWindow.ShowMessageAsync("Невдача",
+                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private async void SaveEmployeeChangesFunc(object obj)
         {
             var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
@@ -2530,6 +2590,28 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                             }
                         }
                     }
+                }
+            }
+        }
+        
+        private void CancelClientChangesFunc(object obj)
+        {
+            CancelSalaryChangesFunc(obj);
+            using (var conection = new SWEET_FACTORYEntities())
+            {
+                var selectedCl =
+                    conection.CLIENT.Where(e => e.CLIENT_ID == SelectedClient.Client.CLIENT_ID).FirstOrDefault();
+                if (selectedCl != null)
+                {
+                    SelectedClient.Client.ADDRESS1.COUNTRY = selectedCl.ADDRESS1.COUNTRY;
+                    SelectedClient.Client.ADDRESS1.CITY = selectedCl.ADDRESS1.CITY;
+                    SelectedClient.Client.ADDRESS1.REGION = selectedCl.ADDRESS1.REGION;
+                    SelectedClient.Client.ADDRESS1.STREET = selectedCl.ADDRESS1.STREET;
+                    SelectedClient.Client.ADDRESS1.BUILDING_NUMBER = selectedCl.ADDRESS1.BUILDING_NUMBER;
+                    API.CopyClient(ref SelectedClient._Client, selectedCl);
+                    SelectedClient = SelectedClient;
+                    SelectedClient.Client = SelectedClient.Client;
+                    SelectedClient.Client.ADDRESS1 = SelectedClient.Client.ADDRESS1;
                 }
             }
         }

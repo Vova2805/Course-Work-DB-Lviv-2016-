@@ -15,7 +15,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
 {
     public class ClientListItem : ViewModelBaseInside
     {
-        private CLIENT _Client;
+        public CLIENT _Client;
         private ObservableCollection<DeliveryListItem> _deliveryList;
         private NewOrderItem _newOrder;
         private ObservableCollection<DeliveryListItem> _newOrderDeliveries;

@@ -842,10 +842,10 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
-                            <Button Width="50"
+                            <Button Width="50" Command ="{Binding SaveСlientChanges}"
                                     Height="50"
                                     VerticalAlignment="Top"
-                                    ToolTip="Зберегти зміни Alt+X" Background="{DynamicResource ProgressBrush}">
+                                    ToolTip="Зберегти зміни (клієнта) Alt+X" Background="{DynamicResource ProgressBrush}">
                                 <Button.Style>
                                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButtonStyle}">
                                         <Setter Property="IsEnabled" Value="false" />
@@ -891,6 +891,44 @@
                                                     </Setter>
                                                 </Trigger>
 
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                            </Button>
+                            <Button Width="50" Command="{Binding CancelClientChanges}"
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    ToolTip="Скасувати зміни" Background="{DynamicResource ProgressBrush}">
+                                <Button.Style >
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButtonStyle}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding VisibilityDuringAddingNew}" Value="False">
+                                                <Setter Property="IsEnabled" Value="False">
+                                                </Setter>
+                                                <Setter Property="ToolTip" Value="Спочатку підтвердіть додавання клієнта" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <Rectangle Width="20" Height="20">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <VisualBrush Stretch="Fill"
+                                                                 Visual="{StaticResource appbar_cancel}" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_cancel_white}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
                                             </Style.Triggers>
                                         </Style>
                                     </Rectangle.Style>
@@ -1208,7 +1246,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="Дата створення :" />
                                         <TextBlock Grid.Column="1" FontWeight="Bold" TextAlignment="Center"
-                                                   Text="{Binding Path=SelectedClient.NewOrder.ORDER_DATE,StringFormat=\{0:dd.MM.yyyy \}}" />
+                                                   Text="{Binding Path=SelectedClient.NewOrder.SaleOrder.ORDER_DATE,StringFormat=\{0:dd.MM.yyyy \}}" />
                                     </Grid>
                                     <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
                                         <Grid.ColumnDefinitions>
@@ -1217,7 +1255,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="Кінцева дата реалізації :" />
                                         <DatePicker Grid.Column="1"
-                                                    SelectedDate="{Binding Path=SelectedClient.NewOrder.REQUIRED_DATE,Mode=TwoWay}"
+                                                    SelectedDate="{Binding Path=SelectedClient.RequiredDate,Mode=TwoWay}"
                                                     Name="RequiredDatePicker" />
                                     </Grid>
 

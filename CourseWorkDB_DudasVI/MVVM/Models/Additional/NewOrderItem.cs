@@ -24,6 +24,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private ClientListItem CurrentClient;
         private bool isSaler;
         private bool isSalerReal;
+        private DateTime _requiredDate;
 
         private ObservableCollection<string> orderStatusStrings = new ObservableCollection<string>();
         private ObservableCollection<string> deliveryStatusStrings = new ObservableCollection<string>(); 
@@ -55,8 +56,20 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             IsSaler = Session.userType == UserType.Saler;
             IsSalerReal = IsSaler;
             if (OrderStatus.Equals("Реалізоване")) IsSaler = false;
+            RequiredDate = API.getTodayDate().AddDays(3);
         }
-        
+
+        public DateTime RequiredDate
+        {
+            get { return _requiredDate; }
+            set
+            {
+                _requiredDate = value;
+                SaleOrder.REQUIRED_DATE = _requiredDate;
+                OnPropertyChanged("RequiredDate");
+            }
+        }
+
         public bool IsSaler
         {
             get { return isSaler; }

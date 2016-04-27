@@ -22,6 +22,7 @@ namespace CourseWorkDB_DudasVI.Views
             ProductsCatalog.init();
             ClientsCatalog.DataContext = salerViewModel;
             ClientsCatalog.init();
+            RequiredDatePicker.DisplayDateStart = API.getTodayDate().Date;
         }
 
 
