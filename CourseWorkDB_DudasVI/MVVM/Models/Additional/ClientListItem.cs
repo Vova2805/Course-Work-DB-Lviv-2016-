@@ -21,6 +21,10 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private int _totalQuantity;
         private DeliveryListItem selectedDelivery;
 
+        private DeliveryListItem _newDelivery;
+
+
+
         public ClientListItem(CLIENT client)
         {
             Client = client;
@@ -38,6 +42,21 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             NewOrder = new NewOrderItem(newOrder);
             _packagesProducts = new ChartValues<OrderProductListItem>(); //empty
             NewOrderDeliveries = new ObservableCollection<DeliveryListItem>();
+            NewDelivery = new DeliveryListItem(InitializeDelivery());
+        }
+
+        private DELIVERY InitializeDelivery()
+        {
+            var temp = new DELIVERY();
+            temp.COST_PER_KM = API.getLastCostPerKM();
+            temp.DELIVERY_DATE = API.getTodayDate();
+            temp.DELIVERY_TOTAL = 0;
+
+            var address = new DELIVERY_ADDRESS();
+            address.DISTANCE = 0;
+
+            temp.DELIVERY_ADDRESS = address;
+            return temp;
         }
 
         public CLIENT Client
@@ -158,6 +177,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             {
                 selectedDelivery = value;
                 OnPropertyChanged("SelectedDelivery");
+            }
+        }
+
+        public DeliveryListItem NewDelivery
+        {
+            get { return _newDelivery; }
+            set
+            {
+                _newDelivery = value;
+                OnPropertyChanged("NewDelivery");
             }
         }
 

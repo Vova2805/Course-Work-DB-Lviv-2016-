@@ -127,15 +127,18 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
             CostPerKm = deliveries.Last().COST_PER_KM;
 
             Warehouses = new ObservableCollection<WarehouseListItem>();
+            WarehousesAddresss = new ObservableCollection<ADDRESS>();
             var tempWarehouses =
                 Session.FactoryEntities.WAREHOUSE.ToList();
             foreach (var warehouse in tempWarehouses)
             {
                 Warehouses.Add(new WarehouseListItem(warehouse));
+                WarehousesAddresss.Add(warehouse.ADDRESS1);
             }
             if (Warehouses.Count > 0)
                 CurrentWarehouse = Warehouses.First();
             WarehousesStrings = new ObservableCollection<string>();
+            WarehousesAddresssStrings = new ObservableCollection<string>();
             var i = 0;
             foreach (var warehouse in Warehouses)
             {
@@ -146,6 +149,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                               staff.MOBILE_PHONE;
                 else result = "Фахівці з продажу";
                 WarehousesStrings.Add(API.ConvertAddress(warehouse.Warehouse.ADDRESS1, ++i + ".","Відповідальний :"+result));
+                WarehousesAddresssStrings.Add(WarehousesStrings.Last());
+            }
+            if (WarehousesAddresssStrings.Count > 0)
+            {
+                SelectedWarehouseAddressString = WarehousesAddresssStrings.First();
             }
             if (!IsSaler)
                 WarehousesStrings.Insert(0, ResourceClass.ALL_WAREHOUSES);
@@ -284,6 +292,11 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
         private ObservableCollection<WarehouseProductTransaction> _inOutComeFlow;
         private ObservableCollection<string> _warehousesStrings;
         private ObservableCollection<string> _warehousesStringsWithoutAll;
+        private ObservableCollection<ADDRESS> _warehousesAddresss;
+        private ADDRESS _selectedWarehouseAddress;
+        private ObservableCollection<string> _warehousesAddresssStrings;
+        private string _selectedWarehouseAddressString;
+
         private string _currentWarehouseString;
         private string _dateFilterString;
         private string _valueRange;
@@ -383,6 +396,51 @@ namespace CourseWorkDB_DudasVI.MVVM.ViewModels
                 if (!value)
                     VisibilityDuringAddingNew = true;
                 OnPropertyChanged("NewClientEditing");
+            }
+        }
+
+        public ADDRESS SelectedWarehouseAddress
+        {
+            get { return _selectedWarehouseAddress; }
+            set
+            {
+                _selectedWarehouseAddress = value;
+                OnPropertyChanged("SelectedWarehouseAddress");
+            }
+        }
+
+        public ObservableCollection<ADDRESS> WarehousesAddresss
+        {
+            get { return _warehousesAddresss; }
+            set
+            {
+                _warehousesAddresss = value;
+                OnPropertyChanged("WarehousesAddresss");
+            }
+        }
+
+        public ObservableCollection<string> WarehousesAddresssStrings
+        {
+            get { return _warehousesAddresssStrings; }
+            set { _warehousesAddresssStrings = value;
+                OnPropertyChanged("WarehousesAddresssStrings"); }
+        }
+
+        public string SelectedWarehouseAddressString
+        {
+            get { return _selectedWarehouseAddressString; }
+            set
+            {
+                _selectedWarehouseAddressString = value;
+                if(WarehousesAddresssStrings!=null)
+                {
+                    int index = WarehousesAddresssStrings.ToList().IndexOf(_selectedWarehouseAddressString);
+                    if (index >= 0 && WarehousesAddresss!=null)
+                    {
+                        SelectedWarehouseAddress = WarehousesAddresss.ElementAt(index);
+                    }
+                }
+                OnPropertyChanged("SelectedWarehouseAddressString");
             }
         }
 

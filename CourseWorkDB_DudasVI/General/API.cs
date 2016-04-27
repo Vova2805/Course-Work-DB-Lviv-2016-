@@ -93,5 +93,21 @@ namespace CourseWorkDB_DudasVI.General
             //в мм
             return width*height*lenght / (decimal)Math.Pow(10,9);// до метрів^3
         }
+
+        public static decimal getLastCostPerKM()
+        {
+            decimal res = 2;
+            var temp = Session.FactoryEntities.DELIVERY.ToList();
+            temp.Sort(
+                (del1, del2) =>
+                {
+                    return del1.DELIVERY_DATE > del2.DELIVERY_DATE
+                        ? 1
+                        : del1.DELIVERY_DATE == del2.DELIVERY_DATE ? 0 : -1;
+                }
+                );
+            res = temp.Last().COST_PER_KM;
+            return res;
+        }
     }
 }

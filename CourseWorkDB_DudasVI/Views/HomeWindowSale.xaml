@@ -1118,7 +1118,7 @@
                             <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
                             <UserControls:ProductViewForSale Grid.Row="0" DataContext="{Binding SelectedProduct}" />
                             <UserControls:DeliveryView Grid.Row="2" />
-                            <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Height="50"
+                            <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Height="50"
                                     BorderThickness="0,2,0,0" BorderBrush="Black"
                                     Background="{DynamicResource AccentColorBrush}">
                                 <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
