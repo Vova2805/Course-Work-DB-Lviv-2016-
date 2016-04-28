@@ -207,7 +207,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           Background="{DynamicResource AccentColorBrush}">
@@ -306,7 +306,7 @@
                         <DockPanel HorizontalAlignment="Right">
                             <Button Width="50" Click="OpenFilter"
                                     Height="50"
-                                    VerticalAlignment="Top"
+                                    VerticalAlignment="Top"  Visibility="Collapsed"
                                     ToolTip="Фільтр та редагування Alt+E,F"
                                     Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
@@ -334,7 +334,7 @@
                             </Button>
                             <Button Width="50" 
                                     Height="50"
-                                    VerticalAlignment="Top"
+                                    VerticalAlignment="Top"  Visibility="Collapsed"
                                     ToolTip="Звіт по стану складу Alt+Z" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20" Height="20">
@@ -419,7 +419,7 @@
                                 </Rectangle>
                             </Button>
                             <Button Width="50" Click="RefreshDiagram"
-                                    Height="50"
+                                    Height="50"  Visibility="Collapsed"
                                     VerticalAlignment="Top"
                                     ToolTip="Оновити графік Alt+R" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
@@ -473,7 +473,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="5*" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <Grid.RowDefinitions>
@@ -537,7 +537,7 @@
                                 <DockPanel HorizontalAlignment="Right">
                                     <Button Width="50" Click="OpenFilter"
                                             Height="50"
-                                            VerticalAlignment="Top"
+                                            VerticalAlignment="Top"  Visibility="Collapsed"
                                             ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
                                             Style="{DynamicResource MetroCircleButtonStyle}">
                                         <Rectangle Width="20" Height="20">
@@ -594,7 +594,7 @@
                                     </Button>
                                     <Button Width="50" Click="RefreshDiagram"
                                             Height="50"
-                                            VerticalAlignment="Top"
+                                            VerticalAlignment="Top"  Visibility="Collapsed"
                                             ToolTip="Оновити графік Alt+R" Background="{DynamicResource ProgressBrush}"
                                             Style="{DynamicResource MetroCircleButtonStyle}">
                                         <Rectangle Width="20" Height="20">
@@ -643,7 +643,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="5*" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <Grid.RowDefinitions>
@@ -829,7 +829,7 @@
                                 <DockPanel HorizontalAlignment="Right">
                                     <Button Width="50" Click="OpenFilter"
                                             Height="50"
-                                            VerticalAlignment="Top"
+                                            VerticalAlignment="Top"  Visibility="Collapsed"
                                             ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
                                             Style="{DynamicResource MetroCircleButtonStyle}">
                                         <Rectangle Width="20" Height="20">
@@ -884,34 +884,6 @@
                                             </Rectangle.Style>
                                         </Rectangle>
                                     </Button>
-                                    <Button Width="50" Command="{Binding Path=CurrentWarehouse.ClearSchedule}"
-                                            Height="50"
-                                            VerticalAlignment="Top"
-                                            ToolTip="Очистити план Alt+D" Background="{DynamicResource ProgressBrush}"
-                                            Style="{DynamicResource MetroCircleButtonStyle}">
-                                        <Rectangle Width="20" Height="20">
-                                            <Rectangle.Style>
-                                                <Style TargetType="{x:Type Rectangle}">
-                                                    <Setter Property="Fill">
-                                                        <Setter.Value>
-                                                            <VisualBrush Stretch="Fill"
-                                                                         Visual="{StaticResource appbar_delete}" />
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Fill">
-                                                                <Setter.Value>
-                                                                    <VisualBrush x:Name="Brush" Stretch="Fill"
-                                                                                 Visual="{StaticResource appbar_delete_white}" />
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Rectangle.Style>
-                                        </Rectangle>
-                                    </Button>
                                     <Button Width="50"  Command="{Binding Path=CurrentWarehouse.SaveSchedule}"
                                             Height="50"
                                             VerticalAlignment="Top"
@@ -940,6 +912,35 @@
                                             </Rectangle.Style>
                                         </Rectangle>
                                     </Button>
+                                    <Button Width="50" Command="{Binding Path=CurrentWarehouse.ClearSchedule}"
+                                            Height="50"
+                                            VerticalAlignment="Top"
+                                            ToolTip="Очистити план Alt+D" Background="{DynamicResource ProgressBrush}"
+                                            Style="{DynamicResource MetroCircleButtonStyle}">
+                                        <Rectangle Width="20" Height="20">
+                                            <Rectangle.Style>
+                                                <Style TargetType="{x:Type Rectangle}">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <VisualBrush Stretch="Fill"
+                                                                         Visual="{StaticResource appbar_delete}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Fill">
+                                                                <Setter.Value>
+                                                                    <VisualBrush x:Name="Brush" Stretch="Fill"
+                                                                                 Visual="{StaticResource appbar_delete_white}" />
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Rectangle.Style>
+                                        </Rectangle>
+                                    </Button>
+                                   
                                 </DockPanel>
                             </Border>
                             <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
@@ -969,7 +970,7 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="4*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
                     <UserControls:ProductsCatalog x:Name="ProductsCatalog" Grid.Column="0" Grid.Row="0" />
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
@@ -989,7 +990,7 @@
 
                             <Button Width="50" 
                                     Height="50" Click="OpenFilter"
-                                    VerticalAlignment="Top"
+                                    VerticalAlignment="Top"  Visibility="Collapsed"
                                     ToolTip="Фільтр продуктів Alt+F" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20" Height="20">
@@ -1016,7 +1017,7 @@
                             </Button>
                             <Button Width="50" 
                                     Height="50"
-                                    VerticalAlignment="Top"
+                                    VerticalAlignment="Top"  Visibility="Collapsed"
                                     ToolTip="Звіт по працівнику Alt+Z" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20" Height="20">
@@ -1117,7 +1118,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
@@ -1218,7 +1219,7 @@
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
                             <Button Width="50"  Click="OpenFilter"
-                                    Height="50"
+                                    Height="50"  Visibility="Collapsed"
                                     VerticalAlignment="Top"
                                     ToolTip="Фільтр та редагування Alt+E,F"
                                     Background="{DynamicResource ProgressBrush}"
@@ -1246,7 +1247,7 @@
                                 </Rectangle>
                             </Button>
                             <Button Width="50" 
-                                    Height="50"
+                                    Height="50"  Visibility="Collapsed"
                                     VerticalAlignment="Top"
                                     ToolTip="Генерувати статистику Alt+G" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
@@ -1360,7 +1361,7 @@
                             </Button>
                             <Button Width="50" Click="RefreshDiagram"
                                     Height="50"
-                                    VerticalAlignment="Top"
+                                    VerticalAlignment="Top"  Visibility="Collapsed"
                                     ToolTip="Оновити графік Alt+R" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
                                 <Rectangle Width="20" Height="20">

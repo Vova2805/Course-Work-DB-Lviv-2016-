@@ -747,7 +747,7 @@
                             BorderBrush="Black" Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
-                            <Button Width="50" Click="OpenFilter"
+                            <Button Width="50" Click="OpenFilter"  Visibility="Collapsed"
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}">
