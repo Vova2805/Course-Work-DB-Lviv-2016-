@@ -51,7 +51,6 @@ namespace CourseWorkDB_DudasVI
         public virtual DbSet<SALE_ORDER> SALE_ORDER { get; set; }
         public virtual DbSet<SCHEDULE_PRODUCT_INFO> SCHEDULE_PRODUCT_INFO { get; set; }
         public virtual DbSet<STAFF> STAFF { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<WAREHOUSE> WAREHOUSE { get; set; }
     }
 }

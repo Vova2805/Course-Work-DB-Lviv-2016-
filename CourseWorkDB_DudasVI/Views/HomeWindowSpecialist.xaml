@@ -1072,7 +1072,7 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
-                            <Button Width="50" Click="RefreshDiagram"
+                            <Button Width="50" Click="RefreshDiagram" Visibility="Collapsed"
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Оновити графік Alt+R" Background="{DynamicResource ProgressBrush}"

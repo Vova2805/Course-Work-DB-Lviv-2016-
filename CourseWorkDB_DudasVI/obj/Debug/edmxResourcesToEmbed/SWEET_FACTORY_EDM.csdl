@@ -333,16 +333,6 @@
     <NavigationProperty Name="SALE_ORDER" Relationship="Self.R_43" FromRole="STAFF" ToRole="SALE_ORDER" />
     <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_128" FromRole="STAFF" ToRole="WAREHOUSE" />
   </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
   <EntityType Name="WAREHOUSE">
     <Key>
       <PropertyRef Name="WAREHOUSE_ID" />
@@ -832,7 +822,6 @@
     <EntitySet Name="SALE_ORDER" EntityType="Self.SALE_ORDER" />
     <EntitySet Name="SCHEDULE_PRODUCT_INFO" EntityType="Self.SCHEDULE_PRODUCT_INFO" />
     <EntitySet Name="STAFF" EntityType="Self.STAFF" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="WAREHOUSE" EntityType="Self.WAREHOUSE" />
     <AssociationSet Name="R_101" Association="Self.R_101">
       <End Role="ADDRESS" EntitySet="ADDRESS" />

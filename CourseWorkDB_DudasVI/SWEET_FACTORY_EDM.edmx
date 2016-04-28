@@ -270,16 +270,6 @@
           <Property Name="FULL_SALARY_PERSENTAGE" Type="numeric" Precision="10" Scale="4" Nullable="false" />
           <Property Name="THEME" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="WAREHOUSE">
           <Key>
             <PropertyRef Name="WAREHOUSE_ID" />
@@ -763,7 +753,6 @@
           <EntitySet Name="SALE_ORDER" EntityType="Self.SALE_ORDER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SCHEDULE_PRODUCT_INFO" EntityType="Self.SCHEDULE_PRODUCT_INFO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STAFF" EntityType="Self.STAFF" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WAREHOUSE" EntityType="Self.WAREHOUSE" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="R_101" Association="Self.R_101">
             <End Role="ADDRESS" EntitySet="ADDRESS" />
@@ -1251,16 +1240,6 @@
           <NavigationProperty Name="PRODUCTION_SCHEDULE" Relationship="Self.R_47" FromRole="STAFF" ToRole="PRODUCTION_SCHEDULE" />
           <NavigationProperty Name="SALE_ORDER" Relationship="Self.R_43" FromRole="STAFF" ToRole="SALE_ORDER" />
           <NavigationProperty Name="WAREHOUSE" Relationship="Self.R_128" FromRole="STAFF" ToRole="WAREHOUSE" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="WAREHOUSE">
           <Key>
@@ -1751,7 +1730,6 @@
           <EntitySet Name="SALE_ORDER" EntityType="Self.SALE_ORDER" />
           <EntitySet Name="SCHEDULE_PRODUCT_INFO" EntityType="Self.SCHEDULE_PRODUCT_INFO" />
           <EntitySet Name="STAFF" EntityType="Self.STAFF" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="WAREHOUSE" EntityType="Self.WAREHOUSE" />
           <AssociationSet Name="R_101" Association="Self.R_101">
             <End Role="ADDRESS" EntitySet="ADDRESS" />
@@ -2196,17 +2174,6 @@
                 <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
                 <ScalarProperty Name="FULL_SALARY_PERSENTAGE" ColumnName="FULL_SALARY_PERSENTAGE" />
                 <ScalarProperty Name="THEME" ColumnName="THEME" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="Model.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

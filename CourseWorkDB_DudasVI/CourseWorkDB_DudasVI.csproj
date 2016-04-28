@@ -264,9 +264,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SWEET_FACTORY_EDM.edmx</DependentUpon>
     </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>SWEET_FACTORY_EDM.tt</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\Dialogs\Enumeration.cs" />

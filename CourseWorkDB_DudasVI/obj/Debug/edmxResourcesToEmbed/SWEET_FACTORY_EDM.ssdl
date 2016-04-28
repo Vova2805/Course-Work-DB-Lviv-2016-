@@ -265,16 +265,6 @@
     <Property Name="FULL_SALARY_PERSENTAGE" Type="numeric" Precision="10" Scale="4" Nullable="false" />
     <Property Name="THEME" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="principal_id" Type="int" Nullable="false" />
-    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="version" Type="int" />
-    <Property Name="definition" Type="varbinary(max)" />
-  </EntityType>
   <EntityType Name="WAREHOUSE">
     <Key>
       <PropertyRef Name="WAREHOUSE_ID" />
@@ -758,7 +748,6 @@
     <EntitySet Name="SALE_ORDER" EntityType="Self.SALE_ORDER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SCHEDULE_PRODUCT_INFO" EntityType="Self.SCHEDULE_PRODUCT_INFO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="STAFF" EntityType="Self.STAFF" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WAREHOUSE" EntityType="Self.WAREHOUSE" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="R_101" Association="Self.R_101">
       <End Role="ADDRESS" EntitySet="ADDRESS" />
