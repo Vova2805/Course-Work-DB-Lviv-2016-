@@ -1103,11 +1103,11 @@
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="213" />
                             <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="320*" />
                             <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="213*" />
                         </Grid.ColumnDefinitions>
                         <UserControls:ProductsCatalog x:Name="ProductsCatalog" Grid.Column="0" />
                         <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
@@ -1529,10 +1529,6 @@
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="IsEnabled" Value="true" />
                                                     </MultiDataTrigger>
-                                                    <DataTrigger  Binding="{Binding Path=SelectedClient.SelectedOrder.CanAddDelivery}" Value="False">
-                                                        <Setter Property="IsEnabled" Value="False"/>
-                                                        <Setter Property="ToolTip" Value="Статус замовлення не є активним щоб додавати доставки"/>
-                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </Button.Style>

@@ -26,6 +26,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
         private int _totalQuantity;
         private DeliveryListItem selectedDelivery;
         private DeliveryListItem selectedDeliveryNewOrder;
+        private bool first = true;
 
         private DeliveryListItem _newDelivery;
 
@@ -51,7 +52,16 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             NewOrder = new NewOrderItem(newOrder,this);
             _packagesProducts = new ChartValues<OrderProductListItem>(); //empty
             NewOrderDeliveries = new ObservableCollection<DeliveryListItem>();
+            if(first)
             NewDelivery = new DeliveryListItem(InitializeDelivery(), SelectedOrder != null ? SelectedOrder.SaleOrder.TOTAL : 0);
+            else
+            NewDelivery = new DeliveryListItem(InitializeDelivery(), NewOrder != null ? NewOrder.SaleOrder.TOTAL : 0);
+        }
+
+        public bool First
+        {
+            get { return first; }
+            set { first = value; }
         }
 
         public DELIVERY InitializeDelivery()
@@ -279,6 +289,8 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             var orderProduct = new ORDER_PRODUCT();
             orderProduct.PRODUCT_INFO_ID = product.PRODUCT_INFO_ID;
             orderProduct.PRODUCT_INFO = product;
+            orderProduct.WAREHOUSE_ID = Session.dataContext.CurrentWarehouse.Warehouse.WAREHOUSE_ID;
+            orderProduct.WAREHOUSE = Session.dataContext.CurrentWarehouse.Warehouse;
             return orderProduct;
         }
 
@@ -341,9 +353,109 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             NewDelivery = new DeliveryListItem(InitializeDelivery(), SelectedOrder != null ? SelectedOrder.SaleOrder.TOTAL : 0);
         }
 
-        public void SaveNewOrderFunc(object obj)
+        public async void SaveNewOrderFunc(object obj)
         {
-           
+            //saver schedule to db
+            var window = Application.Current.Windows.OfType<MetroWindow>().FirstOrDefault();
+            var metroWindow = window as MetroWindow;
+            if (metroWindow != null)
+            {
+                var result = await metroWindow.ShowMessageAsync("Збереження", "Зберегти поточне замовлення?", MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    using (var connection = new SWEET_FACTORYEntities())
+                    {
+                        using (var dbContextTransaction = connection.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                var Sale_order = new SALE_ORDER();
+                                Sale_order.SALE_ORDER_ID =
+                                    connection.SALE_ORDER.ToList().Max(s => s.SALE_ORDER_ID) + 1;
+                                Sale_order.STAFF_ID = Session.User.STAFF_ID;
+                                Sale_order.ORDER_DATE = API.getTodayDate();
+                                Sale_order.REQUIRED_DATE = NewOrder.RequiredDate;
+                                Sale_order.DELIVERY_STATUS = NewOrder.DeliveryStatus;
+                                Sale_order.DISCOUNT = NewOrder.Discount;
+                                Sale_order.TOTAL = NewOrder.Total;
+                                Sale_order.CLIENT_ID = Client.CLIENT_ID;
+                                Sale_order.ORDER_STATUS = "Активне";
+                                Sale_order.PAID = 0;
+
+                                connection.SALE_ORDER.Add(Sale_order);
+                                connection.SaveChanges();
+                                foreach (var product in PackagesProducts)
+                                {
+                                    ORDER_PRODUCT ProductInfo = new ORDER_PRODUCT();
+                                    ProductInfo.ORDER_PRODUCT_INFO_ID =
+                                        connection.ORDER_PRODUCT.ToList()
+                                            .Max(s => s.ORDER_PRODUCT_INFO_ID) + 1;
+                                    ProductInfo.SALE_ORDER_ID = Sale_order.SALE_ORDER_ID;
+                                    ProductInfo.PRODUCT_INFO_ID =
+                                        product.OrderProduct.PRODUCT_INFO_ID;
+                                    ProductInfo.QUANTITY_IN_ORDER = product.OrderProduct.QUANTITY_IN_ORDER;
+                                    ProductInfo.WAREHOUSE_ID = product.OrderProduct.WAREHOUSE.WAREHOUSE_ID;
+                                    connection.ORDER_PRODUCT.Add(ProductInfo);  
+                                    connection.SaveChanges();
+                                }
+
+                                foreach (var delivery in NewOrderDeliveries)
+                                {
+
+                                    ADDRESS addr = new ADDRESS();
+
+                                    var newDeliveryAddress = delivery.DeliveryAddress;
+                                    API.CopyAddress(ref addr, newDeliveryAddress.ADDRESS1);
+                                    int id = connection.ADDRESS.ToList().Max(a => a.ADDRESS_ID) + 1;
+                                    addr.ADDRESS_ID = id;
+                                    connection.ADDRESS.Add(addr);
+                                    connection.SaveChanges();
+
+
+                                    newDeliveryAddress.DELIVERY_ADDRESS_FROM = addr.ADDRESS_ID;
+                                    newDeliveryAddress.DELIVERY_ADDRESS_TO = newDeliveryAddress.ADDRESS.ADDRESS_ID;
+                                    newDeliveryAddress.ADDRESS1 = null;
+                                    newDeliveryAddress.DELIVERY = null;
+                                    newDeliveryAddress.ADDRESS = null;
+                                    newDeliveryAddress.DEL_ADDRESS_ID =
+                                        connection.DELIVERY_ADDRESS.ToList().Max(a => a.DEL_ADDRESS_ID) + 1;
+                                    connection.DELIVERY_ADDRESS.Add(newDeliveryAddress);
+                                    connection.SaveChanges();
+
+                                    var newDelivery = delivery.Delivery;
+
+                                    newDelivery.SALE_ORDER_ID = NewOrder.SaleOrder.SALE_ORDER_ID;
+                                    newDelivery.SALE_ORDER = null;
+                                    newDelivery.DEL_ADDRESS_ID = newDeliveryAddress.DEL_ADDRESS_ID;
+                                    newDelivery.DELIVERY_ID =
+                                        connection.DELIVERY.ToList().Max(a => a.DELIVERY_ID) + 1;
+                                    newDelivery.DELIVERY_ADDRESS = null;
+                                    newDelivery.DELIVERY_DATE = API.getTodayDate();
+                                    newDelivery.RAWSTUFF_ORDER = null;
+                                    newDelivery.SALE_ORDER_ID = Sale_order.SALE_ORDER_ID;
+                                    newDelivery.DELIVERY_ADDRESS = null;
+                                    connection.DELIVERY.Add(newDelivery);
+                                    connection.SaveChanges();
+                                }
+
+                                connection.SaveChanges();
+                                dbContextTransaction.Commit();
+                               
+                                //update orders
+                                await metroWindow.ShowMessageAsync("Вітання",
+                                        "Зміни внесено! Нове замовлення збережено");
+                                SaleOrders = _saleOrders;
+                            }
+                            catch (Exception e)
+                            {
+                                dbContextTransaction.Rollback();
+                                await metroWindow.ShowMessageAsync("Невдача",
+                                        "На жаль, не вдалося внести зміни. Перевірте дані і спробуйте знову.");
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public void ClearNewOrderFunc(object obj)

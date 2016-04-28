@@ -342,6 +342,7 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
             var dataContext = Session.dataContext;
             if (dataContext != null)
             {
+                dataContext.SelectedClient.NewDelivery.DeliveryAddress.ADDRESS = dataContext.SelectedWarehouseAddress;
                 dataContext.SelectedClient.NewOrderDeliveries.Add(dataContext.SelectedClient.NewDelivery);
                 Total += dataContext.SelectedClient.NewDelivery.Total;
                 deliveryStatus = "Замовлено";

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CourseWorkDB_DudasVI.General;
+using CourseWorkDB_DudasVI.MVVM.Models.Additional;
 using CourseWorkDB_DudasVI.MVVM.ViewModels;
 using MahApps.Metro.Controls;
 
@@ -37,14 +38,25 @@ namespace CourseWorkDB_DudasVI.Views
         {
             if (SalerTabControl.SelectedIndex == 0)
             {
-                if (Session.dataContext != null)
-                    Session.dataContext.SelectedClient.SelectedOrder = Session.dataContext.SelectedClient.SaleOrders.First();
+                if (Session.dataContext != null && Session.dataContext.SelectedClient!=null)
+                    //    Session.dataContext.SelectedClient.SelectedOrder = Session.dataContext.SelectedClient.SaleOrders.First();
+                    Session.dataContext.SelectedClient.First = true;
             }
             else // 1
             {
-                if (Session.dataContext != null)
-                    Session.dataContext.SelectedClient.SelectedOrder = Session.dataContext.SelectedClient.NewOrder;
+                if (Session.dataContext != null && Session.dataContext.SelectedClient != null)
+                //    Session.dataContext.SelectedClient.SelectedOrder = Session.dataContext.SelectedClient.NewOrder;
+                Session.dataContext.SelectedClient.First = false;
             }
+            if (Session.dataContext != null && Session.dataContext.SelectedClient != null)
+            {
+                if (Session.dataContext.SelectedClient.First)
+                    Session.dataContext.SelectedClient.NewDelivery = new DeliveryListItem(Session.dataContext.SelectedClient.InitializeDelivery(), Session.dataContext.SelectedClient.SelectedOrder != null ? Session.dataContext.SelectedClient.SelectedOrder.SaleOrder.TOTAL : 0);
+                else
+                    Session.dataContext.SelectedClient.NewDelivery = new DeliveryListItem(Session.dataContext.SelectedClient.InitializeDelivery(), Session.dataContext.SelectedClient.NewOrder != null ? Session.dataContext.SelectedClient.NewOrder.SaleOrder.TOTAL : 0);
+                Session.dataContext.SelectedClient.NewDelivery.Kms = Session.dataContext.SelectedClient.NewDelivery.Kms;
+            }
+               
         }
 
         private void CustomerFilter(object sender, RoutedEventArgs e)

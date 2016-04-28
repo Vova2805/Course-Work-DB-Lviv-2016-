@@ -199,15 +199,14 @@ namespace CourseWorkDB_DudasVI.MVVM.Models.Additional
                                 var dataContext = Session.dataContext;
                                 if (dataContext != null)
                                 {
-                                    dataContext.SelectedClient.NewOrder.Total -=
+                                dataContext.SelectedClient.NewOrderDeliveries.Remove(dataContext.SelectedClient.SelectedDeliveryNewOrder);
+                                dataContext.SelectedClient.NewOrder.Total -=
                                         dataContext.SelectedClient.NewDelivery.Total;
                                     var deliveries1 = dataContext.SelectedClient.NewOrderDeliveries.ToList();
                                     if (deliveries1.Count == 0)
                                         dataContext.SelectedClient.NewOrder.DeliveryStatus = "Не замовлено";
-                dataContext.SelectedClient.NewOrderDeliveries = dataContext.SelectedClient.NewOrderDeliveries;
-            }
-                            
-                        
+                                dataContext.SelectedClient.NewOrderDeliveries = dataContext.SelectedClient.NewOrderDeliveries;
+                                }
         }
     }
 }
