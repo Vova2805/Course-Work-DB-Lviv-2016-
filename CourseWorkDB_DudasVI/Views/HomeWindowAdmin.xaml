@@ -183,9 +183,9 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <UserControls:EmployeeCatalog x:Name="EmployeeCatalog"  Grid.Column="0" Grid.Row="0" />
 
@@ -766,7 +766,7 @@
                                     </Rectangle.Style>
                                 </Rectangle>
                             </Button>
-                            <Button Width="50" Click="RefreshDiagram"
+                            <Button Width="50" Click="RefreshDiagram" Visibility="Collapsed"
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Оновити графік Alt+R" Background="{DynamicResource ProgressBrush}"
@@ -812,9 +812,9 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
                     <UserControls:ClientsCatalog x:Name="ClientsCatalog" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" />
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
@@ -926,9 +926,9 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="4*" />
-                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
                     <UserControls:ProductsCatalog x:Name="ProductsCatalog" Grid.Column="0" Grid.Row="0" />
                     <GridSplitter Grid.Column="1" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
@@ -942,11 +942,11 @@
                     <GridSplitter Grid.Column="3" Width="5" Grid.Row="0" HorizontalAlignment="Stretch" />
                     <UserControls:ChartsSet Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" x:Name="ChartsSet2" />
                     <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="50" BorderBrush="Black"
-                            BorderThickness="0,2,0,0"
+                            BorderThickness="0,2,0,0"  Visibility="Collapsed"
                             Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Stretch"
                                    LastChildFill="False">
-                            <Button Width="50" 
+                            <Button Width="50"  
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Звіт по ціні товару Alt+Z" Background="{DynamicResource ProgressBrush}"
@@ -975,7 +975,7 @@
                                 </Rectangle>
                             </Button>
                             <Button Width="50" Click="RefreshDiagram"
-                                    Height="50"
+                                    Height="50"  Visibility="Collapsed"
                                     VerticalAlignment="Top"
                                     ToolTip="Оновити графік Alt+R" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
@@ -1020,7 +1020,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
@@ -1233,7 +1233,7 @@
                                 </Rectangle>
                             </Button>
                             <Button Width="50" Click="RefreshDiagram"
-                                    Height="50"
+                                    Height="50"  Visibility="Collapsed"
                                     VerticalAlignment="Top"
                                     ToolTip="Оновити графік Alt+R" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
@@ -1281,7 +1281,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
@@ -1421,7 +1421,7 @@
                                         </Rectangle.Style>
                                     </Rectangle>
                                 </Button>
-                                <Button Width="50" Click="RefreshDiagram"
+                                <Button Width="50" Click="RefreshDiagram" Visibility="Collapsed"
                                         Height="50"
                                         VerticalAlignment="Top"
                                         ToolTip="Оновити графік Alt+R" Background="{DynamicResource ProgressBrush}"
@@ -1471,7 +1471,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="6*" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
@@ -1570,7 +1570,7 @@
                     <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="50"
                             Background="{DynamicResource AccentColorBrush}">
                         <DockPanel HorizontalAlignment="Right">
-                            <Button Width="50" Click="OpenFilter"
+                            <Button Width="50" Click="OpenFilter"  Visibility="Collapsed"
                                     Height="50"
                                     VerticalAlignment="Top"
                                     ToolTip="Фільтр Alt+F" Background="{DynamicResource ProgressBrush}"
@@ -1599,7 +1599,7 @@
                                 </Rectangle>
                             </Button>
                             <Button Width="50" Click="RefreshDiagram"
-                                    Height="50"
+                                    Height="50"  Visibility="Collapsed"
                                     VerticalAlignment="Top"
                                     ToolTip="Оновити графік Alt+R" Background="{DynamicResource ProgressBrush}"
                                     Style="{DynamicResource MetroCircleButtonStyle}">
